@@ -7,7 +7,7 @@ var h;
 var girlPic = new Image();
 var starPic = new Image();
 
-var num = 180;
+var num = 280;
 var stars = [];
 
 var lastTime;//上一帧刷新的时间
@@ -22,14 +22,17 @@ function init () {
 	can = document.getElementById('canvas');
 	ctx = can.getContext('2d');
 
+    $("canvas").attr("width", $(window).get(0).innerWidth);  
+    $("canvas").attr("height", $(window).get(0).innerHeight);  
+
 	h = can.height;
 	w = can.width;
-	// console.log(w);
+	console.log(w);  
 	
 	//添加一个鼠标事件监听事件
 	document.addEventListener("mousemove", mousemove, false); 
 
-	girlPic.src = "src/girl.jpg"; 
+	girlPic.src = "src/1.jpg"; 
 	starPic.src = "src/star.png";
 
 	for(var j = 0; j < num; j++){
@@ -64,7 +67,7 @@ function gameloop () {
 
 function drawGirl(){
 	//drawImage(img，x,y)函数
-	ctx.drawImage(girlPic,100,150,600,300);
+	ctx.drawImage(girlPic,100,100,w - 200,h - 200);
 }
 
 function mousemove (e) {
@@ -73,7 +76,7 @@ function mousemove (e) {
 		var px = e.offsetX == undefined ? e.layerX  : e.offsetX;
 		var py = e.offsetY == undefined ? e.layerY  : e.offsetY;
 		// console.log(px);
-		if(px >100 && px < 700 && py > 150 && py < 450){
+		if(px >100 && px < w - 100 && py > 100 && py < h - 100){
 			switchy = true;
 			// console.log(switchy);
 		}else {

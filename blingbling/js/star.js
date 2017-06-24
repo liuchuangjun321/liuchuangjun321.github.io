@@ -10,8 +10,8 @@ var starObj = function () {
 };
 
 starObj.prototype.init = function(){
-	this.x = Math.random() * 600 + 100;
-	this.y = Math.random() * 300 + 150;
+	this.x = Math.random() * w + 100;
+	this.y = Math.random() * h + 100;
 	this.picNo = Math.floor(Math.random() * 7);
 	this.timer = 0;
 
@@ -37,11 +37,11 @@ starObj.prototype.update = function(){
 	this.y += this.ySpd * deltaTime * 0.004;
 
 	//this.x或者this.y超过了某个范围，星星就重生，保证所有的星星都在图片的范围内。
-	if (this.x < 100 || this.x > 700) {
+	if (this.x < 100 || this.x > w - 100) {
 		this.init();
 		return;
 	}
-	if (this.y < 150 || this.y > 450) {
+	if (this.y < 100 || this.y > h - 100) {
 		this.init();
 		return;
 	}
