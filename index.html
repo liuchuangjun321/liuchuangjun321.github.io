@@ -286,6 +286,281 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/koa第一次亲密接触（创建koa2工程）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大闯仔儿">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2036.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Big Chuang's WebSite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/25/koa第一次亲密接触（创建koa2工程）/" itemprop="url">koa第一次亲密接触（创建koa2工程）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-25T13:15:06+08:00">
+                2017-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="1-创建koa2工程"><a href="#1-创建koa2工程" class="headerlink" title="1.创建koa2工程"></a>1.创建koa2工程</h2><p>首先，我们创建一个目录<code>hello-koa</code>并作为工程目录用编辑器打开。然后，我们创建<code>app.js</code>，输入以下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">// 导入koa，和koa 1.x不同，在koa2中，我们导入的是一个class，因此用大写的Koa表示:</div><div class="line">const Koa = require(&apos;koa&apos;);</div><div class="line"></div><div class="line">// 创建一个Koa对象表示web app本身:</div><div class="line">const app = new Koa();</div><div class="line"></div><div class="line">// 对于任何请求，app将调用该异步函数处理请求：</div><div class="line">app.use(async (ctx, next) =&gt; &#123;</div><div class="line">    await next();</div><div class="line">    ctx.response.type = &apos;text/html&apos;;</div><div class="line">    ctx.response.body = &apos;&lt;h1&gt;Hello, koa2!&lt;/h1&gt;&apos;;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// 在端口3000监听:</div><div class="line">app.listen(3000);</div><div class="line">console.log(&apos;app started at port 3000...&apos;);</div></pre></td></tr></table></figure>
+<p>对于每一个http请求，koa将调用我们传入的异步函数来处理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">async (ctx, next) =&gt; &#123;</div><div class="line">    await next();</div><div class="line">    // 设置response的Content-Type:</div><div class="line">    ctx.response.type = &apos;text/html&apos;;</div><div class="line">    // 设置response的内容:</div><div class="line">    ctx.response.body = &apos;&lt;h1&gt;Hello, koa2!&lt;/h1&gt;&apos;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>参数<code>ctx</code>是由koa传入的封装了request和response的变量，我们可以通过它访问request和response，<code>next</code>是koa传入的将要处理的下一个异步函数。</p>
+<p>上面的异步函数中，我们首先用<code>await next();</code>处理下一个异步函数，然后，设置response的Content-Type和内容。</p>
+<p>由<code>async</code>标记的函数称为异步函数，在异步函数中，可以用<code>await</code>调用另一个异步函数，这两个关键字将在ES7中引入。</p>
+<h2 id="2-koa-middleware与koa的运行机制–洋葱模型"><a href="#2-koa-middleware与koa的运行机制–洋葱模型" class="headerlink" title="2.koa middleware与koa的运行机制–洋葱模型"></a>2.koa middleware与koa的运行机制–洋葱模型</h2><p>让我们再看一看koa的执行逻辑，核心代码是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">app.use(async (ctx, next) =&gt; &#123;</div><div class="line">    await next();</div><div class="line">    ctx.response.type = &apos;text/html&apos;;</div><div class="line">    ctx.response.body = &apos;&lt;h1&gt;Hello, koa2!&lt;/h1&gt;&apos;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>每收到一个http请求，koa就会调用通过<code>app.use()</code>注册的async函数，并传入<code>ctx</code>和<code>next</code>参数。</p>
+<p>我们可以对<code>ctx</code>操作，并设置返回内容。但是为什么要调用<code>await next()</code>？</p>
+<p>原因是koa把很多async函数组成一个处理链，每个async函数都可以做一些自己的事情，然后用<code>await next()</code>来调用下一个async函数。我们把每个async函数称为middleware，这些middleware可以组合起来，完成很多有用的功能。</p>
+<p>下面这张图可以很好的说明 koa 的运行机制：</p>
+<p><img src="/Users/liuchuang/Desktop/屏幕快照 2017-06-25 下午1.39.19.png" alt="屏幕快照 2017-06-25 下午1.39.19"></p>
+<p>当一个请求过来的时候，会依次经过各个中间件进行处理，中间件跳转的信号是yield next，当到某个中间件后，该中间件处理完不执行yield next的时候，然后就会逆序执行前面那些中间件剩下的逻辑。直接上个官网的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">var koa = require(&apos;koa&apos;);</div><div class="line">var app = koa();</div><div class="line"></div><div class="line">// response-time中间件</div><div class="line">app.use(function *(next)&#123;</div><div class="line">  var start = new Date;</div><div class="line">  yield next;</div><div class="line">  var ms = new Date - start;</div><div class="line">  this.set(&apos;X-Response-Time&apos;, ms + &apos;ms&apos;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// logger中间件</div><div class="line">app.use(function *(next)&#123;</div><div class="line">  var start = new Date;</div><div class="line">  yield next;</div><div class="line">  var ms = new Date - start;</div><div class="line">  console.log(&apos;%s %s - %s&apos;, this.method, this.url, ms);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// 响应中间件</div><div class="line">app.use(function *()&#123;</div><div class="line">  this.body = &apos;Hello World&apos;;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.listen(3000);</div></pre></td></tr></table></figure>
+<p>上面的执行顺序就是：请求 ==&gt; response-time中间件 ==&gt; logger中间件 ==&gt; 响应中间件 ==&gt; logger中间件 ==&gt; response-time中间件 ==&gt; 响应。</p>
+<p>更详细描述就是：<strong>请求进来，先进到response-time中间件，执行 var start = new Date; 然后遇到yield next，则暂停response-time中间件的执行，跳转进logger中间件，同理，最后进入响应中间件，响应中间件中没有yield next代码，则开始逆序执行，也就是再先是回到logger中间件，执行yield next之后的代码，执行完后再回到response-time中间件执行yield next之后的代码。</strong></p>
+<h2 id="运行app-js"><a href="#运行app-js" class="headerlink" title="运行app.js"></a>运行app.js</h2><p>理解了koa的中间件的运行机制，我们接着看代码，koa这个包怎么装，<code>app.js</code>才能正常导入它？</p>
+<p>方法一：可以用npm命令直接安装koa。先打开命令提示符，务必把当前目录切换到<code>hello-koa</code>这个目录，然后执行命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">...\hello-koa&gt; npm install koa@2.0.0</div></pre></td></tr></table></figure>
+<p>npm会把koa2以及koa2依赖的所有包全部安装到当前目录的node_modules目录下。</p>
+<p>方法二：在<code>hello-koa</code>这个目录下创建一个<code>package.json</code>，这个文件描述了我们的<code>hello-koa</code>工程会用到哪些包。完整的文件内容如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;name&quot;: &quot;hello-koa2&quot;,</div><div class="line">    &quot;version&quot;: &quot;1.0.0&quot;,</div><div class="line">    &quot;description&quot;: &quot;Hello Koa 2 example with async&quot;,</div><div class="line">    &quot;main&quot;: &quot;app.js&quot;,</div><div class="line">    &quot;scripts&quot;: &#123;</div><div class="line">        &quot;start&quot;: &quot;node app.js&quot;</div><div class="line">    &#125;,</div><div class="line">    &quot;keywords&quot;: [</div><div class="line">        &quot;koa&quot;,</div><div class="line">        &quot;async&quot;</div><div class="line">    ],</div><div class="line">    &quot;author&quot;: &quot;Michael Liao&quot;,</div><div class="line">    &quot;license&quot;: &quot;Apache-2.0&quot;,</div><div class="line">    &quot;repository&quot;: &#123;</div><div class="line">        &quot;type&quot;: &quot;git&quot;,</div><div class="line">        &quot;url&quot;: &quot;https://github.com/michaelliao/learn-javascript.git&quot;</div><div class="line">    &#125;,</div><div class="line">    &quot;dependencies&quot;: &#123;</div><div class="line">        &quot;koa&quot;: &quot;2.0.0&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>其中，<code>dependencies</code>描述了我们的工程依赖的包以及版本号。其他字段均用来描述项目信息，可任意填写。</p>
+<p>然后，我们在<code>hello-koa</code>目录下执行<code>npm install</code>就可以把所需包以及依赖包一次性全部装好：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">...\hello-koa&gt; npm install</div></pre></td></tr></table></figure>
+<p>很显然，第二个方法更靠谱，因为我们只要在<code>package.json</code>正确设置了依赖，npm就会把所有用到的包都装好。</p>
+<p><em>注意</em>，任何时候都可以直接删除整个<code>node_modules</code>目录，因为用<code>npm install</code>命令可以完整地重新下载所有依赖。并且，这个目录不应该被放入版本控制中。</p>
+<p>现在，我们的工程结构如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">hello-koa/</div><div class="line">|</div><div class="line">+- .vscode/</div><div class="line">|  |</div><div class="line">|  +- launch.json &lt;-- VSCode 配置文件</div><div class="line">|</div><div class="line">+- app.js &lt;-- 使用koa的js</div><div class="line">|</div><div class="line">+- package.json &lt;-- 项目描述文件</div><div class="line">|</div><div class="line">+- node_modules/ &lt;-- npm安装的所有依赖包</div></pre></td></tr></table></figure>
+<p>紧接着，我们在<code>package.json</code>中添加依赖包：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&quot;dependencies&quot;: &#123;</div><div class="line">    &quot;koa&quot;: &quot;2.0.0&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>然后使用<code>npm install</code>命令安装后，在编辑器中执行<code>app.js</code>，调试控制台输出如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">node --debug-brk=40645 --nolazy app.js </div><div class="line">Debugger listening on port 40645</div><div class="line">app started at port 3000...</div></pre></td></tr></table></figure>
+<p>我们打开浏览器，输入<code>http://localhost:3000</code>，即可看到效果：<img src="/Users/liuchuang/Desktop/屏幕快照 2017-06-25 下午2.29.40.png" alt="屏幕快照 2017-06-25 下午2.29.40"></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/koa简介/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大闯仔儿">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2036.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Big Chuang's WebSite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/25/koa简介/" itemprop="url">koa简介</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-25T12:53:17+08:00">
+                2017-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="写在前面："><a href="#写在前面：" class="headerlink" title="写在前面："></a>写在前面：</h2><p>当初建立这个Hexo博客就是为了记录并激励自己学习新技术，最近在看Express框架，接触到了koa，恰巧最近在看ES6，Express是基于ES5的，在ES6和Express的基础上，该框架的原班人马创造了koa，借助<a href="http://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/001434501579966ab03decb0dd246e1a6799dd653a15e1b000" target="_blank" rel="external">廖雪峰老师的koa教程</a>和<a href="https://book.douban.com/subject/26642320/" target="_blank" rel="external">node.JS实战</a>希望好好学习一下。</p>
+<h2 id="1-Express发展"><a href="#1-Express发展" class="headerlink" title="1.Express发展"></a>1.Express发展</h2><p>Express是第一代最流行的web框架，它对Node.js的http进行了封装，用起来如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var express = require(&apos;express&apos;);</div><div class="line">var app = express();</div><div class="line"></div><div class="line">app.get(&apos;/&apos;, function (req, res) &#123;</div><div class="line">    res.send(&apos;Hello World!&apos;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.listen(3000, function () &#123;</div><div class="line">    console.log(&apos;Example app listening on port 3000!&apos;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>虽然Express的API很简单，但是它是基于ES5的语法，要实现异步代码，只有一个方法：回调。如果异步嵌套层次过多，代码写起来就非常难看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">app.get(&apos;/test&apos;, function (req, res) &#123;</div><div class="line">    fs.readFile(&apos;/file1&apos;, function (err, data) &#123;</div><div class="line">        if (err) &#123;</div><div class="line">            res.status(500).send(&apos;read file1 error&apos;);</div><div class="line">        &#125;</div><div class="line">        fs.readFile(&apos;/file2&apos;, function (err, data) &#123;</div><div class="line">            if (err) &#123;</div><div class="line">                res.status(500).send(&apos;read file2 error&apos;);</div><div class="line">            &#125;</div><div class="line">            res.type(&apos;text/plain&apos;);</div><div class="line">            res.send(data);</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>虽然可以用async这样的库来组织异步代码（关于<a href="http://bigfacechuang.website/2017/06/24/hello-hexo/" target="_blank" rel="external">async用法参见</a>），但是用回调写异步实在是太痛苦了！</p>
+<h2 id="2-koa是怎么解决的"><a href="#2-koa是怎么解决的" class="headerlink" title="2.koa是怎么解决的"></a>2.koa是怎么解决的</h2><p>随着新版Node.js开始支持ES6，Express的团队又基于ES6的generator重新编写了下一代web框架koa。和Express相比，koa 1.0使用generator实现异步，代码看起来像同步的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var koa = require(&apos;koa&apos;);</div><div class="line">var app = koa();</div><div class="line"></div><div class="line">app.use(&apos;/test&apos;, function *() &#123;</div><div class="line">    yield doReadFile1();</div><div class="line">    var data = yield doReadFile2();</div><div class="line">    this.body = data;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.listen(3000);</div></pre></td></tr></table></figure>
+<p>与Express框架相比，koa似乎并没有多少变化，无非是将res.rend(“Hello Word”);变成了this.body = data;。</p>
+<p>用generator实现异步比回调简单了不少，但是generator的本意并不是异步。Promise才是为异步设计的，但是Promise的写法……想想就复杂。为了简化异步代码，ES7（目前是草案，还没有发布）引入了新的关键字<code>async</code>和<code>await</code>，可以轻松地把一个function变为异步模式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">async function () &#123;</div><div class="line">    var data = await fs.read(&apos;/file1&apos;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这也是JavaScript未来标准的异步代码，非常简洁，并且易于使用。</p>
+<h2 id="3-koa2"><a href="#3-koa2" class="headerlink" title="3.koa2"></a>3.koa2</h2><p>koa团队并没有止步于koa 1.0，他们非常超前地基于ES7开发了koa2，和koa 1相比，koa2完全使用Promise并配合<code>async</code>来实现异步。</p>
+<p>koa2的代码看上去像这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">app.use(async (ctx, next) =&gt; &#123;</div><div class="line">    await next();</div><div class="line">    var data = await doReadFile();</div><div class="line">    ctx.response.type = &apos;text/plain&apos;;</div><div class="line">    ctx.response.body = data;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>出于兼容性考虑，目前koa 2仍支持generator的写法，但下一个版本将会去掉。</p>
+<p>现在看不懂，没关系，我们将在下一章节详细讲解怎么样创建一个koa2工程。</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/24/hello-hexo/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -426,126 +701,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/14/hello-world/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="大闯仔儿">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/IMG_2036.JPG">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Big Chuang's WebSite">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/14/hello-world/" itemprop="url">Hello World</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-14T15:51:00+08:00">
-                2017-06-14
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <p>Welcome to <a href="https://hexo.io/" target="_blank" rel="external">Hexo</a>! This is your very first post. Check <a href="https://hexo.io/docs/" target="_blank" rel="external">documentation</a> for more info. If you get any problems when using Hexo, you can find the answer in <a href="https://hexo.io/docs/troubleshooting.html" target="_blank" rel="external">troubleshooting</a> or you can ask me on <a href="https://github.com/hexojs/hexo/issues" target="_blank" rel="external">GitHub</a>.</p>
-<h2 id="Quick-Start"><a href="#Quick-Start" class="headerlink" title="Quick Start"></a>Quick Start</h2><h3 id="Create-a-new-post"><a href="#Create-a-new-post" class="headerlink" title="Create a new post"></a>Create a new post</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo new <span class="string">"My New Post"</span></div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/writing.html" target="_blank" rel="external">Writing</a></p>
-<h3 id="Run-server"><a href="#Run-server" class="headerlink" title="Run server"></a>Run server</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo server</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/server.html" target="_blank" rel="external">Server</a></p>
-<h3 id="Generate-static-files"><a href="#Generate-static-files" class="headerlink" title="Generate static files"></a>Generate static files</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo generate</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/generating.html" target="_blank" rel="external">Generating</a></p>
-<h3 id="Deploy-to-remote-sites"><a href="#Deploy-to-remote-sites" class="headerlink" title="Deploy to remote sites"></a>Deploy to remote sites</h3><figure class="highlight bash"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ hexo deploy</div></pre></td></tr></table></figure>
-<p>More info: <a href="https://hexo.io/docs/deployment.html" target="_blank" rel="external">Deployment</a></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -591,7 +746,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-count">3</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
