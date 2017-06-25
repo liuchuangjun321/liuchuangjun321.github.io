@@ -99,13 +99,13 @@
 <meta property="og:url" content="http://yoursite.com/2017/06/25/koa第一次亲密接触（创建koa2工程）/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
 <meta property="og:description" content="1.创建koa2工程首先，我们创建一个目录hello-koa并作为工程目录用编辑器打开。然后，我们创建app.js，输入以下代码： 12345678910111213141516// 导入koa，和koa 1.x不同，在koa2中，我们导入的是一个class，因此用大写的Koa表示:const Koa = require(&amp;apos;koa&amp;apos;);// 创建一个Koa对象表示web app">
-<meta property="og:image" content="http://yoursite.com/Users/liuchuang/Desktop/屏幕快照%202017-06-25%20下午1.39.19.png">
-<meta property="og:image" content="http://yoursite.com/Users/liuchuang/Desktop/屏幕快照%202017-06-25%20下午2.29.40.png">
-<meta property="og:updated_time" content="2017-06-25T06:30:32.000Z">
+<meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/3-1.png">
+<meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/3-2.png">
+<meta property="og:updated_time" content="2017-06-25T06:42:22.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="koa第一次亲密接触（创建koa2工程）">
 <meta name="twitter:description" content="1.创建koa2工程首先，我们创建一个目录hello-koa并作为工程目录用编辑器打开。然后，我们创建app.js，输入以下代码： 12345678910111213141516// 导入koa，和koa 1.x不同，在koa2中，我们导入的是一个class，因此用大写的Koa表示:const Koa = require(&amp;apos;koa&amp;apos;);// 创建一个Koa对象表示web app">
-<meta name="twitter:image" content="http://yoursite.com/Users/liuchuang/Desktop/屏幕快照%202017-06-25%20下午1.39.19.png">
+<meta name="twitter:image" content="http://os20uatm3.bkt.clouddn.com/3-1.png">
 
 
 
@@ -365,7 +365,7 @@
 <p>我们可以对<code>ctx</code>操作，并设置返回内容。但是为什么要调用<code>await next()</code>？</p>
 <p>原因是koa把很多async函数组成一个处理链，每个async函数都可以做一些自己的事情，然后用<code>await next()</code>来调用下一个async函数。我们把每个async函数称为middleware，这些middleware可以组合起来，完成很多有用的功能。</p>
 <p>下面这张图可以很好的说明 koa 的运行机制：</p>
-<p><img src="/Users/liuchuang/Desktop/屏幕快照 2017-06-25 下午1.39.19.png" alt="屏幕快照 2017-06-25 下午1.39.19"></p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/3-1.png" alt="运行机制"></p>
 <p>当一个请求过来的时候，会依次经过各个中间件进行处理，中间件跳转的信号是yield next，当到某个中间件后，该中间件处理完不执行yield next的时候，然后就会逆序执行前面那些中间件剩下的逻辑。直接上个官网的例子：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">var koa = require(&apos;koa&apos;);</div><div class="line">var app = koa();</div><div class="line"></div><div class="line">// response-time中间件</div><div class="line">app.use(function *(next)&#123;</div><div class="line">  var start = new Date;</div><div class="line">  yield next;</div><div class="line">  var ms = new Date - start;</div><div class="line">  this.set(&apos;X-Response-Time&apos;, ms + &apos;ms&apos;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// logger中间件</div><div class="line">app.use(function *(next)&#123;</div><div class="line">  var start = new Date;</div><div class="line">  yield next;</div><div class="line">  var ms = new Date - start;</div><div class="line">  console.log(&apos;%s %s - %s&apos;, this.method, this.url, ms);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// 响应中间件</div><div class="line">app.use(function *()&#123;</div><div class="line">  this.body = &apos;Hello World&apos;;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.listen(3000);</div></pre></td></tr></table></figure>
 <p>上面的执行顺序就是：请求 ==&gt; response-time中间件 ==&gt; logger中间件 ==&gt; 响应中间件 ==&gt; logger中间件 ==&gt; response-time中间件 ==&gt; 响应。</p>
@@ -387,7 +387,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&quot;dependencies&quot;: &#123;</div><div class="line">    &quot;koa&quot;: &quot;2.0.0&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>然后使用<code>npm install</code>命令安装后，在编辑器中执行<code>app.js</code>，调试控制台输出如下：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">node --debug-brk=40645 --nolazy app.js </div><div class="line">Debugger listening on port 40645</div><div class="line">app started at port 3000...</div></pre></td></tr></table></figure>
-<p>我们打开浏览器，输入<code>http://localhost:3000</code>，即可看到效果：<img src="/Users/liuchuang/Desktop/屏幕快照 2017-06-25 下午2.29.40.png" alt="屏幕快照 2017-06-25 下午2.29.40"></p>
+<p>我们打开浏览器，输入<code>http://localhost:3000</code>，即可看到效果：<img src="http://os20uatm3.bkt.clouddn.com/3-2.png" alt="屏幕快照 2017-06-25 下午2.29.40"></p>
 
       
     </div>
