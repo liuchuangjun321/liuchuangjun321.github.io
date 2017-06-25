@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="在hello-koa工程中，我们处理http请求一律返回相同的HTML，这样虽然非常简单，但是用浏览器一测，随便输入任何URL都会返回相同的网页。 正常情况下，我们应该对不同的URL调用不同的处理函数，这样才能返回不同的结果。例如像这样写： 1234567891011121314151617181920212223app.use(async (ctx, next) =&amp;gt; &amp;#123;">
+<meta name="description" content="在hello-koa工程中，我们处理http请求一律返回相同的HTML，这样虽然非常简单，但是用浏览器一测，随便输入任何URL都会返回相同的网页。 1.koa原生实现路由正常情况下，我们应该对不同的URL调用不同的处理函数，这样才能返回不同的结果。例如像这样写： 1234567891011121314151617181920212223app.use(async (ctx, next) =&amp;gt;">
 <meta property="og:type" content="article">
 <meta property="og:title" content="koa处理url">
 <meta property="og:url" content="http://yoursite.com/2017/06/25/koa处理url/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="在hello-koa工程中，我们处理http请求一律返回相同的HTML，这样虽然非常简单，但是用浏览器一测，随便输入任何URL都会返回相同的网页。 正常情况下，我们应该对不同的URL调用不同的处理函数，这样才能返回不同的结果。例如像这样写： 1234567891011121314151617181920212223app.use(async (ctx, next) =&amp;gt; &amp;#123;">
+<meta property="og:description" content="在hello-koa工程中，我们处理http请求一律返回相同的HTML，这样虽然非常简单，但是用浏览器一测，随便输入任何URL都会返回相同的网页。 1.koa原生实现路由正常情况下，我们应该对不同的URL调用不同的处理函数，这样才能返回不同的结果。例如像这样写： 1234567891011121314151617181920212223app.use(async (ctx, next) =&amp;gt;">
 <meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/4-1.png">
-<meta property="og:updated_time" content="2017-06-25T08:45:41.000Z">
+<meta property="og:updated_time" content="2017-06-25T12:12:41.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="koa处理url">
-<meta name="twitter:description" content="在hello-koa工程中，我们处理http请求一律返回相同的HTML，这样虽然非常简单，但是用浏览器一测，随便输入任何URL都会返回相同的网页。 正常情况下，我们应该对不同的URL调用不同的处理函数，这样才能返回不同的结果。例如像这样写： 1234567891011121314151617181920212223app.use(async (ctx, next) =&amp;gt; &amp;#123;">
+<meta name="twitter:description" content="在hello-koa工程中，我们处理http请求一律返回相同的HTML，这样虽然非常简单，但是用浏览器一测，随便输入任何URL都会返回相同的网页。 1.koa原生实现路由正常情况下，我们应该对不同的URL调用不同的处理函数，这样才能返回不同的结果。例如像这样写： 1234567891011121314151617181920212223app.use(async (ctx, next) =&amp;gt;">
 <meta name="twitter:image" content="http://os20uatm3.bkt.clouddn.com/4-1.png">
 
 
@@ -352,11 +352,11 @@
 
       
         <p>在hello-koa工程中，我们处理http请求一律返回相同的HTML，这样虽然非常简单，但是用浏览器一测，随便输入任何URL都会返回相同的网页。</p>
-<p>正常情况下，我们应该对不同的URL调用不同的处理函数，这样才能返回不同的结果。例如像这样写：</p>
+<h2 id="1-koa原生实现路由"><a href="#1-koa原生实现路由" class="headerlink" title="1.koa原生实现路由"></a>1.koa原生实现路由</h2><p>正常情况下，我们应该对不同的URL调用不同的处理函数，这样才能返回不同的结果。例如像这样写：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">app.use(async (ctx, next) =&gt; &#123;</div><div class="line">    if (ctx.request.path === &apos;/&apos;) &#123;</div><div class="line">        ctx.response.body = &apos;index page&apos;;</div><div class="line">    &#125; else &#123;</div><div class="line">        await next();</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.use(async (ctx, next) =&gt; &#123;</div><div class="line">    if (ctx.request.path === &apos;/test&apos;) &#123;</div><div class="line">        ctx.response.body = &apos;TEST page&apos;;</div><div class="line">    &#125; else &#123;</div><div class="line">        await next();</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.use(async (ctx, next) =&gt; &#123;</div><div class="line">    if (ctx.request.path === &apos;/error&apos;) &#123;</div><div class="line">        ctx.response.body = &apos;ERROR page&apos;;</div><div class="line">    &#125; else &#123;</div><div class="line">        await next();</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p>这么写是可以运行的，但是好像有点蠢。</p>
 <p>应该有一个能集中处理URL的middleware，它根据不同的URL调用不同的处理函数，这样，我们才能专心为每个URL编写处理函数。</p>
-<h2 id="1-koa-router"><a href="#1-koa-router" class="headerlink" title="1.koa-router"></a>1.koa-router</h2><p>为了处理URL，我们需要引入<code>koa-router</code>这个middleware，让它负责处理URL映射。</p>
+<h2 id="2-koa-router"><a href="#2-koa-router" class="headerlink" title="2.koa-router"></a>2.koa-router</h2><p>为了处理URL，我们需要引入<code>koa-router</code>这个middleware，让它负责处理URL映射。</p>
 <p>我们把上一节的<code>hello-koa</code>工程复制一份，重命名为<code>url-koa</code>。</p>
 <p>先在<code>package.json</code>中添加依赖项：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;koa-router&quot;: &quot;7.0.0&quot;</div></pre></td></tr></table></figure>
@@ -387,7 +387,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">router.get(&apos;/&apos;, async (ctx, next) =&gt; &#123;</div><div class="line">    ctx.response.body = `&lt;h1&gt;Index&lt;/h1&gt;</div><div class="line">        &lt;form action=&quot;/signin&quot; method=&quot;post&quot;&gt;</div><div class="line">            &lt;p&gt;Name: &lt;input name=&quot;name&quot; value=&quot;koa&quot;&gt;&lt;/p&gt;</div><div class="line">            &lt;p&gt;Password: &lt;input name=&quot;password&quot; type=&quot;password&quot;&gt;&lt;/p&gt;</div><div class="line">            &lt;p&gt;&lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;&lt;/p&gt;</div><div class="line">        &lt;/form&gt;`;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">router.post(&apos;/signin&apos;, async (ctx, next) =&gt; &#123;</div><div class="line">    var</div><div class="line">        name = ctx.request.body.name || &apos;&apos;,</div><div class="line">        password = ctx.request.body.password || &apos;&apos;;</div><div class="line">    console.log(`signin with name: $&#123;name&#125;, password: $&#123;password&#125;`);</div><div class="line">    if (name === &apos;koa&apos; &amp;&amp; password === &apos;12345&apos;) &#123;</div><div class="line">        ctx.response.body = `&lt;h1&gt;Welcome, $&#123;name&#125;!&lt;/h1&gt;`;</div><div class="line">    &#125; else &#123;</div><div class="line">        ctx.response.body = `&lt;h1&gt;Login failed!&lt;/h1&gt;</div><div class="line">        &lt;p&gt;&lt;a href=&quot;/&quot;&gt;Try again&lt;/a&gt;&lt;/p&gt;`;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
 <p>注意到我们用<code>var name = ctx.request.body.name || &#39;&#39;</code>拿到表单的<code>name</code>字段，如果该字段不存在，默认值设置为<code>&#39;&#39;</code>。</p>
 <p>类似的，put、delete、head请求也可以由router处理。</p>
-<h2 id="2-重构"><a href="#2-重构" class="headerlink" title="2.重构"></a>2.重构</h2><p>现在，我们已经可以处理不同的URL了，但是看看<code>app.js</code>，总觉得还是有点不对劲。</p>
+<h2 id="3-重构"><a href="#3-重构" class="headerlink" title="3.重构"></a>3.重构</h2><p>现在，我们已经可以处理不同的URL了，但是看看<code>app.js</code>，总觉得还是有点不对劲。</p>
 <p>所有的URL处理函数都放到<code>app.js</code>里显得很乱，而且，每加一个URL，就需要修改<code>app.js</code>。随着URL越来越多，<code>app.js</code>就会越来越长。</p>
 <p>如果能把URL处理函数集中到某个js文件，或者某几个js文件中就好了，然后让<code>app.js</code>自动导入所有处理URL的函数。这样，代码一分离，逻辑就显得清楚了。最好是这样：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">url2-koa/</div><div class="line">|</div><div class="line">+- .vscode/</div><div class="line">|  |</div><div class="line">|  +- launch.json &lt;-- VSCode 配置文件</div><div class="line">|</div><div class="line">+- controllers/</div><div class="line">|  |</div><div class="line">|  +- login.js &lt;-- 处理login相关URL</div><div class="line">|  |</div><div class="line">|  +- users.js &lt;-- 处理用户管理相关URL</div><div class="line">|</div><div class="line">+- app.js &lt;-- 使用koa的js</div><div class="line">|</div><div class="line">+- package.json &lt;-- 项目描述文件</div><div class="line">|</div><div class="line">+- node_modules/ &lt;-- npm安装的所有依赖包</div></pre></td></tr></table></figure>
@@ -447,6 +447,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/25/Get&Post请求数据的获取方式/" rel="prev" title="Get&Post请求数据的获取方式">
+                Get&Post请求数据的获取方式 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -518,7 +522,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -557,7 +561,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-koa-router"><span class="nav-number">1.</span> <span class="nav-text">1.koa-router</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#处理post请求"><span class="nav-number">1.0.1.</span> <span class="nav-text">处理post请求</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-重构"><span class="nav-number">2.</span> <span class="nav-text">2.重构</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-koa原生实现路由"><span class="nav-number">1.</span> <span class="nav-text">1.koa原生实现路由</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-koa-router"><span class="nav-number">2.</span> <span class="nav-text">2.koa-router</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#处理post请求"><span class="nav-number">2.0.1.</span> <span class="nav-text">处理post请求</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-重构"><span class="nav-number">3.</span> <span class="nav-text">3.重构</span></a></li></ol></div>
             
 
           </div>
