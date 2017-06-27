@@ -103,7 +103,7 @@
 <meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/6-1.png">
 <meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/6-2.png">
 <meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/6-3.png">
-<meta property="og:updated_time" content="2017-06-27T01:40:48.000Z">
+<meta property="og:updated_time" content="2017-06-27T07:26:23.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="koa中的路径问题（__dirname、__filename、.&#x2F;、..&#x2F;）">
 <meta name="twitter:description" content="最近在看path模块以及require()原理的时候，发现了一篇博客写的不错，解决了许多困扰，特分享一波关于Node.js的dirname，filename，process.cwd()，./文件路径的一些坑 先来介绍一下博主当时遇到的问题，如下图：  博主在执行node syntax/nodejs/3.fs.js文件时读取不到当前目录下的1.findLaegest.js，其实这个问题在于运行的是n">
@@ -389,6 +389,13 @@
 </ol>
 <h3 id="也就是说无论执行node命令时候目录文件是怎样的，require-quot-X-quot-都会根据X所在的父模块，确定X的绝对路径，而不会根据当前执行node命令时候的文件夹目录名-来确定X的绝对路径"><a href="#也就是说无论执行node命令时候目录文件是怎样的，require-quot-X-quot-都会根据X所在的父模块，确定X的绝对路径，而不会根据当前执行node命令时候的文件夹目录名-来确定X的绝对路径" class="headerlink" title="也就是说无论执行node命令时候目录文件是怎样的，require(&quot;./X&quot;)都会根据X所在的父模块，确定X的绝对路径，而不会根据当前执行node命令时候的文件夹目录名 来确定X的绝对路径"></a><strong>也就是说无论执行node命令时候目录文件是怎样的，<code>require(&quot;./X&quot;)</code>都会根据X所在的父模块，确定X的绝对路径，而不会根据</strong>当前执行node命令时候的文件夹目录名 来确定X的绝对路径</h3><p>最后博主修改了一下代码，让执行<code>node syntax/nodejs/3.fs.js</code>顺利执行</p>
 <p><img src="http://os20uatm3.bkt.clouddn.com/6-3.png" alt="6-3"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>__dirname： 获得当前执行文件所在目录的完整目录名</li>
+<li>__filename： 获得当前执行文件的带有完整绝对路径的文件名</li>
+<li>process.cwd()：获得当前执行node命令时候的文件夹目录名</li>
+<li>./：不使用require时候，./与process.cwd()一样，路径和node的执行命令有关联的</li>
+<li>./：使用require时候，与__dirname一样，路径和node的执行命令没有任何关系，只和<code>require()</code>的执行原理有关系。</li>
+</ul>
 
       
     </div>
@@ -568,7 +575,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#require-的原理"><span class="nav-number">1.</span> <span class="nav-text">require()的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#也就是说无论执行node命令时候目录文件是怎样的，require-quot-X-quot-都会根据X所在的父模块，确定X的绝对路径，而不会根据当前执行node命令时候的文件夹目录名-来确定X的绝对路径"><span class="nav-number">1.1.</span> <span class="nav-text">也就是说无论执行node命令时候目录文件是怎样的，require("./X")都会根据X所在的父模块，确定X的绝对路径，而不会根据当前执行node命令时候的文件夹目录名 来确定X的绝对路径</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#require-的原理"><span class="nav-number">1.</span> <span class="nav-text">require()的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#也就是说无论执行node命令时候目录文件是怎样的，require-quot-X-quot-都会根据X所在的父模块，确定X的绝对路径，而不会根据当前执行node命令时候的文件夹目录名-来确定X的绝对路径"><span class="nav-number">1.1.</span> <span class="nav-text">也就是说无论执行node命令时候目录文件是怎样的，require("./X")都会根据X所在的父模块，确定X的绝对路径，而不会根据当前执行node命令时候的文件夹目录名 来确定X的绝对路径</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
             
 
           </div>

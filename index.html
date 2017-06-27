@@ -389,6 +389,13 @@
 </ol>
 <h3 id="也就是说无论执行node命令时候目录文件是怎样的，require-quot-X-quot-都会根据X所在的父模块，确定X的绝对路径，而不会根据当前执行node命令时候的文件夹目录名-来确定X的绝对路径"><a href="#也就是说无论执行node命令时候目录文件是怎样的，require-quot-X-quot-都会根据X所在的父模块，确定X的绝对路径，而不会根据当前执行node命令时候的文件夹目录名-来确定X的绝对路径" class="headerlink" title="也就是说无论执行node命令时候目录文件是怎样的，require(&quot;./X&quot;)都会根据X所在的父模块，确定X的绝对路径，而不会根据当前执行node命令时候的文件夹目录名 来确定X的绝对路径"></a><strong>也就是说无论执行node命令时候目录文件是怎样的，<code>require(&quot;./X&quot;)</code>都会根据X所在的父模块，确定X的绝对路径，而不会根据</strong>当前执行node命令时候的文件夹目录名 来确定X的绝对路径</h3><p>最后博主修改了一下代码，让执行<code>node syntax/nodejs/3.fs.js</code>顺利执行</p>
 <p><img src="http://os20uatm3.bkt.clouddn.com/6-3.png" alt="6-3"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>__dirname： 获得当前执行文件所在目录的完整目录名</li>
+<li>__filename： 获得当前执行文件的带有完整绝对路径的文件名</li>
+<li>process.cwd()：获得当前执行node命令时候的文件夹目录名</li>
+<li>./：不使用require时候，./与process.cwd()一样，路径和node的执行命令有关联的</li>
+<li>./：使用require时候，与__dirname一样，路径和node的执行命令没有任何关系，只和<code>require()</code>的执行原理有关系。</li>
+</ul>
 
           
         
