@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="koa," />
+  <meta name="keywords" content="Question," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="写在前面：当初建立这个Hexo博客就是为了记录并激励自己学习新技术，最近在看Express框架，接触到了koa，恰巧最近在看ES6，Express是基于ES5的，在ES6和Express的基础上，该框架的原班人马创造了koa，借助廖雪峰老师的koa教程和node.JS实战希望好好学习一下。 1.Express发展Express是第一代最流行的web框架，它对Node.js的http进行了封装，用起">
-<meta name="keywords" content="koa">
+<meta name="description" content="此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！Q1：今天看Express代码时遇见一行代码app.use(&amp;#39;/signup&amp;#39;, require(&amp;#39;./signup&amp;#39;));平时大多对这样的app.use(function(req, res, next) { … });使用中间件的较为习惯，所以看到这个比较懵逼 查了一下app.use()源码，解答的还算是比">
+<meta name="keywords" content="Question">
 <meta property="og:type" content="article">
-<meta property="og:title" content="koa简介">
-<meta property="og:url" content="http://yoursite.com/2017/06/25/koa简介/index.html">
+<meta property="og:title" content="Question">
+<meta property="og:url" content="http://yoursite.com/2017/06/27/Question/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="写在前面：当初建立这个Hexo博客就是为了记录并激励自己学习新技术，最近在看Express框架，接触到了koa，恰巧最近在看ES6，Express是基于ES5的，在ES6和Express的基础上，该框架的原班人马创造了koa，借助廖雪峰老师的koa教程和node.JS实战希望好好学习一下。 1.Express发展Express是第一代最流行的web框架，它对Node.js的http进行了封装，用起">
-<meta property="og:updated_time" content="2017-06-25T14:54:05.000Z">
+<meta property="og:description" content="此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！Q1：今天看Express代码时遇见一行代码app.use(&amp;#39;/signup&amp;#39;, require(&amp;#39;./signup&amp;#39;));平时大多对这样的app.use(function(req, res, next) { … });使用中间件的较为习惯，所以看到这个比较懵逼 查了一下app.use()源码，解答的还算是比">
+<meta property="og:updated_time" content="2017-06-27T13:06:07.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="koa简介">
-<meta name="twitter:description" content="写在前面：当初建立这个Hexo博客就是为了记录并激励自己学习新技术，最近在看Express框架，接触到了koa，恰巧最近在看ES6，Express是基于ES5的，在ES6和Express的基础上，该框架的原班人马创造了koa，借助廖雪峰老师的koa教程和node.JS实战希望好好学习一下。 1.Express发展Express是第一代最流行的web框架，它对Node.js的http进行了封装，用起">
+<meta name="twitter:title" content="Question">
+<meta name="twitter:description" content="此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！Q1：今天看Express代码时遇见一行代码app.use(&amp;#39;/signup&amp;#39;, require(&amp;#39;./signup&amp;#39;));平时大多对这样的app.use(function(req, res, next) { … });使用中间件的较为习惯，所以看到这个比较懵逼 查了一下app.use()源码，解答的还算是比">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/25/koa简介/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/27/Question/"/>
 
 
 
 
 
-  <title>koa简介 | Big Chuang's WebSite</title>
+  <title>Question | Big Chuang's WebSite</title>
   
 
 
@@ -286,7 +286,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/koa简介/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/27/Question/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="大闯仔儿">
@@ -303,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">koa简介</h1>
+          <h1 class="post-title" itemprop="name headline">Question</h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-25T12:53:17+08:00">
-                2017-06-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-27T20:41:20+08:00">
+                2017-06-27
               </time>
             
 
@@ -325,28 +325,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/koa2进阶/" itemprop="url" rel="index">
-                    <span itemprop="name">koa2进阶</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -372,23 +350,16 @@
       
 
       
-        <h2 id="写在前面："><a href="#写在前面：" class="headerlink" title="写在前面："></a>写在前面：</h2><p>当初建立这个Hexo博客就是为了记录并激励自己学习新技术，最近在看Express框架，接触到了koa，恰巧最近在看ES6，Express是基于ES5的，在ES6和Express的基础上，该框架的原班人马创造了koa，借助<a href="http://www.liaoxuefeng.com/wiki/001434446689867b27157e896e74d51a89c25cc8b43bdb3000/001434501579966ab03decb0dd246e1a6799dd653a15e1b000" target="_blank" rel="external">廖雪峰老师的koa教程</a>和<a href="https://book.douban.com/subject/26642320/" target="_blank" rel="external">node.JS实战</a>希望好好学习一下。</p>
-<h2 id="1-Express发展"><a href="#1-Express发展" class="headerlink" title="1.Express发展"></a>1.Express发展</h2><p>Express是第一代最流行的web框架，它对Node.js的http进行了封装，用起来如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var express = require(&apos;express&apos;);</div><div class="line">var app = express();</div><div class="line"></div><div class="line">app.get(&apos;/&apos;, function (req, res) &#123;</div><div class="line">    res.send(&apos;Hello World!&apos;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.listen(3000, function () &#123;</div><div class="line">    console.log(&apos;Example app listening on port 3000!&apos;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>虽然Express的API很简单，但是它是基于ES5的语法，要实现异步代码，只有一个方法：回调。如果异步嵌套层次过多，代码写起来就非常难看：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">app.get(&apos;/test&apos;, function (req, res) &#123;</div><div class="line">    fs.readFile(&apos;/file1&apos;, function (err, data) &#123;</div><div class="line">        if (err) &#123;</div><div class="line">            res.status(500).send(&apos;read file1 error&apos;);</div><div class="line">        &#125;</div><div class="line">        fs.readFile(&apos;/file2&apos;, function (err, data) &#123;</div><div class="line">            if (err) &#123;</div><div class="line">                res.status(500).send(&apos;read file2 error&apos;);</div><div class="line">            &#125;</div><div class="line">            res.type(&apos;text/plain&apos;);</div><div class="line">            res.send(data);</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>虽然可以用async这样的库来组织异步代码（关于<a href="http://bigfacechuang.website/2017/06/24/hello-hexo/" target="_blank" rel="external">async用法参见</a>），但是用回调写异步实在是太痛苦了！</p>
-<h2 id="2-koa是怎么解决的"><a href="#2-koa是怎么解决的" class="headerlink" title="2.koa是怎么解决的"></a>2.koa是怎么解决的</h2><p>随着新版Node.js开始支持ES6，Express的团队又基于ES6的generator重新编写了下一代web框架koa。和Express相比，koa 1.0使用generator实现异步，代码看起来像同步的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var koa = require(&apos;koa&apos;);</div><div class="line">var app = koa();</div><div class="line"></div><div class="line">app.use(&apos;/test&apos;, function *() &#123;</div><div class="line">    yield doReadFile1();</div><div class="line">    var data = yield doReadFile2();</div><div class="line">    this.body = data;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.listen(3000);</div></pre></td></tr></table></figure>
-<p>与Express框架相比，koa似乎并没有多少变化，无非是将res.rend(“Hello Word”);变成了this.body = data;。</p>
-<p>用generator实现异步比回调简单了不少，但是generator的本意并不是异步。Promise才是为异步设计的，但是Promise的写法……想想就复杂。为了简化异步代码，ES7（目前是草案，还没有发布）引入了新的关键字<code>async</code>和<code>await</code>，可以轻松地把一个function变为异步模式：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">async function () &#123;</div><div class="line">    var data = await fs.read(&apos;/file1&apos;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这也是JavaScript未来标准的异步代码，非常简洁，并且易于使用。</p>
-<h2 id="3-koa2"><a href="#3-koa2" class="headerlink" title="3.koa2"></a>3.koa2</h2><p>koa团队并没有止步于koa 1.0，他们非常超前地基于ES7开发了koa2，和koa 1相比，koa2完全使用Promise并配合<code>async</code>来实现异步。</p>
-<p>koa2的代码看上去像这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">app.use(async (ctx, next) =&gt; &#123;</div><div class="line">    await next();</div><div class="line">    var data = await doReadFile();</div><div class="line">    ctx.response.type = &apos;text/plain&apos;;</div><div class="line">    ctx.response.body = data;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>出于兼容性考虑，目前koa 2仍支持generator的写法，但下一个版本将会去掉。</p>
-<p>现在看不懂，没关系，我们将在下一章节详细讲解怎么样创建一个koa2工程。</p>
+        <h4 id="此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！"><a href="#此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！" class="headerlink" title="此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！"></a>此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！</h4><p><strong>Q1：今天看Express代码时遇见一行代码<code>app.use(&#39;/signup&#39;, require(&#39;./signup&#39;));</code>平时大多对这样的<code>app.use(function(req, res, next) { … });</code>使用中间件的较为习惯，所以看到这个比较懵逼</strong></p>
+<p>查了一下<a href="http://expressjs.com/en/4x/api.html#app.use" target="_blank" rel="external"><code>app.use()</code>源码</a>，解答的还算是比较详细的，来看官网的解释：</p>
+<p><code>app.use([path,] callback [, callback...])</code>，在指定的路径上挂载指定的中间件功能或函数：当所请求的路径的基础与路径匹配时，执行中间件功能。不仅如此，官网对于path和callback的类型还做了详细的罗列，感兴趣的请移步上述官网。</p>
+<p>那也就是说<code>require(&#39;./signup&#39;)</code>返回的应该是一个function类型，回调函数嘛，希望这样理解没有错！</p>
+<p>不仅如此，还请注意这句话<strong>所请求的路径的基础与路径匹配时，执行中间件功能。</strong>看代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">//index.js</div><div class="line"></div><div class="line">module.exports = function (app) &#123;</div><div class="line">  app.get(&apos;/&apos;, function (req, res) &#123;</div><div class="line">    res.redirect(&apos;/posts&apos;);</div><div class="line">  &#125;);</div><div class="line">  app.use(&apos;/signup&apos;, require(&apos;./signup&apos;));</div><div class="line">  app.use(&apos;/signin&apos;, require(&apos;./signin&apos;));</div><div class="line">  app.use(&apos;/signout&apos;, require(&apos;./signout&apos;));</div><div class="line">  app.use(&apos;/posts&apos;, require(&apos;./posts&apos;));</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>假如我能请求路径<code>/signup</code>,将会执行中间件<code>require(&#39;./signup&#39;)</code>。</p>
+<p>另，上述代码中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">app.get(&apos;/&apos;, function (req, res) &#123;</div><div class="line">  res.redirect(&apos;/posts&apos;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>好奇<code>app.get</code>与<code>app.use</code>的区别，再次查了一下官网<a href="http://expressjs.com/en/4x/api.html#app.get" target="_blank" rel="external"><code>app.get</code></a>;官方解释：<strong><code>app.get</code>:使用指定的回调函数将HTTP GET请求路由到指定的路径。</strong>也就是说回调函数中要包含一个重定向的函数。</p>
 
       
     </div>
@@ -418,7 +389,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/koa/" rel="tag"># koa</a>
+            <a href="/tags/Question/" rel="tag"># Question</a>
           
         </div>
       
@@ -431,8 +402,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/24/hello-hexo/" rel="next" title="async 函数的含义和用法">
-                <i class="fa fa-chevron-left"></i> async 函数的含义和用法
+              <a href="/2017/06/26/koa中的路径问题（-dirname、-filename、-、-）/" rel="next" title="koa中的路径问题（__dirname、__filename、./、../）">
+                <i class="fa fa-chevron-left"></i> koa中的路径问题（__dirname、__filename、./、../）
               </a>
             
           </div>
@@ -440,10 +411,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/06/25/koa第一次亲密接触（创建koa2工程）/" rel="prev" title="koa第一次亲密接触（创建koa2工程）">
-                koa第一次亲密接触（创建koa2工程） <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -572,7 +539,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#写在前面："><span class="nav-number">1.</span> <span class="nav-text">写在前面：</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#1-Express发展"><span class="nav-number">2.</span> <span class="nav-text">1.Express发展</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-koa是怎么解决的"><span class="nav-number">3.</span> <span class="nav-text">2.koa是怎么解决的</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#3-koa2"><span class="nav-number">4.</span> <span class="nav-text">3.koa2</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！"><span class="nav-number">1.</span> <span class="nav-text">此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！</span></a></li></ol></div>
             
 
           </div>
