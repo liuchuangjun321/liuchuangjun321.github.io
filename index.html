@@ -286,6 +286,124 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/27/require源码再解读/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大闯仔儿">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2036.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Big Chuang's WebSite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/27/require源码再解读/" itemprop="url">require源码再解读</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-27T22:44:27+08:00">
+                2017-06-27
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>今天在代码的时候遇到一个小问题，琢磨了半天才搞懂，特意记录下来跟大家分享，顺便也分享一下这件事的心得。</p>
+<p>直接看一下当时的情况：</p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/8-1.png" alt="8-1"></p>
+<p>使我困惑的点就在高亮的代码这块儿<code>var routes = require(&#39;./routes&#39;);</code>左边是目录结构，讲道理按照我之前理解的<code>require(&#39;./routes&#39;)</code>会把当前文件父模块也就是<code>myblog</code>目录下的<code>routes.js</code>文件返回，结果查看了一下当前的目录结构发现当前目录下并没有这个文件，瞬间懵逼，于是再次翻看了前几天刚看的<a href="http://www.ruanyifeng.com/blog/2015/05/require.html" target="_blank" rel="external">阮一峰老师的require()源码解读</a>，发现了问题所在：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">如果 X 以 &quot;./&quot; 或者 &quot;/&quot; 或者 &quot;../&quot; 开头 </div><div class="line">　　a. 根据 X 所在的父模块，确定 X 的绝对路径。 </div><div class="line">　　b. 将 X 当成文件，依次查找下面文件，只要其中有一个存在，就返回该文件，不再继续执行。</div><div class="line">X</div><div class="line">X.js</div><div class="line">X.json</div><div class="line">X.node</div><div class="line">　　c. 将 X 当成目录，依次查找下面文件，只要其中有一个存在，就返回该文件，不再继续执行。</div><div class="line">X/package.json（main字段）</div><div class="line">X/index.js</div><div class="line">X/index.json</div><div class="line">X/index.node</div></pre></td></tr></table></figure>
+<p>重点是<strong>c. 将 X 当成目录，依次查找下面文件，只要其中有一个存在，就返回该文件，不再继续执行。</strong>也就是说将x当成目录的情况下，是查找该X目录下类似<code>index.js、package.json、index.json、index.node</code>等文件。再次翻看一下目录结构，发现<code>routers</code>目录下确实存在一个<code>index.js</code>文件，所以词句命令导入的应该是这个文件。</p>
+<h2 id="反思"><a href="#反思" class="headerlink" title="反思"></a>反思</h2><p>其实关于<code>require()</code>源码解读这块儿前几天刚看过，只不过没有仔细深入，不求甚解，才导致今天又浪费了大量时间，忘引以为戒。毕竟留给我在学校安静学习的时间不太多了。加油！！！</p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/27/Question/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -354,7 +472,7 @@
       
         
           
-            <h4 id="此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！"><a href="#此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！" class="headerlink" title="此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！"></a>此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！</h4><p><strong>Q1：今天看Express代码时遇见一行代码<code>app.use(&#39;/signup&#39;, require(&#39;./signup&#39;));</code>平时大多对这样的<code>app.use(function(req, res, next) { … });</code>使用中间件的较为习惯，所以看到这个比较懵逼</strong></p>
+            <h4 id="此标签-Question-下的博客主要用来记录平时学习中遇到的一些问题以及解答！！！"><a href="#此标签-Question-下的博客主要用来记录平时学习中遇到的一些问题以及解答！！！" class="headerlink" title="此标签[Question]下的博客主要用来记录平时学习中遇到的一些问题以及解答！！！"></a>此标签[Question]下的博客主要用来记录平时学习中遇到的一些问题以及解答！！！</h4><p><strong>Q1：今天看Express代码时遇见一行代码<code>app.use(&#39;/signup&#39;, require(&#39;./signup&#39;));</code>平时大多对这样的<code>app.use(function(req, res, next) { … });</code>使用中间件的较为习惯，所以看到这个比较懵逼</strong></p>
 <p>查了一下<a href="http://expressjs.com/en/4x/api.html#app.use" target="_blank" rel="external"><code>app.use()</code>源码</a>，解答的还算是比较详细的，来看官网的解释：</p>
 <p><code>app.use([path,] callback [, callback...])</code>，在指定的路径上挂载指定的中间件功能或函数：当所请求的路径的基础与路径匹配时，执行中间件功能。不仅如此，官网对于path和callback的类型还做了详细的罗列，感兴趣的请移步上述官网。</p>
 <p>那也就是说<code>require(&#39;./signup&#39;)</code>返回的应该是一个function类型，回调函数嘛，希望这样理解没有错！</p>
@@ -1574,7 +1692,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1596,7 +1714,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tages/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！Q1：今天看Express代码时遇见一行代码app.use(&amp;#39;/signup&amp;#39;, require(&amp;#39;./signup&amp;#39;));平时大多对这样的app.use(function(req, res, next) { … });使用中间件的较为习惯，所以看到这个比较懵逼 查了一下app.use()源码，解答的还算是比">
+<meta name="description" content="此标签[Question]下的博客主要用来记录平时学习中遇到的一些问题以及解答！！！Q1：今天看Express代码时遇见一行代码app.use(&amp;#39;/signup&amp;#39;, require(&amp;#39;./signup&amp;#39;));平时大多对这样的app.use(function(req, res, next) { … });使用中间件的较为习惯，所以看到这个比较懵逼 查了一下app.us">
 <meta name="keywords" content="Question">
 <meta property="og:type" content="article">
 <meta property="og:title" content="Question">
 <meta property="og:url" content="http://yoursite.com/2017/06/27/Question/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！Q1：今天看Express代码时遇见一行代码app.use(&amp;#39;/signup&amp;#39;, require(&amp;#39;./signup&amp;#39;));平时大多对这样的app.use(function(req, res, next) { … });使用中间件的较为习惯，所以看到这个比较懵逼 查了一下app.use()源码，解答的还算是比">
-<meta property="og:updated_time" content="2017-06-27T13:06:07.000Z">
+<meta property="og:description" content="此标签[Question]下的博客主要用来记录平时学习中遇到的一些问题以及解答！！！Q1：今天看Express代码时遇见一行代码app.use(&amp;#39;/signup&amp;#39;, require(&amp;#39;./signup&amp;#39;));平时大多对这样的app.use(function(req, res, next) { … });使用中间件的较为习惯，所以看到这个比较懵逼 查了一下app.us">
+<meta property="og:updated_time" content="2017-06-27T15:03:33.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Question">
-<meta name="twitter:description" content="此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！Q1：今天看Express代码时遇见一行代码app.use(&amp;#39;/signup&amp;#39;, require(&amp;#39;./signup&amp;#39;));平时大多对这样的app.use(function(req, res, next) { … });使用中间件的较为习惯，所以看到这个比较懵逼 查了一下app.use()源码，解答的还算是比">
+<meta name="twitter:description" content="此标签[Question]下的博客主要用来记录平时学习中遇到的一些问题以及解答！！！Q1：今天看Express代码时遇见一行代码app.use(&amp;#39;/signup&amp;#39;, require(&amp;#39;./signup&amp;#39;));平时大多对这样的app.use(function(req, res, next) { … });使用中间件的较为习惯，所以看到这个比较懵逼 查了一下app.us">
 
 
 
@@ -350,7 +350,7 @@
       
 
       
-        <h4 id="此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！"><a href="#此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！" class="headerlink" title="此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！"></a>此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！</h4><p><strong>Q1：今天看Express代码时遇见一行代码<code>app.use(&#39;/signup&#39;, require(&#39;./signup&#39;));</code>平时大多对这样的<code>app.use(function(req, res, next) { … });</code>使用中间件的较为习惯，所以看到这个比较懵逼</strong></p>
+        <h4 id="此标签-Question-下的博客主要用来记录平时学习中遇到的一些问题以及解答！！！"><a href="#此标签-Question-下的博客主要用来记录平时学习中遇到的一些问题以及解答！！！" class="headerlink" title="此标签[Question]下的博客主要用来记录平时学习中遇到的一些问题以及解答！！！"></a>此标签[Question]下的博客主要用来记录平时学习中遇到的一些问题以及解答！！！</h4><p><strong>Q1：今天看Express代码时遇见一行代码<code>app.use(&#39;/signup&#39;, require(&#39;./signup&#39;));</code>平时大多对这样的<code>app.use(function(req, res, next) { … });</code>使用中间件的较为习惯，所以看到这个比较懵逼</strong></p>
 <p>查了一下<a href="http://expressjs.com/en/4x/api.html#app.use" target="_blank" rel="external"><code>app.use()</code>源码</a>，解答的还算是比较详细的，来看官网的解释：</p>
 <p><code>app.use([path,] callback [, callback...])</code>，在指定的路径上挂载指定的中间件功能或函数：当所请求的路径的基础与路径匹配时，执行中间件功能。不仅如此，官网对于path和callback的类型还做了详细的罗列，感兴趣的请移步上述官网。</p>
 <p>那也就是说<code>require(&#39;./signup&#39;)</code>返回的应该是一个function类型，回调函数嘛，希望这样理解没有错！</p>
@@ -411,6 +411,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/27/require源码再解读/" rel="prev" title="require源码再解读">
+                require源码再解读 <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -482,7 +486,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -504,7 +508,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tages/index.html">
-                <span class="site-state-item-count">4</span>
+                <span class="site-state-item-count">5</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
@@ -539,7 +543,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！"><span class="nav-number">1.</span> <span class="nav-text">此篇博客主要用来记录平时学习中遇到的一些问题以及解答！！！</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-4"><a class="nav-link" href="#此标签-Question-下的博客主要用来记录平时学习中遇到的一些问题以及解答！！！"><span class="nav-number">1.</span> <span class="nav-text">此标签[Question]下的博客主要用来记录平时学习中遇到的一些问题以及解答！！！</span></a></li></ol></div>
             
 
           </div>
