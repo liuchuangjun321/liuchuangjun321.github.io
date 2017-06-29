@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="koa," />
+  <meta name="keywords" content="node,Express," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="koa2使用cookiekoa提供了从上下文直接读取、写入cookie的方法  ctx.cookies.get(name, [options]) 读取上下文请求中的cookie ctx.cookies.set(name, value, [options]) 在上下文中写入cookie  koa2 中操作的cookies是使用了npm的cookies模块，源码在https://github.com/">
-<meta name="keywords" content="koa">
+<meta name="description" content="locals是Express应用中 Application(app)对象和Response(res)对象中的属性，该属性是一个对象。该对象的主要作用是，将值传递到所渲染的模板中。 1.locals对象locals对象用于将数据传递至所渲染的模板中。 对于如下一个index.ejs模板： 12345678910&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html&amp;gt;  &amp;lt;head&amp;g">
+<meta name="keywords" content="node,Express">
 <meta property="og:type" content="article">
-<meta property="og:title" content="koa2使用cookie &amp; session">
-<meta property="og:url" content="http://yoursite.com/2017/06/25/koa2使用cookie & session/index.html">
+<meta property="og:title" content="模板传值对象app.locals、res.locals">
+<meta property="og:url" content="http://yoursite.com/2017/06/28/模板传值对象app-locals、res-locals/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="koa2使用cookiekoa提供了从上下文直接读取、写入cookie的方法  ctx.cookies.get(name, [options]) 读取上下文请求中的cookie ctx.cookies.set(name, value, [options]) 在上下文中写入cookie  koa2 中操作的cookies是使用了npm的cookies模块，源码在https://github.com/">
-<meta property="og:updated_time" content="2017-06-25T14:54:45.000Z">
+<meta property="og:description" content="locals是Express应用中 Application(app)对象和Response(res)对象中的属性，该属性是一个对象。该对象的主要作用是，将值传递到所渲染的模板中。 1.locals对象locals对象用于将数据传递至所渲染的模板中。 对于如下一个index.ejs模板： 12345678910&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html&amp;gt;  &amp;lt;head&amp;g">
+<meta property="og:updated_time" content="2017-06-28T13:25:07.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="koa2使用cookie &amp; session">
-<meta name="twitter:description" content="koa2使用cookiekoa提供了从上下文直接读取、写入cookie的方法  ctx.cookies.get(name, [options]) 读取上下文请求中的cookie ctx.cookies.set(name, value, [options]) 在上下文中写入cookie  koa2 中操作的cookies是使用了npm的cookies模块，源码在https://github.com/">
+<meta name="twitter:title" content="模板传值对象app.locals、res.locals">
+<meta name="twitter:description" content="locals是Express应用中 Application(app)对象和Response(res)对象中的属性，该属性是一个对象。该对象的主要作用是，将值传递到所渲染的模板中。 1.locals对象locals对象用于将数据传递至所渲染的模板中。 对于如下一个index.ejs模板： 12345678910&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html&amp;gt;  &amp;lt;head&amp;g">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/25/koa2使用cookie & session/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/06/28/模板传值对象app-locals、res-locals/"/>
 
 
 
 
 
-  <title>koa2使用cookie & session | Big Chuang's WebSite</title>
+  <title>模板传值对象app.locals、res.locals | Big Chuang's WebSite</title>
   
 
 
@@ -286,7 +286,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/koa2使用cookie & session/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/28/模板传值对象app-locals、res-locals/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="大闯仔儿">
@@ -303,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">koa2使用cookie & session</h1>
+          <h1 class="post-title" itemprop="name headline">模板传值对象app.locals、res.locals</h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-25T22:24:04+08:00">
-                2017-06-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-28T21:13:34+08:00">
+                2017-06-28
               </time>
             
 
@@ -325,28 +325,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/koa2进阶/" itemprop="url" rel="index">
-                    <span itemprop="name">koa2进阶</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -372,14 +350,23 @@
       
 
       
-        <h2 id="koa2使用cookie"><a href="#koa2使用cookie" class="headerlink" title="koa2使用cookie"></a>koa2使用cookie</h2><p>koa提供了从上下文直接读取、写入cookie的方法</p>
-<ul>
-<li>ctx.cookies.get(name, [options]) 读取上下文请求中的cookie</li>
-<li>ctx.cookies.set(name, value, [options]) 在上下文中写入cookie</li>
-</ul>
-<p>koa2 中操作的cookies是使用了npm的cookies模块，源码在<a href="https://github.com/pillarjs/cookies" target="_blank" rel="external">https://github.com/pillarjs/cookies</a>，所以在读写cookie的使用参数与该模块的使用一致。</p>
-<h4 id="例子代码"><a href="#例子代码" class="headerlink" title="例子代码"></a>例子代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">const Koa = require(&apos;koa&apos;)</div><div class="line">const app = new Koa()</div><div class="line"></div><div class="line">app.use( async ( ctx ) =&gt; &#123;</div><div class="line"></div><div class="line">  if ( ctx.url === &apos;/index&apos; ) &#123;</div><div class="line">    ctx.cookies.set(</div><div class="line">      &apos;cid&apos;, </div><div class="line">      &apos;hello world&apos;,</div><div class="line">      &#123;</div><div class="line">        domain: &apos;localhost&apos;,  // 写cookie所在的域名</div><div class="line">        path: &apos;/index&apos;,       // 写cookie所在的路径</div><div class="line">        maxAge: 10 * 60 * 1000, // cookie有效时长</div><div class="line">        expires: new Date(&apos;2017-02-15&apos;),  // cookie失效时间</div><div class="line">        httpOnly: false,  // 是否只用于http请求中获取</div><div class="line">        overwrite: false  // 是否允许重写</div><div class="line">      &#125;</div><div class="line">    )</div><div class="line">    ctx.body = &apos;cookie is ok&apos;</div><div class="line">  &#125; else &#123;</div><div class="line">    ctx.body = &apos;hello world&apos; </div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;)</div><div class="line"></div><div class="line">app.listen(3000)</div><div class="line">console.log(&apos;[demo] cookie is starting at port 3000&apos;)</div></pre></td></tr></table></figure>
-<h2 id="koa2使用session"><a href="#koa2使用session" class="headerlink" title="koa2使用session"></a>koa2使用session</h2>
+        <p><code>locals</code>是Express应用中 <code>Application</code>(<code>app</code>)对象和<code>Response</code>(<code>res</code>)对象中的属性，该属性是一个对象。该对象的主要作用是，将值传递到所渲染的模板中。</p>
+<h2 id="1-locals对象"><a href="#1-locals对象" class="headerlink" title="1.locals对象"></a>1.locals对象</h2><p><code>locals</code>对象用于将数据传递至所渲染的模板中。</p>
+<p>对于如下一个<code>index.ejs</code>模板：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &lt;title&gt;&lt;%= name %&gt;&lt;/title&gt;</div><div class="line">  &lt;/head&gt;</div><div class="line">  &lt;body&gt;</div><div class="line">    &lt;h1&gt;&lt;a href=&quot;&lt;%= url %&gt;&quot;&gt;&lt;%= name %&gt;&lt;/a&gt;&lt;/h1&gt;</div><div class="line">    &lt;p&gt;&lt;%= introduce %&gt;&lt;/p&gt;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>我们可以像下面这样渲染页面，并向页面传递<code>name</code>、<code>url</code>、<code>introduce</code>三个变量的值：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">router.get(&apos;/&apos;, function(req, res) &#123;  </div><div class="line">  res.render(&apos;index&apos;, &#123;name:&apos;IT笔录&apos;, url:&apos;http://itbilu.com&apos;, introduce:&apos;学习、记录、整理&apos;&#125;);</div><div class="line">  // 也可以使用 res.locals 变量</div><div class="line">  // res.locals = &#123;</div><div class="line">  //   name:&apos;IT笔录&apos;, </div><div class="line">  //   url:&apos;http://itbilu.com&apos;, </div><div class="line">  //   introduce:&apos;学习、记录、整理&apos;</div><div class="line">  // &#125;;</div><div class="line">  // res.render(&apos;index&apos;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>渲染后的页面HTML：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &lt;title&gt;&lt;IT笔录&gt;&lt;/title&gt;</div><div class="line">  &lt;/head&gt;</div><div class="line">  &lt;body&gt;</div><div class="line">    &lt;h1&gt;&lt;a href=&quot;http://itbilu.com&quot;&gt;IT笔录&lt;/a&gt;&lt;/h1&gt;</div><div class="line">    &lt;p&gt;学习、记录、整理&lt;/p&gt;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p><code>locals</code>对象会被传递到页面，在模板中可以直接引用该对象的属性，也可以通过该对象引用。如：<code>&lt;%= name %&gt;</code>属性同样可以通过<code>&lt;%= locals.name %&gt;</code>来引用。</p>
+<p><strong>app.locals与res.locals</strong></p>
+<p><code>locals</code>可能存在于<code>app</code>对象中即：<a href="http://itbilu.com/nodejs/npm/VJ5TlyRnl.html#app-properties-locals" target="_blank" rel="external"><code>app.locals</code></a>；也可能存在于<code>res</code>对象中，即：<a href="http://itbilu.com/nodejs/npm/Vkp32gJpg.html#res-prop-locals" target="_blank" rel="external"><code>res.locals</code></a>。两者都会将该对象传递至所渲染的页面中。不同的是，<code>app.locals</code>会在整个生命周期中起作用；而<code>res.locals</code>只会有当前请求中起作用。由于<code>app.locals</code>在当前应用所有的渲染模中访问，这样我们就可以在该对象中定义一些顶级/全局的数据，并在渲染模板中使用。<a href="https://github.com/nswbmw/N-blog/blob/master/book/4.5%20%E9%A1%B5%E9%9D%A2%E8%AE%BE%E8%AE%A1.md" target="_blank" rel="external">更多请参考这篇文章</a>。</p>
+<h2 id="2-在中间件中使用"><a href="#2-在中间件中使用" class="headerlink" title="2.在中间件中使用"></a>2.在中间件中使用</h2><p>我们常利用Expres的中间件将复杂的问题拆解成多个简单的问题，实现复杂的问题简单化。<code>locals</code>对象中样也可以<a href="http://itbilu.com/nodejs/npm/4k-rFZt3l.html" target="_blank" rel="external">应用中间件</a>或<a href="http://itbilu.com/nodejs/npm/E1ahfYcnl.html" target="_blank" rel="external">路由中间件</a>中引用，该对象和<code>app</code>、<code>req</code>、<code>res</code>一样可以依次传递，添加或修改其属性值后，会在后面的处理中体现出来。</p>
+<p>如，在<code>app</code>中使用<code>locals</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var app = express();</div><div class="line">app.locals.name = &apos;这是一个APP&apos;; // 定义可以应用整个生命周期中使用的变量</div><div class="line">app.use(function(req, res, next) &#123;</div><div class="line">  app.locals.name = &apos;新名称&apos;; // 修改</div><div class="line">  res.locals.url = &apos;http://itbilu.com&apos;</div><div class="line">  next(err);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>在路由中间件中使用<code>locals</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">router.get(&apos;/&apos;, urlAndIntroduce, function(req, res) &#123;  </div><div class="line">  res.render(&apos;index&apos;, &#123;name:&apos;IT笔录&apos;&#125;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">function urlAndIntroduce(req, res, next) &#123;</div><div class="line">  res.locals = &#123; url:&apos;http://itbilu.com&apos;, introduce:&apos;学习、记录、整理&apos;&#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -408,7 +395,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/koa/" rel="tag"># koa</a>
+            <a href="/tags/node/" rel="tag"># node</a>
+          
+            <a href="/tags/Express/" rel="tag"># Express</a>
           
         </div>
       
@@ -421,8 +410,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/25/Get&Post请求数据的获取方式/" rel="next" title="Get&Post请求数据的获取方式">
-                <i class="fa fa-chevron-left"></i> Get&Post请求数据的获取方式
+              <a href="/2017/06/27/require源码再解读/" rel="next" title="require源码再解读">
+                <i class="fa fa-chevron-left"></i> require源码再解读
               </a>
             
           </div>
@@ -430,10 +419,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/06/26/koa中的路径问题（-dirname、-filename、-、-）/" rel="prev" title="koa中的路径问题（__dirname、__filename、./、../）">
-                koa中的路径问题（__dirname、__filename、./、../） <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -562,7 +547,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#koa2使用cookie"><span class="nav-number">1.</span> <span class="nav-text">koa2使用cookie</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#例子代码"><span class="nav-number">1.0.1.</span> <span class="nav-text">例子代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#koa2使用session"><span class="nav-number">2.</span> <span class="nav-text">koa2使用session</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-locals对象"><span class="nav-number">1.</span> <span class="nav-text">1.locals对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-在中间件中使用"><span class="nav-number">2.</span> <span class="nav-text">2.在中间件中使用</span></a></li></ol></div>
             
 
           </div>
