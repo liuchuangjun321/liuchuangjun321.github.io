@@ -286,6 +286,127 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/03/mongolass入门/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大闯仔儿">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2036.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Big Chuang's WebSite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/07/03/mongolass入门/" itemprop="url">mongolass入门</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-03T11:12:15+08:00">
+                2017-07-03
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>在跟着大神nswbmw做<a href="https://github.com/nswbmw/N-blog" target="_blank" rel="external">N-blog</a>博客项目的时候，第一次接触到mongodb，也第一次接触到Mongolass这个模块操作mongodb进行增删改查，为了后续的学习，小小的记录一下学习的进度。</p>
+<h2 id="Mongolass"><a href="#Mongolass" class="headerlink" title="Mongolass"></a>Mongolass</h2><p>Mongolass 保持了与 mongodb 一样的 <a href="http://mongodb.github.io/node-mongodb-native/2.2/api/index.html" target="_blank" rel="external">api</a>，又借鉴了许多 Mongoose 的优点，同时又保持了精简。所以可以直接参考mongodb的API即可，较大程度上简化了学习的内容，对于我这个渣渣来说也算是Mongolass的一大优点吧！</p>
+<p>至于优点大神讲述的很详细了，详情<a href="https://github.com/nswbmw/N-blog/blob/master/book/4.6%20%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93.md#461-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8-mongolass" target="_blank" rel="external">点击连接</a>，一下主要记录一下用法吧。</p>
+<p>最普遍的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&apos;use strict&apos;;</div><div class="line"></div><div class="line">const Mongolass = require(&apos;mongolass&apos;);</div><div class="line">const mongolass = new Mongolass();</div><div class="line">mongolass.connect(&apos;mongodb://localhost:27017/test&apos;);// const mongolass = new Mongolass(&apos;mongodb://localhost:27017/test&apos;);</div><div class="line"></div><div class="line">const User = mongolass.model(&apos;User&apos;);</div><div class="line"></div><div class="line">User</div><div class="line">  .find()</div><div class="line">  .select(&#123; name: 1, age: 1 &#125;)</div><div class="line">  .sort(&#123; name: -1 &#125;)</div><div class="line">  .exec()</div><div class="line">  .then(console.log)</div><div class="line">  .catch(console.error);</div></pre></td></tr></table></figure>
+<p>or use optional schema:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">&apos;use strict&apos;;</div><div class="line"></div><div class="line">const Mongolass = require(&apos;mongolass&apos;);</div><div class="line">const Schema = Mongolass.Schema;</div><div class="line">const mongolass = new Mongolass(&apos;mongodb://localhost:27017/test&apos;);</div><div class="line"></div><div class="line">const UserSchema = new Schema(&apos;UserSchema&apos;, &#123;</div><div class="line">  name: &#123; type: &apos;string&apos; &#125;,</div><div class="line">  age: &#123; type: &apos;number&apos; &#125;</div><div class="line">&#125;);</div><div class="line">const User = mongolass.model(&apos;User&apos;, UserSchema);</div><div class="line"></div><div class="line">/*</div><div class="line">equal to:</div><div class="line">const User = mongolass.model(&apos;User&apos;, &#123;</div><div class="line">  name: &#123; type: &apos;string&apos; &#125;,</div><div class="line">  age: &#123; type: &apos;number&apos; &#125;</div><div class="line">&#125;);</div><div class="line">will create inner schema named `UserSchema`.</div><div class="line"> */</div><div class="line"></div><div class="line">User</div><div class="line">  .insertOne(&#123; name: &apos;nswbmw&apos;, age: &apos;wrong age&apos; &#125;)</div><div class="line">  .exec()</div><div class="line">  .then(console.log)</div><div class="line">  .catch(function (e) &#123;</div><div class="line">    console.error(e);</div><div class="line">    console.error(e.stack);</div><div class="line">  &#125;);</div><div class="line">/*</div><div class="line">&#123; [Error: ($.age: &quot;wrong age&quot;) ✖ (type: number)]</div><div class="line">  validator: &apos;type&apos;,</div><div class="line">  actual: &apos;wrong age&apos;,</div><div class="line">  expected: &#123; type: &apos;number&apos; &#125;,</div><div class="line">  path: &apos;$.age&apos;,</div><div class="line">  schema: &apos;UserSchema&apos;,</div><div class="line">  model: &apos;User&apos;,</div><div class="line">  plugin: &apos;MongolassSchema&apos;,</div><div class="line">  type: &apos;beforeInsertOne&apos;,</div><div class="line">  args: [] &#125;</div><div class="line">Error</div><div class="line">    at Model.insertOne (/Users/nswbmw/Desktop/mongolass-demo/node_modules/mongolass/lib/query.js:107:16)</div><div class="line">    at Object.&lt;anonymous&gt; (/Users/nswbmw/Desktop/mongolass-demo/app.js:23:4)</div><div class="line">    at Module._compile (module.js:409:26)</div><div class="line">    at Object.Module._extensions..js (module.js:416:10)</div><div class="line">    at Module.load (module.js:343:32)</div><div class="line">    at Function.Module._load (module.js:300:12)</div><div class="line">    at Function.Module.runMain (module.js:441:10)</div><div class="line">    at startup (node.js:139:18)</div><div class="line">    at node.js:974:3</div><div class="line"> */</div></pre></td></tr></table></figure>
+<p><strong><em>对于第二个可选模式还没完全理解，看后续能不能找到一些详细的资料吧</em></strong></p>
+<p>ObjectId schema:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&apos;use strict&apos;;</div><div class="line"></div><div class="line">const Mongolass = require(&apos;mongolass&apos;);</div><div class="line">const Schema = Mongolass.Schema;</div><div class="line">const mongolass = new Mongolass(&apos;mongodb://localhost:27017/test&apos;);</div><div class="line"></div><div class="line">const Post = mongolass.model(&apos;Post&apos;, &#123;</div><div class="line">  author: &#123; type: Mongolass.Types.ObjectId &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">Post.insertOne(&#123; author: &apos;111111111111111111111111&apos; &#125;)</div><div class="line">  .then(function () &#123;</div><div class="line">    return Post.find(&#123; author: &apos;111111111111111111111111&apos; &#125;);</div><div class="line">  &#125;)</div><div class="line">  .then(console.log);</div><div class="line">/*</div><div class="line">[ &#123; _id: 57caed24ecda6ffb15962591,</div><div class="line">    author: 111111111111111111111111 &#125; ]</div><div class="line"> */</div></pre></td></tr></table></figure>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/28/模板传值对象app-locals、res-locals/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1603,180 +1724,13 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/24/hello-hexo/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="大闯仔儿">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/IMG_2036.JPG">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Big Chuang's WebSite">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/24/hello-hexo/" itemprop="url">async 函数的含义和用法</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-24T12:13:06+08:00">
-                2017-06-24
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/koa2进阶/" itemprop="url" rel="index">
-                    <span itemprop="name">koa2进阶</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="一：终极解决"><a href="#一：终极解决" class="headerlink" title="一：终极解决"></a>一：终极解决</h2><p>异步操作是 JavaScript 编程的麻烦事，麻烦到一直有人提出各种各样的方案，试图解决这个问题。</p>
-<p>从最早的回调函数，到 Promise 对象，再到 Generator 函数，每次都有所改进，但又让人觉得不彻底。它们都有额外的复杂性，都需要理解抽象的底层运行机制。</p>
-<p>异步I/O不就是读取一个文件吗，干嘛要搞得这么复杂？<strong>异步编程的最高境界，就是根本不用关心它是不是异步。</strong></p>
-<p>async 函数就是隧道尽头的亮光，很多人认为它是异步操作的终极解决方案。</p>
-<h2 id="二：async-函数是什么？"><a href="#二：async-函数是什么？" class="headerlink" title="二：async 函数是什么？"></a>二：async 函数是什么？</h2><p>要解决上述问题，我们直接来看代码。下述代码很简单，一个生成器函数Generator，依次读取两个文件。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">var fs = require(&quot;fs&quot;);</div><div class="line"></div><div class="line">//Promise封装readFile函数，实现异步操作。</div><div class="line">var readFile = function(fileName)&#123;</div><div class="line">  return new Promise (function (resolve,reject)&#123;</div><div class="line">    fs.readFile(fileName,function(error,data)&#123;</div><div class="line">      if(error)reject (error);</div><div class="line">      resolve(data);</div><div class="line">    &#125;);</div><div class="line">  &#125;);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">var gen = function* ()&#123;</div><div class="line">  var f1 = yield readFile(&apos;/etc/file1.txt&apos;);</div><div class="line">  var f2 = yield readFile(&apos;/etc/file2.txt&apos;);</div><div class="line">  console.log(f1.toString());</div><div class="line">  console.log(f2.toString());</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p>写成async函数，就是下面这样。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var asyncReadFile = async function ()&#123;</div><div class="line">  var f1 = await readFile(&apos;/etc/file1.txt&apos;);</div><div class="line">  var f2 = await readFile(&apos;/etc/file2.txt&apos;);</div><div class="line">  console.log(f1.toString());</div><div class="line">  console.log(f2.toString());</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
-<p>一比较就会发现，async 函数就是将 Generator 函数的星号（*）替换成 async，将 yield 替换成 await，仅此而已。</p>
-<h2 id="三：async函数的优点"><a href="#三：async函数的优点" class="headerlink" title="三：async函数的优点"></a>三：async函数的优点</h2><p>async函数对Generator函数的改进，体现在以下三点：</p>
-<ul>
-<li><p>内置执行器。Generator 函数的执行必须靠执行器，所以才有了 <a href="http://www.ruanyifeng.com/blog/2015/05/co.html" target="_blank" rel="external">co函数库</a>，而 async 函数自带执行器。也就是说，async 函数的执行，与普通函数一模一样，只要一行。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var result = asyncReadFile();</div></pre></td></tr></table></figure>
-</li>
-<li><p>更好的语义。async 和 await，比起星号和 yield，语义更清楚了。async 表示函数里有异步操作，await 表示紧跟在后面的表达式需要等待结果。</p>
-</li>
-<li><p><strong>更广的适用性。</strong> co 函数库约定，yield 命令后面只能是 Thunk 函数或 Promise 对象，而 async 函数的 await 命令后面，可以跟 Promise 对象和原始类型的值（数值、字符串和布尔值，但这时等同于同步操作）。</p>
-</li>
-</ul>
-<h2 id="四：async-函数的实现"><a href="#四：async-函数的实现" class="headerlink" title="四：async 函数的实现"></a>四：async 函数的实现</h2><p>通过上述代码，可能大部分同学已经猜到了，async函数的实现就是<strong>将Generator 函数和自动执行器，包装在一个函数里。</strong></p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">async function fn(args)&#123;</div><div class="line">  // ...</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 等同于</div><div class="line"></div><div class="line">function fn(args)&#123; </div><div class="line">  return spawn(function*() &#123;</div><div class="line">    // ...</div><div class="line">  &#125;); </div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>所有的 async 函数都可以写成上面的第二种形式，其中的 spawn 函数就是自动执行器（参考上文co函数库）。</p>
-<p>async 函数是非常新的语法功能，新到都不属于 ES6，而是属于 ES7。目前，它仍处于提案阶段，但是转码器 Babel 和 regenerator 都已经支持，转码后就能使用。</p>
-<h2 id="五：async函数的用法"><a href="#五：async函数的用法" class="headerlink" title="五：async函数的用法"></a>五：async函数的用法</h2><p>同 Generator 函数一样，async 函数返回一个 Promise 对象，可以使用 then 方法添加回调函数。<strong>当函数执行的时候，一旦遇到 await 就会先返回，等到触发的异步操作完成，再接着执行函数体内后面的语句。</strong>而Generator函数则与之不同，需要手动执行。</p>
-<p>下面是一个例子。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">async function getStockPriceByName(name) &#123;</div><div class="line">  var symbol = await getStockSymbol(name);</div><div class="line">  var stockPrice = await getStockPrice(symbol);</div><div class="line">  return stockPrice;</div><div class="line">&#125;</div><div class="line"></div><div class="line">getStockPriceByName(&apos;goog&apos;).then(function (result)&#123;</div><div class="line">  console.log(result);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>上面代码是一个获取股票报价的函数，函数前面的async关键字，表明该函数内部有异步操作。调用该函数时，会立即返回一个Promise对象。</p>
-<p>下面的例子，指定多少毫秒后输出一个值。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function timeout(ms) &#123;</div><div class="line">  return new Promise((resolve) =&gt; &#123;</div><div class="line">    setTimeout(resolve, ms);</div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">async function asyncPrint(value, ms) &#123;</div><div class="line">  await timeout(ms);</div><div class="line">  console.log(value)</div><div class="line">&#125;</div><div class="line"></div><div class="line">asyncPrint(&apos;hello world&apos;, 50);</div></pre></td></tr></table></figure>
-<p>上面代码指定50毫秒以后，输出”hello world”。</p>
-<h2 id="六：注意点"><a href="#六：注意点" class="headerlink" title="六：注意点"></a>六：注意点</h2><p>await 命令后面的 Promise 对象，运行结果可能是 rejected，所以最好把 await 命令放在 try…catch 代码块中。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">async function myFunction() &#123;</div><div class="line">  try &#123;</div><div class="line">    await somethingThatReturnsAPromise();</div><div class="line">  &#125; catch (err) &#123;</div><div class="line">    console.log(err);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 另一种写法</div><div class="line"></div><div class="line">async function myFunction() &#123;</div><div class="line">  await somethingThatReturnsAPromise().catch(function (err)&#123;</div><div class="line">    console.log(err);</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>await 命令只能用在 async 函数之中，如果用在普通函数，就会报错。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">async function dbFuc(db) &#123;</div><div class="line">  let docs = [&#123;&#125;, &#123;&#125;, &#123;&#125;];</div><div class="line"></div><div class="line">  // 报错</div><div class="line">  docs.forEach(function (doc) &#123;</div><div class="line">    await db.post(doc);</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面代码会报错，因为 await 用在普通函数之中了。但是，如果将 forEach 方法的参数改成 async 函数，也有问题。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">async function dbFuc(db) &#123;</div><div class="line">  let docs = [&#123;&#125;, &#123;&#125;, &#123;&#125;];</div><div class="line"></div><div class="line">  // 可能得到错误结果</div><div class="line">  docs.forEach(async function (doc) &#123;</div><div class="line">    await db.post(doc);</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>上面代码可能不会正常工作，原因是这时三个 db.post 操作将是并发执行，也就是同时执行，而不是继发执行。正确的写法是采用 for 循环。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">async function dbFuc(db) &#123;</div><div class="line">  let docs = [&#123;&#125;, &#123;&#125;, &#123;&#125;];</div><div class="line"></div><div class="line">  for (let doc of docs) &#123;</div><div class="line">    await db.post(doc);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
+  <nav class="pagination">
+    <span class="page-number current">1</span><a class="page-number" href="/page/2/">2</a><a class="extend next" rel="next" href="/page/2/"><i class="fa fa-angle-right"></i></a>
+  </nav>
+
 
 
           </div>
@@ -1819,7 +1773,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">10</span>
+                <span class="site-state-item-count">11</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -1841,7 +1795,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tages/index.html">
-                <span class="site-state-item-count">6</span>
+                <span class="site-state-item-count">7</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
