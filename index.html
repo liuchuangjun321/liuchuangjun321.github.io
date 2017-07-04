@@ -286,6 +286,179 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/04/图文揭秘Node-js中exports和module-exports/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大闯仔儿">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2036.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Big Chuang's WebSite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/07/04/图文揭秘Node-js中exports和module-exports/" itemprop="url">图文揭秘Node.js中exports和module.exports</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-04T13:22:12+08:00">
+                2017-07-04
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="js基础"><a href="#js基础" class="headerlink" title="js基础"></a>js基础</h2><p>先来看一段js代码：</p>
+<p><strong>text.js</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">var a = &#123;name: 1&#125;;</div><div class="line">var b = a;</div><div class="line"></div><div class="line">console.log(a);</div><div class="line">console.log(b);</div><div class="line"></div><div class="line">b.name = 2;</div><div class="line">console.log(a);</div><div class="line">console.log(b);</div><div class="line"></div><div class="line">var b = &#123;name: 3&#125;;</div><div class="line">console.log(a);</div><div class="line">console.log(b);</div></pre></td></tr></table></figure>
+<p>运行text.js结果为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123; name: 1 &#125;</div><div class="line">&#123; name: 1 &#125;</div><div class="line">&#123; name: 2 &#125;</div><div class="line">&#123; name: 2 &#125;</div><div class="line">&#123; name: 2 &#125;</div><div class="line">&#123; name: 3 &#125;</div></pre></td></tr></table></figure>
+<p><strong>解释：</strong>a 是一个对象，b 是对 a 的引用，即 a 和 b 指向同一块内存，所以前两个输出一样。当对 b 作修改时，即 a 和 b 指向同一块内存地址的内容发生了改变，所以 a 也会体现出来，所以第三四个输出一样。当 b 被覆盖时，b 指向了一块新的内存，a 还是指向原来的内存，所以最后两个输出不一样。</p>
+<p>明白了上述例子后，我们只需知道三点就知道 exports 和 module.exports 的区别了</p>
+<ul>
+<li>exports和module这两个对象是所有Node.js类型的文件中都默认隐式存在的</li>
+</ul>
+<ul>
+<li>module.exports 初始值为一个空对象 {}</li>
+<li>exports 是指向的 module.exports 的引用</li>
+<li>require() 返回的是 module.exports 而不是 exports</li>
+</ul>
+<h2 id="详解"><a href="#详解" class="headerlink" title="详解"></a>详解</h2><p>新建一个<strong>test.js</strong>文件</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">console.log(exports);</div><div class="line">console.log(module);</div></pre></td></tr></table></figure>
+<p>在终端运行:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">liuchuangdeMacBook-Air:~ liuchuang$ node test.js</div><div class="line">&#123;&#125;</div><div class="line">Module &#123;</div><div class="line">  id: &apos;.&apos;,</div><div class="line">  exports: &#123;&#125;,</div><div class="line">  parent: null,</div><div class="line">  filename: &apos;/Users/liuchuang/test.js&apos;,</div><div class="line">  loaded: false,</div><div class="line">  children: [],</div><div class="line">  paths: </div><div class="line">   [ &apos;/Users/liuchuang/node_modules&apos;,</div><div class="line">     &apos;/Users/node_modules&apos;,</div><div class="line">     &apos;/node_modules&apos; ] &#125;</div></pre></td></tr></table></figure>
+<p>可以看到，test.js文件中并未声明exports和module对象，但是它们确实存在。并且可以看到，exports的初始值是{}，而module的初始值有一大串属性，其中还包含一个exports属性，它的初始值也是{}。<strong>这也验证了exports 是指向的 module.exports 的引用，因此才会exports的初始值也是{}，试想一下，如果给exports对象添加一个属性，那么指向同一块区域的exports和module.exports是不是就都不是空了呢</strong>，下面我们接着来看：</p>
+<p>实际上，一开始exports就是指向module.exports的，引用关系如下图：</p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/exports%E5%92%8Cmodule%E7%9A%84%E5%BC%95%E7%94%A8%E5%9B%BE-1.png" alt="exports和module的引用图-1"></p>
+<p>我们再举个例子，创建如下的my_module.js文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">exports.sayHello = function() &#123;</div><div class="line">    console.log(&apos;Hello world!&apos;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>再在同一个目录下创建app.js文件：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">myModule = require(&apos;./my_module&apos;);</div><div class="line">myModule.sayHello()</div></pre></td></tr></table></figure>
+<p>在终端运行app.js，输出结果:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Hello world!</div></pre></td></tr></table></figure>
+<p>现在我们分析一下为什么会有这样的输出结果：<br>在app.js文件中我们使用require语句从my_module.js模块中得到了module.exports，这里的module.exports的内容是什么呢？</p>
+<p>在my_module.js文件中我们在exports的基础上为它添加了一个属性sayHello，这个属性的值是一个函数，并且因为初始时，exports指向的是module.exports，他俩共享同一块内存，所以这个操作后，module.exports变成了这样：</p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/exports%E8%B5%8B%E5%80%BC%E4%B9%8B%E5%90%8E.png" alt="exports赋值之后"></p>
+<p>所以，app.js文件中的myModule变量的值为：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    sayHello: function() &#123;console.log(&apos;Hello world&apos;);&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>于是，很自然地，我们可以使用myModule.sayHello调用它对应的函数，输出熟悉的Hello world字符串。</p>
+<p>再举个例子，我们将my_module.js文件修改为如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">exports = &#123;</div><div class="line">    sayHello: function() &#123;console.log(&apos;Hello world!&apos;);&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong>注意这个相当于对exports对象进行了覆盖，此时exports不再指向module.exports</strong></p>
+<p>然后将app.js文件修改为如下内容：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">myModule = require(&apos;./my_module&apos;);</div><div class="line"></div><div class="line">console.log(&apos;module.exports:&apos;);</div><div class="line">console.log(module.exports);</div><div class="line"></div><div class="line">myModule.sayHello()</div></pre></td></tr></table></figure>
+<p>然后一样在终端运行：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">liuchuangdeMacBook-Air:a liuchuang$ node app.js</div><div class="line">module.exports:</div><div class="line">&#123;&#125;</div><div class="line">/Users/liuchuang/a/app.js:6</div><div class="line">myModule.sayHello()</div><div class="line">         ^</div><div class="line"></div><div class="line">TypeError: myModule.sayHello is not a function</div><div class="line">    at Object.&lt;anonymous&gt; (/Users/liuchuang/a/app.js:6:10)</div><div class="line">    at Module._compile (module.js:570:32)</div><div class="line">    at Object.Module._extensions..js (module.js:579:10)</div><div class="line">    at Module.load (module.js:487:32)</div><div class="line">    at tryModuleLoad (module.js:446:12)</div><div class="line">    at Function.Module._load (module.js:438:3)</div><div class="line">    at Module.runMain (module.js:604:10)</div><div class="line">    at run (bootstrap_node.js:394:7)</div><div class="line">    at startup (bootstrap_node.js:149:9)</div><div class="line">    at bootstrap_node.js:509:3</div></pre></td></tr></table></figure>
+<p>分析一下报错原因：</p>
+<p>my_module.js文件中将exports重新赋值为一个新的对象，也就是说重新分配了一块内存，而不再指向module.exports了，所以这个时候exports和module.exports彻底断绝关系，这个时候很显然module.exports依旧是一个空对象。此时情况如下图：</p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/exports%E9%87%8D%E6%96%B0%E5%88%86%E9%85%8D%E5%86%85%E5%AD%98%E4%B9%8B%E5%90%8E.png" alt="exports重新分配内存之后"></p>
+<p>从输出中也可以看到，此时的module.exports={}，所以肯定找不到sayHello函数，那必然报错！</p>
+<h2 id="module-exports和exports用法示例："><a href="#module-exports和exports用法示例：" class="headerlink" title="module.exports和exports用法示例："></a>module.exports和exports用法示例：</h2><ul>
+<li><h4 id="exports用法"><a href="#exports用法" class="headerlink" title="exports用法"></a>exports用法</h4></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">//1.js</div><div class="line"></div><div class="line"> function sum(a,b) &#123;</div><div class="line">    let count=a+b;</div><div class="line">    return count;</div><div class="line">&#125;</div><div class="line">exports.a=sum;</div><div class="line"></div><div class="line">//2.js</div><div class="line">let Sum=require(&apos;./1.js&apos;);</div><div class="line"></div><div class="line">function main() &#123;</div><div class="line">    console.log(Sum.a(1,2));</div><div class="line">&#125;</div><div class="line">main();  //输出结果为3</div></pre></td></tr></table></figure>
+<ul>
+<li><h4 id="module-exports用法"><a href="#module-exports用法" class="headerlink" title="module.exports用法"></a>module.exports用法</h4></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">//1.js</div><div class="line">function sum(a, b) &#123;</div><div class="line">    return a+b;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function multiply(a,b) &#123;</div><div class="line">    return a*b;</div><div class="line">&#125;</div><div class="line"></div><div class="line">module.exports = &#123;</div><div class="line">    a: sum,</div><div class="line">    b: multiply</div><div class="line">&#125;;</div><div class="line"></div><div class="line">//2.js</div><div class="line">const Sum=require(&apos;./1.js&apos;);</div><div class="line"></div><div class="line">function main() &#123;</div><div class="line">    console.log(Sum.a(1,2));  //输出3</div><div class="line">    console.log(Sum.b(2,10)); //输出20</div><div class="line">&#125;</div><div class="line">main();</div></pre></td></tr></table></figure>
+<ul>
+<li><h4 id="module-exports的对象、prototype、构造函数使用"><a href="#module-exports的对象、prototype、构造函数使用" class="headerlink" title="module.exports的对象、prototype、构造函数使用"></a>module.exports的对象、prototype、构造函数使用</h4></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">// 4.js</div><div class="line"></div><div class="line">const a = require(&apos;./5.js&apos;);</div><div class="line"> // 若传的是类，new一个对象</div><div class="line">let person = new a(&apos;Kylin&apos;,20); </div><div class="line">console.log(person.speak());</div><div class="line"> // my name is Kylin ,my age is 20</div><div class="line"></div><div class="line">// 若不需要在构造函数时初始化参数，直接调用方法/属性// a.speak(); </div><div class="line">// my name is kylin ,my age is 20</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">// 5.js</div><div class="line">// Person类</div><div class="line">function Person(name,age)&#123;</div><div class="line">            this.name = name;</div><div class="line">            this.age = age;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 为类添加方法</div><div class="line">Person.prototype.speak = function()&#123; </div><div class="line">           console.log(&apos;my name is &apos;+this.name+&apos; ,my age is &apos;+this.age);&#125;;</div><div class="line">// 返回类</div><div class="line">module.exports = Person;</div><div class="line"></div><div class="line">// 若构造函数没有传入参数(name,age)，直接传入对象</div><div class="line">// module.exports = new Person(&apos;kylin&apos;,20);</div></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>如果只是单一属性或方法的话，就使用exports.属性/方法。要是导出多个属性或方法或使用对象构造方法，结合prototype等，就建议使用module.exports = {}</li>
+<li>对 module.exports 的赋值必须立即完成， 不能在任何回调中完成</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/03/promise中的异常/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1525,175 +1698,6 @@
 
 
     
-      
-
-  
-
-  
-  
-  
-
-  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/koa第一次亲密接触（创建koa2工程）/">
-
-    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
-      <meta itemprop="name" content="大闯仔儿">
-      <meta itemprop="description" content="">
-      <meta itemprop="image" content="/images/IMG_2036.JPG">
-    </span>
-
-    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
-      <meta itemprop="name" content="Big Chuang's WebSite">
-    </span>
-
-    
-      <header class="post-header">
-
-        
-        
-          <h1 class="post-title" itemprop="name headline">
-                
-                <a class="post-title-link" href="/2017/06/25/koa第一次亲密接触（创建koa2工程）/" itemprop="url">koa第一次亲密接触（创建koa2工程）</a></h1>
-        
-
-        <div class="post-meta">
-          <span class="post-time">
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-calendar-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">发表于</span>
-              
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-25T13:15:06+08:00">
-                2017-06-25
-              </time>
-            
-
-            
-
-            
-          </span>
-
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/koa2进阶/" itemprop="url" rel="index">
-                    <span itemprop="name">koa2进阶</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
-          
-
-          
-            
-          
-
-          
-          
-
-          
-
-          
-
-          
-
-        </div>
-      </header>
-    
-
-    <div class="post-body" itemprop="articleBody">
-
-      
-      
-
-      
-        
-          
-            <h2 id="1-创建koa2工程"><a href="#1-创建koa2工程" class="headerlink" title="1.创建koa2工程"></a>1.创建koa2工程</h2><p>首先，我们创建一个目录<code>hello-koa</code>并作为工程目录用编辑器打开。然后，我们创建<code>app.js</code>，输入以下代码：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">// 导入koa，和koa 1.x不同，在koa2中，我们导入的是一个class，因此用大写的Koa表示:</div><div class="line">const Koa = require(&apos;koa&apos;);</div><div class="line"></div><div class="line">// 创建一个Koa对象表示web app本身:</div><div class="line">const app = new Koa();</div><div class="line"></div><div class="line">// 对于任何请求，app将调用该异步函数处理请求：</div><div class="line">app.use(async (ctx, next) =&gt; &#123;</div><div class="line">    await next();</div><div class="line">    ctx.response.type = &apos;text/html&apos;;</div><div class="line">    ctx.response.body = &apos;&lt;h1&gt;Hello, koa2!&lt;/h1&gt;&apos;;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// 在端口3000监听:</div><div class="line">app.listen(3000);</div><div class="line">console.log(&apos;app started at port 3000...&apos;);</div></pre></td></tr></table></figure>
-<p>对于每一个http请求，koa将调用我们传入的异步函数来处理：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">async (ctx, next) =&gt; &#123;</div><div class="line">    await next();</div><div class="line">    // 设置response的Content-Type:</div><div class="line">    ctx.response.type = &apos;text/html&apos;;</div><div class="line">    // 设置response的内容:</div><div class="line">    ctx.response.body = &apos;&lt;h1&gt;Hello, koa2!&lt;/h1&gt;&apos;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>参数<code>ctx</code>是由koa传入的封装了request和response的变量，我们可以通过它访问request和response，<code>next</code>是koa传入的将要处理的下一个异步函数。</p>
-<p>上面的异步函数中，我们首先用<code>await next();</code>处理下一个异步函数，然后，设置response的Content-Type和内容。</p>
-<p>由<code>async</code>标记的函数称为异步函数，在异步函数中，可以用<code>await</code>调用另一个异步函数，这两个关键字将在ES7中引入。</p>
-<h2 id="2-koa-middleware与koa的运行机制–洋葱模型"><a href="#2-koa-middleware与koa的运行机制–洋葱模型" class="headerlink" title="2.koa middleware与koa的运行机制–洋葱模型"></a>2.koa middleware与koa的运行机制–洋葱模型</h2><p>让我们再看一看koa的执行逻辑，核心代码是：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">app.use(async (ctx, next) =&gt; &#123;</div><div class="line">    await next();</div><div class="line">    ctx.response.type = &apos;text/html&apos;;</div><div class="line">    ctx.response.body = &apos;&lt;h1&gt;Hello, koa2!&lt;/h1&gt;&apos;;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>每收到一个http请求，koa就会调用通过<code>app.use()</code>注册的async函数，并传入<code>ctx</code>和<code>next</code>参数。</p>
-<p>我们可以对<code>ctx</code>操作，并设置返回内容。但是为什么要调用<code>await next()</code>？</p>
-<p>原因是koa把很多async函数组成一个处理链，每个async函数都可以做一些自己的事情，然后用<code>await next()</code>来调用下一个async函数。我们把每个async函数称为middleware，这些middleware可以组合起来，完成很多有用的功能。</p>
-<p>下面这张图可以很好的说明 koa 的运行机制：</p>
-<p><img src="http://os20uatm3.bkt.clouddn.com/3-1.png" alt="运行机制"></p>
-<p>当一个请求过来的时候，会依次经过各个中间件进行处理，中间件跳转的信号是yield next，当到某个中间件后，该中间件处理完不执行yield next的时候，然后就会逆序执行前面那些中间件剩下的逻辑。直接上个官网的例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">var koa = require(&apos;koa&apos;);</div><div class="line">var app = koa();</div><div class="line"></div><div class="line">// response-time中间件</div><div class="line">app.use(function *(next)&#123;</div><div class="line">  var start = new Date;</div><div class="line">  yield next;</div><div class="line">  var ms = new Date - start;</div><div class="line">  this.set(&apos;X-Response-Time&apos;, ms + &apos;ms&apos;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// logger中间件</div><div class="line">app.use(function *(next)&#123;</div><div class="line">  var start = new Date;</div><div class="line">  yield next;</div><div class="line">  var ms = new Date - start;</div><div class="line">  console.log(&apos;%s %s - %s&apos;, this.method, this.url, ms);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// 响应中间件</div><div class="line">app.use(function *()&#123;</div><div class="line">  this.body = &apos;Hello World&apos;;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.listen(3000);</div></pre></td></tr></table></figure>
-<p>上面的执行顺序就是：请求 ==&gt; response-time中间件 ==&gt; logger中间件 ==&gt; 响应中间件 ==&gt; logger中间件 ==&gt; response-time中间件 ==&gt; 响应。</p>
-<p>更详细描述就是：<strong>请求进来，先进到response-time中间件，执行 var start = new Date; 然后遇到yield next，则暂停response-time中间件的执行，跳转进logger中间件，同理，最后进入响应中间件，响应中间件中没有yield next代码，则开始逆序执行，也就是再先是回到logger中间件，执行yield next之后的代码，执行完后再回到response-time中间件执行yield next之后的代码。</strong></p>
-<h2 id="运行app-js"><a href="#运行app-js" class="headerlink" title="运行app.js"></a>运行app.js</h2><p>理解了koa的中间件的运行机制，我们接着看代码，koa这个包怎么装，<code>app.js</code>才能正常导入它？</p>
-<p>方法一：可以用npm命令直接安装koa。先打开命令提示符，务必把当前目录切换到<code>hello-koa</code>这个目录，然后执行命令：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">...\hello-koa&gt; npm install koa@2.0.0</div></pre></td></tr></table></figure>
-<p>npm会把koa2以及koa2依赖的所有包全部安装到当前目录的node_modules目录下。</p>
-<p>方法二：在<code>hello-koa</code>这个目录下创建一个<code>package.json</code>，这个文件描述了我们的<code>hello-koa</code>工程会用到哪些包。完整的文件内容如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">    &quot;name&quot;: &quot;hello-koa2&quot;,</div><div class="line">    &quot;version&quot;: &quot;1.0.0&quot;,</div><div class="line">    &quot;description&quot;: &quot;Hello Koa 2 example with async&quot;,</div><div class="line">    &quot;main&quot;: &quot;app.js&quot;,</div><div class="line">    &quot;scripts&quot;: &#123;</div><div class="line">        &quot;start&quot;: &quot;node app.js&quot;</div><div class="line">    &#125;,</div><div class="line">    &quot;keywords&quot;: [</div><div class="line">        &quot;koa&quot;,</div><div class="line">        &quot;async&quot;</div><div class="line">    ],</div><div class="line">    &quot;author&quot;: &quot;Michael Liao&quot;,</div><div class="line">    &quot;license&quot;: &quot;Apache-2.0&quot;,</div><div class="line">    &quot;repository&quot;: &#123;</div><div class="line">        &quot;type&quot;: &quot;git&quot;,</div><div class="line">        &quot;url&quot;: &quot;https://github.com/michaelliao/learn-javascript.git&quot;</div><div class="line">    &#125;,</div><div class="line">    &quot;dependencies&quot;: &#123;</div><div class="line">        &quot;koa&quot;: &quot;2.0.0&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>其中，<code>dependencies</code>描述了我们的工程依赖的包以及版本号。其他字段均用来描述项目信息，可任意填写。</p>
-<p>然后，我们在<code>hello-koa</code>目录下执行<code>npm install</code>就可以把所需包以及依赖包一次性全部装好：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">...\hello-koa&gt; npm install</div></pre></td></tr></table></figure>
-<p>很显然，第二个方法更靠谱，因为我们只要在<code>package.json</code>正确设置了依赖，npm就会把所有用到的包都装好。</p>
-<p><em>注意</em>，任何时候都可以直接删除整个<code>node_modules</code>目录，因为用<code>npm install</code>命令可以完整地重新下载所有依赖。并且，这个目录不应该被放入版本控制中。</p>
-<p>现在，我们的工程结构如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">hello-koa/</div><div class="line">|</div><div class="line">+- .vscode/</div><div class="line">|  |</div><div class="line">|  +- launch.json &lt;-- VSCode 配置文件</div><div class="line">|</div><div class="line">+- app.js &lt;-- 使用koa的js</div><div class="line">|</div><div class="line">+- package.json &lt;-- 项目描述文件</div><div class="line">|</div><div class="line">+- node_modules/ &lt;-- npm安装的所有依赖包</div></pre></td></tr></table></figure>
-<p>紧接着，我们在<code>package.json</code>中添加依赖包：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&quot;dependencies&quot;: &#123;</div><div class="line">    &quot;koa&quot;: &quot;2.0.0&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>然后使用<code>npm install</code>命令安装后，在编辑器中执行<code>app.js</code>，调试控制台输出如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">node --debug-brk=40645 --nolazy app.js </div><div class="line">Debugger listening on port 40645</div><div class="line">app started at port 3000...</div></pre></td></tr></table></figure>
-<p>我们打开浏览器，输入<code>http://localhost:3000</code>，即可看到效果：<img src="http://os20uatm3.bkt.clouddn.com/3-2.png" alt="屏幕快照 2017-06-25 下午2.29.40"></p>
-
-          
-        
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <div>
-      
-    </div>
-
-    <footer class="post-footer">
-      
-
-      
-
-      
-
-      
-      
-        <div class="post-eof"></div>
-      
-    </footer>
-  </article>
-
-
-    
   </section>
 
   
@@ -1743,7 +1747,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">12</span>
+                <span class="site-state-item-count">13</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
