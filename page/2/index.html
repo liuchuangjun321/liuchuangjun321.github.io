@@ -286,6 +286,463 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/26/koa中的路径问题（-dirname、-filename、-、-）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大闯仔儿">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2036.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Big Chuang's WebSite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/26/koa中的路径问题（-dirname、-filename、-、-）/" itemprop="url">koa中的路径问题（__dirname、__filename、./、../）</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-26T20:20:02+08:00">
+                2017-06-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <p>最近在看path模块以及require()原理的时候，发现了一篇博客写的不错，解决了许多困扰，特分享一波<a href="http://www.jianshu.com/p/aeb3d4318d07" target="_blank" rel="external">关于Node.js的<strong>dirname，</strong>filename，process.cwd()，./文件路径的一些坑</a></p>
+<p>先来介绍一下博主当时遇到的问题，如下图：</p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/6-1.png" alt="6-1"></p>
+<p>博主在执行<code>node syntax/nodejs/3.fs.js</code>文件时读取不到当前目录下的<code>1.findLaegest.js</code>，其实这个问题在于运行的是<code>node syntax/nodejs/3.fs.js</code>而不是运行的在<code>/Users/jawil/Desktop/nodejs/demo/ES6-lottery/syntax/nodejs</code>目录下运行<code>node 3.fs.js</code>为什么这么说，我们接着往下看</p>
+<p><code>Node.js</code>中的文件路径大概有 <code>__dirname</code>, <code>__filename</code>, <code>process.cwd()</code>, <code>./</code> 或者 <code>../</code>，前三个都是绝对路径，为了便于比较，<code>./</code> 和 <code>../</code> 我们通过 <code>path.resolve(&#39;./&#39;)</code>来转换为绝对路径。</p>
+<p>简单说一下这几个路径的意思：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">__dirname：    获得当前执行文件所在目录的完整目录名</div><div class="line">__filename：   获得当前执行文件的带有完整绝对路径的文件名</div><div class="line">process.cwd()：获得当前执行node命令时候的文件夹目录名 </div><div class="line">./：           文件所在目录</div></pre></td></tr></table></figure>
+<p>例如以下目录结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">syntax/</div><div class="line">    -nodejs/</div><div class="line">        -1.findLargest.js</div><div class="line">        -2.path.js</div><div class="line">        -3.fs.js</div><div class="line">    -regs</div><div class="line">        -regx.js</div><div class="line">        -test.txt</div></pre></td></tr></table></figure>
+<p>在 path.js 里面我们写这些代码，看看输出是什么：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const path = require(&apos;path&apos;)</div><div class="line">console.log(&apos;__dirname：&apos;, __dirname)</div><div class="line">console.log(&apos;__filename：&apos;, __filename)</div><div class="line">console.log(&apos;process.cwd()：&apos;, process.cwd())</div><div class="line">console.log(&apos;./：&apos;, path.resolve(&apos;./&apos;))</div></pre></td></tr></table></figure>
+<p>在当前目录下也就是<code>nodejs</code>目录运行 <code>node path.js</code>，我们看看输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">__dirname：     /Users/jawil/Desktop/nodejs/demo/ES6-lottery/syntax/nodejs</div><div class="line">__filename：    /Users/jawil/Desktop/nodejs/demo/ES6-lottery/syntax/nodejs/2.path.js</div><div class="line">process.cwd()： /Users/jawil/Desktop/nodejs/demo/ES6-lottery/syntax/nodejs</div><div class="line">./：            /Users/jawil/Desktop/nodejs/demo/ES6-lottery/syntax/nodejs</div></pre></td></tr></table></figure>
+<p>然后在 <code>项目根目录ES6-lottery</code> 目录下运行 <code>node syntax/nodejs/2.path.js</code>，我们再来看看输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">__dirname：     /Users/jawil/Desktop/nodejs/demo/ES6-lottery/syntax/nodejs</div><div class="line">__filename：    /Users/jawil/Desktop/nodejs/demo/ES6-lottery/syntax/nodejs/2.path.js</div><div class="line">process.cwd()： /Users/jawil/Desktop/nodejs/demo/ES6-lottery</div><div class="line">./：            /Users/jawil/Desktop/nodejs/demo/ES6-lottery</div></pre></td></tr></table></figure>
+<p>通过两次的对比，我们很容易发现两次执行node命令，对于<code>__dirname</code>和<code>__filename</code>是不变的，而对于<code>proces.cwd()</code>和<code>./</code>会随着当前执行node命令时候的文件夹目录名改变而改变。</p>
+<p>这样我们再来回顾一下这个问题，博主在执行<code>node syntax/nodejs/3.fs.js</code>文件时，<code>fs.readFile(&quot;./1.findLargest.js&quot;,(err,data) =&gt;{})</code>命令中的<code>./</code>这个路径已经变成了<code>syntax/nodejs/3.fs.js</code>的父模块<code>/Users/jawil/Desktop/nodejs/demo/ES6-lottery</code>在此路径下读取<code>1.findLargest.js</code>文件也当然是并不可能的，所以才会报错。</p>
+<h2 id="require-的原理"><a href="#require-的原理" class="headerlink" title="require()的原理"></a>require()的原理</h2><p>至此，博主并没有就此打住，在<code>1.findLargest.js</code>先加这句代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">exports.A = 1;</div></pre></td></tr></table></figure>
+<p>再来在刚才报错的<code>3.fs.js</code>里面加这两句代码看看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">onst test = require(&apos;./1.findLargest.js&apos;);</div><div class="line"></div><div class="line">console.log(test)</div></pre></td></tr></table></figure>
+<p>运行<code>node syntax/nodejs/3.fs.js</code>，最后看看结果：</p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/6-2.png" alt="6-2"></p>
+<p>看到这里，我也瞬间懵逼，为什么都是读取<code>./1.findLargest.js</code>文件，一样的路径，为什么<code>require</code>能获取到，而<code>readFile</code>读取不到呢？</p>
+<p>翻看了一下阮一峰老师关于<a href="http://www.ruanyifeng.com/blog/2015/05/require.html" target="_blank" rel="external">require()源码解读</a>大致搞明白，这是因为<code>require()</code>的功劳</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">当 Node 遇到 require(X) 时，按下面的顺序处理。</div><div class="line">（1）如果 X 是内置模块（比如 require(&apos;http&apos;）) </div><div class="line">　　a. 返回该模块。 </div><div class="line">　　b. 不再继续执行。</div><div class="line">（2）如果 X 以 &quot;./&quot; 或者 &quot;/&quot; 或者 &quot;../&quot; 开头 </div><div class="line">　　a. 根据 X 所在的父模块，确定 X 的绝对路径。 </div><div class="line">　　b. 将 X 当成文件，依次查找下面文件，只要其中有一个存在，就返回该文件，不再继续执行。</div><div class="line">X</div><div class="line">X.js</div><div class="line">X.json</div><div class="line">X.node</div><div class="line">　　c. 将 X 当成目录，依次查找下面文件，只要其中有一个存在，就返回该文件，不再继续执行。</div><div class="line">X/package.json（main字段）</div><div class="line">X/index.js</div><div class="line">X/index.json</div><div class="line">X/index.node</div><div class="line">（3）如果 X 不带路径 </div><div class="line">　　a. 根据 X 所在的父模块，确定 X 可能的安装目录。 </div><div class="line">　　b. 依次在每个目录中，将 X 当成文件名或目录名加载。</div><div class="line">（4） 抛出 &quot;not found&quot;</div></pre></td></tr></table></figure>
+<p>我们从第（2）小条的a部分可以看出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">（2）如果 X 以 &quot;./&quot; 或者 &quot;/&quot; 或者 &quot;../&quot; 开头 </div><div class="line">　　a. 根据 X 所在的父模块，确定 X 的绝对路径。</div><div class="line">　　b. 将 X 当成文件，依次查找下面文件，只要其中有一个存在，就返回该文件，不再继续执行。</div></pre></td></tr></table></figure>
+<p><code>const test = require(&#39;./1.findLargest.js&#39;)</code>按照上面规则翻译一遍就是:</p>
+<ol>
+<li>根据<code>1.findLargest.js</code>所在的父模块，确定<code>1.findLargest.js</code>的绝对路径为<code>/Users/jawil/Desktop/nodejs/demo/ES6-lottery/syntax/nodejs</code>，关于其中的寻找细节这里不做探讨。</li>
+<li>先把<code>1.findLargest.js</code>当成文件，依次查找当前目录下的<code>1.findLargest.js</code>，找到了，就返回该文件，不再继续执行。</li>
+</ol>
+<h3 id="也就是说无论执行node命令时候目录文件是怎样的，require-quot-X-quot-都会根据X所在的父模块，确定X的绝对路径，而不会根据当前执行node命令时候的文件夹目录名-来确定X的绝对路径"><a href="#也就是说无论执行node命令时候目录文件是怎样的，require-quot-X-quot-都会根据X所在的父模块，确定X的绝对路径，而不会根据当前执行node命令时候的文件夹目录名-来确定X的绝对路径" class="headerlink" title="也就是说无论执行node命令时候目录文件是怎样的，require(&quot;./X&quot;)都会根据X所在的父模块，确定X的绝对路径，而不会根据当前执行node命令时候的文件夹目录名 来确定X的绝对路径"></a><strong>也就是说无论执行node命令时候目录文件是怎样的，<code>require(&quot;./X&quot;)</code>都会根据X所在的父模块，确定X的绝对路径，而不会根据</strong>当前执行node命令时候的文件夹目录名 来确定X的绝对路径</h3><p>最后博主修改了一下代码，让执行<code>node syntax/nodejs/3.fs.js</code>顺利执行</p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/6-3.png" alt="6-3"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>__dirname： 获得当前执行文件所在目录的完整目录名</li>
+<li>__filename： 获得当前执行文件的带有完整绝对路径的文件名</li>
+<li>process.cwd()：获得当前执行node命令时候的文件夹目录名</li>
+<li>./：不使用require时候，./与process.cwd()一样，路径和node的执行命令有关联的</li>
+<li>./：使用require时候，与__dirname一样，路径和node的执行命令没有任何关系，只和<code>require()</code>的执行原理有关系。</li>
+</ul>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/koa2使用cookie & session/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大闯仔儿">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2036.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Big Chuang's WebSite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/25/koa2使用cookie & session/" itemprop="url">koa2使用cookie & session</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-25T22:24:04+08:00">
+                2017-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/koa2进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">koa2进阶</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="koa2使用cookie"><a href="#koa2使用cookie" class="headerlink" title="koa2使用cookie"></a>koa2使用cookie</h2><p>koa提供了从上下文直接读取、写入cookie的方法</p>
+<ul>
+<li>ctx.cookies.get(name, [options]) 读取上下文请求中的cookie</li>
+<li>ctx.cookies.set(name, value, [options]) 在上下文中写入cookie</li>
+</ul>
+<p>koa2 中操作的cookies是使用了npm的cookies模块，源码在<a href="https://github.com/pillarjs/cookies" target="_blank" rel="external">https://github.com/pillarjs/cookies</a>，所以在读写cookie的使用参数与该模块的使用一致。</p>
+<h4 id="例子代码"><a href="#例子代码" class="headerlink" title="例子代码"></a>例子代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">const Koa = require(&apos;koa&apos;)</div><div class="line">const app = new Koa()</div><div class="line"></div><div class="line">app.use( async ( ctx ) =&gt; &#123;</div><div class="line"></div><div class="line">  if ( ctx.url === &apos;/index&apos; ) &#123;</div><div class="line">    ctx.cookies.set(</div><div class="line">      &apos;cid&apos;, </div><div class="line">      &apos;hello world&apos;,</div><div class="line">      &#123;</div><div class="line">        domain: &apos;localhost&apos;,  // 写cookie所在的域名</div><div class="line">        path: &apos;/index&apos;,       // 写cookie所在的路径</div><div class="line">        maxAge: 10 * 60 * 1000, // cookie有效时长</div><div class="line">        expires: new Date(&apos;2017-02-15&apos;),  // cookie失效时间</div><div class="line">        httpOnly: false,  // 是否只用于http请求中获取</div><div class="line">        overwrite: false  // 是否允许重写</div><div class="line">      &#125;</div><div class="line">    )</div><div class="line">    ctx.body = &apos;cookie is ok&apos;</div><div class="line">  &#125; else &#123;</div><div class="line">    ctx.body = &apos;hello world&apos; </div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;)</div><div class="line"></div><div class="line">app.listen(3000)</div><div class="line">console.log(&apos;[demo] cookie is starting at port 3000&apos;)</div></pre></td></tr></table></figure>
+<h2 id="koa2使用session"><a href="#koa2使用session" class="headerlink" title="koa2使用session"></a>koa2使用session</h2>
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/Get&Post请求数据的获取方式/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大闯仔儿">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2036.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Big Chuang's WebSite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">
+                
+                <a class="post-title-link" href="/2017/06/25/Get&Post请求数据的获取方式/" itemprop="url">Get&Post请求数据的获取方式</a></h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-25T20:22:15+08:00">
+                2017-06-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/koa2进阶/" itemprop="url" rel="index">
+                    <span itemprop="name">koa2进阶</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        
+          
+            <h2 id="1-GET请求数据获取"><a href="#1-GET请求数据获取" class="headerlink" title="1.GET请求数据获取"></a>1.GET请求数据获取</h2><p>在koa中，获取GET请求数据源头是koa中request对象中的query方法或querystring方法，query返回是格式化好的参数对象，querystring返回的是请求字符串，由于ctx对request的API有直接引用的方式，所以获取GET请求数据有两个途径。</p>
+<ul>
+<li>1.是从上下文中直接获取<ul>
+<li>请求对象ctx.query，返回如 { a:1, b:2 }</li>
+<li>请求字符串 ctx.querystring，返回如 a=1&amp;b=2</li>
+</ul>
+</li>
+<li>2.是从上下文的request对象中获取<ul>
+<li>请求对象ctx.request.query，返回如 { a:1, b:2 }</li>
+<li>请求字符串 ctx.request.querystring，返回如 a=1&amp;b=2</li>
+</ul>
+</li>
+</ul>
+<p>举个例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">const Koa = require(&apos;koa&apos;)</div><div class="line">const app = new Koa()</div><div class="line"></div><div class="line">const Koa = require(&apos;koa&apos;)</div><div class="line">const app = new Koa()</div><div class="line"></div><div class="line">app.use( async ( ctx ) =&gt; &#123;</div><div class="line">  let url = ctx.url</div><div class="line">  // 从上下文的request对象中获取</div><div class="line">  let request = ctx.request</div><div class="line">  let req_query = request.query</div><div class="line">  let req_querystring = request.querystring</div><div class="line"></div><div class="line">  // 从上下文中直接获取</div><div class="line">  let ctx_query = ctx.query</div><div class="line">  let ctx_querystring = ctx.querystring</div><div class="line">  </div><div class="line">  ctx.body = &#123;</div><div class="line">    url,</div><div class="line">    req_query,</div><div class="line">    req_querystring,</div><div class="line">    ctx_query,</div><div class="line">    ctx_querystring</div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line">app.listen(3000)</div><div class="line">console.log(&apos;[demo] request get is starting at port 3000&apos;)</div></pre></td></tr></table></figure>
+<h4 id="执行程序"><a href="#执行程序" class="headerlink" title="执行程序"></a>执行程序</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">node get.js</div></pre></td></tr></table></figure>
+<p>执行后程序后，用chrome访问 <a href="http://localhost:3000/page/user?a=1&amp;b=2" target="_blank" rel="external">http://localhost:3000/page/user?a=1&amp;b=2</a> 会出现以下情况:</p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/5-1.png" alt="request-get"></p>
+<h2 id="2-POST请求数据获取"><a href="#2-POST请求数据获取" class="headerlink" title="2.POST请求数据获取"></a>2.POST请求数据获取</h2><h4 id="原理"><a href="#原理" class="headerlink" title="原理"></a>原理</h4><p>对于POST请求的处理，koa2没有封装获取参数的方法，需要通过解析上下文context中的原生node.js请求对象req，将POST表单数据解析成query string（例如：<code>a=1&amp;b=2&amp;c=3</code>），再将query string 解析成JSON格式（例如：<code>{&quot;a&quot;:&quot;1&quot;, &quot;b&quot;:&quot;2&quot;, &quot;c&quot;:&quot;3&quot;}</code>）</p>
+<blockquote>
+<p>注意：ctx.request是context经过封装的请求对象，ctx.req是context提供的node.js原生HTTP请求对象，同理ctx.response是context经过封装的响应对象，ctx.res是context提供的node.js原生HTTP请求对象。</p>
+<p>具体koa2 API文档可见 <a href="https://github.com/koajs/koa/blob/master/docs/api/context.md#ctxreq" target="_blank" rel="external">https://github.com/koajs/koa/blob/master/docs/api/context.md#ctxreq</a></p>
+</blockquote>
+<h4 id="解析出POST请求上下文中的表单数据"><a href="#解析出POST请求上下文中的表单数据" class="headerlink" title="解析出POST请求上下文中的表单数据"></a>解析出POST请求上下文中的表单数据</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div></pre></td><td class="code"><pre><div class="line">// 解析上下文里node原生请求的POST参数</div><div class="line">function parsePostData( ctx ) &#123;</div><div class="line">  return new Promise((resolve, reject) =&gt; &#123;</div><div class="line">    try &#123;</div><div class="line">      let postdata = &quot;&quot;;</div><div class="line">      ctx.req.addListener(&apos;data&apos;, (data) =&gt; &#123;</div><div class="line">        postdata += data</div><div class="line">      &#125;)</div><div class="line">      ctx.req.addListener(&quot;end&quot;,function()&#123;</div><div class="line">        let parseData = parseQueryStr( postdata )</div><div class="line">        resolve( parseData )</div><div class="line">      &#125;)</div><div class="line">    &#125; catch ( err ) &#123;</div><div class="line">      reject(err)</div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 将POST请求参数字符串解析成JSON</div><div class="line">function parseQueryStr( queryStr ) &#123;</div><div class="line">  let queryData = &#123;&#125;</div><div class="line">  let queryStrList = queryStr.split(&apos;&amp;&apos;)</div><div class="line">  console.log( queryStrList )</div><div class="line">  for (  let [ index, queryStr ] of queryStrList.entries()  ) &#123;</div><div class="line">    let itemList = queryStr.split(&apos;=&apos;)</div><div class="line">    queryData[ itemList[0] ] = decodeURIComponent(itemList[1])</div><div class="line">  &#125;</div><div class="line">  return queryData</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div></pre></td><td class="code"><pre><div class="line">const Koa = require(&apos;koa&apos;)</div><div class="line">const app = new Koa()</div><div class="line"></div><div class="line">app.use( async ( ctx ) =&gt; &#123;</div><div class="line"></div><div class="line">  if ( ctx.url === &apos;/&apos; &amp;&amp; ctx.method === &apos;GET&apos; ) &#123;</div><div class="line">    // 当GET请求时候返回表单页面</div><div class="line">    let html = `</div><div class="line">      &lt;h1&gt;koa2 request post demo&lt;/h1&gt;</div><div class="line">      &lt;form method=&quot;POST&quot; action=&quot;/&quot;&gt;</div><div class="line">        &lt;p&gt;userName&lt;/p&gt;</div><div class="line">        &lt;input name=&quot;userName&quot; /&gt;&lt;br/&gt;</div><div class="line">        &lt;p&gt;nickName&lt;/p&gt;</div><div class="line">        &lt;input name=&quot;nickName&quot; /&gt;&lt;br/&gt;</div><div class="line">        &lt;p&gt;email&lt;/p&gt;</div><div class="line">        &lt;input name=&quot;email&quot; /&gt;&lt;br/&gt;</div><div class="line">        &lt;button type=&quot;submit&quot;&gt;submit&lt;/button&gt;</div><div class="line">      &lt;/form&gt;</div><div class="line">    `</div><div class="line">    ctx.body = html</div><div class="line">  &#125; else if ( ctx.url === &apos;/&apos; &amp;&amp; ctx.method === &apos;POST&apos; ) &#123;</div><div class="line">    // 当POST请求的时候，解析POST表单里的数据，并显示出来</div><div class="line">    let postData = await parsePostData( ctx )</div><div class="line">    ctx.body = postData</div><div class="line">  &#125; else &#123;</div><div class="line">    // 其他请求显示404</div><div class="line">    ctx.body = &apos;&lt;h1&gt;404！！！ o(╯□╰)o&lt;/h1&gt;&apos;</div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line">// 解析上下文里node原生请求的POST参数</div><div class="line">function parsePostData( ctx ) &#123;</div><div class="line">  return new Promise((resolve, reject) =&gt; &#123;</div><div class="line">    try &#123;</div><div class="line">      let postdata = &quot;&quot;;</div><div class="line">      ctx.req.addListener(&apos;data&apos;, (data) =&gt; &#123;</div><div class="line">        postdata += data</div><div class="line">      &#125;)</div><div class="line">      ctx.req.addListener(&quot;end&quot;,function()&#123;</div><div class="line">        let parseData = parseQueryStr( postdata )</div><div class="line">        resolve( parseData )</div><div class="line">      &#125;)</div><div class="line">    &#125; catch ( err ) &#123;</div><div class="line">      reject(err)</div><div class="line">    &#125;</div><div class="line">  &#125;)</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 将POST请求参数字符串解析成JSON</div><div class="line">function parseQueryStr( queryStr ) &#123;</div><div class="line">  let queryData = &#123;&#125;</div><div class="line">  let queryStrList = queryStr.split(&apos;&amp;&apos;)</div><div class="line">  console.log( queryStrList )</div><div class="line">  for (  let [ index, queryStr ] of queryStrList.entries()  ) &#123;</div><div class="line">    let itemList = queryStr.split(&apos;=&apos;)</div><div class="line">    queryData[ itemList[0] ] = decodeURIComponent(itemList[1])</div><div class="line">  &#125;</div><div class="line">  return queryData</div><div class="line">&#125;</div><div class="line"></div><div class="line">app.listen(3000)</div><div class="line">console.log(&apos;[demo] request post is starting at port 3000&apos;)</div></pre></td></tr></table></figure>
+<p>和路由一样，通过原生的node.JS实现的这种获取POST请求数据的方式需要写大量的代码，好在我们还有其他解决办法。</p>
+<h2 id="3-koa-bodyparser中间件"><a href="#3-koa-bodyparser中间件" class="headerlink" title="3.koa-bodyparser中间件"></a>3.koa-bodyparser中间件</h2><p>对于POST请求的处理，koa-bodyparser中间件可以把koa2上下文的formData数据解析到ctx.request.body中。</p>
+<h4 id="举个例子-1"><a href="#举个例子-1" class="headerlink" title="举个例子"></a>举个例子</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div></pre></td><td class="code"><pre><div class="line">const Koa = require(&apos;koa&apos;)</div><div class="line">const app = new Koa()</div><div class="line">const bodyParser = require(&apos;koa-bodyparser&apos;)</div><div class="line"></div><div class="line">// 使用ctx.body解析中间件</div><div class="line">const Koa = require(&apos;koa&apos;)</div><div class="line">const app = new Koa()</div><div class="line">const bodyParser = require(&apos;koa-bodyparser&apos;)</div><div class="line"></div><div class="line">// 使用ctx.body解析中间件</div><div class="line">app.use(bodyParser())</div><div class="line"></div><div class="line">app.use( async ( ctx ) =&gt; &#123;</div><div class="line"></div><div class="line">  if ( ctx.url === &apos;/&apos; &amp;&amp; ctx.method === &apos;GET&apos; ) &#123;</div><div class="line">    // 当GET请求时候返回表单页面</div><div class="line">    let html = `</div><div class="line">      &lt;h1&gt;koa2 request post demo&lt;/h1&gt;</div><div class="line">      &lt;form method=&quot;POST&quot; action=&quot;/&quot;&gt;</div><div class="line">        &lt;p&gt;userName&lt;/p&gt;</div><div class="line">        &lt;input name=&quot;userName&quot; /&gt;&lt;br/&gt;</div><div class="line">        &lt;p&gt;nickName&lt;/p&gt;</div><div class="line">        &lt;input name=&quot;nickName&quot; /&gt;&lt;br/&gt;</div><div class="line">        &lt;p&gt;email&lt;/p&gt;</div><div class="line">        &lt;input name=&quot;email&quot; /&gt;&lt;br/&gt;</div><div class="line">        &lt;button type=&quot;submit&quot;&gt;submit&lt;/button&gt;</div><div class="line">      &lt;/form&gt;</div><div class="line">    `</div><div class="line">    ctx.body = html</div><div class="line">  &#125; else if ( ctx.url === &apos;/&apos; &amp;&amp; ctx.method === &apos;POST&apos; ) &#123;</div><div class="line">    // 当POST请求的时候，中间件koa-bodyparser解析POST表单里的数据，并显示出来</div><div class="line">    let postData = ctx.request.body</div><div class="line">    ctx.body = postData</div><div class="line">  &#125; else &#123;</div><div class="line">    // 其他请求显示404</div><div class="line">    ctx.body = &apos;&lt;h1&gt;404！！！ o(╯□╰)o&lt;/h1&gt;&apos;</div><div class="line">  &#125;</div><div class="line">&#125;)</div><div class="line"></div><div class="line">app.listen(3000)</div><div class="line">console.log(&apos;[demo] request post is starting at port 3000&apos;)</div></pre></td></tr></table></figure>
+<h4 id="执行程序-1"><a href="#执行程序-1" class="headerlink" title="执行程序"></a>执行程序</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">node post-middleware.js</div></pre></td></tr></table></figure>
+<p><img src="http://os20uatm3.bkt.clouddn.com/5-2.png" alt="5-2"></p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/5-3.png" alt="5-3"></p>
+
+          
+        
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <div>
+      
+    </div>
+
+    <footer class="post-footer">
+      
+
+      
+
+      
+
+      
+      
+        <div class="post-eof"></div>
+      
+    </footer>
+  </article>
+
+
+    
+      
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
     <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/koa处理url/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
@@ -1000,7 +1457,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">14</span>
+                <span class="site-state-item-count">17</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

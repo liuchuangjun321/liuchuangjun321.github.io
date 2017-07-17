@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="MongoDB," />
+  <meta name="keywords" content="node,Question," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="在跟着大神nswbmw做N-blog博客项目的时候，第一次接触到mongodb，也第一次接触到Mongolass这个模块操作mongodb进行增删改查，为了后续的学习，小小的记录一下学习的进度。 MongolassMongolass 保持了与 mongodb 一样的 api，又借鉴了许多 Mongoose 的优点，同时又保持了精简。所以可以直接参考mongodb的API即可，较大程度上简化了学习的">
-<meta name="keywords" content="MongoDB">
+<meta name="description" content="浏览器的同源策略同源策略限制从一个源加载的文档或脚本如何与来自另一个源的资源进行交互。这是一个用于隔离潜在恶意文件的关键的安全机制。 一个源的定义如果协议，端口（如果指定了一个）和域名对于两个页面是相同的，则两个页面具有相同的源。 下表给出了相对http://store.company.com/dir/page.html同源检测的示例:    URL 结果 原因     http://store.">
+<meta name="keywords" content="node,Question">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mongolass入门">
-<meta property="og:url" content="http://yoursite.com/2017/07/03/mongolass入门/index.html">
+<meta property="og:title" content="浏览器的同源策略以及跨域问题">
+<meta property="og:url" content="http://yoursite.com/2017/07/15/浏览器的同源策略以及跨域问题/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="在跟着大神nswbmw做N-blog博客项目的时候，第一次接触到mongodb，也第一次接触到Mongolass这个模块操作mongodb进行增删改查，为了后续的学习，小小的记录一下学习的进度。 MongolassMongolass 保持了与 mongodb 一样的 api，又借鉴了许多 Mongoose 的优点，同时又保持了精简。所以可以直接参考mongodb的API即可，较大程度上简化了学习的">
-<meta property="og:updated_time" content="2017-07-03T03:33:30.000Z">
+<meta property="og:description" content="浏览器的同源策略同源策略限制从一个源加载的文档或脚本如何与来自另一个源的资源进行交互。这是一个用于隔离潜在恶意文件的关键的安全机制。 一个源的定义如果协议，端口（如果指定了一个）和域名对于两个页面是相同的，则两个页面具有相同的源。 下表给出了相对http://store.company.com/dir/page.html同源检测的示例:    URL 结果 原因     http://store.">
+<meta property="og:updated_time" content="2017-07-15T02:47:35.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mongolass入门">
-<meta name="twitter:description" content="在跟着大神nswbmw做N-blog博客项目的时候，第一次接触到mongodb，也第一次接触到Mongolass这个模块操作mongodb进行增删改查，为了后续的学习，小小的记录一下学习的进度。 MongolassMongolass 保持了与 mongodb 一样的 api，又借鉴了许多 Mongoose 的优点，同时又保持了精简。所以可以直接参考mongodb的API即可，较大程度上简化了学习的">
+<meta name="twitter:title" content="浏览器的同源策略以及跨域问题">
+<meta name="twitter:description" content="浏览器的同源策略同源策略限制从一个源加载的文档或脚本如何与来自另一个源的资源进行交互。这是一个用于隔离潜在恶意文件的关键的安全机制。 一个源的定义如果协议，端口（如果指定了一个）和域名对于两个页面是相同的，则两个页面具有相同的源。 下表给出了相对http://store.company.com/dir/page.html同源检测的示例:    URL 结果 原因     http://store.">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/07/03/mongolass入门/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/15/浏览器的同源策略以及跨域问题/"/>
 
 
 
 
 
-  <title>mongolass入门 | Big Chuang's WebSite</title>
+  <title>浏览器的同源策略以及跨域问题 | Big Chuang's WebSite</title>
   
 
 
@@ -286,7 +286,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/03/mongolass入门/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/15/浏览器的同源策略以及跨域问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="大闯仔儿">
@@ -303,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">mongolass入门</h1>
+          <h1 class="post-title" itemprop="name headline">浏览器的同源策略以及跨域问题</h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-03T11:12:15+08:00">
-                2017-07-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-15T10:16:20+08:00">
+                2017-07-15
               </time>
             
 
@@ -350,16 +350,53 @@
       
 
       
-        <p>在跟着大神nswbmw做<a href="https://github.com/nswbmw/N-blog" target="_blank" rel="external">N-blog</a>博客项目的时候，第一次接触到mongodb，也第一次接触到Mongolass这个模块操作mongodb进行增删改查，为了后续的学习，小小的记录一下学习的进度。</p>
-<h2 id="Mongolass"><a href="#Mongolass" class="headerlink" title="Mongolass"></a>Mongolass</h2><p>Mongolass 保持了与 mongodb 一样的 <a href="http://mongodb.github.io/node-mongodb-native/2.2/api/index.html" target="_blank" rel="external">api</a>，又借鉴了许多 Mongoose 的优点，同时又保持了精简。所以可以直接参考mongodb的API即可，较大程度上简化了学习的内容，对于我这个渣渣来说也算是Mongolass的一大优点吧！</p>
-<p>至于优点大神讲述的很详细了，详情<a href="https://github.com/nswbmw/N-blog/blob/master/book/4.6%20%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93.md#461-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8-mongolass" target="_blank" rel="external">点击连接</a>，一下主要记录一下用法吧。</p>
-<p>最普遍的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&apos;use strict&apos;;</div><div class="line"></div><div class="line">const Mongolass = require(&apos;mongolass&apos;);</div><div class="line">const mongolass = new Mongolass();</div><div class="line">mongolass.connect(&apos;mongodb://localhost:27017/test&apos;);// const mongolass = new Mongolass(&apos;mongodb://localhost:27017/test&apos;);</div><div class="line"></div><div class="line">const User = mongolass.model(&apos;User&apos;);</div><div class="line"></div><div class="line">User</div><div class="line">  .find()</div><div class="line">  .select(&#123; name: 1, age: 1 &#125;)</div><div class="line">  .sort(&#123; name: -1 &#125;)</div><div class="line">  .exec()</div><div class="line">  .then(console.log)</div><div class="line">  .catch(console.error);</div></pre></td></tr></table></figure>
-<p>or use optional schema:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">&apos;use strict&apos;;</div><div class="line"></div><div class="line">const Mongolass = require(&apos;mongolass&apos;);</div><div class="line">const Schema = Mongolass.Schema;</div><div class="line">const mongolass = new Mongolass(&apos;mongodb://localhost:27017/test&apos;);</div><div class="line"></div><div class="line">const UserSchema = new Schema(&apos;UserSchema&apos;, &#123;</div><div class="line">  name: &#123; type: &apos;string&apos; &#125;,</div><div class="line">  age: &#123; type: &apos;number&apos; &#125;</div><div class="line">&#125;);</div><div class="line">const User = mongolass.model(&apos;User&apos;, UserSchema);</div><div class="line"></div><div class="line">/*</div><div class="line">equal to:</div><div class="line">const User = mongolass.model(&apos;User&apos;, &#123;</div><div class="line">  name: &#123; type: &apos;string&apos; &#125;,</div><div class="line">  age: &#123; type: &apos;number&apos; &#125;</div><div class="line">&#125;);</div><div class="line">will create inner schema named `UserSchema`.</div><div class="line"> */</div><div class="line"></div><div class="line">User</div><div class="line">  .insertOne(&#123; name: &apos;nswbmw&apos;, age: &apos;wrong age&apos; &#125;)</div><div class="line">  .exec()</div><div class="line">  .then(console.log)</div><div class="line">  .catch(function (e) &#123;</div><div class="line">    console.error(e);</div><div class="line">    console.error(e.stack);</div><div class="line">  &#125;);</div><div class="line">/*</div><div class="line">&#123; [Error: ($.age: &quot;wrong age&quot;) ✖ (type: number)]</div><div class="line">  validator: &apos;type&apos;,</div><div class="line">  actual: &apos;wrong age&apos;,</div><div class="line">  expected: &#123; type: &apos;number&apos; &#125;,</div><div class="line">  path: &apos;$.age&apos;,</div><div class="line">  schema: &apos;UserSchema&apos;,</div><div class="line">  model: &apos;User&apos;,</div><div class="line">  plugin: &apos;MongolassSchema&apos;,</div><div class="line">  type: &apos;beforeInsertOne&apos;,</div><div class="line">  args: [] &#125;</div><div class="line">Error</div><div class="line">    at Model.insertOne (/Users/nswbmw/Desktop/mongolass-demo/node_modules/mongolass/lib/query.js:107:16)</div><div class="line">    at Object.&lt;anonymous&gt; (/Users/nswbmw/Desktop/mongolass-demo/app.js:23:4)</div><div class="line">    at Module._compile (module.js:409:26)</div><div class="line">    at Object.Module._extensions..js (module.js:416:10)</div><div class="line">    at Module.load (module.js:343:32)</div><div class="line">    at Function.Module._load (module.js:300:12)</div><div class="line">    at Function.Module.runMain (module.js:441:10)</div><div class="line">    at startup (node.js:139:18)</div><div class="line">    at node.js:974:3</div><div class="line"> */</div></pre></td></tr></table></figure>
-<p><strong><em>对于第二个可选模式还没完全理解，看后续能不能找到一些详细的资料吧</em></strong></p>
-<p>ObjectId schema:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&apos;use strict&apos;;</div><div class="line"></div><div class="line">const Mongolass = require(&apos;mongolass&apos;);</div><div class="line">const Schema = Mongolass.Schema;</div><div class="line">const mongolass = new Mongolass(&apos;mongodb://localhost:27017/test&apos;);</div><div class="line"></div><div class="line">const Post = mongolass.model(&apos;Post&apos;, &#123;</div><div class="line">  author: &#123; type: Mongolass.Types.ObjectId &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">Post.insertOne(&#123; author: &apos;111111111111111111111111&apos; &#125;)</div><div class="line">  .then(function () &#123;</div><div class="line">    return Post.find(&#123; author: &apos;111111111111111111111111&apos; &#125;);</div><div class="line">  &#125;)</div><div class="line">  .then(console.log);</div><div class="line">/*</div><div class="line">[ &#123; _id: 57caed24ecda6ffb15962591,</div><div class="line">    author: 111111111111111111111111 &#125; ]</div><div class="line"> */</div></pre></td></tr></table></figure>
+        <h2 id="浏览器的同源策略"><a href="#浏览器的同源策略" class="headerlink" title="浏览器的同源策略"></a>浏览器的同源策略</h2><p>同源策略限制从一个源加载的文档或脚本如何与来自另一个源的资源进行交互。这是一个用于隔离潜在恶意文件的关键的安全机制。</p>
+<h4 id="一个源的定义"><a href="#一个源的定义" class="headerlink" title="一个源的定义"></a>一个源的定义</h4><p>如果协议，端口（如果指定了一个）和域名对于两个页面是相同的，则两个页面具有相同的<strong>源</strong>。</p>
+<p>下表给出了相对<code>http://store.company.com/dir/page.html</code>同源检测的示例:</p>
+<table>
+<thead>
+<tr>
+<th style="text-align:center">URL</th>
+<th style="text-align:center">结果</th>
+<th style="text-align:center">原因</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align:center"><code>http://store.company.com/dir2/other.html</code></td>
+<td style="text-align:center">成功</td>
+<td style="text-align:center"><code>dir2/other.html</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>http://store.company.com/dir/inner/another.html</code></td>
+<td style="text-align:center">成功</td>
+<td style="text-align:center"><code>dir/inner/another.html</code></td>
+</tr>
+<tr>
+<td style="text-align:center"><code>https://store.company.com/secure.html</code></td>
+<td style="text-align:center">失败</td>
+<td style="text-align:center">不同的协议 ( https )</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>http://store.company.com:81/dir/etc.html</code></td>
+<td style="text-align:center">失败</td>
+<td style="text-align:center">不同的端口 ( 81 )</td>
+</tr>
+<tr>
+<td style="text-align:center"><code>http://news.company.com/dir/other.html</code></td>
+<td style="text-align:center">失败</td>
+<td style="text-align:center">不同的域名 ( news )</td>
+</tr>
+</tbody>
+</table>
+<h4 id="什么是跨域"><a href="#什么是跨域" class="headerlink" title="什么是跨域"></a>什么是跨域</h4><p>跨域，指的是浏览器不能执行其他网站的脚本。它是由浏览器的同源策略造成的，是浏览器对<a href="http://lib.csdn.net/base/javascript" target="_blank" rel="external">JavaScript</a>施加的安全限制。</p>
+<p><strong>请注意：localhost和127.0.0.1虽然都指向本机，但也属于跨域。</strong></p>
+<p><strong>浏览器执行<a href="http://lib.csdn.net/base/javascript" target="_blank" rel="external">javascript</a>脚本时，会检查这个脚本属于哪个页面，如果不是同源页面，就不会被执行。</strong></p>
+<h1 id="解决NodeJS-Express模块的跨域访问控制问题：Access-Control-Allow-Origin"><a href="#解决NodeJS-Express模块的跨域访问控制问题：Access-Control-Allow-Origin" class="headerlink" title="解决NodeJS+Express模块的跨域访问控制问题：Access-Control-Allow-Origin"></a>解决NodeJS+Express模块的跨域访问控制问题：Access-Control-Allow-Origin</h1><p>在一个项目上想用NodeJS，所以边学边练。第一个遇到的问题就是跨域访问控制问题。很多初学者会遇到同样问题。</p>
+<p>在前端的JS（<a href="http://localhost/xxx）中ajax访问后端RestAPI(http://localhost:3000/….)时(Chrome)报错：" target="_blank" rel="external">http://localhost/xxx）中ajax访问后端RestAPI(http://localhost:3000/….)时(Chrome)报错：</a></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">XMLHttpRequest cannot load http://localhost:3000/auth/xxx/xxx. Origin http://localhost is not allowed by Access-Control-Allow-Origin.</div></pre></td></tr></table></figure>
+<p>解决代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">var express = require(&apos;express&apos;);</div><div class="line">var app = express();</div><div class="line">//设置跨域访问</div><div class="line">app.all(&apos;*&apos;, function(req, res, next) &#123;</div><div class="line">    res.header(&quot;Access-Control-Allow-Origin&quot;, &quot;*&quot;);</div><div class="line">    res.header(&quot;Access-Control-Allow-Headers&quot;, &quot;X-Requested-With&quot;);</div><div class="line">    res.header(&quot;Access-Control-Allow-Methods&quot;,&quot;PUT,POST,GET,DELETE,OPTIONS&quot;);</div><div class="line">    res.header(&quot;X-Powered-By&quot;,&apos; 3.2.1&apos;)</div><div class="line">    res.header(&quot;Content-Type&quot;, &quot;application/json;charset=utf-8&quot;);</div><div class="line">    if(req.method==&quot;OPTIONS&quot;) res.send(200);/*让options请求快速返回*/</div><div class="line">    else  next();</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.get(&apos;/auth/:id/:password&apos;, function(req, res) &#123;</div><div class="line">    res.send(&#123;id:req.params.id, name: req.params.password&#125;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.listen(3000);</div><div class="line">console.log(&apos;Listening on port 3000...&apos;);</div></pre></td></tr></table></figure>
 
       
     </div>
@@ -389,7 +426,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+            <a href="/tags/node/" rel="tag"># node</a>
+          
+            <a href="/tags/Question/" rel="tag"># Question</a>
           
         </div>
       
@@ -402,8 +441,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/28/模板传值对象app-locals、res-locals/" rel="next" title="模板传值对象app.locals、res.locals">
-                <i class="fa fa-chevron-left"></i> 模板传值对象app.locals、res.locals
+              <a href="/2017/07/08/EventEmitter-事件触发器/" rel="next" title="EventEmitter-事件触发器">
+                <i class="fa fa-chevron-left"></i> EventEmitter-事件触发器
               </a>
             
           </div>
@@ -412,8 +451,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/07/03/promise中的异常/" rel="prev" title="promise中的异常">
-                promise中的异常 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/07/17/Mongoose学习参考文档/" rel="prev" title="Mongoose学习参考文档">
+                Mongoose学习参考文档 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -543,7 +582,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Mongolass"><span class="nav-number">1.</span> <span class="nav-text">Mongolass</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#浏览器的同源策略"><span class="nav-number">1.</span> <span class="nav-text">浏览器的同源策略</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#一个源的定义"><span class="nav-number">1.0.1.</span> <span class="nav-text">一个源的定义</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#什么是跨域"><span class="nav-number">1.0.2.</span> <span class="nav-text">什么是跨域</span></a></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-1"><a class="nav-link" href="#解决NodeJS-Express模块的跨域访问控制问题：Access-Control-Allow-Origin"><span class="nav-number"></span> <span class="nav-text">解决NodeJS+Express模块的跨域访问控制问题：Access-Control-Allow-Origin</span></a></div>
             
 
           </div>

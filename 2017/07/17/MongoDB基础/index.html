@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="MongoDB," />
+  <meta name="keywords" content="node,MongoDB," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="在跟着大神nswbmw做N-blog博客项目的时候，第一次接触到mongodb，也第一次接触到Mongolass这个模块操作mongodb进行增删改查，为了后续的学习，小小的记录一下学习的进度。 MongolassMongolass 保持了与 mongodb 一样的 api，又借鉴了许多 Mongoose 的优点，同时又保持了精简。所以可以直接参考mongodb的API即可，较大程度上简化了学习的">
-<meta name="keywords" content="MongoDB">
+<meta name="description" content="什么是MongoDBMongoDB 是由C++语言编写的，是一个基于分布式文件存储的开源数据库系统。 在高负载的情况下，添加更多的节点，可以保证服务器性能。 MongoDB 旨在为WEB应用提供可扩展的高性能数据存储解决方案。 MongoDB 将数据存储为一个文档，数据结构由键值(key=&amp;gt;value)对组成。MongoDB 文档类似于 JSON 对象。字段值可以包含其他文档，数组及文档数组">
+<meta name="keywords" content="node,MongoDB">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mongolass入门">
-<meta property="og:url" content="http://yoursite.com/2017/07/03/mongolass入门/index.html">
+<meta property="og:title" content="MongoDB基础">
+<meta property="og:url" content="http://yoursite.com/2017/07/17/MongoDB基础/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="在跟着大神nswbmw做N-blog博客项目的时候，第一次接触到mongodb，也第一次接触到Mongolass这个模块操作mongodb进行增删改查，为了后续的学习，小小的记录一下学习的进度。 MongolassMongolass 保持了与 mongodb 一样的 api，又借鉴了许多 Mongoose 的优点，同时又保持了精简。所以可以直接参考mongodb的API即可，较大程度上简化了学习的">
-<meta property="og:updated_time" content="2017-07-03T03:33:30.000Z">
+<meta property="og:description" content="什么是MongoDBMongoDB 是由C++语言编写的，是一个基于分布式文件存储的开源数据库系统。 在高负载的情况下，添加更多的节点，可以保证服务器性能。 MongoDB 旨在为WEB应用提供可扩展的高性能数据存储解决方案。 MongoDB 将数据存储为一个文档，数据结构由键值(key=&amp;gt;value)对组成。MongoDB 文档类似于 JSON 对象。字段值可以包含其他文档，数组及文档数组">
+<meta property="og:updated_time" content="2017-07-17T02:05:42.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mongolass入门">
-<meta name="twitter:description" content="在跟着大神nswbmw做N-blog博客项目的时候，第一次接触到mongodb，也第一次接触到Mongolass这个模块操作mongodb进行增删改查，为了后续的学习，小小的记录一下学习的进度。 MongolassMongolass 保持了与 mongodb 一样的 api，又借鉴了许多 Mongoose 的优点，同时又保持了精简。所以可以直接参考mongodb的API即可，较大程度上简化了学习的">
+<meta name="twitter:title" content="MongoDB基础">
+<meta name="twitter:description" content="什么是MongoDBMongoDB 是由C++语言编写的，是一个基于分布式文件存储的开源数据库系统。 在高负载的情况下，添加更多的节点，可以保证服务器性能。 MongoDB 旨在为WEB应用提供可扩展的高性能数据存储解决方案。 MongoDB 将数据存储为一个文档，数据结构由键值(key=&amp;gt;value)对组成。MongoDB 文档类似于 JSON 对象。字段值可以包含其他文档，数组及文档数组">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/07/03/mongolass入门/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/17/MongoDB基础/"/>
 
 
 
 
 
-  <title>mongolass入门 | Big Chuang's WebSite</title>
+  <title>MongoDB基础 | Big Chuang's WebSite</title>
   
 
 
@@ -286,7 +286,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/03/mongolass入门/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/17/MongoDB基础/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="大闯仔儿">
@@ -303,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">mongolass入门</h1>
+          <h1 class="post-title" itemprop="name headline">MongoDB基础</h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-03T11:12:15+08:00">
-                2017-07-03
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-17T09:58:28+08:00">
+                2017-07-17
               </time>
             
 
@@ -350,16 +350,26 @@
       
 
       
-        <p>在跟着大神nswbmw做<a href="https://github.com/nswbmw/N-blog" target="_blank" rel="external">N-blog</a>博客项目的时候，第一次接触到mongodb，也第一次接触到Mongolass这个模块操作mongodb进行增删改查，为了后续的学习，小小的记录一下学习的进度。</p>
-<h2 id="Mongolass"><a href="#Mongolass" class="headerlink" title="Mongolass"></a>Mongolass</h2><p>Mongolass 保持了与 mongodb 一样的 <a href="http://mongodb.github.io/node-mongodb-native/2.2/api/index.html" target="_blank" rel="external">api</a>，又借鉴了许多 Mongoose 的优点，同时又保持了精简。所以可以直接参考mongodb的API即可，较大程度上简化了学习的内容，对于我这个渣渣来说也算是Mongolass的一大优点吧！</p>
-<p>至于优点大神讲述的很详细了，详情<a href="https://github.com/nswbmw/N-blog/blob/master/book/4.6%20%E8%BF%9E%E6%8E%A5%E6%95%B0%E6%8D%AE%E5%BA%93.md#461-%E4%B8%BA%E4%BB%80%E4%B9%88%E4%BD%BF%E7%94%A8-mongolass" target="_blank" rel="external">点击连接</a>，一下主要记录一下用法吧。</p>
-<p>最普遍的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">&apos;use strict&apos;;</div><div class="line"></div><div class="line">const Mongolass = require(&apos;mongolass&apos;);</div><div class="line">const mongolass = new Mongolass();</div><div class="line">mongolass.connect(&apos;mongodb://localhost:27017/test&apos;);// const mongolass = new Mongolass(&apos;mongodb://localhost:27017/test&apos;);</div><div class="line"></div><div class="line">const User = mongolass.model(&apos;User&apos;);</div><div class="line"></div><div class="line">User</div><div class="line">  .find()</div><div class="line">  .select(&#123; name: 1, age: 1 &#125;)</div><div class="line">  .sort(&#123; name: -1 &#125;)</div><div class="line">  .exec()</div><div class="line">  .then(console.log)</div><div class="line">  .catch(console.error);</div></pre></td></tr></table></figure>
-<p>or use optional schema:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div></pre></td><td class="code"><pre><div class="line">&apos;use strict&apos;;</div><div class="line"></div><div class="line">const Mongolass = require(&apos;mongolass&apos;);</div><div class="line">const Schema = Mongolass.Schema;</div><div class="line">const mongolass = new Mongolass(&apos;mongodb://localhost:27017/test&apos;);</div><div class="line"></div><div class="line">const UserSchema = new Schema(&apos;UserSchema&apos;, &#123;</div><div class="line">  name: &#123; type: &apos;string&apos; &#125;,</div><div class="line">  age: &#123; type: &apos;number&apos; &#125;</div><div class="line">&#125;);</div><div class="line">const User = mongolass.model(&apos;User&apos;, UserSchema);</div><div class="line"></div><div class="line">/*</div><div class="line">equal to:</div><div class="line">const User = mongolass.model(&apos;User&apos;, &#123;</div><div class="line">  name: &#123; type: &apos;string&apos; &#125;,</div><div class="line">  age: &#123; type: &apos;number&apos; &#125;</div><div class="line">&#125;);</div><div class="line">will create inner schema named `UserSchema`.</div><div class="line"> */</div><div class="line"></div><div class="line">User</div><div class="line">  .insertOne(&#123; name: &apos;nswbmw&apos;, age: &apos;wrong age&apos; &#125;)</div><div class="line">  .exec()</div><div class="line">  .then(console.log)</div><div class="line">  .catch(function (e) &#123;</div><div class="line">    console.error(e);</div><div class="line">    console.error(e.stack);</div><div class="line">  &#125;);</div><div class="line">/*</div><div class="line">&#123; [Error: ($.age: &quot;wrong age&quot;) ✖ (type: number)]</div><div class="line">  validator: &apos;type&apos;,</div><div class="line">  actual: &apos;wrong age&apos;,</div><div class="line">  expected: &#123; type: &apos;number&apos; &#125;,</div><div class="line">  path: &apos;$.age&apos;,</div><div class="line">  schema: &apos;UserSchema&apos;,</div><div class="line">  model: &apos;User&apos;,</div><div class="line">  plugin: &apos;MongolassSchema&apos;,</div><div class="line">  type: &apos;beforeInsertOne&apos;,</div><div class="line">  args: [] &#125;</div><div class="line">Error</div><div class="line">    at Model.insertOne (/Users/nswbmw/Desktop/mongolass-demo/node_modules/mongolass/lib/query.js:107:16)</div><div class="line">    at Object.&lt;anonymous&gt; (/Users/nswbmw/Desktop/mongolass-demo/app.js:23:4)</div><div class="line">    at Module._compile (module.js:409:26)</div><div class="line">    at Object.Module._extensions..js (module.js:416:10)</div><div class="line">    at Module.load (module.js:343:32)</div><div class="line">    at Function.Module._load (module.js:300:12)</div><div class="line">    at Function.Module.runMain (module.js:441:10)</div><div class="line">    at startup (node.js:139:18)</div><div class="line">    at node.js:974:3</div><div class="line"> */</div></pre></td></tr></table></figure>
-<p><strong><em>对于第二个可选模式还没完全理解，看后续能不能找到一些详细的资料吧</em></strong></p>
-<p>ObjectId schema:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">&apos;use strict&apos;;</div><div class="line"></div><div class="line">const Mongolass = require(&apos;mongolass&apos;);</div><div class="line">const Schema = Mongolass.Schema;</div><div class="line">const mongolass = new Mongolass(&apos;mongodb://localhost:27017/test&apos;);</div><div class="line"></div><div class="line">const Post = mongolass.model(&apos;Post&apos;, &#123;</div><div class="line">  author: &#123; type: Mongolass.Types.ObjectId &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">Post.insertOne(&#123; author: &apos;111111111111111111111111&apos; &#125;)</div><div class="line">  .then(function () &#123;</div><div class="line">    return Post.find(&#123; author: &apos;111111111111111111111111&apos; &#125;);</div><div class="line">  &#125;)</div><div class="line">  .then(console.log);</div><div class="line">/*</div><div class="line">[ &#123; _id: 57caed24ecda6ffb15962591,</div><div class="line">    author: 111111111111111111111111 &#125; ]</div><div class="line"> */</div></pre></td></tr></table></figure>
+        <h2 id="什么是MongoDB"><a href="#什么是MongoDB" class="headerlink" title="什么是MongoDB"></a>什么是MongoDB</h2><p>MongoDB 是由C++语言编写的，是一个基于分布式文件存储的开源数据库系统。</p>
+<p>在高负载的情况下，添加更多的节点，可以保证服务器性能。</p>
+<p>MongoDB 旨在为WEB应用提供可扩展的高性能数据存储解决方案。</p>
+<p>MongoDB 将数据存储为一个文档，数据结构由键值(key=&gt;value)对组成。MongoDB 文档类似于 JSON 对象。字段值可以包含其他文档，数组及文档数组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  name： &quot;sue&quot;,</div><div class="line">  age: &quot;26&quot;,</div><div class="line">  status: &quot;A&quot;,</div><div class="line">  groups: [&quot;news&quot;,&quot;sports&quot;]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h4 id="主要特点："><a href="#主要特点：" class="headerlink" title="主要特点："></a>主要特点：</h4><ul>
+<li>MongoDB的提供了一个面向文档存储，操作起来比较简单和容易。</li>
+<li>你可以在MongoDB记录中设置任何属性的索引 (如：FirstName=”Sameer”,Address=”8 Gandhi Road”)来实现更快的排序。</li>
+<li>你可以通过本地或者网络创建数据镜像，这使得MongoDB有更强的扩展性。</li>
+<li>如果负载的增加（需要更多的存储空间和更强的处理能力） ，它可以分布在计算机网络中的其他节点上这就是所谓的分片。</li>
+<li>Mongo支持丰富的查询表达式。查询指令使用JSON形式的标记，可轻易查询文档中内嵌的对象及数组。</li>
+<li>MongoDb 使用update()命令可以实现替换完成的文档（数据）或者一些指定的数据字段 。</li>
+<li>Mongodb中的Map/reduce主要是用来对数据进行批量处理和聚合操作。</li>
+<li>Map和Reduce。Map函数调用emit(key,value)遍历集合中所有的记录，将key与value传给Reduce函数进行处理。</li>
+<li>Map函数和Reduce函数是使用Javascript编写的，并可以通过db.runCommand或mapreduce命令来执行MapReduce操作。</li>
+<li>GridFS是MongoDB中的一个内置功能，可以用于存放大量小文件。</li>
+<li>MongoDB允许在服务端执行脚本，可以用Javascript编写某个函数，直接在服务端执行，也可以把函数的定义存储在服务端，下次直接调用即可。</li>
+<li>MongoDB支持各种编程语言:RUBY，PYTHON，JAVA，C++，PHP，C#等多种语言。</li>
+<li>MongoDB安装简单。</li>
+</ul>
 
       
     </div>
@@ -389,6 +399,8 @@
       
         <div class="post-tags">
           
+            <a href="/tags/node/" rel="tag"># node</a>
+          
             <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
           
         </div>
@@ -402,8 +414,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/28/模板传值对象app-locals、res-locals/" rel="next" title="模板传值对象app.locals、res.locals">
-                <i class="fa fa-chevron-left"></i> 模板传值对象app.locals、res.locals
+              <a href="/2017/07/17/Mongoose学习参考文档/" rel="next" title="Mongoose学习参考文档">
+                <i class="fa fa-chevron-left"></i> Mongoose学习参考文档
               </a>
             
           </div>
@@ -411,10 +423,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/07/03/promise中的异常/" rel="prev" title="promise中的异常">
-                promise中的异常 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -543,7 +551,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Mongolass"><span class="nav-number">1.</span> <span class="nav-text">Mongolass</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是MongoDB"><span class="nav-number">1.</span> <span class="nav-text">什么是MongoDB</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#主要特点："><span class="nav-number">1.0.1.</span> <span class="nav-text">主要特点：</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
