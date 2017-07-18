@@ -1,0 +1,874 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="node,MongoDB," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="最近在学习node+MongoDB建站的过程中，遇到了较多的通过mongoose模块来操作数据库。所有来做一个总结，好对mongoose有一个比较深入的了解。更详细参见API文档。关于MongoDB，参见文章MongoDB基础。 值得注意的是：MongoDB是文档型数据库，文档保存在集合中，所有的增删改查都是在集合中操作，而在mongoose中很多操作并没有集合的概念，因此在集合的创建、查询、删除">
+<meta name="keywords" content="node,MongoDB">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Mongoose学习参考文档">
+<meta property="og:url" content="http://yoursite.com/2017/07/17/Mongoose学习参考文档/index.html">
+<meta property="og:site_name" content="Big Chuang&#39;s WebSite">
+<meta property="og:description" content="最近在学习node+MongoDB建站的过程中，遇到了较多的通过mongoose模块来操作数据库。所有来做一个总结，好对mongoose有一个比较深入的了解。更详细参见API文档。关于MongoDB，参见文章MongoDB基础。 值得注意的是：MongoDB是文档型数据库，文档保存在集合中，所有的增删改查都是在集合中操作，而在mongoose中很多操作并没有集合的概念，因此在集合的创建、查询、删除">
+<meta property="og:updated_time" content="2017-07-17T05:36:48.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Mongoose学习参考文档">
+<meta name="twitter:description" content="最近在学习node+MongoDB建站的过程中，遇到了较多的通过mongoose模块来操作数据库。所有来做一个总结，好对mongoose有一个比较深入的了解。更详细参见API文档。关于MongoDB，参见文章MongoDB基础。 值得注意的是：MongoDB是文档型数据库，文档保存在集合中，所有的增删改查都是在集合中操作，而在mongoose中很多操作并没有集合的概念，因此在集合的创建、查询、删除">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/17/Mongoose学习参考文档/"/>
+
+
+
+
+
+  <title>Mongoose学习参考文档 | Big Chuang's WebSite</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?12cfbab09f3fcdee181cf994706182d5";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Big Chuang's WebSite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/17/Mongoose学习参考文档/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大闯仔儿">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2036.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Big Chuang's WebSite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Mongoose学习参考文档</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-17T09:33:44+08:00">
+                2017-07-17
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近在学习node+MongoDB建站的过程中，遇到了较多的通过mongoose模块来操作数据库。所有来做一个总结，好对mongoose有一个比较深入的了解。更详细参见<a href="http://mongoosejs.com/docs/api.html" target="_blank" rel="external">API文档</a>。关于MongoDB，参见文章<a href="http://bigfacechuang.website/2017/07/17/MongoDB%E5%9F%BA%E7%A1%80/" target="_blank" rel="external">MongoDB基础</a>。</p>
+<p>值得注意的是：MongoDB是文档型数据库，文档保存在集合中，所有的增删改查都是在集合中操作，而在mongoose中很多操作并没有集合的概念，因此在集合的创建、查询、删除等等操作的时候，我就会想Collections在哪？相信初学者都会有这样的疑惑。直到翻看了官方文档中的一句话，“With Mongoose, everything is derived from a Schema.”注意，是everything。记住这句话，我相信不管是学习还是使用mongoose，那么思考的方向已经对了。</p>
+<h2 id="一-基本概念"><a href="#一-基本概念" class="headerlink" title="一.基本概念"></a>一.基本概念</h2><h4 id="1-Schema（模式）"><a href="#1-Schema（模式）" class="headerlink" title="1.Schema（模式）"></a>1.Schema（模式）</h4><p>一种以文件形式存储的数据库模型骨架，不具备数据库的操作能力，仅仅只是一段代码，无法通往数据库端, 仅仅只是数据库模型在程序片段中的一种表现。Schema对象定义文档的结构（类似表结构），可以定义字段和类型、唯一性、索引和验证。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var mongoose = require(&apos;mongoose&apos;);</div><div class="line"></div><div class="line">var BlogSchema = new mongoose.Schema(&#123;</div><div class="line">  title:String,</div><div class="line">  author:String</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<ul>
+<li><p>Schema.Type</p>
+<p>Schema.Type是由Mongoose内定的一些数据类型，基本数据类型都在其中，Mongoose也内置了一些特有的Schema.Type</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">var ExampleSchema = new Schema(&#123;</div><div class="line">    name:String,</div><div class="line">    binary:Buffer,</div><div class="line">    living:Boolean,</div><div class="line">    updated:Date,</div><div class="line">    age:Number,</div><div class="line">    mixed:Schema.Types.Mixed, //该混合类型等同于nested</div><div class="line">    _id:Schema.Types.ObjectId,  //主键</div><div class="line">    _fk:Schema.Types.ObjectId,  //外键</div><div class="line">    array:[],</div><div class="line">    arrOfString:[String],</div><div class="line">    arrOfNumber:[Number],</div><div class="line">    arrOfDate:[Date],</div><div class="line">    arrOfBuffer:[Buffer],</div><div class="line">    arrOfBoolean:[Boolean],</div><div class="line">    arrOfMixed:[Schema.Types.Mixed],</div><div class="line">    arrOfObjectId:[Schema.Types.ObjectId]</div><div class="line">  &#125;);</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h6 id="关于ObjectId"><a href="#关于ObjectId" class="headerlink" title="关于ObjectId"></a>关于ObjectId</h6><p>主键，一种特殊而且非常重要的类型，每个<code>Schema</code>都会默认配置这个属性，属性名为<code>_id</code>，除非自己定义，方可覆盖。</p>
+<p>该类型的值由系统自己生成，从某种意义上几乎不会重复，生成过程比较复杂，有兴趣的朋友可以查看源码或者<a href="http://www.cnblogs.com/xjk15082/archive/2011/09/18/2180792.html" target="_blank" rel="external">博客</a>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var mongoose = require(&apos;mongoose&apos;);</div><div class="line">var ObjectId = mongoose.Schema.Types.ObjectId;</div><div class="line">var StudentSchema = new Schema(&#123;&#125;); //默认会有_id:ObjectId</div><div class="line">var TeacherSchema = new Schema(&#123;id:ObjectId&#125;);//只有id:ObjectId</div></pre></td></tr></table></figure>
+<h4 id="2-Model-模型"><a href="#2-Model-模型" class="headerlink" title="2.Model(模型)"></a>2.Model(模型)</h4><p>Model模型，是经过Schema构造来的，是Schema的编译版本。一个<strong>model的实例</strong>直接映射为数据库中的一个文档。基于这种关系， 以后的增删改查（CURD）都要通过这个Model实现。Model对象表示集合中的所有文档。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">var mongoose = require(&apos;mongoose&apos;);</div><div class="line"></div><div class="line">//先创建Schema</div><div class="line">var UserSchema = new mongoose.Schema(&#123;</div><div class="line">  name:&apos;String&apos;,</div><div class="line">  sex:&apos;String&apos; </div><div class="line">&#125;);</div><div class="line">//通过Schema创建Model</div><div class="line">var UserModel = mongoose.model(&apos;User&apos;,UserSchema );</div><div class="line">//如果此model已经发布，则可以直接通过名字索引得到，如下：</div><div class="line">//var UserModel = mongoose.model(&quot;User&quot;);</div><div class="line">//如果没有发布，则上一行代码会报错。</div></pre></td></tr></table></figure>
+<p><a href="http://mongoosejs.com/docs/api.html#index_Mongoose-model" target="_blank" rel="external">model API</a>。</p>
+<h4 id="3-Entity"><a href="#3-Entity" class="headerlink" title="3.Entity"></a>3.Entity</h4><p>由<code>Model</code>创建的实体，他的操作也会影响数据库，直接映射为数据库中的一个文档。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var mongoose = require(&apos;mongoose&apos;);</div><div class="line"></div><div class="line">//先创建Schema</div><div class="line">var UserSchema = new mongoose.Schema(&#123;</div><div class="line">  name:&apos;String&apos;,</div><div class="line">  sex:&apos;String&apos; </div><div class="line">&#125;);</div><div class="line">//通过Schema创建Model</div><div class="line">var UserModel = mongoose.model(&apos;User&apos;,UserSchema );</div><div class="line">//实例化一个Model</div><div class="line">var userEntity = new UserModel(&#123;name: &quot;sue&quot;, sex: &quot;girl&quot;&#125;)</div></pre></td></tr></table></figure>
+<h2 id="二-Schema的扩展"><a href="#二-Schema的扩展" class="headerlink" title="二.Schema的扩展"></a>二.Schema的扩展</h2><h4 id="1-实例方法"><a href="#1-实例方法" class="headerlink" title="1.实例方法"></a>1.实例方法</h4><p>有的时候，我们创造的<code>Schema</code>不仅要为后面的<code>Model</code>和<code>Entity</code>提供公共的属性，还要提供公共的方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var mongoose = require(&apos;mongoose&apos;);</div><div class="line"></div><div class="line">var PersonSchema = new mongoose.Schema(&#123;name:String,type:String&#125;);</div><div class="line">//查询类似数据</div><div class="line">PersonSchema.methods.findSimilarTypes = function(cb)&#123;</div><div class="line">  return this.model(&apos;Person&apos;).find(&#123;type:this.type&#125;,cb);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var PersonModel = mongoose.model(&apos;Person&apos;,PersonSchema);</div><div class="line">var krouky = new PersonModel(&#123;name:&apos;krouky&apos;,type:&apos;前端工程师&apos;&#125;);</div><div class="line">krouky.findSimilarTypes(function(err,persons)&#123;</div><div class="line">  //persons中就能查询到其他前端工程师</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="2-静态方法"><a href="#2-静态方法" class="headerlink" title="2.静态方法"></a>2.静态方法</h4><p>静态方法在<code>Model</code>层就能使用（这一点类似于java中的静态方法），如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var mongoose = require(&apos;mongoose&apos;);</div><div class="line"></div><div class="line">var PersonSchema = new mongoose.Schema(&#123;name:String,type:String&#125;);</div><div class="line">PersonSchema.statics.findByName = function(name,cb)&#123;</div><div class="line">  this.find(&#123;name:new RegExp(name,&apos;i&apos;),cb&#125;);</div><div class="line">&#125;</div><div class="line">var PersonModel = mongoose.model(&apos;Person&apos;,PersonSchema);</div><div class="line">PersonModel.findByName(&apos;krouky&apos;,function(err,persons)&#123;</div><div class="line">  //找到所有名字叫krouky的人</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="3-索引"><a href="#3-索引" class="headerlink" title="3.索引"></a>3.索引</h4><p>索引或者复合索引能让搜索更加高效，默认索引就是主键索引<code>ObjectId</code>，属性名为<code>_id</code>， <em>索引会作为一个专题来讲解</em></p>
+<h4 id="4-虚拟属性"><a href="#4-虚拟属性" class="headerlink" title="4.虚拟属性"></a>4.虚拟属性</h4><p><code>Schema</code>中如果定义了虚拟属性，那么该属性将不写入数据库，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var PersonSchema = new mongoose.Schema(&#123;</div><div class="line">  name:&#123;</div><div class="line">    first:String,</div><div class="line">    last:String</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">var PersonModel = mongoose.model(&apos;Person&apos;,PersonSchema);</div><div class="line">var krouky = new PersonModel(&#123;</div><div class="line">  name:&#123;first:&apos;krouky&apos;,last:&apos;han&apos;&#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>如果每次想使用全名就得这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">console.log(krouky.name.first + &apos; &apos; + krouky.name.last);</div></pre></td></tr></table></figure>
+<p>显然这是很麻烦的，我们可以定义<code>虚拟属性</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">PersonSchema.virtual(&apos;name.full&apos;).get(function()&#123;</div><div class="line">  return this.name.first + &apos; &apos; + this.name.last;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>那么就能用<code>krouky.name.full</code>来调用全名了，反之如果知道full，也可以反解<code>first</code>和<code>last</code>属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">PersonSchema.virtual(&apos;name.full&apos;).set(function(name)&#123;</div><div class="line">  var split = name.split(&apos; &apos;);</div><div class="line">  this.name.first = split[0];</div><div class="line">  this.name.last = split[1];</div><div class="line">&#125;);</div><div class="line">var PersonModel = mongoose.model(&apos;Person&apos;,PersonSchema);</div><div class="line">var krouky = new PersonModel(&#123;&#125;);</div><div class="line">krouky.name.full = &apos;krouky han&apos;;//会被自动分解</div><div class="line">console.log(krouky.name.first);//krouky</div></pre></td></tr></table></figure>
+<h4 id="5-配置项"><a href="#5-配置项" class="headerlink" title="5.配置项"></a>5.配置项</h4><p>在使用<code>new Schema(config)</code>时，我们可以追加一个参数<code>options</code>来配置<code>Schema</code>的配置，形如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var ExampleSchema = new mongoose.Schema(config,options);</div></pre></td></tr></table></figure>
+<p>或者使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var ExampleSchema = new Schema(config);</div><div class="line">ExampleSchema.set(option,value);</div></pre></td></tr></table></figure>
+<p>可供配置项有：<code>safe</code>、<code>strict</code>、<code>capped</code>、<code>versionKey</code>、<code>autoIndex</code></p>
+<h6 id="5-1-safe–安全属性-默认安全"><a href="#5-1-safe–安全属性-默认安全" class="headerlink" title="5.1 safe–安全属性(默认安全)"></a>5.1 safe–安全属性(默认安全)</h6><p>一般可做如下配置：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">new Schema(&#123;...&#125;,&#123;safe:true&#125;);</div></pre></td></tr></table></figure>
+<p>当然我们也可以这样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">new Schema(&#123;...&#125;,&#123;safe:&#123;j:1,w:2,wtimeout:10000&#125;&#125;);</div></pre></td></tr></table></figure>
+<p><code>j</code>表示做1份日志，<code>w</code>表示做2个副本（尚不明确），超时时间10秒</p>
+<h6 id="5-2-strict–严格设置-默认启用严格模式"><a href="#5-2-strict–严格设置-默认启用严格模式" class="headerlink" title="5.2 strict–严格设置(默认启用严格模式)"></a>5.2 strict–严格设置(默认启用严格模式)</h6><p>确保<code>Entity</code>的值存入数据库前会被自动验证，如果你没有充足的理由，请不要停用，例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var ThingSchema = new mongoose.Schema(&#123;a:String&#125;);</div><div class="line">var ThingModel = mongoose.model(&apos;Thing&apos;,ThingSchema);</div><div class="line">var thingEntity = new ThingModel(&#123;iAmNotInTheThingSchema:true&#125;);</div><div class="line">thingEntity.save();//iAmNotInTheThingSchema这个属性将无法被存储(boolean类型与String类型不符)</div></pre></td></tr></table></figure>
+<p>如果取消严格选项，<code>iAmNotInTheThingSchema</code>将会被存入数据库</p>
+<p>该选项也可以在构造实例时使用，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var ThingModel = mongoose.model(&apos;Thing&apos;);</div><div class="line">var thing1 = new ThingModel(doc,true);  //启用严格</div><div class="line">var thing2 = new ThingModel(doc,false); //禁用严格</div></pre></td></tr></table></figure>
+<p><strong>注意：</strong></p>
+<p><code>strict</code>也可以设置为<code>throw</code>，表示出现问题将会抛出错误</p>
+<h6 id="5-3-shardKey"><a href="#5-3-shardKey" class="headerlink" title="5.3 shardKey"></a>5.3 shardKey</h6><p>需要<code>mongodb</code>做分布式，才会使用该属性</p>
+<h6 id="5-4-capped—上限属性"><a href="#5-4-capped—上限属性" class="headerlink" title="5.4 capped—上限属性"></a>5.4 capped—上限属性</h6><p>如果有数据库的批量操作，该属性能限制一次操作的量，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">new mongoose.Schema(&#123;...&#125;,&#123;capped:1024&#125;);  //一次操作上线1024条数据</div></pre></td></tr></table></figure>
+<p>当然该参数也可是JSON对象，包含size、max、autiIndexId属性</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">new mongoose.Schema(&#123;...&#125;,&#123;capped:&#123;size:1024,max:100,autoIndexId:true&#125;&#125;);</div></pre></td></tr></table></figure>
+<h6 id="5-5-versionKey——版本锁"><a href="#5-5-versionKey——版本锁" class="headerlink" title="5.5 versionKey——版本锁"></a>5.5 versionKey——版本锁</h6><p>版本锁是<code>Mongoose</code>默认配置（__v属性）的，如果你想自己定制，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">new mongoose.Schema(&#123;...&#125;,&#123;versionKey:&apos;__someElse&apos;&#125;);</div></pre></td></tr></table></figure>
+<p>此时存入数据库的版本锁就不是<code>__v</code>属性，而是<code>__someElse</code>，相当于是给版本锁取名字。</p>
+<p>具体怎么存入都是由<code>Mongoose</code>和<code>MongoDB</code>自己决定，当然，这个属性你也可以去除</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">new mongoose.Schema(&#123;...&#125;,&#123;versionKey:false&#125;);</div></pre></td></tr></table></figure>
+<p>除非你知道你在做什么，并且你知道这样做的后果</p>
+<h6 id="5-6-sutoIndex–自动索引"><a href="#5-6-sutoIndex–自动索引" class="headerlink" title="5.6 sutoIndex–自动索引"></a>5.6 sutoIndex–自动索引</h6><p><em>该内容将在索引章节单独讲解</em></p>
+<h2 id="三-Documents"><a href="#三-Documents" class="headerlink" title="三.Documents"></a>三.Documents</h2><p><code>Document</code>是与<code>MongoDB</code>文档一一对应的模型，<code>Document</code>可等同于<code>Entity</code>，具有属性和操作性。</p>
+<p>注意：</p>
+<p><code>Document</code>的`CRUD都必须经过严格验证的，参看<strong>第二章中5.2 Schema的strict严格配置</strong></p>
+<h4 id="1-查询"><a href="#1-查询" class="headerlink" title="1.查询"></a>1.查询</h4><p>查询内容过多，单独讲解</p>
+<h4 id="2-更新"><a href="#2-更新" class="headerlink" title="2.更新"></a>2.更新</h4><p>有许多方式来更新文件，以下是常用的传统方式：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">PersonModel.findById(id,function(err,person)&#123;</div><div class="line">  person.name = &apos;MDragon&apos;;</div><div class="line">  person.save(function(err)&#123;&#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>这里，利用<code>Model</code>模型查询到了<code>person</code>对象，该对象属于<code>Entity</code>，可以有save操作，如果使用<code>Model</code>操作，需注意：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">PersonModel.findById(id,function(err,person)&#123;</div><div class="line">  person.name = &apos;MDragon&apos;;</div><div class="line">  var _id = person._id; //需要取出主键_id</div><div class="line">  delete person._id;    //再将其删除</div><div class="line">  PersonModel.update(&#123;_id:_id&#125;,person,function(err)&#123;&#125;);</div><div class="line">  //此时才能用Model操作，否则报错</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p><code>update</code>第一个参数是查询条件，第二个参数是更新的对象，但不能更新主键，这就是为什么要删除主键的原因。</p>
+<p>当然这样的更新很麻烦，可以使用<code>$set</code>属性来配置，这样也不用先查询，如果更新的数据比较少，可用性还是很好的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">PersonModel.update(&#123;_id:_id&#125;,&#123;$set:&#123;name:&apos;MDragon&apos;&#125;&#125;,function(err)&#123;&#125;);</div></pre></td></tr></table></figure>
+<p>需要注意，<code>Document</code>的<code>CRUD</code>操作都是异步执行，<code>callback</code>第一个参数必须是<code>err</code>，而第二个参数各个方法不一样，<code>update</code>的<code>callback</code>第二个参数是更新的数量，如果要返回更新后的对象，则要使用如下方法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Person.findByIdAndUpdate(_id,&#123;$set:&#123;name:&apos;MDragon&apos;&#125;&#125;,function(err,person)&#123;</div><div class="line">  console.log(person.name); //MDragon</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>类似的方法还有<code>findByIdAndRemove</code>，如同名字，只能根据id查询并作<code>update</code>/<code>remove</code>操作，操作的数据仅一条。</p>
+<h4 id="3-新增"><a href="#3-新增" class="headerlink" title="3.新增"></a>3.新增</h4><p>如果是<code>Entity</code>，使用<code>save</code>方法，如果是<code>Model</code>，使用<code>create</code>方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">//使用Entity来增加一条数据</div><div class="line">var personEntity = new PersonModel(&#123;name:&apos;krouky&apos;&#125;);</div><div class="line">personEntity.save(callback);</div><div class="line">//使用Model来增加一条数据</div><div class="line">var MDragon = &#123;name:&apos;MDragon&apos;&#125;;</div><div class="line">PersonModel.create(MDragon,callback);</div></pre></td></tr></table></figure>
+<p>两种新增方法区别在于，如果使用<code>Model</code>新增时，传入的对象只能是纯净的<code>JSON</code>对象，不能是由<code>Model</code>创建的实体，原因是：由<code>Model</code>创建的实体<code>krouky</code>虽然打印是只有<code>{name:&#39;krouky&#39;}</code>，但是<code>krouky</code>属于<code>Entity</code>，包含有<code>Schema</code>属性和<code>Model</code>数据库行为模型。如果是使用<code>Model</code>创建的对象，传入时一定会将隐藏属性也存入数据库，虽然<code>3.x</code>追加了默认严格属性，但也不必要增加操作的报错。</p>
+<h4 id="4-删除"><a href="#4-删除" class="headerlink" title="4.删除"></a>4.删除</h4><p>和新增一样，删除也有2种方式，但<code>Entity</code>和<code>Model</code>都使用<code>remove</code>方法。</p>
+<h2 id="四-Sub-Docs"><a href="#四-Sub-Docs" class="headerlink" title="四.Sub Docs"></a>四.Sub Docs</h2><p>如同<code>SQL</code>数据库中2张表有主外关系，<code>Mongoose</code>将2个<code>Document</code>的嵌套叫做<code>Sub-Docs</code>（子文档）</p>
+<p>简单的说就是一个<code>Document</code>嵌套另外一个<code>Document</code>或者<code>Documents</code>:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var ChildSchema1 = new mongoose.Schema(&#123;name:String&#125;);</div><div class="line">var ChildSchema2 = new mongoose.Schema(&#123;name:String&#125;);</div><div class="line">var ParentSchema = new mongoose.Schema(&#123;</div><div class="line">  children1:ChildSchema1,   //嵌套Document</div><div class="line">  children2:[ChildSchema2]  //嵌套Documents</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p><code>Sub-Docs</code>享受和<code>Documents</code>一样的操作，但是<code>Sub-Docs</code>的操作都由父类去执行</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var ParentModel = mongoose.model(&apos;Parent&apos;,parentSchema);</div><div class="line">var parentEntity = new ParentModel(&#123;</div><div class="line">  children2:[&#123;name:&apos;c1&apos;&#125;,&#123;name:&apos;c2&apos;&#125;]</div><div class="line">&#125;);</div><div class="line">parentEntity.children2[0].name = &apos;d&apos;;</div><div class="line">parentEntity.save(callback);</div></pre></td></tr></table></figure>
+<p><code>parentEntity</code>在执行保存时，由于包含<code>children2</code>，他是一个数据库模型对象，因此会先保存<code>chilren2[0]</code>和<code>chilren2[1]</code>。</p>
+<p>如果子文档在更新时出现错误，将直接报在父类文档中，可以这样处理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">ChildrenSchema.pre(&apos;save&apos;,function(next)&#123;</div><div class="line">  if(&apos;x&apos; === this.name) return next(new Error(&apos;#err:not-x&apos;));</div><div class="line">  next();</div><div class="line">&#125;);</div><div class="line">var parentEntity = new ParentModel(&#123;children1:&#123;name:&apos;not-x&apos;&#125;&#125;);</div><div class="line">parentEntity.save(function(err)&#123;</div><div class="line">  console.log(err.message); //#err:not-x</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="1-查询子文档"><a href="#1-查询子文档" class="headerlink" title="1.查询子文档"></a>1.查询子文档</h4><p>如果<code>children</code>是<code>parent</code>的子文档，可以通过如下方法查询到<code>children</code></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var child = parent.children.id(id);</div></pre></td></tr></table></figure>
+<h4 id="2-新增、删除、更新"><a href="#2-新增、删除、更新" class="headerlink" title="2.新增、删除、更新"></a>2.新增、删除、更新</h4><p>子文档是父文档的一个属性，因此按照属性的操作即可，不同的是在新增父类的时候，子文档是会被先加入进去的。</p>
+<p>如果<code>ChildrenSchema</code>是临时的一个子文档，不作为数据库映射集合，可以这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var ParentSchema = new Schema(&#123;</div><div class="line">  children:&#123;</div><div class="line">    name:String</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line">//其实就是匿名混合模式</div></pre></td></tr></table></figure>
+<h2 id="五-Model"><a href="#五-Model" class="headerlink" title="五.Model"></a>五.Model</h2><h4 id="1-什么是Model"><a href="#1-什么是Model" class="headerlink" title="1.什么是Model"></a>1.什么是Model</h4><p><code>Model</code>模型，是经过<code>Schema</code>构造来的，除了<code>Schema</code>定义的数据库骨架以外，还具有数据库行为模型，他相当于管理数据库属性、行为的类</p>
+<h4 id="2-如何创建Model"><a href="#2-如何创建Model" class="headerlink" title="2.如何创建Model"></a>2.如何创建Model</h4><p>你必须通过<code>Schema</code>来创建，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//先创建Schema</div><div class="line">var TankSchema = new Schema(&#123;</div><div class="line">  name:&apos;String&apos;,</div><div class="line">  size:&apos;String&apos; </div><div class="line">&#125;);</div><div class="line">//通过Schema创建Model</div><div class="line">var TankModel = mongoose.model(&apos;Tank&apos;,TankSchema);</div></pre></td></tr></table></figure>
+<h4 id="3-操作Model"><a href="#3-操作Model" class="headerlink" title="3.操作Model"></a>3.操作Model</h4><p>该模型就能直接拿来操作，具体查看<code>API</code>，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var tank = &#123;&apos;something&apos;,size:&apos;small&apos;&#125;;</div><div class="line">TankModel.create(tank);</div></pre></td></tr></table></figure>
+<p><strong>注意：</strong></p>
+<p>你可以使用<code>Model</code>来创建<code>Entity</code>，<code>Entity</code>实体是一个特有<code>Model</code>具体对象，但是他并不具备<code>Model</code>的方法，只能用自己的方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">//通过Model创建Entity</div><div class="line">var tankEntity = new TankModel(&apos;someother&apos;,&apos;size:big&apos;);</div><div class="line">tankEntity.save();</div></pre></td></tr></table></figure>
+<h2 id="六-Query"><a href="#六-Query" class="headerlink" title="六.Query"></a>六.Query</h2><p>查询是数据库中运用最多也是最麻烦的地方，这里对<code>Query</code>解读的并不完善，仅仅是自己的一点领悟而已。</p>
+<h4 id="1-查询的方式"><a href="#1-查询的方式" class="headerlink" title="1.查询的方式"></a>1.查询的方式</h4><p>通常有2种查询方式，一种是<code>直接查询</code>，一种是<code>链式查询</code>（2种查询都是自己命名的）</p>
+<h6 id="1-1-直接查询"><a href="#1-1-直接查询" class="headerlink" title="1.1 直接查询"></a>1.1 直接查询</h6><p>在查询时带有回调函数的，称之为直接查询，查询的条件往往通过<code>API</code>来设定，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">PersonModel.findOne(&#123;&apos;name.last&apos;:&apos;dragon&apos;&#125;,&apos;some select&apos;,function(err,person)&#123;</div><div class="line">  //如果err==null，则person就能取到数据</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>具体的查询参数，请查询<a href="http://mongoosejs.com/docs/api.html#query-js" target="_blank" rel="external"><code>API</code></a>。</p>
+<h6 id="1-2-链式查询"><a href="#1-2-链式查询" class="headerlink" title="1.2 链式查询"></a>1.2 链式查询</h6><p>在查询时候，不带回调，而查询条件通过<code>API</code>函数来制定，例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">  var query = PersonModel.findOne(&#123;&apos;name.last&apos;:&apos;dragon&apos;&#125;);</div><div class="line">  query.select(&apos;some select&apos;);</div><div class="line">  query.exec(function(err,pserson)&#123;</div><div class="line">  //如果err==null，则person就能取到数据</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>这种方式相对直接查询，分的比较明细，如果不带<code>callback</code>，则返回<code>query</code>，<code>query</code>没有执行的预编译查询语句，该<code>query</code>对象执行的方法都将返回自己，只有在执行<code>exec</code>方法时才执行查询，而且必须有回调。</p>
+<p>因为<code>query</code>的操作始终返回自身，我们可以采用更形象的链式写法</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Person</div><div class="line">  .find(&#123; occupation: /host/ &#125;)</div><div class="line">  .where(&apos;name.last&apos;).equals(&apos;Ghost&apos;)</div><div class="line">  .where(&apos;age&apos;).gt(17).lt(66)</div><div class="line">  .where(&apos;likes&apos;).in([&apos;vaporizing&apos;, &apos;talking&apos;])</div><div class="line">  .limit(10)</div><div class="line">  .sort(&apos;-occupation&apos;)</div><div class="line">  .select(&apos;name occupation&apos;)</div><div class="line">  .exec(callback);</div></pre></td></tr></table></figure>
+<h2 id="七-Validation-验证"><a href="#七-Validation-验证" class="headerlink" title="七.Validation(验证)"></a>七.Validation(验证)</h2><p>数据的存储是需要验证的，不是什么数据都能往数据库里丢或者显示到客户端的，数据的验证需要记住以下规则：</p>
+<ul>
+<li>验证始终定义在<code>SchemaType</code>中</li>
+<li>验证是一个内部中间件</li>
+<li>验证是在一个<code>Document</code>被保存时默认启用的，除非你关闭验证</li>
+<li>验证是异步递归的，如果你的<code>SubDoc</code>验证失败，<code>Document</code>也将无法保存</li>
+<li>验证并不关心错误类型，而通过<code>ValidationError</code>这个对象可以访问</li>
+</ul>
+<h4 id="1-验证器"><a href="#1-验证器" class="headerlink" title="1 验证器"></a>1 验证器</h4><ol>
+<li><code>required</code> 非空验证</li>
+<li><code>min</code>/<code>max</code> 范围验证（边值验证）</li>
+<li><code>enum</code>/<code>match</code> 枚举验证/匹配验证</li>
+<li><code>validate</code> 自定义验证规则</li>
+</ol>
+<p>以下是综合案例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div></pre></td><td class="code"><pre><div class="line">var PersonSchema = new Schema(&#123;</div><div class="line">  name:&#123;</div><div class="line">    type:&apos;String&apos;,</div><div class="line">    required:true //姓名非空</div><div class="line">  &#125;,</div><div class="line">  age:&#123;</div><div class="line">    type:&apos;Nunmer&apos;,</div><div class="line">    min:18,       //年龄最小18</div><div class="line">    max:120     //年龄最大120</div><div class="line">  &#125;,</div><div class="line">  city:&#123;</div><div class="line">    type:&apos;String&apos;,</div><div class="line">    enum:[&apos;北京&apos;,&apos;上海&apos;]  //只能是北京、上海人</div><div class="line">  &#125;,</div><div class="line">  other:&#123;</div><div class="line">    type:&apos;String&apos;,</div><div class="line">    validate:[validator,err]  //validator是一个验证函数，err是验证失败的错误信息</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="2-验证失败"><a href="#2-验证失败" class="headerlink" title="2 验证失败"></a>2 验证失败</h4><p>如果验证失败，则会返回<code>err</code>信息，<code>err</code>是一个对象该对象属性如下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">err.errors                //错误集合（对象）</div><div class="line">err.errors.color          //错误属性(Schema的color属性)</div><div class="line">err.errors.color.message  //错误属性信息</div><div class="line">err.errors.path             //错误属性路径</div><div class="line">err.errors.type             //错误类型</div><div class="line">err.name                //错误名称</div><div class="line">err.message                 //错误消息</div></pre></td></tr></table></figure>
+<p>一旦验证失败，<code>Model</code>和<code>Entity</code>都将具有和<code>err</code>一样的<code>errors</code>属性。</p>
+<h2 id="八-Middleware中间件"><a href="#八-Middleware中间件" class="headerlink" title="八.Middleware中间件"></a>八.Middleware中间件</h2><h4 id="1-什么是中间件"><a href="#1-什么是中间件" class="headerlink" title="1.什么是中间件"></a>1.什么是中间件</h4><p>中间件是一种控制函数，类似插件，能控制流程中的<code>init</code>、<code>validate</code>、<code>save</code>、<code>remove</code>方法</p>
+<h4 id="2-中间件的分类"><a href="#2-中间件的分类" class="headerlink" title="2.中间件的分类"></a>2.中间件的分类</h4><p>中间件分为两类</p>
+<h6 id="2-1-Serial串行"><a href="#2-1-Serial串行" class="headerlink" title="2.1 Serial串行"></a>2.1 Serial串行</h6><p>串行使用<code>pre</code>方法，执行下一个方法使用<code>next</code>调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var schema = new Schema(...);</div><div class="line">schema.pre(&apos;save&apos;,function(next)&#123;</div><div class="line">  //做点什么</div><div class="line">  next();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h6 id="2-2-Parallel并行"><a href="#2-2-Parallel并行" class="headerlink" title="2.2 Parallel并行"></a>2.2 Parallel并行</h6><p>并行提供更细粒度的操作</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var schema = new Schema(...);</div><div class="line">schema.pre(&apos;save&apos;,function(next,done)&#123;</div><div class="line">  //下一个要执行的中间件并行执行</div><div class="line">  next();</div><div class="line">  doAsync(done);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="3-中间件特点"><a href="#3-中间件特点" class="headerlink" title="3.中间件特点"></a>3.中间件特点</h4><p>一旦定义了中间件，就会在全部中间件执行完后执行其他操作，使用中间件可以雾化模型，避免异步操作的层层迭代嵌套。</p>
+<h4 id="4-使用范畴"><a href="#4-使用范畴" class="headerlink" title="4.使用范畴"></a>4.使用范畴</h4><ol>
+<li>复杂的验证</li>
+<li>删除有主外关联的<code>doc</code></li>
+<li>异步默认</li>
+<li>某个特定动作触发异步任务，例如触发自定义事件和通知</li>
+</ol>
+<p>例如，可以用来做自定义错误处理：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">schema.pre(&apos;save&apos;,function(next)&#123;</div><div class="line">  var err = new Eerror(&apos;some err&apos;);</div><div class="line">  next(err);</div><div class="line">&#125;);</div><div class="line">entity.save(function(err)&#123;</div><div class="line">  console.log(err.message); //some err</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/node/" rel="tag"># node</a>
+          
+            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/15/浏览器的同源策略以及跨域问题/" rel="next" title="浏览器的同源策略以及跨域问题">
+                <i class="fa fa-chevron-left"></i> 浏览器的同源策略以及跨域问题
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/17/MongoDB基础/" rel="prev" title="MongoDB基础">
+                MongoDB基础 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/IMG_2036.JPG"
+               alt="大闯仔儿" />
+          <p class="site-author-name" itemprop="name">大闯仔儿</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界那么大，谁不想去看看！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tages/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#一-基本概念"><span class="nav-number">1.</span> <span class="nav-text">一.基本概念</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-Schema（模式）"><span class="nav-number">1.0.1.</span> <span class="nav-text">1.Schema（模式）</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#关于ObjectId"><span class="nav-number">1.0.1.0.1.</span> <span class="nav-text">关于ObjectId</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-Model-模型"><span class="nav-number">1.0.2.</span> <span class="nav-text">2.Model(模型)</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-Entity"><span class="nav-number">1.0.3.</span> <span class="nav-text">3.Entity</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#二-Schema的扩展"><span class="nav-number">2.</span> <span class="nav-text">二.Schema的扩展</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-实例方法"><span class="nav-number">2.0.1.</span> <span class="nav-text">1.实例方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-静态方法"><span class="nav-number">2.0.2.</span> <span class="nav-text">2.静态方法</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-索引"><span class="nav-number">2.0.3.</span> <span class="nav-text">3.索引</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-虚拟属性"><span class="nav-number">2.0.4.</span> <span class="nav-text">4.虚拟属性</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#5-配置项"><span class="nav-number">2.0.5.</span> <span class="nav-text">5.配置项</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#5-1-safe–安全属性-默认安全"><span class="nav-number">2.0.5.0.1.</span> <span class="nav-text">5.1 safe–安全属性(默认安全)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#5-2-strict–严格设置-默认启用严格模式"><span class="nav-number">2.0.5.0.2.</span> <span class="nav-text">5.2 strict–严格设置(默认启用严格模式)</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#5-3-shardKey"><span class="nav-number">2.0.5.0.3.</span> <span class="nav-text">5.3 shardKey</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#5-4-capped—上限属性"><span class="nav-number">2.0.5.0.4.</span> <span class="nav-text">5.4 capped—上限属性</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#5-5-versionKey——版本锁"><span class="nav-number">2.0.5.0.5.</span> <span class="nav-text">5.5 versionKey——版本锁</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#5-6-sutoIndex–自动索引"><span class="nav-number">2.0.5.0.6.</span> <span class="nav-text">5.6 sutoIndex–自动索引</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#三-Documents"><span class="nav-number">3.</span> <span class="nav-text">三.Documents</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-查询"><span class="nav-number">3.0.1.</span> <span class="nav-text">1.查询</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-更新"><span class="nav-number">3.0.2.</span> <span class="nav-text">2.更新</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-新增"><span class="nav-number">3.0.3.</span> <span class="nav-text">3.新增</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-删除"><span class="nav-number">3.0.4.</span> <span class="nav-text">4.删除</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#四-Sub-Docs"><span class="nav-number">4.</span> <span class="nav-text">四.Sub Docs</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-查询子文档"><span class="nav-number">4.0.1.</span> <span class="nav-text">1.查询子文档</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-新增、删除、更新"><span class="nav-number">4.0.2.</span> <span class="nav-text">2.新增、删除、更新</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#五-Model"><span class="nav-number">5.</span> <span class="nav-text">五.Model</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-什么是Model"><span class="nav-number">5.0.1.</span> <span class="nav-text">1.什么是Model</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-如何创建Model"><span class="nav-number">5.0.2.</span> <span class="nav-text">2.如何创建Model</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-操作Model"><span class="nav-number">5.0.3.</span> <span class="nav-text">3.操作Model</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#六-Query"><span class="nav-number">6.</span> <span class="nav-text">六.Query</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-查询的方式"><span class="nav-number">6.0.1.</span> <span class="nav-text">1.查询的方式</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#1-1-直接查询"><span class="nav-number">6.0.1.0.1.</span> <span class="nav-text">1.1 直接查询</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#1-2-链式查询"><span class="nav-number">6.0.1.0.2.</span> <span class="nav-text">1.2 链式查询</span></a></li></ol></li></ol></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#七-Validation-验证"><span class="nav-number">7.</span> <span class="nav-text">七.Validation(验证)</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-验证器"><span class="nav-number">7.0.1.</span> <span class="nav-text">1 验证器</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-验证失败"><span class="nav-number">7.0.2.</span> <span class="nav-text">2 验证失败</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#八-Middleware中间件"><span class="nav-number">8.</span> <span class="nav-text">八.Middleware中间件</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#1-什么是中间件"><span class="nav-number">8.0.1.</span> <span class="nav-text">1.什么是中间件</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#2-中间件的分类"><span class="nav-number">8.0.2.</span> <span class="nav-text">2.中间件的分类</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#2-1-Serial串行"><span class="nav-number">8.0.2.0.1.</span> <span class="nav-text">2.1 Serial串行</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#2-2-Parallel并行"><span class="nav-number">8.0.2.0.2.</span> <span class="nav-text">2.2 Parallel并行</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#3-中间件特点"><span class="nav-number">8.0.3.</span> <span class="nav-text">3.中间件特点</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#4-使用范畴"><span class="nav-number">8.0.4.</span> <span class="nav-text">4.使用范畴</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">大闯仔儿</span>
+</div>
+
+
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 背景动画 -->
+<script type="text/javascript" src="/js/src/particle.js"></script>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+

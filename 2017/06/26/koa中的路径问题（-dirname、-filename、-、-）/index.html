@@ -1,0 +1,774 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="koa," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="最近在看path模块以及require()原理的时候，发现了一篇博客写的不错，解决了许多困扰，特分享一波关于Node.js的dirname，filename，process.cwd()，./文件路径的一些坑 先来介绍一下博主当时遇到的问题，如下图：  博主在执行node syntax/nodejs/3.fs.js文件时读取不到当前目录下的1.findLaegest.js，其实这个问题在于运行的是n">
+<meta name="keywords" content="koa">
+<meta property="og:type" content="article">
+<meta property="og:title" content="koa中的路径问题（__dirname、__filename、.&#x2F;、..&#x2F;）">
+<meta property="og:url" content="http://yoursite.com/2017/06/26/koa中的路径问题（-dirname、-filename、-、-）/index.html">
+<meta property="og:site_name" content="Big Chuang&#39;s WebSite">
+<meta property="og:description" content="最近在看path模块以及require()原理的时候，发现了一篇博客写的不错，解决了许多困扰，特分享一波关于Node.js的dirname，filename，process.cwd()，./文件路径的一些坑 先来介绍一下博主当时遇到的问题，如下图：  博主在执行node syntax/nodejs/3.fs.js文件时读取不到当前目录下的1.findLaegest.js，其实这个问题在于运行的是n">
+<meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/6-1.png">
+<meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/6-2.png">
+<meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/6-3.png">
+<meta property="og:updated_time" content="2017-06-27T07:26:23.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="koa中的路径问题（__dirname、__filename、.&#x2F;、..&#x2F;）">
+<meta name="twitter:description" content="最近在看path模块以及require()原理的时候，发现了一篇博客写的不错，解决了许多困扰，特分享一波关于Node.js的dirname，filename，process.cwd()，./文件路径的一些坑 先来介绍一下博主当时遇到的问题，如下图：  博主在执行node syntax/nodejs/3.fs.js文件时读取不到当前目录下的1.findLaegest.js，其实这个问题在于运行的是n">
+<meta name="twitter:image" content="http://os20uatm3.bkt.clouddn.com/6-1.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/06/26/koa中的路径问题（-dirname、-filename、-、-）/"/>
+
+
+
+
+
+  <title>koa中的路径问题（__dirname、__filename、./、../） | Big Chuang's WebSite</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?12cfbab09f3fcdee181cf994706182d5";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Big Chuang's WebSite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/26/koa中的路径问题（-dirname、-filename、-、-）/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大闯仔儿">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2036.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Big Chuang's WebSite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">koa中的路径问题（__dirname、__filename、./、../）</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-26T20:20:02+08:00">
+                2017-06-26
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>最近在看path模块以及require()原理的时候，发现了一篇博客写的不错，解决了许多困扰，特分享一波<a href="http://www.jianshu.com/p/aeb3d4318d07" target="_blank" rel="external">关于Node.js的<strong>dirname，</strong>filename，process.cwd()，./文件路径的一些坑</a></p>
+<p>先来介绍一下博主当时遇到的问题，如下图：</p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/6-1.png" alt="6-1"></p>
+<p>博主在执行<code>node syntax/nodejs/3.fs.js</code>文件时读取不到当前目录下的<code>1.findLaegest.js</code>，其实这个问题在于运行的是<code>node syntax/nodejs/3.fs.js</code>而不是运行的在<code>/Users/jawil/Desktop/nodejs/demo/ES6-lottery/syntax/nodejs</code>目录下运行<code>node 3.fs.js</code>为什么这么说，我们接着往下看</p>
+<p><code>Node.js</code>中的文件路径大概有 <code>__dirname</code>, <code>__filename</code>, <code>process.cwd()</code>, <code>./</code> 或者 <code>../</code>，前三个都是绝对路径，为了便于比较，<code>./</code> 和 <code>../</code> 我们通过 <code>path.resolve(&#39;./&#39;)</code>来转换为绝对路径。</p>
+<p>简单说一下这几个路径的意思：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">__dirname：    获得当前执行文件所在目录的完整目录名</div><div class="line">__filename：   获得当前执行文件的带有完整绝对路径的文件名</div><div class="line">process.cwd()：获得当前执行node命令时候的文件夹目录名 </div><div class="line">./：           文件所在目录</div></pre></td></tr></table></figure>
+<p>例如以下目录结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">syntax/</div><div class="line">    -nodejs/</div><div class="line">        -1.findLargest.js</div><div class="line">        -2.path.js</div><div class="line">        -3.fs.js</div><div class="line">    -regs</div><div class="line">        -regx.js</div><div class="line">        -test.txt</div></pre></td></tr></table></figure>
+<p>在 path.js 里面我们写这些代码，看看输出是什么：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const path = require(&apos;path&apos;)</div><div class="line">console.log(&apos;__dirname：&apos;, __dirname)</div><div class="line">console.log(&apos;__filename：&apos;, __filename)</div><div class="line">console.log(&apos;process.cwd()：&apos;, process.cwd())</div><div class="line">console.log(&apos;./：&apos;, path.resolve(&apos;./&apos;))</div></pre></td></tr></table></figure>
+<p>在当前目录下也就是<code>nodejs</code>目录运行 <code>node path.js</code>，我们看看输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">__dirname：     /Users/jawil/Desktop/nodejs/demo/ES6-lottery/syntax/nodejs</div><div class="line">__filename：    /Users/jawil/Desktop/nodejs/demo/ES6-lottery/syntax/nodejs/2.path.js</div><div class="line">process.cwd()： /Users/jawil/Desktop/nodejs/demo/ES6-lottery/syntax/nodejs</div><div class="line">./：            /Users/jawil/Desktop/nodejs/demo/ES6-lottery/syntax/nodejs</div></pre></td></tr></table></figure>
+<p>然后在 <code>项目根目录ES6-lottery</code> 目录下运行 <code>node syntax/nodejs/2.path.js</code>，我们再来看看输出结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">__dirname：     /Users/jawil/Desktop/nodejs/demo/ES6-lottery/syntax/nodejs</div><div class="line">__filename：    /Users/jawil/Desktop/nodejs/demo/ES6-lottery/syntax/nodejs/2.path.js</div><div class="line">process.cwd()： /Users/jawil/Desktop/nodejs/demo/ES6-lottery</div><div class="line">./：            /Users/jawil/Desktop/nodejs/demo/ES6-lottery</div></pre></td></tr></table></figure>
+<p>通过两次的对比，我们很容易发现两次执行node命令，对于<code>__dirname</code>和<code>__filename</code>是不变的，而对于<code>proces.cwd()</code>和<code>./</code>会随着当前执行node命令时候的文件夹目录名改变而改变。</p>
+<p>这样我们再来回顾一下这个问题，博主在执行<code>node syntax/nodejs/3.fs.js</code>文件时，<code>fs.readFile(&quot;./1.findLargest.js&quot;,(err,data) =&gt;{})</code>命令中的<code>./</code>这个路径已经变成了<code>syntax/nodejs/3.fs.js</code>的父模块<code>/Users/jawil/Desktop/nodejs/demo/ES6-lottery</code>在此路径下读取<code>1.findLargest.js</code>文件也当然是并不可能的，所以才会报错。</p>
+<h2 id="require-的原理"><a href="#require-的原理" class="headerlink" title="require()的原理"></a>require()的原理</h2><p>至此，博主并没有就此打住，在<code>1.findLargest.js</code>先加这句代码</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">exports.A = 1;</div></pre></td></tr></table></figure>
+<p>再来在刚才报错的<code>3.fs.js</code>里面加这两句代码看看：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">onst test = require(&apos;./1.findLargest.js&apos;);</div><div class="line"></div><div class="line">console.log(test)</div></pre></td></tr></table></figure>
+<p>运行<code>node syntax/nodejs/3.fs.js</code>，最后看看结果：</p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/6-2.png" alt="6-2"></p>
+<p>看到这里，我也瞬间懵逼，为什么都是读取<code>./1.findLargest.js</code>文件，一样的路径，为什么<code>require</code>能获取到，而<code>readFile</code>读取不到呢？</p>
+<p>翻看了一下阮一峰老师关于<a href="http://www.ruanyifeng.com/blog/2015/05/require.html" target="_blank" rel="external">require()源码解读</a>大致搞明白，这是因为<code>require()</code>的功劳</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">当 Node 遇到 require(X) 时，按下面的顺序处理。</div><div class="line">（1）如果 X 是内置模块（比如 require(&apos;http&apos;）) </div><div class="line">　　a. 返回该模块。 </div><div class="line">　　b. 不再继续执行。</div><div class="line">（2）如果 X 以 &quot;./&quot; 或者 &quot;/&quot; 或者 &quot;../&quot; 开头 </div><div class="line">　　a. 根据 X 所在的父模块，确定 X 的绝对路径。 </div><div class="line">　　b. 将 X 当成文件，依次查找下面文件，只要其中有一个存在，就返回该文件，不再继续执行。</div><div class="line">X</div><div class="line">X.js</div><div class="line">X.json</div><div class="line">X.node</div><div class="line">　　c. 将 X 当成目录，依次查找下面文件，只要其中有一个存在，就返回该文件，不再继续执行。</div><div class="line">X/package.json（main字段）</div><div class="line">X/index.js</div><div class="line">X/index.json</div><div class="line">X/index.node</div><div class="line">（3）如果 X 不带路径 </div><div class="line">　　a. 根据 X 所在的父模块，确定 X 可能的安装目录。 </div><div class="line">　　b. 依次在每个目录中，将 X 当成文件名或目录名加载。</div><div class="line">（4） 抛出 &quot;not found&quot;</div></pre></td></tr></table></figure>
+<p>我们从第（2）小条的a部分可以看出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">（2）如果 X 以 &quot;./&quot; 或者 &quot;/&quot; 或者 &quot;../&quot; 开头 </div><div class="line">　　a. 根据 X 所在的父模块，确定 X 的绝对路径。</div><div class="line">　　b. 将 X 当成文件，依次查找下面文件，只要其中有一个存在，就返回该文件，不再继续执行。</div></pre></td></tr></table></figure>
+<p><code>const test = require(&#39;./1.findLargest.js&#39;)</code>按照上面规则翻译一遍就是:</p>
+<ol>
+<li>根据<code>1.findLargest.js</code>所在的父模块，确定<code>1.findLargest.js</code>的绝对路径为<code>/Users/jawil/Desktop/nodejs/demo/ES6-lottery/syntax/nodejs</code>，关于其中的寻找细节这里不做探讨。</li>
+<li>先把<code>1.findLargest.js</code>当成文件，依次查找当前目录下的<code>1.findLargest.js</code>，找到了，就返回该文件，不再继续执行。</li>
+</ol>
+<h3 id="也就是说无论执行node命令时候目录文件是怎样的，require-quot-X-quot-都会根据X所在的父模块，确定X的绝对路径，而不会根据当前执行node命令时候的文件夹目录名-来确定X的绝对路径"><a href="#也就是说无论执行node命令时候目录文件是怎样的，require-quot-X-quot-都会根据X所在的父模块，确定X的绝对路径，而不会根据当前执行node命令时候的文件夹目录名-来确定X的绝对路径" class="headerlink" title="也就是说无论执行node命令时候目录文件是怎样的，require(&quot;./X&quot;)都会根据X所在的父模块，确定X的绝对路径，而不会根据当前执行node命令时候的文件夹目录名 来确定X的绝对路径"></a><strong>也就是说无论执行node命令时候目录文件是怎样的，<code>require(&quot;./X&quot;)</code>都会根据X所在的父模块，确定X的绝对路径，而不会根据</strong>当前执行node命令时候的文件夹目录名 来确定X的绝对路径</h3><p>最后博主修改了一下代码，让执行<code>node syntax/nodejs/3.fs.js</code>顺利执行</p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/6-3.png" alt="6-3"></p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><ul>
+<li>__dirname： 获得当前执行文件所在目录的完整目录名</li>
+<li>__filename： 获得当前执行文件的带有完整绝对路径的文件名</li>
+<li>process.cwd()：获得当前执行node命令时候的文件夹目录名</li>
+<li>./：不使用require时候，./与process.cwd()一样，路径和node的执行命令有关联的</li>
+<li>./：使用require时候，与__dirname一样，路径和node的执行命令没有任何关系，只和<code>require()</code>的执行原理有关系。</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/koa/" rel="tag"># koa</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/06/25/koa2使用cookie & session/" rel="next" title="koa2使用cookie & session">
+                <i class="fa fa-chevron-left"></i> koa2使用cookie & session
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/06/27/Question/" rel="prev" title="Question">
+                Question <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/IMG_2036.JPG"
+               alt="大闯仔儿" />
+          <p class="site-author-name" itemprop="name">大闯仔儿</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界那么大，谁不想去看看！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">21</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tages/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#require-的原理"><span class="nav-number">1.</span> <span class="nav-text">require()的原理</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#也就是说无论执行node命令时候目录文件是怎样的，require-quot-X-quot-都会根据X所在的父模块，确定X的绝对路径，而不会根据当前执行node命令时候的文件夹目录名-来确定X的绝对路径"><span class="nav-number">1.1.</span> <span class="nav-text">也就是说无论执行node命令时候目录文件是怎样的，require("./X")都会根据X所在的父模块，确定X的绝对路径，而不会根据当前执行node命令时候的文件夹目录名 来确定X的绝对路径</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">大闯仔儿</span>
+</div>
+
+
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 背景动画 -->
+<script type="text/javascript" src="/js/src/particle.js"></script>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
