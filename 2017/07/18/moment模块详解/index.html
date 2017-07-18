@@ -4,24 +4,24 @@
 <head>
   <meta charset="UTF-8">
   
-    <title>MongoDB基础 | Big Chuang&#39;s WebSite</title>
+    <title>moment模块详解 | Big Chuang&#39;s WebSite</title>
     <meta name="viewport" content="width=device-width, initial-scale=1,user-scalable=no">
     
     <meta name="author" content="大闯仔儿">
     
 
     
-    <meta name="description" content="什么是MongoDBMongoDB 是由C++语言编写的，是一个基于分布式文件存储的开源数据库系统。 在高负载的情况下，添加更多的节点，可以保证服务器性能。 MongoDB 旨在为WEB应用提供可扩展的高性能数据存储解决方案。 MongoDB 将数据存储为一个文档，数据结构由键值(key=&amp;gt;value)对组成。MongoDB 文档类似于 JSON 对象。字段值可以包含其他文档，数组及文档数组">
-<meta name="keywords" content="node,MongoDB">
+    <meta name="description" content="最近在做开发的时候遇到一个问题，经常需要根据需求对日期时间等进行格式化的输出，以及转换，同时做时间的统计，js原生的时间函数比较复杂繁琐，不适合快速开发使用。 轻量级的moment.js很好的解决了这些问题。 老套路先上官方API文档。相对简单，需要用到直接查找API即可，也不必刻意的去学习。 举个例子1.安装moment.js  1npm install moment 2.引用moment  1">
+<meta name="keywords" content="node,Express">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MongoDB基础">
-<meta property="og:url" content="http://yoursite.com/2017/07/17/MongoDB基础/index.html">
+<meta property="og:title" content="moment模块详解">
+<meta property="og:url" content="http://yoursite.com/2017/07/18/moment模块详解/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="什么是MongoDBMongoDB 是由C++语言编写的，是一个基于分布式文件存储的开源数据库系统。 在高负载的情况下，添加更多的节点，可以保证服务器性能。 MongoDB 旨在为WEB应用提供可扩展的高性能数据存储解决方案。 MongoDB 将数据存储为一个文档，数据结构由键值(key=&amp;gt;value)对组成。MongoDB 文档类似于 JSON 对象。字段值可以包含其他文档，数组及文档数组">
-<meta property="og:updated_time" content="2017-07-17T02:08:34.000Z">
+<meta property="og:description" content="最近在做开发的时候遇到一个问题，经常需要根据需求对日期时间等进行格式化的输出，以及转换，同时做时间的统计，js原生的时间函数比较复杂繁琐，不适合快速开发使用。 轻量级的moment.js很好的解决了这些问题。 老套路先上官方API文档。相对简单，需要用到直接查找API即可，也不必刻意的去学习。 举个例子1.安装moment.js  1npm install moment 2.引用moment  1">
+<meta property="og:updated_time" content="2017-07-18T03:08:50.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MongoDB基础">
-<meta name="twitter:description" content="什么是MongoDBMongoDB 是由C++语言编写的，是一个基于分布式文件存储的开源数据库系统。 在高负载的情况下，添加更多的节点，可以保证服务器性能。 MongoDB 旨在为WEB应用提供可扩展的高性能数据存储解决方案。 MongoDB 将数据存储为一个文档，数据结构由键值(key=&amp;gt;value)对组成。MongoDB 文档类似于 JSON 对象。字段值可以包含其他文档，数组及文档数组">
+<meta name="twitter:title" content="moment模块详解">
+<meta name="twitter:description" content="最近在做开发的时候遇到一个问题，经常需要根据需求对日期时间等进行格式化的输出，以及转换，同时做时间的统计，js原生的时间函数比较复杂繁琐，不适合快速开发使用。 轻量级的moment.js很好的解决了这些问题。 老套路先上官方API文档。相对简单，需要用到直接查找API即可，也不必刻意的去学习。 举个例子1.安装moment.js  1npm install moment 2.引用moment  1">
 
     
     <link rel="alternative" href="/atom.xml" title="Big Chuang&#39;s WebSite" type="application/atom+xml">
@@ -85,14 +85,14 @@
 		<header class="article-info clearfix">
   <h1 itemprop="name">
     
-      <a href="/2017/07/17/MongoDB基础/" title="MongoDB基础" itemprop="url">MongoDB基础</a>
+      <a href="/2017/07/18/moment模块详解/" title="moment模块详解" itemprop="url">moment模块详解</a>
   </h1>
   <p class="article-author">By
        
 		<a href="/about" title="大闯仔儿" target="_blank" itemprop="author">大闯仔儿</a>
 		
   <p class="article-time">
-    <time datetime="2017-07-17T01:58:28.000Z" itemprop="datePublished"> Published 2017-07-17</time>
+    <time datetime="2017-07-18T02:45:11.000Z" itemprop="datePublished"> Published 2017-07-18</time>
     
   </p>
 </header>
@@ -101,31 +101,23 @@
 		<div id="toc" class="toc-article">
 			<strong class="toc-title">Contents</strong>
 		
-			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是MongoDB"><span class="toc-number">1.</span> <span class="toc-text">什么是MongoDB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#主要特点："><span class="toc-number">1.0.1.</span> <span class="toc-text">主要特点：</span></a></li></ol></li></ol></li></ol>
+			<ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#举个例子"><span class="toc-number">1.</span> <span class="toc-text">举个例子</span></a></li></ol>
 		
 		</div>
 		
-		<h2 id="什么是MongoDB"><a href="#什么是MongoDB" class="headerlink" title="什么是MongoDB"></a>什么是MongoDB</h2><p>MongoDB 是由C++语言编写的，是一个基于分布式文件存储的开源数据库系统。</p>
-<p>在高负载的情况下，添加更多的节点，可以保证服务器性能。</p>
-<p>MongoDB 旨在为WEB应用提供可扩展的高性能数据存储解决方案。</p>
-<p>MongoDB 将数据存储为一个文档，数据结构由键值(key=&gt;value)对组成。MongoDB 文档类似于 JSON 对象。字段值可以包含其他文档，数组及文档数组。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">  name： &quot;sue&quot;,</div><div class="line">  age: &quot;26&quot;,</div><div class="line">  status: &quot;A&quot;,</div><div class="line">  groups: [&quot;news&quot;,&quot;sports&quot;]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h4 id="主要特点："><a href="#主要特点：" class="headerlink" title="主要特点："></a>主要特点：</h4><ul>
-<li>MongoDB的提供了一个面向文档存储，操作起来比较简单和容易。</li>
-<li>你可以在MongoDB记录中设置任何属性的索引 (如：FirstName=”Sameer”,Address=”8 Gandhi Road”)来实现更快的排序。</li>
-<li>你可以通过本地或者网络创建数据镜像，这使得MongoDB有更强的扩展性。</li>
-<li>如果负载的增加（需要更多的存储空间和更强的处理能力） ，它可以分布在计算机网络中的其他节点上这就是所谓的分片。</li>
-<li>Mongo支持丰富的查询表达式。查询指令使用JSON形式的标记，可轻易查询文档中内嵌的对象及数组。</li>
-<li>MongoDb 使用update()命令可以实现替换完成的文档（数据）或者一些指定的数据字段 。</li>
-<li>Mongodb中的Map/reduce主要是用来对数据进行批量处理和聚合操作。</li>
-<li>Map和Reduce。Map函数调用emit(key,value)遍历集合中所有的记录，将key与value传给Reduce函数进行处理。</li>
-<li>Map函数和Reduce函数是使用Javascript编写的，并可以通过db.runCommand或mapreduce命令来执行MapReduce操作。</li>
-<li>GridFS是MongoDB中的一个内置功能，可以用于存放大量小文件。</li>
-<li>MongoDB允许在服务端执行脚本，可以用Javascript编写某个函数，直接在服务端执行，也可以把函数的定义存储在服务端，下次直接调用即可。</li>
-<li>MongoDB支持各种编程语言:RUBY，PYTHON，JAVA，C++，PHP，C#等多种语言。</li>
-<li>MongoDB安装简单。</li>
-</ul>
-<p>在node开发中，使用较多的是直接封装好的Mongoose模块，详情参见文章<a href="http://bigfacechuang.website/2017/07/17/Mongoose%E5%AD%A6%E4%B9%A0%E5%8F%82%E8%80%83%E6%96%87%E6%A1%A3/" target="_blank" rel="external">Mongoose学习参考文档</a>。</p>
+		<p>最近在做开发的时候遇到一个问题，经常需要根据需求对日期时间等进行格式化的输出，以及转换，同时做时间的统计，js原生的时间函数比较复杂繁琐，不适合快速开发使用。</p>
+<p>轻量级的<code>moment.js</code>很好的解决了这些问题。</p>
+<p>老套路先上官方<a href="http://momentjs.cn/docs/" target="_blank" rel="external">API文档</a>。相对简单，需要用到直接查找API即可，也不必刻意的去学习。</p>
+<h2 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h2><p>1.安装<code>moment.js</code> </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install moment</div></pre></td></tr></table></figure>
+<p>2.引用moment </p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">app.locals.moment = require(&apos;moment&apos;);</div></pre></td></tr></table></figure>
+<p>关于<code>app.locals.moment</code>参见我的另一篇文章<a href="http://bigfacechuang.website/2017/06/28/%E6%A8%A1%E6%9D%BF%E4%BC%A0%E5%80%BC%E5%AF%B9%E8%B1%A1app-locals%E3%80%81res-locals/" target="_blank" rel="external">模板传值对象app.locals、res.locals</a>。</p>
+<p>3.调用</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">function writeFile(data, name) &#123;</div><div class="line">    fs.writeFile(path.join(__dirname, name + &apos;.js&apos;), &apos;module.exports =&apos; + JSON.stringify(data), function (err) &#123;</div><div class="line">        if (err) throw err;</div><div class="line">        console.log(&apos;Export&apos; + name + &apos; Success!&apos; + name + &apos;  Export  Time:&apos;, moment().format(&apos;YYYY-MM-DD HH:mm:ss&apos;));</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>从代码中可以看出，<code>moment().format()</code>即可进行快速的格式化输出，<code>moment.js</code>提供多种格式。具体可参看API。</p>
+<p>4.同时也可以进行<code>moment.js</code>封装，供其他对象进行使用，代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">Util.prototype.toDateTimeString = function (timeStamp) &#123;</div><div class="line">    return toMoment(timeStamp).format(&apos;YYYY-MM-DD HH:mm:ss&apos;);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Util.prototype.toDateString = function (timeStamp) &#123;</div><div class="line">    return toMoment(timeStamp).format(&apos;YYYY-MM-DD&apos;);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Util.prototype.toTimeString = function (timeStamp) &#123;</div><div class="line">    return toMoment(timeStamp).format(&apos;HH:mm:ss&apos;);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">function toMoment(timeStamp) &#123;</div><div class="line">    return moment(timeStamp * 1000);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
   
 	</div>
 		<footer class="article-footer clearfix">
@@ -134,7 +126,7 @@
 
   <div class="article-tags">
   
-  <span></span> <a href="/tags/node/">node</a><a href="/tags/MongoDB/">MongoDB</a>
+  <span></span> <a href="/tags/node/">node</a><a href="/tags/Express/">Express</a>
   </div>
 
 </div>
@@ -143,7 +135,7 @@
 
 	<div class="article-share" id="share">
 	
-	  <div data-url="http://yoursite.com/2017/07/17/MongoDB基础/" data-title="MongoDB基础 | Big Chuang&#39;s WebSite" data-tsina="5370260824" class="share clearfix">
+	  <div data-url="http://yoursite.com/2017/07/18/moment模块详解/" data-title="moment模块详解 | Big Chuang&#39;s WebSite" data-tsina="5370260824" class="share clearfix">
 	  </div>
 	
 	</div>
@@ -156,19 +148,11 @@
 	
 <nav class="article-nav clearfix">
  
- <div class="prev" >
- <a href="/2017/07/17/Underscore工具库/" title="Underscore工具库">
-  <strong>上一篇：</strong><br/>
-  <span>
-  Underscore工具库</span>
-</a>
-</div>
-
 
 <div class="next">
-<a href="/2017/07/17/Mongoose学习参考文档/"  title="Mongoose学习参考文档">
+<a href="/2017/07/17/Underscore工具库/"  title="Underscore工具库">
  <strong>下一篇：</strong><br/> 
- <span>Mongoose学习参考文档
+ <span>Underscore工具库
 </span>
 </a>
 </div>
@@ -184,7 +168,7 @@
   <div id="toc" class="toc-aside">
   <strong class="toc-title">Contents</strong>
  
- <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#什么是MongoDB"><span class="toc-number">1.</span> <span class="toc-text">什么是MongoDB</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#主要特点："><span class="toc-number">1.0.1.</span> <span class="toc-text">主要特点：</span></a></li></ol></li></ol></li></ol>
+ <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#举个例子"><span class="toc-number">1.</span> <span class="toc-text">举个例子</span></a></li></ol>
  
   </div>
 
