@@ -1,0 +1,751 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="node," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="Node.js 天生异步和事件驱动，非常适合处理 I/O 相关的任务。如果你在处理应用中 I/O 相关的操作，你可以利用 Node.js 中的流(stream)。因此，我们先具体看看流，理解一下它们是怎么简化 I/O 操作的吧。  流是什么流是 unix 管道，让你可以很容易地从数据源读取数据，然后流向另一个目的地。简单来说，流不是什么特别的东西，它只是一个实现了一些方法的 EventEmitte">
+<meta name="keywords" content="node">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Stream接口">
+<meta property="og:url" content="http://yoursite.com/2017/07/19/Stream接口/index.html">
+<meta property="og:site_name" content="Big Chuang&#39;s WebSite">
+<meta property="og:description" content="Node.js 天生异步和事件驱动，非常适合处理 I/O 相关的任务。如果你在处理应用中 I/O 相关的操作，你可以利用 Node.js 中的流(stream)。因此，我们先具体看看流，理解一下它们是怎么简化 I/O 操作的吧。  流是什么流是 unix 管道，让你可以很容易地从数据源读取数据，然后流向另一个目的地。简单来说，流不是什么特别的东西，它只是一个实现了一些方法的 EventEmitte">
+<meta property="og:updated_time" content="2017-07-19T05:21:07.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Stream接口">
+<meta name="twitter:description" content="Node.js 天生异步和事件驱动，非常适合处理 I/O 相关的任务。如果你在处理应用中 I/O 相关的操作，你可以利用 Node.js 中的流(stream)。因此，我们先具体看看流，理解一下它们是怎么简化 I/O 操作的吧。  流是什么流是 unix 管道，让你可以很容易地从数据源读取数据，然后流向另一个目的地。简单来说，流不是什么特别的东西，它只是一个实现了一些方法的 EventEmitte">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/19/Stream接口/"/>
+
+
+
+
+
+  <title>Stream接口 | Big Chuang's WebSite</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?12cfbab09f3fcdee181cf994706182d5";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Big Chuang's WebSite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/19/Stream接口/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大闯仔儿">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2036.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Big Chuang's WebSite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Stream接口</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-19T10:24:22+08:00">
+                2017-07-19
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>Node.js 天生异步和事件驱动，非常适合处理 I/O 相关的任务。如果你在处理应用中 I/O 相关的操作，你可以利用 Node.js 中的流(stream)。因此，我们先具体看看流，理解一下它们是怎么简化 I/O 操作的吧。 </p>
+<h2 id="流是什么"><a href="#流是什么" class="headerlink" title="流是什么"></a>流是什么</h2><p>流是 unix 管道，让你可以很容易地从数据源读取数据，然后流向另一个目的地。<br>简单来说，流不是什么特别的东西，它只是一个实现了一些方法的 EventEmitter 。根据它实现的方法，流可以变成可读流(Readable)，可写流(Writable)，或者双向流(Duplex，同时可读可写)。<br>可读流能让你从一个数据源读取数据，而可写流则可以让你往目的地写入数据。<br>如果你已经用过 Node.js，你很可能已经遇到过流了。<br>例如，在一个 Node.js 的 HTTP 服务器里面， request 是一个可读流， response 是一个可写流。<br>你也可能用过 fs 模块，它能帮你处理可读可写流。<br> 现在让你学一些基础，理解不同类型的流。本文会讨论可读流和可写流，双向流超出了本文的讨论范围，我们不作讨论。</p>
+<h4 id="可读流-Readable-Streams"><a href="#可读流-Readable-Streams" class="headerlink" title="可读流 (Readable Streams)"></a>可读流 (Readable Streams)</h4><p>我们可以用可读流从一个数据源中读取数据，这个数据源可以是任何东西，例如系统中的一个文件，内存中的 buffer，甚至是其他流。因为流是 EventEmitter ，它们会用各种事件发送数据。我们会利用这些事件来让流工作。</p>
+<h6 id="从流中读取数据"><a href="#从流中读取数据" class="headerlink" title="从流中读取数据"></a>从流中读取数据</h6><p> 从流中读取数据最好的方式是监听 data 事件，添加一个回调函数。当有数据流过来的时候，可读流会发送 data 事件，回调函数就会触发。看看下面的代码片段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var fs = require(&apos;fs&apos;);</div><div class="line">var readableStream = fs.createReadStream(&apos;file.txt&apos;);</div><div class="line">var data = &apos;&apos;;</div><div class="line"> </div><div class="line">var readableStream.on(&apos;data&apos;, function(chunk)&#123;</div><div class="line"> data += chunk;</div><div class="line">&#125;);</div><div class="line"> </div><div class="line">readableStream.on(&apos;end&apos;, function()&#123;</div><div class="line"> console.log(data);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>fs.createReadStream 会给你一个可读流。<br>最开始的时候，这个流不是流动态的。当你添加了 data 的事件监听器，加上一个回调函数时，它才会变成流动态的。在这之后，它就会读取一小块数据，然后传到你的回调函数里面。<br>流的实现者决定了 data 事件的触发频率，例如 HTTP request 会在读取到几 KB 数据的时候触发 data 事件。 当你从一个文件中读取数据的时候，你可能会决定当一行被读完的时候就触发 data 事件。<br>当没有数据可读的时候 (读到文件尾部时)，流就会发送 end 事件。在上面的例子中，我们监听了这个事件，当读完文件的时候，就把数据打印出来。<br>还有另一种读取流的方式，你只要在读到文件尾部前不断调用流实例中的 read() 方法就可以了。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">var fs = require(&apos;fs&apos;);</div><div class="line">var readableStream = fs.createReadStream(&apos;file.txt&apos;);</div><div class="line">var data = &apos;&apos;;</div><div class="line">var chunk;</div><div class="line"> </div><div class="line">readableStream.on(&apos;readable&apos;, function()&#123;</div><div class="line"> while ((chunk = readableStream.read()) != null) &#123;</div><div class="line"> data += chunk;</div><div class="line"> &#125;</div><div class="line">&#125;);</div><div class="line"> </div><div class="line">readableStream.on(&apos;end&apos;, function()&#123;</div><div class="line"> console.log(data);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>read() 方法会从内部 buffer 中读取数据，当没有数据可读的时候，它会返回 null 。<br>因此，在 while 循环中我们检查 read() 是不是返回 null ，当它返回 null 的时候，就终止循环。<br>需要注意的是，当我们可以从流中读取数据的时候， readable 事件就会触发。</p>
+<h6 id="设置编码"><a href="#设置编码" class="headerlink" title="设置编码"></a>设置编码</h6><p>默认情况下，你从流中读取到的是 Buffer 对象。如果你要读取的是字符串的话，这并不适合你。因此，你可以像下面的例子那样通过调用 Readable.setEncoding() 来设置流的编码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">var fs = require(&apos;fs&apos;);</div><div class="line">var readableStream = fs.createReadStream(&apos;file.txt&apos;);</div><div class="line">var data = &apos;&apos;;</div><div class="line"> </div><div class="line">readableStream.setEncoding(&apos;utf8&apos;);</div><div class="line"> </div><div class="line">readableStream.on(&apos;data&apos;, function(chunk)&#123;</div><div class="line"> data += chunk;</div><div class="line">&#125;);</div><div class="line"> </div><div class="line">readableStream.on(&apos;end&apos;, function()&#123;</div><div class="line"> console.log(data);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面的例子中，我们把流的编码设置成 utf8 ，数据就会被解析成 utf8 ，回调函数中的 chunk 就会是字符串了。</p>
+<h6 id="管道"><a href="#管道" class="headerlink" title="管道"></a>管道</h6><p>管道是一个很棒的机制，你不需要自己管理流的状态就可以从数据源中读取数据，然后写入到目的地中。我们先看看下面的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var fs = require(&apos;fs&apos;);</div><div class="line">var readableStream = fs.createReadStream(&apos;file1.txt&apos;);</div><div class="line">var writableStream = fs.createWriteStream(&apos;file2.txt&apos;);</div><div class="line"> </div><div class="line">readableStream.pipe(writableStream);</div></pre></td></tr></table></figure>
+<p>上面的例子利用 pipe() 方法把 file1 的内容写到 file2 中。因为 pipe() 会帮你管理数据流，你不需要担心数据流的速度。这让 pipe() 变得非常简洁易用。<br>需要注意的是， pipe() 会返回目的地的流，因此你可以很轻易让多个流链接起来！</p>
+<h6 id="链接"><a href="#链接" class="headerlink" title="链接"></a>链接</h6><p>假设有一个归档文件，你想要解压它。有很多方式可以完成这个任务。但最简洁的方式是利用管道和链接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var fs = require(&apos;fs&apos;);</div><div class="line">var zlib = require(&apos;zlib&apos;);</div><div class="line"> </div><div class="line">fs.createReadStream(&apos;input.txt.gz&apos;)</div><div class="line"> .pipe(zlib.createGunzip())</div><div class="line"> .pipe(fs.createWriteStream(&apos;output.txt&apos;));</div></pre></td></tr></table></figure>
+<p>首先，我们通过 input.txt.gz 创建了一个可读流，然后让它流 zlib.createGunzip() 流，它会解压内容。最后，我们添加一个可写流把解压后的内容写到另一个文件中。</p>
+<h6 id="其他方法"><a href="#其他方法" class="headerlink" title="其他方法"></a>其他方法</h6><p> 我们已经讨论了一些可读流中重要的概念了，这里还有一些你需要知道的方法：</p>
+<ul>
+<li>Readable.pause() – 这个方法会暂停流的流动。换句话说就是它不会再触发 data 事件。</li>
+<li>Readable.resume() – 这个方法和上面的相反，会让暂停流恢复流动。</li>
+<li>Readable.unpipe() – 这个方法会把目的地移除。如果有参数传入，它会让可读流停止刘翔某个特定的目的地，否则，它会移除所有目的地。 </li>
+</ul>
+<h4 id="可写流-Writable-Streams"><a href="#可写流-Writable-Streams" class="headerlink" title="可写流 (Writable Streams)"></a>可写流 (Writable Streams)</h4><p>其实可写流和可读流API类似，我们先来看一下文件拷贝的例子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">var fs=require(&quot;fs&quot;);</div><div class="line">var rs = fs.createReadStream(&quot;./Koala.jpg&quot;);//默认64KB</div><div class="line">var ws = fs.createWriteStream(&quot;./Copy.jpg&quot;);//默认16KB，写入速度小于读取速度</div><div class="line">rs.on(&quot;data&quot;,function(data)&#123;</div><div class="line">   var flag = ws.write(data);</div><div class="line">    if (!flag)&#123; //缓冲区已满</div><div class="line">        rs.pause();//停止触发data事件</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">ws.on(&quot;drain&quot;,function()&#123;</div><div class="line">    rs.resume();//如果当前的缓冲区写入完毕，就重新触发data事件</div><div class="line">&#125;);</div><div class="line">rs.on(&quot;end&quot;,function()&#123;</div><div class="line">    ws.end();//将剩下的数据全部写入，并且关闭写入的文件</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>这个例子综合运用了可读流和可写流的事件和重要方法。由于读流比写入流的速度快，所以要控制可读流的数据流动。通过控制data事件的触发时机，就解决读写速度不匹配的问题。</p>
+<p>更多可读流和可写流的方法以及监听的事件参加<a href="http://nodejs.cn/api/stream.html" target="_blank" rel="external">API文档</a>。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/node/" rel="tag"># node</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/19/process对象/" rel="next" title="process对象">
+                <i class="fa fa-chevron-left"></i> process对象
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/IMG_2036.JPG"
+               alt="大闯仔儿" />
+          <p class="site-author-name" itemprop="name">大闯仔儿</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界那么大，谁不想去看看！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">23</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">1</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tages/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#流是什么"><span class="nav-number">1.</span> <span class="nav-text">流是什么</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#可读流-Readable-Streams"><span class="nav-number">1.0.1.</span> <span class="nav-text">可读流 (Readable Streams)</span></a><ol class="nav-child"><li class="nav-item nav-level-6"><a class="nav-link" href="#从流中读取数据"><span class="nav-number">1.0.1.0.1.</span> <span class="nav-text">从流中读取数据</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#设置编码"><span class="nav-number">1.0.1.0.2.</span> <span class="nav-text">设置编码</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#管道"><span class="nav-number">1.0.1.0.3.</span> <span class="nav-text">管道</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#链接"><span class="nav-number">1.0.1.0.4.</span> <span class="nav-text">链接</span></a></li><li class="nav-item nav-level-6"><a class="nav-link" href="#其他方法"><span class="nav-number">1.0.1.0.5.</span> <span class="nav-text">其他方法</span></a></li></ol></li></ol></li><li class="nav-item nav-level-4"><a class="nav-link" href="#可写流-Writable-Streams"><span class="nav-number">1.0.2.</span> <span class="nav-text">可写流 (Writable Streams)</span></a></li></ol></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">大闯仔儿</span>
+</div>
+
+
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 背景动画 -->
+<script type="text/javascript" src="/js/src/particle.js"></script>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
