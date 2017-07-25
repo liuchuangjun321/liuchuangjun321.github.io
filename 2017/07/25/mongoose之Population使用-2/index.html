@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Express,node," />
+  <meta name="keywords" content="MongoDB," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="最近在做开发的时候遇到一个问题，经常需要根据需求对日期时间等进行格式化的输出，以及转换，同时做时间的统计，js原生的时间函数比较复杂繁琐，不适合快速开发使用。 轻量级的moment.js很好的解决了这些问题。 老套路先上官方API文档。相对简单，需要用到直接查找API即可，也不必刻意的去学习。 举个例子1.安装moment.js  1npm install moment 2.引用moment  1">
-<meta name="keywords" content="Express,node">
+<meta name="description" content="何为Population用过 MongoDB 的人应该都知道它是没有关系型数据库里的 join 特性的，这意味着当我们使用 MongoDB 读取某个 document 及其关联的 document 的字段的时候，变得尤为麻烦。 基于此，Mongoose 封装了一个 population 的功能，当你在定义 Schema 的时候指定了某个 field 是引用了另一个 Schema ，那么你在获取 d">
+<meta name="keywords" content="MongoDB">
 <meta property="og:type" content="article">
-<meta property="og:title" content="moment模块详解">
-<meta property="og:url" content="http://yoursite.com/2017/07/18/moment模块详解/index.html">
+<meta property="og:title" content="mongoose之Population使用-2">
+<meta property="og:url" content="http://yoursite.com/2017/07/25/mongoose之Population使用-2/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="最近在做开发的时候遇到一个问题，经常需要根据需求对日期时间等进行格式化的输出，以及转换，同时做时间的统计，js原生的时间函数比较复杂繁琐，不适合快速开发使用。 轻量级的moment.js很好的解决了这些问题。 老套路先上官方API文档。相对简单，需要用到直接查找API即可，也不必刻意的去学习。 举个例子1.安装moment.js  1npm install moment 2.引用moment  1">
-<meta property="og:updated_time" content="2017-07-18T03:08:50.000Z">
+<meta property="og:description" content="何为Population用过 MongoDB 的人应该都知道它是没有关系型数据库里的 join 特性的，这意味着当我们使用 MongoDB 读取某个 document 及其关联的 document 的字段的时候，变得尤为麻烦。 基于此，Mongoose 封装了一个 population 的功能，当你在定义 Schema 的时候指定了某个 field 是引用了另一个 Schema ，那么你在获取 d">
+<meta property="og:updated_time" content="2017-07-25T02:22:38.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="moment模块详解">
-<meta name="twitter:description" content="最近在做开发的时候遇到一个问题，经常需要根据需求对日期时间等进行格式化的输出，以及转换，同时做时间的统计，js原生的时间函数比较复杂繁琐，不适合快速开发使用。 轻量级的moment.js很好的解决了这些问题。 老套路先上官方API文档。相对简单，需要用到直接查找API即可，也不必刻意的去学习。 举个例子1.安装moment.js  1npm install moment 2.引用moment  1">
+<meta name="twitter:title" content="mongoose之Population使用-2">
+<meta name="twitter:description" content="何为Population用过 MongoDB 的人应该都知道它是没有关系型数据库里的 join 特性的，这意味着当我们使用 MongoDB 读取某个 document 及其关联的 document 的字段的时候，变得尤为麻烦。 基于此，Mongoose 封装了一个 population 的功能，当你在定义 Schema 的时候指定了某个 field 是引用了另一个 Schema ，那么你在获取 d">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/07/18/moment模块详解/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/25/mongoose之Population使用-2/"/>
 
 
 
 
 
-  <title>moment模块详解 | Big Chuang's WebSite</title>
+  <title>mongoose之Population使用-2 | Big Chuang's WebSite</title>
   
 
 
@@ -286,7 +286,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/18/moment模块详解/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/25/mongoose之Population使用-2/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="大闯仔儿">
@@ -303,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">moment模块详解</h1>
+          <h1 class="post-title" itemprop="name headline">mongoose之Population使用-2</h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-18T10:45:11+08:00">
-                2017-07-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-25T10:11:00+08:00">
+                2017-07-25
               </time>
             
 
@@ -350,19 +350,40 @@
       
 
       
-        <p>最近在做开发的时候遇到一个问题，经常需要根据需求对日期时间等进行格式化的输出，以及转换，同时做时间的统计，js原生的时间函数比较复杂繁琐，不适合快速开发使用。</p>
-<p>轻量级的<code>moment.js</code>很好的解决了这些问题。</p>
-<p>老套路先上官方<a href="http://momentjs.cn/docs/" target="_blank" rel="external">API文档</a>。相对简单，需要用到直接查找API即可，也不必刻意的去学习。</p>
-<h2 id="举个例子"><a href="#举个例子" class="headerlink" title="举个例子"></a>举个例子</h2><p>1.安装<code>moment.js</code> </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">npm install moment</div></pre></td></tr></table></figure>
-<p>2.引用moment </p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">app.locals.moment = require(&apos;moment&apos;);</div></pre></td></tr></table></figure>
-<p>关于<code>app.locals.moment</code>参见我的另一篇文章<a href="http://bigfacechuang.website/2017/06/28/%E6%A8%A1%E6%9D%BF%E4%BC%A0%E5%80%BC%E5%AF%B9%E8%B1%A1app-locals%E3%80%81res-locals/" target="_blank" rel="external">模板传值对象app.locals、res.locals</a>。</p>
-<p>3.调用</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">function writeFile(data, name) &#123;</div><div class="line">    fs.writeFile(path.join(__dirname, name + &apos;.js&apos;), &apos;module.exports =&apos; + JSON.stringify(data), function (err) &#123;</div><div class="line">        if (err) throw err;</div><div class="line">        console.log(&apos;Export&apos; + name + &apos; Success!&apos; + name + &apos;  Export  Time:&apos;, moment().format(&apos;YYYY-MM-DD HH:mm:ss&apos;));</div><div class="line">    &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>从代码中可以看出，<code>moment().format()</code>即可进行快速的格式化输出，<code>moment.js</code>提供多种格式。具体可参看API。</p>
-<p>4.同时也可以进行<code>moment.js</code>封装，供其他对象进行使用，代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">Util.prototype.toDateTimeString = function (timeStamp) &#123;</div><div class="line">    return toMoment(timeStamp).format(&apos;YYYY-MM-DD HH:mm:ss&apos;);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Util.prototype.toDateString = function (timeStamp) &#123;</div><div class="line">    return toMoment(timeStamp).format(&apos;YYYY-MM-DD&apos;);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">Util.prototype.toTimeString = function (timeStamp) &#123;</div><div class="line">    return toMoment(timeStamp).format(&apos;HH:mm:ss&apos;);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">function toMoment(timeStamp) &#123;</div><div class="line">    return moment(timeStamp * 1000);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        <h2 id="何为Population"><a href="#何为Population" class="headerlink" title="何为Population"></a>何为Population</h2><p>用过 MongoDB 的人应该都知道它是没有关系型数据库里的 join 特性的，这意味着当我们使用 MongoDB 读取某个 document 及其关联的 document 的字段的时候，变得尤为麻烦。</p>
+<p>基于此，Mongoose 封装了一个 population 的功能，当你在定义 Schema 的时候指定了某个 field 是引用了另一个 Schema ，那么你在获取 document 的时候就可以使用 populate 方法让 Mongoose 帮你通过引用 Schema 和 id 找到关联的另一个 document，并且用该 document 的内容替换掉原来引用字段的内容，使引用的 ducoment 使用起来就像是内嵌的 document 一样方便。</p>
+<h2 id="定义带有引用字段的-Schema"><a href="#定义带有引用字段的-Schema" class="headerlink" title="定义带有引用字段的 Schema"></a>定义带有引用字段的 Schema</h2><p>首先，如果要使用这个功能，必须给你的“外键字段”定义 Mongoose 的“外键约束”（这里借用关系型数据库的术语，只是为了帮助理解）。假设我们有一个用户的 Schema ，其中有一个字段是followings，保存用户关注了的其他用户，类似微博。Mongoose 的 Schema 定义如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var mongoose = require(&apos;mongoose&apos;)</div><div class="line">  , Schema = mongoose.Schema</div><div class="line"></div><div class="line">var UserSchema = Schema(&#123;</div><div class="line">  name    : String,</div><div class="line">  followings : [&#123; type: Schema.Types.ObjectId, ref: &apos;User&apos; &#125;]</div><div class="line">&#125;);</div><div class="line"></div><div class="line">var User = mongoose.model(&apos;User&apos;, UserSchema);</div></pre></td></tr></table></figure>
+<h2 id="保存引用字段"><a href="#保存引用字段" class="headerlink" title="保存引用字段"></a>保存引用字段</h2><p>然后我们创建两个 User 实例，并且先将其中之一保存进数据库（为了产生 _id ）：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var lily = new User(&#123;name: &apos;lily&apos;&#125;)</div><div class="line">   ,lucy = new User(&#123;name: &apos;lucy&apos;&#125;);</div><div class="line">lily.save(cb);</div></pre></td></tr></table></figure>
+<p>lily 保存成功后，我们再在回调函数 cb 中保存 lucy ，不过这个时候假设 lucy 关注了 lily：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function cb(err) &#123;</div><div class="line">    if(err) throw err;</div><div class="line">    lucy.followings.push(lily._id);// line 1</div><div class="line">    lucy.save(cb1);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>这样就保存完成了。不过好像我们没用引用字段之前也是这么保存的吧？有没有更直接一点的？有，你其实可以将 line 1 的语句改成以下形式， Mongoose 也会自动帮你做内部解析的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lucy.followings.push(lily);</div></pre></td></tr></table></figure>
+<p>这样看起来代码就更接近自然语言了，有点ORM的味道。</p>
+<h2 id="查询-document"><a href="#查询-document" class="headerlink" title="查询 document"></a>查询 document</h2><p>当然，上面的例子可能对开发者来说没有什么太大的用处，那么就来看看 population 在获取 document 的时候能给我们带来什么好处吧。</p>
+<p>假设我们现在要找到 lucy 的信息以及她所关注的用户，我们可以这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">User.findOne(&#123;name: &apos;lucy&apos;&#125;).exec(cb2);</div></pre></td></tr></table></figure>
+<p>但是这样拿出来的 lucy 的 followings 是一组存储了 ObjectId 的数组，还得去一个个查找对应的用户，多麻烦啊。所以这个时候用 population 就简单多了，直接指定你想要 populate 哪个引用字段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">User.findOne(&#123;name: &apos;lucy&apos;&#125;).populate(&apos;followings&apos;).exec(cb2);</div></pre></td></tr></table></figure>
+<p>这样的话，在回调函数 cb2 中你得到的就是一个存储了若干个 User 对象的数组了。</p>
+<h2 id="populate-方法"><a href="#populate-方法" class="headerlink" title="populate 方法"></a>populate 方法</h2><p>populate 方法可以用在 document 上、 model 上或者是 query 对象上，这意味着你几乎可以在任何地方调用这个方法以填充你的引用字段。</p>
+<p>当然，populate 方法在不同对象上参数不大一样，但是都接收一个option的参数，你可以用这些参数指定：</p>
+<ul>
+<li>path: 以空格分隔的引用字段的名称</li>
+<li>select: 填充引用 document 中的哪些字段</li>
+<li>match: 可选，指定附加的查询条件</li>
+<li>model: 可选，指定引用的 model</li>
+<li>options: 可选，指定附加的其他查询选项，如排序以及条数限制等等</li>
+</ul>
+<h2 id="引用字段的类型"><a href="#引用字段的类型" class="headerlink" title="引用字段的类型"></a>引用字段的类型</h2><p>目前，Mongoose 只支持以下几种引用字段的类型：</p>
+<ul>
+<li>ObjectId</li>
+<li>Number</li>
+<li>String</li>
+<li>Buffer</li>
+</ul>
+<p>而且自然而然，引用 document 的主键类型必须和引用字段类型相对应。在生产环境中，推荐主键类型和引用类型都使用 ObjectId ，一是因为 ObjectId 不包含业务含义，二是 ObjectId 不大可能重复，三是因为 Mongoose 默认生成的主键类型就是 ObjectId ，可以减少很多配置的操作。</p>
 
       
     </div>
@@ -392,9 +413,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/Express/" rel="tag"># Express</a>
-          
-            <a href="/tags/node/" rel="tag"># node</a>
+            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
           
         </div>
       
@@ -407,8 +426,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/17/Underscore工具库/" rel="next" title="Underscore工具库">
-                <i class="fa fa-chevron-left"></i> Underscore工具库
+              <a href="/2017/07/24/mongoose之Population使用/" rel="next" title="mongoose之Population使用">
+                <i class="fa fa-chevron-left"></i> mongoose之Population使用
               </a>
             
           </div>
@@ -416,10 +435,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/07/18/Util核心库浅谈/" rel="prev" title="Util核心库浅谈">
-                Util核心库浅谈 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -548,7 +563,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#举个例子"><span class="nav-number">1.</span> <span class="nav-text">举个例子</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#何为Population"><span class="nav-number">1.</span> <span class="nav-text">何为Population</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义带有引用字段的-Schema"><span class="nav-number">2.</span> <span class="nav-text">定义带有引用字段的 Schema</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保存引用字段"><span class="nav-number">3.</span> <span class="nav-text">保存引用字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询-document"><span class="nav-number">4.</span> <span class="nav-text">查询 document</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#populate-方法"><span class="nav-number">5.</span> <span class="nav-text">populate 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用字段的类型"><span class="nav-number">6.</span> <span class="nav-text">引用字段的类型</span></a></li></ol></div>
             
 
           </div>
