@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="node," />
+  <meta name="keywords" content="MongoDB," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="其实关于EventEmitter事件触发器这部分知识，之前学过不止一次，可能是因为用的比较少，今天在github上看和事件触发相关的一个eventproxy库再次一脸懵逼，既然如此，写个博客记录一下好了！！！ Node.js EventEmitter首先我们需要了解一些基础知识：  Node.js所有的异步I/O操作在完成时都会发送一个事件到实践队列。 Node.js里面的许多对象都会分发事件：一">
-<meta name="keywords" content="node">
+<meta name="description" content="MongoDB 关系MongoDB 的关系表示多个文档之间在逻辑上的相互联系。 文档间可以通过嵌入和引用来建立联系。 MongoDB 中的关系可以是：  1:1 (1对1) 1: N (1对多) N: 1 (多对1) N: N (多对多)  接下来我们来考虑下用户与用户地址的关系。 一个用户可以有多个地址，所以是一对多的关系。 以下是 user 文档的简单结构： 123456&amp;#123;   &amp;q">
+<meta name="keywords" content="MongoDB">
 <meta property="og:type" content="article">
-<meta property="og:title" content="EventEmitter-事件触发器">
-<meta property="og:url" content="http://yoursite.com/2017/07/08/EventEmitter-事件触发器/index.html">
+<meta property="og:title" content="mongodb之关系">
+<meta property="og:url" content="http://yoursite.com/2017/07/27/mongodb之关系/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="其实关于EventEmitter事件触发器这部分知识，之前学过不止一次，可能是因为用的比较少，今天在github上看和事件触发相关的一个eventproxy库再次一脸懵逼，既然如此，写个博客记录一下好了！！！ Node.js EventEmitter首先我们需要了解一些基础知识：  Node.js所有的异步I/O操作在完成时都会发送一个事件到实践队列。 Node.js里面的许多对象都会分发事件：一">
-<meta property="og:updated_time" content="2017-07-08T12:39:47.000Z">
+<meta property="og:description" content="MongoDB 关系MongoDB 的关系表示多个文档之间在逻辑上的相互联系。 文档间可以通过嵌入和引用来建立联系。 MongoDB 中的关系可以是：  1:1 (1对1) 1: N (1对多) N: 1 (多对1) N: N (多对多)  接下来我们来考虑下用户与用户地址的关系。 一个用户可以有多个地址，所以是一对多的关系。 以下是 user 文档的简单结构： 123456&amp;#123;   &amp;q">
+<meta property="og:updated_time" content="2017-07-26T18:16:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="EventEmitter-事件触发器">
-<meta name="twitter:description" content="其实关于EventEmitter事件触发器这部分知识，之前学过不止一次，可能是因为用的比较少，今天在github上看和事件触发相关的一个eventproxy库再次一脸懵逼，既然如此，写个博客记录一下好了！！！ Node.js EventEmitter首先我们需要了解一些基础知识：  Node.js所有的异步I/O操作在完成时都会发送一个事件到实践队列。 Node.js里面的许多对象都会分发事件：一">
+<meta name="twitter:title" content="mongodb之关系">
+<meta name="twitter:description" content="MongoDB 关系MongoDB 的关系表示多个文档之间在逻辑上的相互联系。 文档间可以通过嵌入和引用来建立联系。 MongoDB 中的关系可以是：  1:1 (1对1) 1: N (1对多) N: 1 (多对1) N: N (多对多)  接下来我们来考虑下用户与用户地址的关系。 一个用户可以有多个地址，所以是一对多的关系。 以下是 user 文档的简单结构： 123456&amp;#123;   &amp;q">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/07/08/EventEmitter-事件触发器/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/27/mongodb之关系/"/>
 
 
 
 
 
-  <title>EventEmitter-事件触发器 | Big Chuang's WebSite</title>
+  <title>mongodb之关系 | Big Chuang's WebSite</title>
   
 
 
@@ -286,7 +286,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/08/EventEmitter-事件触发器/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/27/mongodb之关系/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="大闯仔儿">
@@ -303,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">EventEmitter-事件触发器</h1>
+          <h1 class="post-title" itemprop="name headline">mongodb之关系</h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-08T20:20:44+08:00">
-                2017-07-08
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-27T02:12:34+08:00">
+                2017-07-27
               </time>
             
 
@@ -325,6 +325,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/MongoDB/" itemprop="url" rel="index">
+                    <span itemprop="name">MongoDB</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -350,28 +372,33 @@
       
 
       
-        <p>其实关于EventEmitter事件触发器这部分知识，之前学过不止一次，可能是因为用的比较少，今天在github上看和事件触发相关的一个<a href="https://github.com/JacksonTian/eventproxy#%E9%87%8D%E5%A4%8D%E5%BC%82%E6%AD%A5%E5%8D%8F%E4%BD%9C" target="_blank" rel="external">eventproxy库</a>再次一脸懵逼，既然如此，写个博客记录一下好了！！！</p>
-<h2 id="Node-js-EventEmitter"><a href="#Node-js-EventEmitter" class="headerlink" title="Node.js EventEmitter"></a>Node.js EventEmitter</h2><p>首先我们需要了解一些基础知识：</p>
+        <h2 id="MongoDB-关系"><a href="#MongoDB-关系" class="headerlink" title="MongoDB 关系"></a>MongoDB 关系</h2><p>MongoDB 的关系表示多个文档之间在逻辑上的相互联系。</p>
+<p>文档间可以通过嵌入和引用来建立联系。</p>
+<p>MongoDB 中的关系可以是：</p>
 <ul>
-<li>Node.js所有的异步I/O操作在完成时都会发送一个事件到实践队列。</li>
-<li>Node.js里面的许多对象都会分发事件：一个net.Server对象都会在每次有新的连接时分发一个事件，一个fs.readStream对象会在文件被打开时发出一个事件，所有这些产生事件的对象都是event.EventEmitter的实例。</li>
+<li>1:1 (1对1)</li>
+<li>1: N (1对多)</li>
+<li>N: 1 (多对1)</li>
+<li>N: N (多对多)</li>
 </ul>
-<h2 id="EventEmitter-类"><a href="#EventEmitter-类" class="headerlink" title="EventEmitter 类"></a>EventEmitter 类</h2><p>events 模块只提供了一个内部类： events.EventEmitter。EventEmitter 的核心就是事件触发与事件监听器功能的封装。你可以通过require(“events”);来访问该模块。创建一个文件叫做<strong>emitter.js</strong>:</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">//创建EventEmitter类</div><div class="line">var EventEmitter = require(&apos;events&apos;).EventEmitter();</div><div class="line">//创建eventEmitter对象</div><div class="line">var eventEmitter = new EventEmitter();</div><div class="line">eventEmitter.on(&apos;bomb&apos;,function()&#123;</div><div class="line">      //观察者为匿名函数，事件为bomb</div><div class="line">      console.log(&apos;bomb已经引爆&apos;);</div><div class="line">&#125;)</div><div class="line"></div><div class="line">//创建bomb之后就是要引爆它了，这里牵扯到事件的触发</div><div class="line">setTimeout(function()&#123;</div><div class="line">      eventEmitter.emit(&apos;bomb&apos;);</div><div class="line">&#125;,1000)；</div></pre></td></tr></table></figure>
-<p>执行结果如下：<br>运行这段代码，1 秒后控制台输出了 <strong>‘事件触发’</strong>。其原理是 event 对象注册了事件 bomb 的一个监听器，然后我们通过 setTimeout 在 1000 毫秒以后 event 对象触发事件bomb，此时会调用bomb的监听器(匿名函数)。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ node emitter.js</div><div class="line">bomb已经引爆</div></pre></td></tr></table></figure>
-<p>eventEmitter 的每个事件由一个事件名和若干个参数组成，事件名是一个字符串，通常表达一定的语义。对于每个事件，EventEmitter 支持 若干个事件监听器。<br>当事件触发时，注册到这个事件的事件监听器被依次调用，事件参数作为回调函数参数传递。<br>让我们以下面的例子解释这个过程：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var event = require(&apos;events&apos;);</div><div class="line"> var eventEmitter = new event.EventEmitter();</div><div class="line"></div><div class="line"> eventEmitter.on(&apos;bobm&apos;,function(args1,args2)&#123;</div><div class="line">       console.log(&apos;bomb引燃，引燃使用的是:&apos;+args1+&quot; 和&quot;+arg2)；</div><div class="line"> &#125;);</div><div class="line"></div><div class="line">eventEmitter.on(&apos;bobm&apos;,function(args1,args2)&#123;</div><div class="line">       console.log(&apos;bomb引燃，使用的是:&apos;+args1+&quot;或者 &quot;+arg2)；</div><div class="line"> &#125;);</div></pre></td></tr></table></figure>
-<p>执行以上代码，运行的结果如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ node event.js</div><div class="line">listener1 arg1 参数 arg2 参数</div><div class="line">listener2 arg1 参数 arg2 参数</div></pre></td></tr></table></figure>
-<p>以上例子中，emitter 为事件 someEvent 注册了两个事件监听器，然后触发了 someEvent 事件。<br>运行结果中可以看到两个事件监听器回调函数被先后调用。 这就是EventEmitter最简单的用法。<br>EventEmitter 提供了多个属性，如 <strong>on</strong> 和 <strong>emit</strong>。<strong>on</strong> 函数用于绑定事件函数，<strong>emit</strong> 属性用于触发一个事件。</p>
-<h2 id="继承-EventEmitter"><a href="#继承-EventEmitter" class="headerlink" title="继承 EventEmitter"></a>继承 EventEmitter</h2><p>大多数时候我们不会直接使用 EventEmitter，而是在对象中继承它。包括 fs、net、 http 在内的，只要是支持事件响应的核心模块都是 EventEmitter 的子类。</p>
-<p>为什么要这样做呢？原因有两点：</p>
-<ul>
-<li>首先，具有某个实体功能的对象实现事件符合语义， 事件的监听和发射应该是一个对象的方法。</li>
-<li>其次 JavaScript 的对象机制是基于原型的，支持 部分多重继承，继承 EventEmitter 不会打乱对象原有的继承关系。</li>
-</ul>
-
+<p>接下来我们来考虑下用户与用户地址的关系。</p>
+<p>一个用户可以有多个地址，所以是一对多的关系。</p>
+<p>以下是 <strong>user</strong> 文档的简单结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">   &quot;_id&quot;:ObjectId(&quot;52ffc33cd85242f436000001&quot;),</div><div class="line">   &quot;name&quot;: &quot;Tom Hanks&quot;,</div><div class="line">   &quot;contact&quot;: &quot;987654321&quot;,</div><div class="line">   &quot;dob&quot;: &quot;01-01-1991&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>以下是 <strong>address</strong> 文档的简单结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">   &quot;_id&quot;:ObjectId(&quot;52ffc4a5d85242602e000000&quot;),</div><div class="line">   &quot;building&quot;: &quot;22 A, Indiana Apt&quot;,</div><div class="line">   &quot;pincode&quot;: 123456,</div><div class="line">   &quot;city&quot;: &quot;Los Angeles&quot;,</div><div class="line">   &quot;state&quot;: &quot;California&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="嵌入式关系-用的并不多，实际生产中多用引用式关系！"><a href="#嵌入式关系-用的并不多，实际生产中多用引用式关系！" class="headerlink" title="嵌入式关系(用的并不多，实际生产中多用引用式关系！)"></a>嵌入式关系(用的并不多，实际生产中多用引用式关系！)</h3><p>使用嵌入式方法，我们可以把用户地址嵌入到用户的文档中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">   &quot;_id&quot;:ObjectId(&quot;52ffc33cd85242f436000001&quot;),</div><div class="line">   &quot;contact&quot;: &quot;987654321&quot;,</div><div class="line">   &quot;dob&quot;: &quot;01-01-1991&quot;,</div><div class="line">   &quot;name&quot;: &quot;Tom Benzamin&quot;,</div><div class="line">   &quot;address&quot;: [</div><div class="line">      &#123;</div><div class="line">         &quot;building&quot;: &quot;22 A, Indiana Apt&quot;,</div><div class="line">         &quot;pincode&quot;: 123456,</div><div class="line">         &quot;city&quot;: &quot;Los Angeles&quot;,</div><div class="line">         &quot;state&quot;: &quot;California&quot;</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">         &quot;building&quot;: &quot;170 A, Acropolis Apt&quot;,</div><div class="line">         &quot;pincode&quot;: 456789,</div><div class="line">         &quot;city&quot;: &quot;Chicago&quot;,</div><div class="line">         &quot;state&quot;: &quot;Illinois&quot;</div><div class="line">      &#125;]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>以上数据保存在单一的文档中，可以比较容易的获取和维护数据。 你可以这样查询用户的地址：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;db.users.findOne(&#123;&quot;name&quot;:&quot;Tom Benzamin&quot;&#125;,&#123;&quot;address&quot;:1&#125;)</div></pre></td></tr></table></figure>
+<p>注意：以上查询中 <strong>db</strong> 和 <strong>users</strong> 表示数据库和集合。</p>
+<p>这种数据结构的缺点是，如果用户和用户地址在不断增加，数据量不断变大，会影响读写性能。</p>
+<h3 id="引用式关系"><a href="#引用式关系" class="headerlink" title="引用式关系"></a>引用式关系</h3><p>引用式关系是设计数据库时经常用到的方法，这种方法把用户数据文档和用户地址数据文档分开，通过引用文档的 <strong>id</strong> 字段来建立关系。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">   &quot;_id&quot;:ObjectId(&quot;52ffc33cd85242f436000001&quot;),</div><div class="line">   &quot;contact&quot;: &quot;987654321&quot;,</div><div class="line">   &quot;dob&quot;: &quot;01-01-1991&quot;,</div><div class="line">   &quot;name&quot;: &quot;Tom Benzamin&quot;,</div><div class="line">   &quot;address_ids&quot;: [</div><div class="line">      ObjectId(&quot;52ffc4a5d85242602e000000&quot;),</div><div class="line">      ObjectId(&quot;52ffc4a5d85242602e000001&quot;)</div><div class="line">   ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>以上实例中，用户文档的 <strong>address_ids</strong> 字段包含用户地址的对象id（ObjectId）数组。</p>
+<p>我们可以读取这些用户地址的对象id（ObjectId）来获取用户的详细地址信息。</p>
+<p>这种方法需要两次查询，第一次查询用户地址的对象id（ObjectId），第二次通过查询的id获取用户的详细地址信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;var result = db.users.findOne(&#123;&quot;name&quot;:&quot;Tom Benzamin&quot;&#125;,&#123;&quot;address_ids&quot;:1&#125;)</div><div class="line">&gt;var addresses = db.address.find(&#123;&quot;_id&quot;:&#123;&quot;$in&quot;:result[&quot;address_ids&quot;]&#125;&#125;)</div></pre></td></tr></table></figure>
       
     </div>
 
@@ -400,7 +427,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/node/" rel="tag"># node</a>
+            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
           
         </div>
       
@@ -413,8 +440,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/04/图文揭秘Node-js中exports和module-exports/" rel="next" title="图文揭秘Node.js中exports和module.exports">
-                <i class="fa fa-chevron-left"></i> 图文揭秘Node.js中exports和module.exports
+              <a href="/2017/07/27/mongoDB之数据库索引/" rel="next" title="mongoDB之数据库索引">
+                <i class="fa fa-chevron-left"></i> mongoDB之数据库索引
               </a>
             
           </div>
@@ -423,8 +450,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/07/15/浏览器的同源策略以及跨域问题/" rel="prev" title="浏览器的同源策略以及跨域问题">
-                浏览器的同源策略以及跨域问题 <i class="fa fa-chevron-right"></i>
+              <a href="/2017/07/27/MongoDB文档查询find/" rel="prev" title="MongoDB文档查询find">
+                MongoDB文档查询find <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -554,7 +581,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Node-js-EventEmitter"><span class="nav-number">1.</span> <span class="nav-text">Node.js EventEmitter</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#EventEmitter-类"><span class="nav-number">2.</span> <span class="nav-text">EventEmitter 类</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#继承-EventEmitter"><span class="nav-number">3.</span> <span class="nav-text">继承 EventEmitter</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB-关系"><span class="nav-number">1.</span> <span class="nav-text">MongoDB 关系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#嵌入式关系-用的并不多，实际生产中多用引用式关系！"><span class="nav-number">1.1.</span> <span class="nav-text">嵌入式关系(用的并不多，实际生产中多用引用式关系！)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用式关系"><span class="nav-number">1.2.</span> <span class="nav-text">引用式关系</span></a></li></ol></li></ol></div>
             
 
           </div>

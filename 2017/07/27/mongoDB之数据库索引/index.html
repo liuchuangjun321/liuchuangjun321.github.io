@@ -93,17 +93,20 @@
 
 
 
-<meta name="description" content="世界那么大，谁不想去看看！">
+<meta name="description" content="索引通常能够极大的提高查询的效率，如果没有索引，MongoDB在读取数据时必须扫描集合中的每个文件并选取那些符合查询条件的记录。 这种扫描全集合的查询效率是非常低的，特别在处理大量的数据时，查询可以要花费几十秒甚至几分钟，这对网站的性能是非常致命的。 索引是特殊的数据结构，索引存储在一个易于遍历读取的数据集合中，索引是对数据库表中一列或多列的值进行排序的一种结构。 ensureIndex() 方法">
 <meta name="keywords" content="MongoDB">
 <meta property="og:type" content="article">
 <meta property="og:title" content="mongoDB之数据库索引">
 <meta property="og:url" content="http://yoursite.com/2017/07/27/mongoDB之数据库索引/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="世界那么大，谁不想去看看！">
-<meta property="og:updated_time" content="2017-07-26T17:18:35.000Z">
+<meta property="og:description" content="索引通常能够极大的提高查询的效率，如果没有索引，MongoDB在读取数据时必须扫描集合中的每个文件并选取那些符合查询条件的记录。 这种扫描全集合的查询效率是非常低的，特别在处理大量的数据时，查询可以要花费几十秒甚至几分钟，这对网站的性能是非常致命的。 索引是特殊的数据结构，索引存储在一个易于遍历读取的数据集合中，索引是对数据库表中一列或多列的值进行排序的一种结构。 ensureIndex() 方法">
+<meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%951.png">
+<meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%952.png">
+<meta property="og:updated_time" content="2017-07-26T17:54:38.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="mongoDB之数据库索引">
-<meta name="twitter:description" content="世界那么大，谁不想去看看！">
+<meta name="twitter:description" content="索引通常能够极大的提高查询的效率，如果没有索引，MongoDB在读取数据时必须扫描集合中的每个文件并选取那些符合查询条件的记录。 这种扫描全集合的查询效率是非常低的，特别在处理大量的数据时，查询可以要花费几十秒甚至几分钟，这对网站的性能是非常致命的。 索引是特殊的数据结构，索引存储在一个易于遍历读取的数据集合中，索引是对数据库表中一列或多列的值进行排序的一种结构。 ensureIndex() 方法">
+<meta name="twitter:image" content="http://os20uatm3.bkt.clouddn.com/%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%951.png">
 
 
 
@@ -372,7 +375,124 @@
       
 
       
-        
+        <p>索引通常能够极大的提高查询的效率，如果没有索引，MongoDB在读取数据时必须扫描集合中的每个文件并选取那些符合查询条件的记录。</p>
+<p>这种扫描全集合的查询效率是非常低的，特别在处理大量的数据时，查询可以要花费几十秒甚至几分钟，这对网站的性能是非常致命的。</p>
+<p>索引是特殊的数据结构，索引存储在一个易于遍历读取的数据集合中，索引是对数据库表中一列或多列的值进行排序的一种结构。</p>
+<h2 id="ensureIndex-方法"><a href="#ensureIndex-方法" class="headerlink" title="ensureIndex() 方法"></a>ensureIndex() 方法</h2><p>MongoDB使用 ensureIndex() 方法来创建索引。</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>ensureIndex()方法基本语法格式如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;db.COLLECTION_NAME.ensureIndex(&#123;KEY:1&#125;)</div></pre></td></tr></table></figure>
+<p>语法中 Key 值为你要创建的索引字段，1为指定按升序创建索引，如果你想按降序来创建索引指定为-1即可。</p>
+<p>实例</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;db.col.ensureIndex(&#123;&quot;title&quot;:1&#125;)</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+<p>ensureIndex() 方法中你也可以设置使用多个字段创建索引（关系型数据库中称作复合索引）。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;db.col.ensureIndex(&#123;&quot;title&quot;:1,&quot;description&quot;:-1&#125;)</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+<p><strong>值得注意的是，此处的复合索引和后续要介绍的MongoDB中的快速覆盖索引查询密切相关，后续介绍！</strong></p>
+<p>ensureIndex() 接收可选参数，可选参数列表如下：</p>
+<table>
+<thead>
+<tr>
+<th>Parameter</th>
+<th>Type</th>
+<th>Description</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td>background</td>
+<td>Boolean</td>
+<td>建索引过程会阻塞其它数据库操作，background可指定以后台方式创建索引，即增加 “background” 可选参数。 “background” 默认值为<strong>false</strong>。</td>
+</tr>
+<tr>
+<td>unique</td>
+<td>Boolean</td>
+<td>建立的索引是否唯一。指定为true创建唯一索引。默认值为<strong>false</strong>.</td>
+</tr>
+<tr>
+<td>name</td>
+<td>string</td>
+<td>索引的名称。如果未指定，MongoDB的通过连接索引的字段名和排序顺序生成一个索引名称。</td>
+</tr>
+<tr>
+<td>dropDups</td>
+<td>Boolean</td>
+<td>在建立唯一索引时是否删除重复记录,指定 true 创建唯一索引。默认值为 <strong>false</strong>.</td>
+</tr>
+<tr>
+<td>sparse</td>
+<td>Boolean</td>
+<td>对文档中不存在的字段数据不启用索引；这个参数需要特别注意，如果设置为true的话，在索引字段中不会查询出不包含对应字段的文档.。默认值为 <strong>false</strong>.</td>
+</tr>
+<tr>
+<td>expireAfterSeconds</td>
+<td>integer</td>
+<td>指定一个以秒为单位的数值，完成 TTL设定，设定集合的生存时间。</td>
+</tr>
+<tr>
+<td>v</td>
+<td>index version</td>
+<td>索引的版本号。默认的索引版本取决于mongod创建索引时运行的版本。</td>
+</tr>
+<tr>
+<td>weights</td>
+<td>document</td>
+<td>索引权重值，数值在 1 到 99,999 之间，表示该索引相对于其他索引字段的得分权重。</td>
+</tr>
+<tr>
+<td>default_language</td>
+<td>string</td>
+<td>对于文本索引，该参数决定了停用词及词干和词器的规则的列表。 默认为英语</td>
+</tr>
+<tr>
+<td>language_override</td>
+<td>string</td>
+<td>对于文本索引，该参数指定了包含在文档中的字段名，语言覆盖默认的language，默认值为 language.</td>
+</tr>
+</tbody>
+</table>
+<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>在后台创建索引：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">db.values.ensureIndex(&#123;open: 1, close: 1&#125;, &#123;background: true&#125;)</div><div class="line">//通过在创建索引时加background:true 的选项，让创建工作在后台执行，而不会阻塞其他数据库操作。</div></pre></td></tr></table></figure>
+<h2 id="MongoDB-覆盖索引查询"><a href="#MongoDB-覆盖索引查询" class="headerlink" title="MongoDB 覆盖索引查询"></a>MongoDB 覆盖索引查询</h2><p>官方的MongoDB的文档中说明，覆盖查询是以下的查询：</p>
+<ul>
+<li>所有的查询字段是索引的一部分</li>
+<li>所有的查询返回字段在同一个索引中</li>
+</ul>
+<p>由于所有出现在查询中的字段是索引的一部分， MongoDB 无需在整个数据文档中检索匹配查询条件和返回使用相同索引的查询结果。</p>
+<p>因为索引存在于RAM中，从索引中获取数据比通过扫描文档读取数据要快得多。</p>
+<p>为了测试盖索引查询，使用以下 mycol 集合:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123; &quot;_id&quot; : 1, &quot;name&quot; : &quot;tom&quot;, &quot;sex&quot; : &quot;男&quot;, &quot;score&quot; : 100, &quot;age&quot; : 34 &#125;</div><div class="line">&#123; &quot;_id&quot; : 2, &quot;name&quot; : &quot;jeke&quot;, &quot;sex&quot; : &quot;男&quot;, &quot;score&quot; : 90, &quot;age&quot; : 24 &#125;</div><div class="line">&#123; &quot;_id&quot; : 3, &quot;name&quot; : &quot;kite&quot;, &quot;sex&quot; : &quot;女&quot;, &quot;score&quot; : 40, &quot;age&quot; : 36 &#125;</div><div class="line">&#123; &quot;_id&quot; : 4, &quot;name&quot; : &quot;herry&quot;, &quot;sex&quot; : &quot;男&quot;, &quot;score&quot; : 90, &quot;age&quot; : 56 &#125;</div><div class="line">&#123; &quot;_id&quot; : 5, &quot;name&quot; : &quot;marry&quot;, &quot;sex&quot; : &quot;女&quot;, &quot;score&quot; : 70, &quot;age&quot; : 18 &#125;</div><div class="line">&#123; &quot;_id&quot; : 6, &quot;name&quot; : &quot;john&quot;, &quot;sex&quot; : &quot;男&quot;, &quot;score&quot; : 100, &quot;age&quot; : 31 &#125;</div></pre></td></tr></table></figure>
+<p>我们在 users 集合中创建联合索引，字段为 sex 和 score :</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.mycol.ensureIndex(&#123;sex : 1, score : 1&#125;)</div></pre></td></tr></table></figure>
+<p>现在，该索引会覆盖以下查询：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.mycol.find(&#123;sex: &apos;男&apos;&#125;,&#123;name : 1, _id : 0&#125;)</div></pre></td></tr></table></figure>
+<p><img src="http://os20uatm3.bkt.clouddn.com/%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%951.png" alt="覆盖索引1"></p>
+<p>也就是说，对于上述查询，MongoDB的不会去数据库文件中查找。相反，它会从索引中提取数据，这是非常快速的数据查询。</p>
+<p>由于我们的索引中不包括 <code>_id</code>字段，使得返回结果中排除了该字段。<code>_id</code>在查询中会默认返回，我们可以在MongoDB的查询结果集中排除它。</p>
+<p>下面的实例没有排除 <code>_id</code>字段，查询就不会被覆盖：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.mycol.find(&#123;sex: &apos;男&apos;&#125;,&#123;name : 1&#125;)</div></pre></td></tr></table></figure>
+<p><img src="http://os20uatm3.bkt.clouddn.com/%E8%A6%86%E7%9B%96%E7%B4%A2%E5%BC%952.png" alt="覆盖索引2"></p>
+<p>最后，如果所有索引字段是一个数组，不能使用覆盖索引查询。</p>
+<h2 id="MongoDB-高级索引"><a href="#MongoDB-高级索引" class="headerlink" title="MongoDB 高级索引"></a>MongoDB 高级索引</h2><p>考虑以下文档集合（users ）:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">   &quot;address&quot;: &#123;</div><div class="line">      &quot;city&quot;: &quot;Los Angeles&quot;,</div><div class="line">      &quot;state&quot;: &quot;California&quot;,</div><div class="line">      &quot;pincode&quot;: &quot;123&quot;</div><div class="line">   &#125;,</div><div class="line">   &quot;tags&quot;: [</div><div class="line">      &quot;music&quot;,</div><div class="line">      &quot;cricket&quot;,</div><div class="line">      &quot;blogs&quot;</div><div class="line">   ],</div><div class="line">   &quot;name&quot;: &quot;Tom Benzamin&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>以上文档包含了 address 子文档和 tags 数组。</p>
+<h3 id="索引数组字段"><a href="#索引数组字段" class="headerlink" title="索引数组字段"></a>索引数组字段</h3><p>假设我们基于标签来检索用户，为此我们需要对集合中的数组 tags 建立索引。</p>
+<p>在数组中创建索引，需要对数组中的每个字段依次建立索引。所以在我们为数组 tags 创建索引时，会为 music、cricket、blogs三个值建立单独的索引。</p>
+<p>使用以下命令创建数组索引：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;db.users.ensureIndex(&#123;&quot;tags&quot;:1&#125;)</div></pre></td></tr></table></figure>
+<p>创建索引后，我们可以这样检索集合的 tags 字段：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;db.users.find(&#123;tags:&quot;cricket&quot;&#125;)</div></pre></td></tr></table></figure>
+<p>为了验证我们使用使用了索引，可以使用 explain 命令：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;db.users.find(&#123;tags:&quot;cricket&quot;&#125;).explain()</div></pre></td></tr></table></figure>
+<p>以上命令执行结果中会显示 “cursor” : “BtreeCursor tags_1” ，则表示已经使用了索引。</p>
+<h3 id="索引子文档字段"><a href="#索引子文档字段" class="headerlink" title="索引子文档字段"></a>索引子文档字段</h3><p>假设我们需要通过city、state、pincode字段来检索文档，由于这些字段是子文档的字段，所以我们需要对子文档建立索引。</p>
+<p>为子文档的三个字段创建索引，命令如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;db.users.ensureIndex(&#123;&quot;address.city&quot;:1,&quot;address.state&quot;:1,&quot;address.pincode&quot;:1&#125;)</div></pre></td></tr></table></figure>
+<p>一旦创建索引，我们可以使用子文档的字段来检索数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;db.users.find(&#123;&quot;address.city&quot;:&quot;Los Angeles&quot;&#125;)</div></pre></td></tr></table></figure>
+<p>记住查询表达式必须遵循指定的索引的顺序。所以上面创建的索引将支持以下查询：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;db.users.find(&#123;&quot;address.city&quot;:&quot;Los Angeles&quot;,&quot;address.state&quot;:&quot;California&quot;&#125;)</div></pre></td></tr></table></figure>
+<p>同样支持以下查询：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;db.users.find(&#123;&quot;address.city&quot;:&quot;LosAngeles&quot;,&quot;address.state&quot;:&quot;California&quot;,&quot;address.pincode&quot;:&quot;123&quot;&#125;)</div></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -424,6 +544,10 @@
 
           <div class="post-nav-prev post-nav-item">
             
+              <a href="/2017/07/27/mongodb之关系/" rel="prev" title="mongodb之关系">
+                mongodb之关系 <i class="fa fa-chevron-right"></i>
+              </a>
+            
           </div>
         </div>
       
@@ -469,8 +593,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/IMG_2036.JPG"
@@ -485,7 +618,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">32</span>
+                <span class="site-state-item-count">34</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -532,6 +665,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ensureIndex-方法"><span class="nav-number">1.</span> <span class="nav-text">ensureIndex() 方法</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">1.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例"><span class="nav-number">1.2.</span> <span class="nav-text">实例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB-覆盖索引查询"><span class="nav-number">2.</span> <span class="nav-text">MongoDB 覆盖索引查询</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB-高级索引"><span class="nav-number">3.</span> <span class="nav-text">MongoDB 高级索引</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#索引数组字段"><span class="nav-number">3.1.</span> <span class="nav-text">索引数组字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#索引子文档字段"><span class="nav-number">3.2.</span> <span class="nav-text">索引子文档字段</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
