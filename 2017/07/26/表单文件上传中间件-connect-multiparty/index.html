@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="MongoDB," />
+  <meta name="keywords" content="Express,node,Express中间件,node模块," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="何为Population用过 MongoDB 的人应该都知道它是没有关系型数据库里的 join 特性的，这意味着当我们使用 MongoDB 读取某个 document 及其关联的 document 的字段的时候，变得尤为麻烦。 基于此，Mongoose 封装了一个 population 的功能，当你在定义 Schema 的时候指定了某个 field 是引用了另一个 Schema ，那么你在获取 d">
-<meta name="keywords" content="MongoDB">
+<meta name="description" content="文件上传原理分析首先把文件上传的必要前提条件列一下： 1231. 提供form表单，method方法必须是post2. form表单的enctype属性必须是multipart/form-data3. 提供input type=&amp;quot;file&amp;quot;类的上传输入域 注意:  form表单在你不写enctype属性时，也默认为其添加了enctype属性值，默认值是enctype=”appl">
+<meta name="keywords" content="Express,node,Express中间件,node模块">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mongoose之Population使用-2">
-<meta property="og:url" content="http://yoursite.com/2017/07/25/mongoose之Population使用-2/index.html">
+<meta property="og:title" content="表单文件上传中间件---connect-multiparty">
+<meta property="og:url" content="http://yoursite.com/2017/07/26/表单文件上传中间件-connect-multiparty/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="何为Population用过 MongoDB 的人应该都知道它是没有关系型数据库里的 join 特性的，这意味着当我们使用 MongoDB 读取某个 document 及其关联的 document 的字段的时候，变得尤为麻烦。 基于此，Mongoose 封装了一个 population 的功能，当你在定义 Schema 的时候指定了某个 field 是引用了另一个 Schema ，那么你在获取 d">
-<meta property="og:updated_time" content="2017-07-25T02:22:38.000Z">
+<meta property="og:description" content="文件上传原理分析首先把文件上传的必要前提条件列一下： 1231. 提供form表单，method方法必须是post2. form表单的enctype属性必须是multipart/form-data3. 提供input type=&amp;quot;file&amp;quot;类的上传输入域 注意:  form表单在你不写enctype属性时，也默认为其添加了enctype属性值，默认值是enctype=”appl">
+<meta property="og:updated_time" content="2017-07-26T06:32:14.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mongoose之Population使用-2">
-<meta name="twitter:description" content="何为Population用过 MongoDB 的人应该都知道它是没有关系型数据库里的 join 特性的，这意味着当我们使用 MongoDB 读取某个 document 及其关联的 document 的字段的时候，变得尤为麻烦。 基于此，Mongoose 封装了一个 population 的功能，当你在定义 Schema 的时候指定了某个 field 是引用了另一个 Schema ，那么你在获取 d">
+<meta name="twitter:title" content="表单文件上传中间件---connect-multiparty">
+<meta name="twitter:description" content="文件上传原理分析首先把文件上传的必要前提条件列一下： 1231. 提供form表单，method方法必须是post2. form表单的enctype属性必须是multipart/form-data3. 提供input type=&amp;quot;file&amp;quot;类的上传输入域 注意:  form表单在你不写enctype属性时，也默认为其添加了enctype属性值，默认值是enctype=”appl">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/07/25/mongoose之Population使用-2/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/26/表单文件上传中间件-connect-multiparty/"/>
 
 
 
 
 
-  <title>mongoose之Population使用-2 | Big Chuang's WebSite</title>
+  <title>表单文件上传中间件---connect-multiparty | Big Chuang's WebSite</title>
   
 
 
@@ -286,7 +286,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/25/mongoose之Population使用-2/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/26/表单文件上传中间件-connect-multiparty/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="大闯仔儿">
@@ -303,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">mongoose之Population使用-2</h1>
+          <h1 class="post-title" itemprop="name headline">表单文件上传中间件---connect-multiparty</h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-25T10:11:00+08:00">
-                2017-07-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-26T13:09:03+08:00">
+                2017-07-26
               </time>
             
 
@@ -350,40 +350,23 @@
       
 
       
-        <h2 id="何为Population"><a href="#何为Population" class="headerlink" title="何为Population"></a>何为Population</h2><p>用过 MongoDB 的人应该都知道它是没有关系型数据库里的 join 特性的，这意味着当我们使用 MongoDB 读取某个 document 及其关联的 document 的字段的时候，变得尤为麻烦。</p>
-<p>基于此，Mongoose 封装了一个 population 的功能，当你在定义 Schema 的时候指定了某个 field 是引用了另一个 Schema ，那么你在获取 document 的时候就可以使用 populate 方法让 Mongoose 帮你通过引用 Schema 和 id 找到关联的另一个 document，并且用该 document 的内容替换掉原来引用字段的内容，使引用的 ducoment 使用起来就像是内嵌的 document 一样方便。</p>
-<h2 id="定义带有引用字段的-Schema"><a href="#定义带有引用字段的-Schema" class="headerlink" title="定义带有引用字段的 Schema"></a>定义带有引用字段的 Schema</h2><p>首先，如果要使用这个功能，必须给你的“外键字段”定义 Mongoose 的“外键约束”（这里借用关系型数据库的术语，只是为了帮助理解）。假设我们有一个用户的 Schema ，其中有一个字段是followings，保存用户关注了的其他用户，类似微博。Mongoose 的 Schema 定义如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var mongoose = require(&apos;mongoose&apos;)</div><div class="line">  , Schema = mongoose.Schema</div><div class="line"></div><div class="line">var UserSchema = Schema(&#123;</div><div class="line">  name    : String,</div><div class="line">  followings : [&#123; type: Schema.Types.ObjectId, ref: &apos;User&apos; &#125;]</div><div class="line">&#125;);</div><div class="line"></div><div class="line">var User = mongoose.model(&apos;User&apos;, UserSchema);</div></pre></td></tr></table></figure>
-<h2 id="保存引用字段"><a href="#保存引用字段" class="headerlink" title="保存引用字段"></a>保存引用字段</h2><p>然后我们创建两个 User 实例，并且先将其中之一保存进数据库（为了产生 _id ）：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var lily = new User(&#123;name: &apos;lily&apos;&#125;)</div><div class="line">   ,lucy = new User(&#123;name: &apos;lucy&apos;&#125;);</div><div class="line">lily.save(cb);</div></pre></td></tr></table></figure>
-<p>lily 保存成功后，我们再在回调函数 cb 中保存 lucy ，不过这个时候假设 lucy 关注了 lily：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function cb(err) &#123;</div><div class="line">    if(err) throw err;</div><div class="line">    lucy.followings.push(lily._id);// line 1</div><div class="line">    lucy.save(cb1);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>这样就保存完成了。不过好像我们没用引用字段之前也是这么保存的吧？有没有更直接一点的？有，你其实可以将 line 1 的语句改成以下形式， Mongoose 也会自动帮你做内部解析的：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">lucy.followings.push(lily);</div></pre></td></tr></table></figure>
-<p>这样看起来代码就更接近自然语言了，有点ORM的味道。</p>
-<h2 id="查询-document"><a href="#查询-document" class="headerlink" title="查询 document"></a>查询 document</h2><p>当然，上面的例子可能对开发者来说没有什么太大的用处，那么就来看看 population 在获取 document 的时候能给我们带来什么好处吧。</p>
-<p>假设我们现在要找到 lucy 的信息以及她所关注的用户，我们可以这样：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">User.findOne(&#123;name: &apos;lucy&apos;&#125;).exec(cb2);</div></pre></td></tr></table></figure>
-<p>但是这样拿出来的 lucy 的 followings 是一组存储了 ObjectId 的数组，还得去一个个查找对应的用户，多麻烦啊。所以这个时候用 population 就简单多了，直接指定你想要 populate 哪个引用字段：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">User.findOne(&#123;name: &apos;lucy&apos;&#125;).populate(&apos;followings&apos;).exec(cb2);</div></pre></td></tr></table></figure>
-<p>这样的话，在回调函数 cb2 中你得到的就是一个存储了若干个 User 对象的数组了。</p>
-<h2 id="populate-方法"><a href="#populate-方法" class="headerlink" title="populate 方法"></a>populate 方法</h2><p>populate 方法可以用在 document 上、 model 上或者是 query 对象上，这意味着你几乎可以在任何地方调用这个方法以填充你的引用字段。</p>
-<p>当然，populate 方法在不同对象上参数不大一样，但是都接收一个option的参数，你可以用这些参数指定：</p>
+        <h2 id="文件上传原理分析"><a href="#文件上传原理分析" class="headerlink" title="文件上传原理分析"></a>文件上传原理分析</h2><p>首先把文件上传的必要前提条件列一下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">1. 提供form表单，method方法必须是post</div><div class="line">2. form表单的enctype属性必须是multipart/form-data</div><div class="line">3. 提供input type=&quot;file&quot;类的上传输入域</div></pre></td></tr></table></figure>
+<p><strong>注意:</strong></p>
 <ul>
-<li>path: 以空格分隔的引用字段的名称</li>
-<li>select: 填充引用 document 中的哪些字段</li>
-<li>match: 可选，指定附加的查询条件</li>
-<li>model: 可选，指定引用的 model</li>
-<li>options: 可选，指定附加的其他查询选项，如排序以及条数限制等等</li>
+<li>form表单在你不写enctype属性时，也默认为其添加了enctype属性值，默认值是enctype=”application/x- www-form-urlencoded”，也就是说所有字符都会进行编码（空格转换为 “+” 加号，特殊符号转换为 ASCII HEX 值）。</li>
+<li>enctype = “multipart/form-data”时候，设置表单的MIME编码格式，特用于文件上传，以二进制形式将文件上传到服务器。</li>
+<li>上传文件是以流的形式实现的，如果自己用IO流实现的文件上传，要在流关闭后，清理临时文件。 </li>
 </ul>
-<h2 id="引用字段的类型"><a href="#引用字段的类型" class="headerlink" title="引用字段的类型"></a>引用字段的类型</h2><p>目前，Mongoose 只支持以下几种引用字段的类型：</p>
-<ul>
-<li>ObjectId</li>
-<li>Number</li>
-<li>String</li>
-<li>Buffer</li>
-</ul>
-<p>而且自然而然，引用 document 的主键类型必须和引用字段类型相对应。在生产环境中，推荐主键类型和引用类型都使用 ObjectId ，一是因为 ObjectId 不包含业务含义，二是 ObjectId 不大可能重复，三是因为 Mongoose 默认生成的主键类型就是 ObjectId ，可以减少很多配置的操作。</p>
+<h2 id="node中间件—connect-multiparty使用方法介绍"><a href="#node中间件—connect-multiparty使用方法介绍" class="headerlink" title="node中间件—connect-multiparty使用方法介绍"></a>node中间件—connect-multiparty使用方法介绍</h2><h3 id="安装模块"><a href="#安装模块" class="headerlink" title="安装模块"></a>安装模块</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">npm install connect-multiparty --save</div><div class="line">//--save的用处是把这个模块放置到package.json文件里，方便之后使用事知道引入了哪些模块。</div></pre></td></tr></table></figure>
+<h3 id="引入模块"><a href="#引入模块" class="headerlink" title="引入模块"></a>引入模块</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var multipart = require(&apos;connect-multiparty&apos;);</div><div class="line">var multipartMiddleware = multipart();</div></pre></td></tr></table></figure>
+<h3 id="使用模块"><a href="#使用模块" class="headerlink" title="使用模块"></a>使用模块</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">app.post(&apos;/formdata&apos;,multipartMiddleware, function (req,res) &#123;</div><div class="line">   res.send(req.body,req.files,req.files.file.path);</div><div class="line">   //分别返回body，文件属性，以及文件存放地址</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="配置路径"><a href="#配置路径" class="headerlink" title="配置路径"></a>配置路径</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">app.use(multiparty(&#123;uploadDir:&apos;./temp&apos; &#125;));//设置上传文件存放的地址。</div></pre></td></tr></table></figure>
+<h2 id="文件上传需要考虑的问题"><a href="#文件上传需要考虑的问题" class="headerlink" title="文件上传需要考虑的问题"></a>文件上传需要考虑的问题</h2><h3 id="保证服务器的安全"><a href="#保证服务器的安全" class="headerlink" title="保证服务器的安全"></a>保证服务器的安全</h3><p>把保存上传文件的目录放在用户直接访问不到的地方。 </p>
+<h3 id="避免文件被覆盖—让文件名唯一即可"><a href="#避免文件被覆盖—让文件名唯一即可" class="headerlink" title="避免文件被覆盖—让文件名唯一即可"></a>避免文件被覆盖—让文件名唯一即可</h3><p>比如加上时间戳，并以时间戳命名上传到服务器的文件:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var timestamp = Date.now(),                             // 获取时间</div><div class="line">    type = posterData.type.split(&apos;/&apos;)[1],               // 获取图片类型 如jpg png</div><div class="line">    poster = timestamp + &apos;.&apos; + type,                    // poster即为文件新的名字</div></pre></td></tr></table></figure>
+<h3 id="避免同一个文件夹中的文件过多"><a href="#避免同一个文件夹中的文件过多" class="headerlink" title="避免同一个文件夹中的文件过多"></a>避免同一个文件夹中的文件过多</h3><p>第一个解决方案可以按照日期进行打散存储目录，第二个解决方案可以按照文件名的hashCode计算打散的存储目录：二级目录 </p>
+<h3 id="限制文件的大小：web方式不适合上传大的文件"><a href="#限制文件的大小：web方式不适合上传大的文件" class="headerlink" title="限制文件的大小：web方式不适合上传大的文件"></a>限制文件的大小：web方式不适合上传大的文件</h3><h3 id="临时文件的问题"><a href="#临时文件的问题" class="headerlink" title="临时文件的问题"></a>临时文件的问题</h3><p>关于临时文件的问题，现在还没有接触，要开会了，后续接着补充好了！！！</p>
 
       
     </div>
@@ -413,7 +396,13 @@
       
         <div class="post-tags">
           
-            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+            <a href="/tags/Express/" rel="tag"># Express</a>
+          
+            <a href="/tags/node/" rel="tag"># node</a>
+          
+            <a href="/tags/Express中间件/" rel="tag"># Express中间件</a>
+          
+            <a href="/tags/node模块/" rel="tag"># node模块</a>
           
         </div>
       
@@ -426,8 +415,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/24/mongoose之Population使用/" rel="next" title="mongoose之Population使用">
-                <i class="fa fa-chevron-left"></i> mongoose之Population使用
+              <a href="/2017/07/25/mongoose之Population使用-2/" rel="next" title="mongoose之Population使用-2">
+                <i class="fa fa-chevron-left"></i> mongoose之Population使用-2
               </a>
             
           </div>
@@ -435,10 +424,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/07/26/表单文件上传中间件-connect-multiparty/" rel="prev" title="表单文件上传中间件---connect-multiparty">
-                表单文件上传中间件---connect-multiparty <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -567,7 +552,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#何为Population"><span class="nav-number">1.</span> <span class="nav-text">何为Population</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#定义带有引用字段的-Schema"><span class="nav-number">2.</span> <span class="nav-text">定义带有引用字段的 Schema</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#保存引用字段"><span class="nav-number">3.</span> <span class="nav-text">保存引用字段</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#查询-document"><span class="nav-number">4.</span> <span class="nav-text">查询 document</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#populate-方法"><span class="nav-number">5.</span> <span class="nav-text">populate 方法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#引用字段的类型"><span class="nav-number">6.</span> <span class="nav-text">引用字段的类型</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#文件上传原理分析"><span class="nav-number">1.</span> <span class="nav-text">文件上传原理分析</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#node中间件—connect-multiparty使用方法介绍"><span class="nav-number">2.</span> <span class="nav-text">node中间件—connect-multiparty使用方法介绍</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#安装模块"><span class="nav-number">2.1.</span> <span class="nav-text">安装模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引入模块"><span class="nav-number">2.2.</span> <span class="nav-text">引入模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用模块"><span class="nav-number">2.3.</span> <span class="nav-text">使用模块</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置路径"><span class="nav-number">2.4.</span> <span class="nav-text">配置路径</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#文件上传需要考虑的问题"><span class="nav-number">3.</span> <span class="nav-text">文件上传需要考虑的问题</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#保证服务器的安全"><span class="nav-number">3.1.</span> <span class="nav-text">保证服务器的安全</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#避免文件被覆盖—让文件名唯一即可"><span class="nav-number">3.2.</span> <span class="nav-text">避免文件被覆盖—让文件名唯一即可</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#避免同一个文件夹中的文件过多"><span class="nav-number">3.3.</span> <span class="nav-text">避免同一个文件夹中的文件过多</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#限制文件的大小：web方式不适合上传大的文件"><span class="nav-number">3.4.</span> <span class="nav-text">限制文件的大小：web方式不适合上传大的文件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#临时文件的问题"><span class="nav-number">3.5.</span> <span class="nav-text">临时文件的问题</span></a></li></ol></li></ol></div>
             
 
           </div>
