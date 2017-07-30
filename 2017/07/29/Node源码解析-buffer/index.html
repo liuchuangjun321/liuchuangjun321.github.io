@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="MongoDB," />
+  <meta name="keywords" content="node," />
 
 
 
@@ -93,17 +93,20 @@
 
 
 
-<meta name="description" content="其实关于这部分一直在用，用的也很多了，只不过关于API总是忘记，特意专门拿出来一篇文章记录一下。 MongoDB 查询文档MongoDB 查询文档使用 find() 方法。 find() 方法以非结构化的方式来显示所有文档。 语法MongoDB 查询数据的语法格式如下： 1db.collection.find(query, projection)  query ：可选，使用查询操作符指定查询条件">
-<meta name="keywords" content="MongoDB">
+<meta name="description" content="原文在这里。 在Node、ES2015出现之前，前端工程师只需要进行一些简单的字符串或DOM操作就可以满足业务需要，所以对二进制数据是比较陌生。node出现以后，前端面对的技术场景发生了变化，可以深入到网络传输、文件操作、图片处理等领域，而这些操作都与二进制数据紧密相关。 Node里面的buffer，是一个二进制数据容器，数据结构类似与数组，数组里面的方法在buffer都存在(slice操作的结果">
+<meta name="keywords" content="node">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MongoDB文档查询find">
-<meta property="og:url" content="http://yoursite.com/2017/07/27/MongoDB文档查询find/index.html">
+<meta property="og:title" content="Node源码解析---buffer">
+<meta property="og:url" content="http://yoursite.com/2017/07/29/Node源码解析-buffer/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="其实关于这部分一直在用，用的也很多了，只不过关于API总是忘记，特意专门拿出来一篇文章记录一下。 MongoDB 查询文档MongoDB 查询文档使用 find() 方法。 find() 方法以非结构化的方式来显示所有文档。 语法MongoDB 查询数据的语法格式如下： 1db.collection.find(query, projection)  query ：可选，使用查询操作符指定查询条件">
-<meta property="og:updated_time" content="2017-07-26T18:26:25.000Z">
+<meta property="og:description" content="原文在这里。 在Node、ES2015出现之前，前端工程师只需要进行一些简单的字符串或DOM操作就可以满足业务需要，所以对二进制数据是比较陌生。node出现以后，前端面对的技术场景发生了变化，可以深入到网络传输、文件操作、图片处理等领域，而这些操作都与二进制数据紧密相关。 Node里面的buffer，是一个二进制数据容器，数据结构类似与数组，数组里面的方法在buffer都存在(slice操作的结果">
+<meta property="og:image" content="http://yoursite.com/Users/liuchuang/Desktop/hexo素材/buffer结构.png">
+<meta property="og:image" content="http://yoursite.com/Users/liuchuang/Desktop/hexo素材/buffer内存结构.png">
+<meta property="og:updated_time" content="2017-07-30T05:54:26.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MongoDB文档查询find">
-<meta name="twitter:description" content="其实关于这部分一直在用，用的也很多了，只不过关于API总是忘记，特意专门拿出来一篇文章记录一下。 MongoDB 查询文档MongoDB 查询文档使用 find() 方法。 find() 方法以非结构化的方式来显示所有文档。 语法MongoDB 查询数据的语法格式如下： 1db.collection.find(query, projection)  query ：可选，使用查询操作符指定查询条件">
+<meta name="twitter:title" content="Node源码解析---buffer">
+<meta name="twitter:description" content="原文在这里。 在Node、ES2015出现之前，前端工程师只需要进行一些简单的字符串或DOM操作就可以满足业务需要，所以对二进制数据是比较陌生。node出现以后，前端面对的技术场景发生了变化，可以深入到网络传输、文件操作、图片处理等领域，而这些操作都与二进制数据紧密相关。 Node里面的buffer，是一个二进制数据容器，数据结构类似与数组，数组里面的方法在buffer都存在(slice操作的结果">
+<meta name="twitter:image" content="http://yoursite.com/Users/liuchuang/Desktop/hexo素材/buffer结构.png">
 
 
 
@@ -131,13 +134,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/07/27/MongoDB文档查询find/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/29/Node源码解析-buffer/"/>
 
 
 
 
 
-  <title>MongoDB文档查询find | Big Chuang's WebSite</title>
+  <title>Node源码解析---buffer | Big Chuang's WebSite</title>
   
 
 
@@ -286,7 +289,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/27/MongoDB文档查询find/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/29/Node源码解析-buffer/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="大闯仔儿">
@@ -303,7 +306,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">MongoDB文档查询find</h1>
+          <h1 class="post-title" itemprop="name headline">Node源码解析---buffer</h1>
         
 
         <div class="post-meta">
@@ -315,8 +318,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-27T02:17:57+08:00">
-                2017-07-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-29T12:01:11+08:00">
+                2017-07-29
               </time>
             
 
@@ -325,28 +328,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MongoDB/" itemprop="url" rel="index">
-                    <span itemprop="name">MongoDB</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -372,24 +353,33 @@
       
 
       
-        <p>其实关于这部分一直在用，用的也很多了，只不过关于API总是忘记，特意专门拿出来一篇文章记录一下。</p>
-<h2 id="MongoDB-查询文档"><a href="#MongoDB-查询文档" class="headerlink" title="MongoDB 查询文档"></a>MongoDB 查询文档</h2><p>MongoDB 查询文档使用 find() 方法。</p>
-<p>find() 方法以非结构化的方式来显示所有文档。</p>
-<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>MongoDB 查询数据的语法格式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.collection.find(query, projection)</div></pre></td></tr></table></figure>
+        <p>原文<a href="http://zhenhua-lee.github.io/node/buffer.html" target="_blank" rel="external">在这里</a>。</p>
+<p>在Node、ES2015出现之前，前端工程师只需要进行一些简单的字符串或DOM操作就可以满足业务需要，所以对二进制数据是比较陌生。node出现以后，前端面对的技术场景发生了变化，可以深入到网络传输、文件操作、图片处理等领域，而这些操作都与二进制数据紧密相关。</p>
+<p>Node里面的buffer，是一个二进制数据容器，数据结构类似与数组，数组里面的方法在buffer都存在(slice操作的结果不一样)。下面就从源码(v6.0版本)层面分析，揭开buffer操作的面纱。</p>
+<h2 id="buffer的基本使用"><a href="#buffer的基本使用" class="headerlink" title="buffer的基本使用"></a>buffer的基本使用</h2><p>在Node 6.0以前，直接使用<code>new Buffer</code>，但是这种方式存在两个问题:</p>
 <ul>
-<li><strong>query</strong> ：可选，使用查询操作符指定查询条件</li>
-<li><strong>projection</strong> ：可选，使用投影操作符指定返回的键。查询时返回文档中所有键值， 只需省略该参数即可（默认省略）。</li>
+<li>参数复杂: 内存分配，还是内存分配+内容写入，需要根据参数来确定</li>
+<li>安全隐患: 分配到的内存可能还存储着旧数据，这样就存在安全隐患</li>
 </ul>
-<p><strong>值得注意的是<code>_id</code>这个键总是被返回，即便是没有指定也一样。但是我们可以显示的将其从查询结果中移除掉。</strong></p>
-<p>例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; db.users.find(&#123;&#125;, &#123;&quot;name&quot; ： 1, &quot;age&quot; ： 1, &quot;_id&quot;：0&#125;)</div><div class="line">//上述语句返回的结果和&gt; db.users.find(&#123;&#125;, &#123;&quot;name&quot;: 1, &quot;age&quot;: 1&#125;)只在于是否返回_id属性。</div></pre></td></tr></table></figure>
-<p>如果你需要以易读的方式来读取数据，可以使用 pretty() 方法，语法格式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;db.col.find().pretty()</div></pre></td></tr></table></figure>
-<p>pretty() 方法以格式化的方式来显示所有文档。</p>
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>以下实例我们查询了集合 col 中的数据：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&gt; db.col.find().pretty()</div><div class="line">&#123;</div><div class="line">        &quot;_id&quot; : ObjectId(&quot;56063f17ade2f21f36b03133&quot;),</div><div class="line">        &quot;title&quot; : &quot;MongoDB 教程&quot;,</div><div class="line">        &quot;description&quot; : &quot;MongoDB 是一个 Nosql 数据库&quot;,</div><div class="line">        &quot;by&quot; : &quot;菜鸟教程&quot;,</div><div class="line">        &quot;url&quot; : &quot;http://www.runoob.com&quot;,</div><div class="line">        &quot;tags&quot; : [</div><div class="line">                &quot;mongodb&quot;,</div><div class="line">                &quot;database&quot;,</div><div class="line">                &quot;NoSQL&quot;</div><div class="line">        ],</div><div class="line">        &quot;likes&quot; : 100</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>除了 find() 方法之外，还有一个 findOne() 方法，它只返回一个文档。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">// 本来只想申请一块内存，但是里面却存在旧数据</div><div class="line">const buf1 = new Buffer(10) // &lt;Buffer 90 09 70 6b bf 7f 00 00 50 3a&gt;</div><div class="line">// 不小心，旧数据就被读取出来了</div><div class="line">buf1.toString()  // &apos;�\tpk�\u0000\u0000P:&apos;</div></pre></td></tr></table></figure>
+<p>为了解决上述问题，Buffer提供了<code>Buffer.from</code>、<code>Buffer.alloc</code>、<code>Buffer.allocUnsafe</code>、<code>Buffer.allocUnsafeSlow</code>四个方法来申请内存。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// 申请10个字节的内存</div><div class="line">const buf2 = Buffer.alloc(10) // &lt;Buffer 00 00 00 00 00 00 00 00 00 00&gt;</div><div class="line">// 默认情况下，用0进行填充</div><div class="line">buf2.toString() //&apos;\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000&apos;</div><div class="line"></div><div class="line">// 上述操作就相当于</div><div class="line">const buf1 = new Buffer(10);</div><div class="line">buf.fill(0);</div><div class="line">buf.toString(); // &apos;\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000\u0000&apos;</div></pre></td></tr></table></figure>
+<h2 id="buffer的结构"><a href="#buffer的结构" class="headerlink" title="buffer的结构"></a>buffer的结构</h2><p>buffer是一个典型的javascript与c++结合的模块，其性能部分用c++实现，非性能部分用javascript来实现。</p>
+<p><img src="/Users/liuchuang/Desktop/hexo素材/buffer结构.png" alt="buffer结构"></p>
+<p>下面看看buffer模块的内部结构：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">exports.Buffer = Buffer;</div><div class="line">exports.SlowBuffer = SlowBuffer;</div><div class="line">exports.INSPECT_MAX_BYTES = 50;</div><div class="line">exports.kMaxLength = binding.kMaxLength;</div></pre></td></tr></table></figure>
+<p>buffer模块提供了4个接口:</p>
+<ul>
+<li>Buffer: 二进制数据容器类，node启动时默认加载</li>
+<li>SlowBuffer: 同样也是二进制数据容器类，不过直接进行内存申请</li>
+<li>INSPECT_MAX_BYTES: 限制<code>bufObject.inspect()</code>输出的长度</li>
+<li>kMaxLength: 一次性内存分配的上限，大小为(2^31 - 1)</li>
+</ul>
+<p>其中，由于Buffer经常使用，所以node在启动的时候，就已经加载了Buffer，而其他三个，仍然需要使用<code>require(&#39;buffer&#39;).***</code>。</p>
+<p>关于buffer的内存申请、填充、修改等涉及性能问题的操作，均通过c++里面的node_buffer.cc来实现:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// c++里面的node_buffer</div><div class="line">namespace node &#123;</div><div class="line">  bool zero_fill_all_buffers = false;</div><div class="line">  namespace Buffer &#123;</div><div class="line">    ...</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">NODE_MODULE_CONTEXT_AWARE_BUILTIN(buffer, node::Buffer::Initialize)</div></pre></td></tr></table></figure>
+<h2 id="内存分配策略"><a href="#内存分配策略" class="headerlink" title="内存分配策略"></a>内存分配策略</h2><p>Node中Buffer内存分配太过常见，从系统性能考虑出发，Buffer采用了如下的管理策略。</p>
+<p><img src="/Users/liuchuang/Desktop/hexo素材/buffer内存结构.png" alt="buffer内存结构"></p>
 
       
     </div>
@@ -419,7 +409,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+            <a href="/tags/node/" rel="tag"># node</a>
           
         </div>
       
@@ -432,8 +422,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/27/mongodb之关系/" rel="next" title="mongodb之关系">
-                <i class="fa fa-chevron-left"></i> mongodb之关系
+              <a href="/2017/07/27/MongoDB文档查询find/" rel="next" title="MongoDB文档查询find">
+                <i class="fa fa-chevron-left"></i> MongoDB文档查询find
               </a>
             
           </div>
@@ -442,8 +432,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/07/29/Node源码解析-buffer/" rel="prev" title="Node源码解析---buffer">
-                Node源码解析---buffer <i class="fa fa-chevron-right"></i>
+              <a href="/2017/07/30/ES6之二进制数组详解/" rel="prev" title="ES6之二进制数组详解">
+                ES6之二进制数组详解 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -573,7 +563,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB-查询文档"><span class="nav-number">1.</span> <span class="nav-text">MongoDB 查询文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">1.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例"><span class="nav-number">1.2.</span> <span class="nav-text">实例</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#buffer的基本使用"><span class="nav-number">1.</span> <span class="nav-text">buffer的基本使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#buffer的结构"><span class="nav-number">2.</span> <span class="nav-text">buffer的结构</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#内存分配策略"><span class="nav-number">3.</span> <span class="nav-text">内存分配策略</span></a></li></ol></div>
             
 
           </div>
