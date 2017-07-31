@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="node,Express," />
+  <meta name="keywords" content="HTML5," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="locals是Express应用中 Application(app)对象和Response(res)对象中的属性，该属性是一个对象。该对象的主要作用是，将值传递到所渲染的模板中。 1.locals对象locals对象用于将数据传递至所渲染的模板中。 对于如下一个index.ejs模板： 12345678910&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html&amp;gt;  &amp;lt;head&amp;g">
-<meta name="keywords" content="node,Express">
+<meta name="description" content="前言：在HTML5出现之前，为了保存用户在网站中一些操作状态，以便于下次打开页面时恢复到上次访问时的一些状态，在浏览器端常常使用Cookie来存储一些信息。最典型的应用是判断用户是否登录过网站。但是，Cookie的大小受限，每个Cookie的大小不超过4KB，浏览器一般只允许存放300个Cookie，而且Cookie也存在安全性问题。 localStorage对象实在window对象下的，现代化的">
+<meta name="keywords" content="HTML5">
 <meta property="og:type" content="article">
-<meta property="og:title" content="模板传值对象app.locals、res.locals">
-<meta property="og:url" content="http://yoursite.com/2017/06/28/模板传值对象app-locals、res-locals/index.html">
+<meta property="og:title" content="localStorage用法详解">
+<meta property="og:url" content="http://yoursite.com/2017/07/31/localStorage用法详解/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="locals是Express应用中 Application(app)对象和Response(res)对象中的属性，该属性是一个对象。该对象的主要作用是，将值传递到所渲染的模板中。 1.locals对象locals对象用于将数据传递至所渲染的模板中。 对于如下一个index.ejs模板： 12345678910&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html&amp;gt;  &amp;lt;head&amp;g">
-<meta property="og:updated_time" content="2017-06-28T13:25:07.000Z">
+<meta property="og:description" content="前言：在HTML5出现之前，为了保存用户在网站中一些操作状态，以便于下次打开页面时恢复到上次访问时的一些状态，在浏览器端常常使用Cookie来存储一些信息。最典型的应用是判断用户是否登录过网站。但是，Cookie的大小受限，每个Cookie的大小不超过4KB，浏览器一般只允许存放300个Cookie，而且Cookie也存在安全性问题。 localStorage对象实在window对象下的，现代化的">
+<meta property="og:updated_time" content="2017-07-31T11:41:26.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="模板传值对象app.locals、res.locals">
-<meta name="twitter:description" content="locals是Express应用中 Application(app)对象和Response(res)对象中的属性，该属性是一个对象。该对象的主要作用是，将值传递到所渲染的模板中。 1.locals对象locals对象用于将数据传递至所渲染的模板中。 对于如下一个index.ejs模板： 12345678910&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html&amp;gt;  &amp;lt;head&amp;g">
+<meta name="twitter:title" content="localStorage用法详解">
+<meta name="twitter:description" content="前言：在HTML5出现之前，为了保存用户在网站中一些操作状态，以便于下次打开页面时恢复到上次访问时的一些状态，在浏览器端常常使用Cookie来存储一些信息。最典型的应用是判断用户是否登录过网站。但是，Cookie的大小受限，每个Cookie的大小不超过4KB，浏览器一般只允许存放300个Cookie，而且Cookie也存在安全性问题。 localStorage对象实在window对象下的，现代化的">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/28/模板传值对象app-locals、res-locals/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/07/31/localStorage用法详解/"/>
 
 
 
 
 
-  <title>模板传值对象app.locals、res.locals | Big Chuang's WebSite</title>
+  <title>localStorage用法详解 | Big Chuang's WebSite</title>
   
 
 
@@ -286,7 +286,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/28/模板传值对象app-locals、res-locals/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/31/localStorage用法详解/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="大闯仔儿">
@@ -303,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">模板传值对象app.locals、res.locals</h1>
+          <h1 class="post-title" itemprop="name headline">localStorage用法详解</h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-28T21:13:34+08:00">
-                2017-06-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-31T19:14:38+08:00">
+                2017-07-31
               </time>
             
 
@@ -350,22 +350,18 @@
       
 
       
-        <p><code>locals</code>是Express应用中 <code>Application</code>(<code>app</code>)对象和<code>Response</code>(<code>res</code>)对象中的属性，该属性是一个对象。该对象的主要作用是，将值传递到所渲染的模板中。</p>
-<h2 id="1-locals对象"><a href="#1-locals对象" class="headerlink" title="1.locals对象"></a>1.locals对象</h2><p><code>locals</code>对象用于将数据传递至所渲染的模板中。</p>
-<p>对于如下一个<code>index.ejs</code>模板：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &lt;title&gt;&lt;%= name %&gt;&lt;/title&gt;</div><div class="line">  &lt;/head&gt;</div><div class="line">  &lt;body&gt;</div><div class="line">    &lt;h1&gt;&lt;a href=&quot;&lt;%= url %&gt;&quot;&gt;&lt;%= name %&gt;&lt;/a&gt;&lt;/h1&gt;</div><div class="line">    &lt;p&gt;&lt;%= introduce %&gt;&lt;/p&gt;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-<p>我们可以像下面这样渲染页面，并向页面传递<code>name</code>、<code>url</code>、<code>introduce</code>三个变量的值：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">router.get(&apos;/&apos;, function(req, res) &#123;  </div><div class="line">  res.render(&apos;index&apos;, &#123;name:&apos;IT笔录&apos;, url:&apos;http://itbilu.com&apos;, introduce:&apos;学习、记录、整理&apos;&#125;);</div><div class="line">  // 也可以使用 res.locals 变量</div><div class="line">  // res.locals = &#123;</div><div class="line">  //   name:&apos;IT笔录&apos;, </div><div class="line">  //   url:&apos;http://itbilu.com&apos;, </div><div class="line">  //   introduce:&apos;学习、记录、整理&apos;</div><div class="line">  // &#125;;</div><div class="line">  // res.render(&apos;index&apos;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>渲染后的页面HTML：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &lt;title&gt;&lt;IT笔录&gt;&lt;/title&gt;</div><div class="line">  &lt;/head&gt;</div><div class="line">  &lt;body&gt;</div><div class="line">    &lt;h1&gt;&lt;a href=&quot;http://itbilu.com&quot;&gt;IT笔录&lt;/a&gt;&lt;/h1&gt;</div><div class="line">    &lt;p&gt;学习、记录、整理&lt;/p&gt;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-<p><code>locals</code>对象会被传递到页面，在模板中可以直接引用该对象的属性，也可以通过该对象引用。如：<code>&lt;%= name %&gt;</code>属性同样可以通过<code>&lt;%= locals.name %&gt;</code>来引用。</p>
-<p><strong>app.locals与res.locals</strong></p>
-<p><code>locals</code>可能存在于<code>app</code>对象中即：<a href="http://itbilu.com/nodejs/npm/VJ5TlyRnl.html#app-properties-locals" target="_blank" rel="external"><code>app.locals</code></a>；也可能存在于<code>res</code>对象中，即：<a href="http://itbilu.com/nodejs/npm/Vkp32gJpg.html#res-prop-locals" target="_blank" rel="external"><code>res.locals</code></a>。两者都会将该对象传递至所渲染的页面中。不同的是，<code>app.locals</code>会在整个生命周期中起作用；而<code>res.locals</code>只会有当前请求中起作用。由于<code>app.locals</code>在当前应用所有的渲染模中访问，这样我们就可以在该对象中定义一些顶级/全局的数据，并在渲染模板中使用。<a href="https://github.com/nswbmw/N-blog/blob/master/book/4.5%20%E9%A1%B5%E9%9D%A2%E8%AE%BE%E8%AE%A1.md" target="_blank" rel="external">更多请参考这篇文章</a>。</p>
-<h2 id="2-在中间件中使用"><a href="#2-在中间件中使用" class="headerlink" title="2.在中间件中使用"></a>2.在中间件中使用</h2><p>我们常利用Expres的中间件将复杂的问题拆解成多个简单的问题，实现复杂的问题简单化。<code>locals</code>对象中样也可以<a href="http://itbilu.com/nodejs/npm/4k-rFZt3l.html" target="_blank" rel="external">应用中间件</a>或<a href="http://itbilu.com/nodejs/npm/E1ahfYcnl.html" target="_blank" rel="external">路由中间件</a>中引用，该对象和<code>app</code>、<code>req</code>、<code>res</code>一样可以依次传递，添加或修改其属性值后，会在后面的处理中体现出来。</p>
-<p>如，在<code>app</code>中使用<code>locals</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var app = express();</div><div class="line">app.locals.name = &apos;这是一个APP&apos;; // 定义可以应用整个生命周期中使用的变量</div><div class="line">app.use(function(req, res, next) &#123;</div><div class="line">  app.locals.name = &apos;新名称&apos;; // 修改</div><div class="line">  res.locals.url = &apos;http://itbilu.com&apos;</div><div class="line">  next(err);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>在路由中间件中使用<code>locals</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">router.get(&apos;/&apos;, urlAndIntroduce, function(req, res) &#123;  </div><div class="line">  res.render(&apos;index&apos;, &#123;name:&apos;IT笔录&apos;&#125;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">function urlAndIntroduce(req, res, next) &#123;</div><div class="line">  res.locals = &#123; url:&apos;http://itbilu.com&apos;, introduce:&apos;学习、记录、整理&apos;&#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+        <p>前言：在HTML5出现之前，为了保存用户在网站中一些操作状态，以便于下次打开页面时恢复到上次访问时的一些状态，在浏览器端常常使用Cookie来存储一些信息。最典型的应用是判断用户是否登录过网站。但是，Cookie的大小受限，每个Cookie的大小不超过4KB，浏览器一般只允许存放300个Cookie，而且Cookie也存在安全性问题。</p>
+<p>localStorage对象实在window对象下的，现代化的浏览器均支持(IE浏览器从IE8开始支持)。</p>
+<h2 id="如何使用"><a href="#如何使用" class="headerlink" title="如何使用"></a>如何使用</h2><p>以一个简单的留言板为例：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&lt;meta charset=&quot;utf-8&quot;&gt;</div><div class="line">&lt;title&gt;localStorage demo&lt;/title&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">  &lt;div&gt;</div><div class="line">    &lt;h3&gt;简单的web存储留言板&lt;/h3&gt;</div><div class="line">    &lt;textarea id=&quot;textarea&quot;&gt;&lt;/textarea&gt;</div><div class="line">    &lt;input type=&quot;button&quot; onclick=&quot;addInfo()&quot; value=&quot;留言&quot; /&gt;</div><div class="line">    &lt;input type=&quot;button&quot; onclick=&quot;cleanInfo()&quot; value=&quot;清除留言&quot; /&gt;</div><div class="line">  &lt;/div&gt;</div><div class="line">  &lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">        function upInfo() &#123;</div><div class="line">            //检查是否支持localStorage</div><div class="line">            if(window.localStorage)&#123;</div><div class="line">                //获取localStorage对象</div><div class="line">                var lStorage = window.localStorage;</div><div class="line">                var textarea = window.document.getElementById(&quot;textarea&quot;);</div><div class="line">                //获取存储在localStorage中‘key’为‘text’对应的value值</div><div class="line">                var text = lStorage.getItem(&quot;text&quot;);</div><div class="line">                if (text) &#123;</div><div class="line">                    textarea.value = text;</div><div class="line">                &#125;else &#123;</div><div class="line">                    textarea.value = &quot;还没有留言&quot;;</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        function addInfo() &#123;</div><div class="line">            if(window.localStorage)&#123;</div><div class="line">                var textarea = window.document.getElementById(&quot;textarea&quot;);</div><div class="line">                var lStorage = window.localStorage;</div><div class="line">                //存储key为text，value值为‘textarea.value’</div><div class="line">                lStorage.setItem(&quot;text&quot;,textarea.value);</div><div class="line">                upInfo();</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        function cleanInfo() &#123;</div><div class="line">            //移除key值对应的value值，另要注意的是localstorage.clear()是清除localStorage所有的值</div><div class="line">            window.localStorage.removeItem(&quot;text&quot;);</div><div class="line">            upInfo();</div><div class="line">        &#125;</div><div class="line">        upInfo();</div><div class="line">  &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>这是用localStorage实现的一个简易留言板，留言板上的信息可以永久保存，即使关闭页面后再次打开。同时也可以清除留言板的内容。</p>
+<p>这里我调用了setItem()方法，将对应的名值对传进去，实现数据的存储。调用getItem()方法，将名字传进去，可以获取到对应的值。调用removeItem()方法，将名字传进去，可以删除对应的数据。除此之外，如果想要删除存储对象的所有键值对的话，可以调用removeItem()方法。</p>
+<p>目前浏览器似乎只支持存储字符串类型的数据，所以我们想要存储其他类型的数据，不得不自己手动进行编码和解码。</p>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p>基本语法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">localStorage.setItem(key,value);//存储key值为value</div><div class="line">localStorage.getItem(key)//获取key值</div><div class="line">localStoage.key(i)//获取第i个key值</div><div class="line">localStorage.removeItem(key)//删除key值对应的value</div><div class="line">localStorage.clear()//清空localStorage所有的值</div></pre></td></tr></table></figure>
+<h2 id="localStorage和sessionStorage"><a href="#localStorage和sessionStorage" class="headerlink" title="localStorage和sessionStorage"></a>localStorage和sessionStorage</h2><p>实现了“Web存储”标准的浏览器在window对象上定义了两个属性：localStorage和sessionStorage，这两个属性都代表同一个Storage对象,因此他们具有相同的API。Storage对象的属性值为字符串。</p>
+<p><strong>localStorage和sessionStorage的主要区别在于存储的有效期和作用域不同</strong>。<strong>localStorage存储的数据是永久性的</strong>，其作用域限定在文档源级别（只要URL的协议、端口、主机名三者中有一个不同，就属于不同的文档源）。除此之外，localStorage也受浏览器供应商限制，如果使用chrome访问一个网站，下次用firefox再次访问是获取不到上次存储的数据的。</p>
+<p>而<strong>sessionStorage的有效期仅存在于浏览器的标签页</strong>。也就是说如果关闭标签页后，通过sessionStorage存储的数据就都被删除了。<strong>sessionStorage的作用域不仅被限制在文档源，还被限定在窗口中</strong>，也就是同一标签页中。注意，这里说的窗口是指顶级窗口，若果同一标签页中包含多个<iframe>元素，这两者之间也是可以共享sessionStorage的。</iframe></p>
 
       
     </div>
@@ -395,9 +391,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/node/" rel="tag"># node</a>
-          
-            <a href="/tags/Express/" rel="tag"># Express</a>
+            <a href="/tags/HTML5/" rel="tag"># HTML5</a>
           
         </div>
       
@@ -410,8 +404,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/27/require源码再解读/" rel="next" title="require源码再解读">
-                <i class="fa fa-chevron-left"></i> require源码再解读
+              <a href="/2017/07/31/Buffer再解读/" rel="next" title="Buffer再解读">
+                <i class="fa fa-chevron-left"></i> Buffer再解读
               </a>
             
           </div>
@@ -419,10 +413,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/07/03/mongolass入门/" rel="prev" title="mongolass入门">
-                mongolass入门 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -551,7 +541,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-locals对象"><span class="nav-number">1.</span> <span class="nav-text">1.locals对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-在中间件中使用"><span class="nav-number">2.</span> <span class="nav-text">2.在中间件中使用</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#如何使用"><span class="nav-number">1.</span> <span class="nav-text">如何使用</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">2.</span> <span class="nav-text">总结</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#localStorage和sessionStorage"><span class="nav-number">3.</span> <span class="nav-text">localStorage和sessionStorage</span></a></li></ol></div>
             
 
           </div>

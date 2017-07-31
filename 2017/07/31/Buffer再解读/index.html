@@ -1,0 +1,761 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="node," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="我们先来看一段代码：  发现一个有意思的现象，利用buff.toString()方法指定0~5个字节输出之后，出现了乱码，即使在指定了utf8编码格式的情况下。 我们仔细的捋一遍这段代码，首先Buffer.from申请了一段内存，并将字符串类型的数据写入到申请的缓存中，由于缓存中存储的都是十六进制数据，而且每个汉字对应的是三个字节，所以字符串你好在缓存中占了六个字节，而我们将缓存中的数据输出时，设">
+<meta name="keywords" content="node">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Buffer再解读">
+<meta property="og:url" content="http://yoursite.com/2017/07/31/Buffer再解读/index.html">
+<meta property="og:site_name" content="Big Chuang&#39;s WebSite">
+<meta property="og:description" content="我们先来看一段代码：  发现一个有意思的现象，利用buff.toString()方法指定0~5个字节输出之后，出现了乱码，即使在指定了utf8编码格式的情况下。 我们仔细的捋一遍这段代码，首先Buffer.from申请了一段内存，并将字符串类型的数据写入到申请的缓存中，由于缓存中存储的都是十六进制数据，而且每个汉字对应的是三个字节，所以字符串你好在缓存中占了六个字节，而我们将缓存中的数据输出时，设">
+<meta property="og:image" content="http://yoursite.com/Users/liuchuang/Desktop/屏幕快照%202017-07-31%20上午9.16.02.png">
+<meta property="og:image" content="http://yoursite.com/Users/liuchuang/Desktop/屏幕快照%202017-07-31%20上午9.25.48.png">
+<meta property="og:image" content="http://yoursite.com/Users/liuchuang/Desktop/hexo素材/37.png">
+<meta property="og:updated_time" content="2017-07-31T02:21:06.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Buffer再解读">
+<meta name="twitter:description" content="我们先来看一段代码：  发现一个有意思的现象，利用buff.toString()方法指定0~5个字节输出之后，出现了乱码，即使在指定了utf8编码格式的情况下。 我们仔细的捋一遍这段代码，首先Buffer.from申请了一段内存，并将字符串类型的数据写入到申请的缓存中，由于缓存中存储的都是十六进制数据，而且每个汉字对应的是三个字节，所以字符串你好在缓存中占了六个字节，而我们将缓存中的数据输出时，设">
+<meta name="twitter:image" content="http://yoursite.com/Users/liuchuang/Desktop/屏幕快照%202017-07-31%20上午9.16.02.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/07/31/Buffer再解读/"/>
+
+
+
+
+
+  <title>Buffer再解读 | Big Chuang's WebSite</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?12cfbab09f3fcdee181cf994706182d5";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Big Chuang's WebSite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/31/Buffer再解读/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大闯仔儿">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2036.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Big Chuang's WebSite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Buffer再解读</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-31T09:07:42+08:00">
+                2017-07-31
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>我们先来看一段代码：</p>
+<p><img src="/Users/liuchuang/Desktop/屏幕快照 2017-07-31 上午9.16.02.png" alt="屏幕快照 2017-07-31 上午9.16.02"></p>
+<p>发现一个有意思的现象，利用<code>buff.toString()</code>方法指定<code>0~5</code>个字节输出之后，出现了乱码，即使在指定了<code>utf8</code>编码格式的情况下。</p>
+<p>我们仔细的捋一遍这段代码，首先<code>Buffer.from</code>申请了一段内存，并将字符串类型的数据写入到申请的缓存中，由于缓存中存储的都是十六进制数据，而且每个汉字对应的是三个字节，所以字符串<code>你好</code>在缓存中占了六个字节，而我们将缓存中的数据输出时，设置了输出前5个字节，也就是说最后一个汉字对应的编码数据获取不全，只截取了一部分，所以出现乱码也就正常了。<img src="/Users/liuchuang/Desktop/屏幕快照 2017-07-31 上午9.25.48.png" alt="屏幕快照 2017-07-31 上午9.25.48"></p>
+<p>这个问题解决了，我们再来看一个有意思的问题，原文在<a href="http://www.infoq.com/cn/articles/nodejs-about-buffer?utm_source=infoq&amp;utm_campaign=user_page&amp;utm_medium=link" target="_blank" rel="external">这里</a>。</p>
+<p>先来看一下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var fs = require(&apos;fs&apos;);</div><div class="line">var rs = fs.createReadStream(&apos;testdata.md&apos;);</div><div class="line">var data = &apos;&apos;;</div><div class="line">rs.on(&quot;data&quot;, function (trunk)&#123;</div><div class="line">    data += trunk;</div><div class="line">&#125;);</div><div class="line">rs.on(&quot;end&quot;, function () &#123;</div><div class="line">    console.log(data);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>这段代码很简单了，毫无疑问是可以正常输出的，但是如果我们再改变一下条件，将每次读取的buffer大小变成一个奇数，以模拟一个字符被分配在两个trunk中的场景。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var rs = fs.createReadStream(&apos;testdata.md&apos;, &#123;bufferSize: 11&#125;);</div></pre></td></tr></table></figure>
+<p>我们将会得到以下这样的乱码输出：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">事件循���和请求���象构成了Node.js���异步I/O模型的���个基本���素，这也是典���的消费���生产者场景。</div></pre></td></tr></table></figure>
+<p>造成这个问题的根源在于data += trunk语句里隐藏的错误，在默认的情况下，trunk是一个Buffer对象。这句话的实质是隐藏了toString的变换的：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">data = data.toString() + trunk.toString();</div></pre></td></tr></table></figure>
+<p>由于汉字不是用一个字节来存储的，导致有被截破的汉字的存在，于是出现乱码。解决这个问题有一个简单的方案，是设置编码集：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var rs = fs.createReadStream(&apos;testdata.md&apos;, &#123;encoding: &apos;utf-8&apos;, bufferSize: 11&#125;);</div></pre></td></tr></table></figure>
+<p>这将得到一个正常的字符串响应：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">事件循环和请求对象构成了Node.js的异步I/O模型的两个基本元素，这也是典型的消费者生产者场景。</div></pre></td></tr></table></figure>
+<p>遗憾的是目前Node.js仅支持hex、utf8、ascii、binary、base64、ucs2几种编码的转换。对于那些因为历史遗留问题依旧还生存着的GBK，GB2312等编码，该方法是无能为力的。</p>
+<h2 id="有趣的string-decoder"><a href="#有趣的string-decoder" class="headerlink" title="有趣的string_decoder"></a>有趣的string_decoder</h2><p>在这个例子中，如果仔细观察，会发现一件有趣的事情发生在设置编码集之后。我们提到<code>data += trunk</code>等价于<code>data = data.toString() + trunk.toString()</code>。通过以下的代码可以测试到一个汉字占用三个字节，而我们按11个字节来截取trunk的话，依旧会存在一个汉字被分割在两个trunk中的情景。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">console.log(&quot;事件循环和请求对象&quot;.length); //9</div><div class="line">console.log(Buffer.from(&quot;事件循环和请求对象&quot;).length);   27</div></pre></td></tr></table></figure>
+<p>按照猜想的<code>toString()</code>方式，应该返回的是事件循xxx和请求xxx象才对，其中“环”字应该变成乱码才对，但是在设置了encoding（默认的utf8）之后，结果却正常显示了，这个结果十分有趣。</p>
+<p><img src="/Users/liuchuang/Desktop/hexo素材/37.png" alt="37"></p>
+<p>在好奇心的驱使下可以探查到<a href="https://github.com/joyent/node/blob/master/lib/fs.js#L1237" target="_blank" rel="external">data事件</a>调用了string_decoder来进行编码补足的行为。通过string_decoder对象输出第一个截取Buffer(事件循xx)时，只返回事件循这个字符串，保留xx。第二次通过string_decoder对象输出时检测到上次保留的xx，将上次剩余内容和本次的Buffer进行重新拼接输出。于是达到正常输出的目的。</p>
+<p>string_decoder，目前在文件流读取和网络流读取中都有应用到，一定程度上避免了粗鲁拼接trunk导致的乱码错误。但是，遗憾在于string_decoder目前只支持utf8编码。它的思路其实还可以扩展到其他编码上，只是最终是否会支持目前尚不可得知。</p>
+<p>基于上述原理，我们可以使用以下模块来解决<code>Buffer</code>对象中的字符串连接问题。</p>
+<h2 id="StringDecoder对象"><a href="#StringDecoder对象" class="headerlink" title="StringDecoder对象"></a>StringDecoder对象</h2><p>在<code>Node.js</code>中，也可以使用<code>StringDecoder</code>对象将<code>Buffer</code>对象中的数据转换为字符串，该对象的作用与<code>Buffer</code>对象的<code>toString</code>方法的作用类似，但是对于<code>UTF8</code>编码格式的字符串提供更好的支持。</p>
+<p>在使用该对象时，首先需要加载<code>string_decoder</code>模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">const StringDecoder = require(&apos;string_decoder&apos;).StringDecoder;</div><div class="line">const decoder = new StringDecoder(&apos;utf-8&apos;);</div><div class="line"></div><div class="line">var buff = Buffer.from(&apos;西&apos;)；</div><div class="line">//输出 &lt;Buffer e8 a5 bf&gt;</div><div class="line"></div><div class="line">decoder.write(Buffer.from([0xe8]));</div><div class="line">//返回 &apos;&apos;</div><div class="line">decoder.write(Buffer.from([0xa5]));</div><div class="line">//返回 &apos;&apos;</div><div class="line">decoder.end(Buffer.from([0xbf]));</div><div class="line">//返回 &apos;西&apos;</div></pre></td></tr></table></figure>
+<p>当一个Buffer实例被写到StringDecoder实例的时候，一个内部的buffer将被用来确保待解码的字符串不会包含任何不完整的多字节字符。它们会被保留在buffer中直到下一个stringDecoder.write()被调用或者stringDecoder.end()被调用。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/node/" rel="tag"># node</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/07/30/ES6之二进制数组详解/" rel="next" title="ES6之二进制数组详解">
+                <i class="fa fa-chevron-left"></i> ES6之二进制数组详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/07/31/localStorage用法详解/" rel="prev" title="localStorage用法详解">
+                localStorage用法详解 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/IMG_2036.JPG"
+               alt="大闯仔儿" />
+          <p class="site-author-name" itemprop="name">大闯仔儿</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界那么大，谁不想去看看！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">38</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">2</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tages/index.html">
+                <span class="site-state-item-count">13</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#有趣的string-decoder"><span class="nav-number">1.</span> <span class="nav-text">有趣的string_decoder</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#StringDecoder对象"><span class="nav-number">2.</span> <span class="nav-text">StringDecoder对象</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">大闯仔儿</span>
+</div>
+
+
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 背景动画 -->
+<script type="text/javascript" src="/js/src/particle.js"></script>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
