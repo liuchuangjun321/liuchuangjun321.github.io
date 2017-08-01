@@ -100,14 +100,14 @@
 <meta property="og:url" content="http://yoursite.com/2017/07/31/Buffer再解读/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
 <meta property="og:description" content="我们先来看一段代码：  发现一个有意思的现象，利用buff.toString()方法指定0~5个字节输出之后，出现了乱码，即使在指定了utf8编码格式的情况下。 我们仔细的捋一遍这段代码，首先Buffer.from申请了一段内存，并将字符串类型的数据写入到申请的缓存中，由于缓存中存储的都是十六进制数据，而且每个汉字对应的是三个字节，所以字符串你好在缓存中占了六个字节，而我们将缓存中的数据输出时，设">
-<meta property="og:image" content="http://yoursite.com/Users/liuchuang/Desktop/屏幕快照%202017-07-31%20上午9.16.02.png">
-<meta property="og:image" content="http://yoursite.com/Users/liuchuang/Desktop/屏幕快照%202017-07-31%20上午9.25.48.png">
-<meta property="og:image" content="http://yoursite.com/Users/liuchuang/Desktop/hexo素材/37.png">
-<meta property="og:updated_time" content="2017-07-31T02:21:06.000Z">
+<meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/37-1.png">
+<meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/37-2.png">
+<meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/37.png">
+<meta property="og:updated_time" content="2017-08-01T06:59:12.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Buffer再解读">
 <meta name="twitter:description" content="我们先来看一段代码：  发现一个有意思的现象，利用buff.toString()方法指定0~5个字节输出之后，出现了乱码，即使在指定了utf8编码格式的情况下。 我们仔细的捋一遍这段代码，首先Buffer.from申请了一段内存，并将字符串类型的数据写入到申请的缓存中，由于缓存中存储的都是十六进制数据，而且每个汉字对应的是三个字节，所以字符串你好在缓存中占了六个字节，而我们将缓存中的数据输出时，设">
-<meta name="twitter:image" content="http://yoursite.com/Users/liuchuang/Desktop/屏幕快照%202017-07-31%20上午9.16.02.png">
+<meta name="twitter:image" content="http://os20uatm3.bkt.clouddn.com/37-1.png">
 
 
 
@@ -355,9 +355,9 @@
 
       
         <p>我们先来看一段代码：</p>
-<p><img src="/Users/liuchuang/Desktop/屏幕快照 2017-07-31 上午9.16.02.png" alt="屏幕快照 2017-07-31 上午9.16.02"></p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/37-1.png" alt="屏幕快照 2017-07-31 上午9.16.02"></p>
 <p>发现一个有意思的现象，利用<code>buff.toString()</code>方法指定<code>0~5</code>个字节输出之后，出现了乱码，即使在指定了<code>utf8</code>编码格式的情况下。</p>
-<p>我们仔细的捋一遍这段代码，首先<code>Buffer.from</code>申请了一段内存，并将字符串类型的数据写入到申请的缓存中，由于缓存中存储的都是十六进制数据，而且每个汉字对应的是三个字节，所以字符串<code>你好</code>在缓存中占了六个字节，而我们将缓存中的数据输出时，设置了输出前5个字节，也就是说最后一个汉字对应的编码数据获取不全，只截取了一部分，所以出现乱码也就正常了。<img src="/Users/liuchuang/Desktop/屏幕快照 2017-07-31 上午9.25.48.png" alt="屏幕快照 2017-07-31 上午9.25.48"></p>
+<p>我们仔细的捋一遍这段代码，首先<code>Buffer.from</code>申请了一段内存，并将字符串类型的数据写入到申请的缓存中，由于缓存中存储的都是十六进制数据，而且每个汉字对应的是三个字节，所以字符串<code>你好</code>在缓存中占了六个字节，而我们将缓存中的数据输出时，设置了输出前5个字节，也就是说最后一个汉字对应的编码数据获取不全，只截取了一部分，所以出现乱码也就正常了。<img src="http://os20uatm3.bkt.clouddn.com/37-2.png" alt="屏幕快照 2017-07-31 上午9.25.48"></p>
 <p>这个问题解决了，我们再来看一个有意思的问题，原文在<a href="http://www.infoq.com/cn/articles/nodejs-about-buffer?utm_source=infoq&amp;utm_campaign=user_page&amp;utm_medium=link" target="_blank" rel="external">这里</a>。</p>
 <p>先来看一下代码：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var fs = require(&apos;fs&apos;);</div><div class="line">var rs = fs.createReadStream(&apos;testdata.md&apos;);</div><div class="line">var data = &apos;&apos;;</div><div class="line">rs.on(&quot;data&quot;, function (trunk)&#123;</div><div class="line">    data += trunk;</div><div class="line">&#125;);</div><div class="line">rs.on(&quot;end&quot;, function () &#123;</div><div class="line">    console.log(data);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
@@ -375,7 +375,7 @@
 <h2 id="有趣的string-decoder"><a href="#有趣的string-decoder" class="headerlink" title="有趣的string_decoder"></a>有趣的string_decoder</h2><p>在这个例子中，如果仔细观察，会发现一件有趣的事情发生在设置编码集之后。我们提到<code>data += trunk</code>等价于<code>data = data.toString() + trunk.toString()</code>。通过以下的代码可以测试到一个汉字占用三个字节，而我们按11个字节来截取trunk的话，依旧会存在一个汉字被分割在两个trunk中的情景。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">console.log(&quot;事件循环和请求对象&quot;.length); //9</div><div class="line">console.log(Buffer.from(&quot;事件循环和请求对象&quot;).length);   27</div></pre></td></tr></table></figure>
 <p>按照猜想的<code>toString()</code>方式，应该返回的是事件循xxx和请求xxx象才对，其中“环”字应该变成乱码才对，但是在设置了encoding（默认的utf8）之后，结果却正常显示了，这个结果十分有趣。</p>
-<p><img src="/Users/liuchuang/Desktop/hexo素材/37.png" alt="37"></p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/37.png" alt="37"></p>
 <p>在好奇心的驱使下可以探查到<a href="https://github.com/joyent/node/blob/master/lib/fs.js#L1237" target="_blank" rel="external">data事件</a>调用了string_decoder来进行编码补足的行为。通过string_decoder对象输出第一个截取Buffer(事件循xx)时，只返回事件循这个字符串，保留xx。第二次通过string_decoder对象输出时检测到上次保留的xx，将上次剩余内容和本次的Buffer进行重新拼接输出。于是达到正常输出的目的。</p>
 <p>string_decoder，目前在文件流读取和网络流读取中都有应用到，一定程度上避免了粗鲁拼接trunk导致的乱码错误。但是，遗憾在于string_decoder目前只支持utf8编码。它的思路其实还可以扩展到其他编码上，只是最终是否会支持目前尚不可得知。</p>
 <p>基于上述原理，我们可以使用以下模块来解决<code>Buffer</code>对象中的字符串连接问题。</p>
