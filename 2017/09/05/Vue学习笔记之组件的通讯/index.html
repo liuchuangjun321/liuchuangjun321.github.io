@@ -1,0 +1,799 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="Vue," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="组件意味着协同工作，通常父子组件会是这样的关系：组件 A 在它的模版中使用了组件 B。它们之间必然需要相互通信：父组件要给子组件传递数据，子组件需要将它内部发生的事情告知给父组件。然而，在一个良好定义的接口中尽可能将父子组件解耦是很重要的。这保证了每个组件可以在相对隔离的环境中书写和理解，也大幅提高了组件的可维护性和可重用性。在 Vue 中，父子组件的关系可以总结为 rops down,event">
+<meta name="keywords" content="Vue">
+<meta property="og:type" content="article">
+<meta property="og:title" content="Vue学习笔记之组件的通讯">
+<meta property="og:url" content="http://yoursite.com/2017/09/05/Vue学习笔记之组件的通讯/index.html">
+<meta property="og:site_name" content="Big Chuang&#39;s WebSite">
+<meta property="og:description" content="组件意味着协同工作，通常父子组件会是这样的关系：组件 A 在它的模版中使用了组件 B。它们之间必然需要相互通信：父组件要给子组件传递数据，子组件需要将它内部发生的事情告知给父组件。然而，在一个良好定义的接口中尽可能将父子组件解耦是很重要的。这保证了每个组件可以在相对隔离的环境中书写和理解，也大幅提高了组件的可维护性和可重用性。在 Vue 中，父子组件的关系可以总结为 rops down,event">
+<meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/2017090500.png">
+<meta property="og:updated_time" content="2017-09-12T01:39:02.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="Vue学习笔记之组件的通讯">
+<meta name="twitter:description" content="组件意味着协同工作，通常父子组件会是这样的关系：组件 A 在它的模版中使用了组件 B。它们之间必然需要相互通信：父组件要给子组件传递数据，子组件需要将它内部发生的事情告知给父组件。然而，在一个良好定义的接口中尽可能将父子组件解耦是很重要的。这保证了每个组件可以在相对隔离的环境中书写和理解，也大幅提高了组件的可维护性和可重用性。在 Vue 中，父子组件的关系可以总结为 rops down,event">
+<meta name="twitter:image" content="http://os20uatm3.bkt.clouddn.com/2017090500.png">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/05/Vue学习笔记之组件的通讯/"/>
+
+
+
+
+
+  <title>Vue学习笔记之组件的通讯 | Big Chuang's WebSite</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?12cfbab09f3fcdee181cf994706182d5";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Big Chuang's WebSite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/05/Vue学习笔记之组件的通讯/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大闯仔儿">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2036.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Big Chuang's WebSite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">Vue学习笔记之组件的通讯</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-05T09:29:37+08:00">
+                2017-09-05
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/Vue学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Vue学习笔记</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>组件意味着协同工作，通常父子组件会是这样的关系：组件 A 在它的模版中使用了组件 B。它们之间必然需要相互通信：父组件要给子组件传递数据，子组件需要将它内部发生的事情告知给父组件。然而，在一个良好定义的接口中尽可能将父子组件解耦是很重要的。这保证了每个组件可以在相对隔离的环境中书写和理解，也大幅提高了组件的可维护性和可重用性。<br>在 Vue 中，父子组件的关系可以总结为 <code>rops down</code>,<code>events up</code>。父组件通过 props 向下传递数据给子组件，子组件通过 events 给父组件发送消息。看看它们是怎么工作的。</p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/2017090500.png" alt="2017090500"></p>
+<h2 id="Prop"><a href="#Prop" class="headerlink" title="Prop"></a>Prop</h2><h3 id="使用Prop传递数据"><a href="#使用Prop传递数据" class="headerlink" title="使用Prop传递数据"></a>使用Prop传递数据</h3><p>组件实例的作用域是孤立的。这意味着不能 (也不应该) 在子组件的模板内直接引用父组件的数据。要让子组件使用父组件的数据，我们需要通过子组件的 props 选项。<br>子组件要显式地用 props 选项声明它期待获得的数据：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;example&quot;&gt;</div><div class="line">    &lt;input v-model=&quot;parentMsg&quot;&gt;&lt;br&gt;</div><div class="line">    &lt;child :my-message=&quot;parentMsg&quot;&gt;&lt;/child&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">    Vue.component(&apos;child&apos;, &#123;</div><div class="line">        props:[&apos;myMessage&apos;],</div><div class="line">        template:&apos;&lt;span&gt;&#123;&#123;myMessage&#125;&#125;&lt;/span&gt;&apos;</div><div class="line">    &#125;)</div><div class="line">    new Vue(&#123;</div><div class="line">        el:&apos;#example&apos;,</div><div class="line">        data:&#123;</div><div class="line">            parentMsg:&apos;&apos;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div></pre></td></tr></table></figure>
+<h3 id="单向数据流"><a href="#单向数据流" class="headerlink" title="单向数据流"></a>单向数据流</h3><p>prop 是单向绑定的：当父组件的属性变化时，将传导给子组件，但是不会反过来。这是为了防止子组件无意修改了父组件的状态——这会让应用的数据流难以理解。<br>另外，每次父组件更新时，子组件的所有 prop 都会更新为最新值。这意味着你不应该在子组件内部改变 prop。如果你这么做了，Vue 会在控制台给出警告。<br>为什么我们会有修改 prop 中数据的冲动呢？通常是这两种原因：</p>
+<ul>
+<li>prop 作为初始值传入后，子组件想把它当作局部数据来用；</li>
+<li>prop 作为初始值传入，由子组件处理成其它数据输出。</li>
+</ul>
+<p>对这两种原因，正确的应对方式是：</p>
+<ul>
+<li><p>定义一个局部变量，并用prop的值初始化它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">props: [&apos;initialCounter&apos;],</div><div class="line">data: function () &#123;</div><div class="line">    return &#123; counter: this.initialCounter &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+<li><p>定义一个计算属性，处理 prop 的值并返回:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">props: [&apos;size&apos;],</div><div class="line">computed: &#123;</div><div class="line">  normalizedSize: function () &#123;</div><div class="line">      return this.size.trim().toLowerCase()</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+</li>
+</ul>
+<h3 id="prop验证"><a href="#prop验证" class="headerlink" title="prop验证"></a>prop验证</h3><p>我们可以为组件的 props 指定验证规格。如果传入的数据不符合规格，Vue 会发出警告。当组件给其他人使用时，这很有用。<br>要指定验证规格，需要用对象的形式，而不能用字符串数组：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">Vue.component(&apos;example&apos;, &#123;</div><div class="line">props: &#123;</div><div class="line">  // 基础类型检测 (`null` 意思是任何类型都可以)</div><div class="line">  propA: Number,</div><div class="line">  // 多种类型</div><div class="line">  propB: [String, Number],</div><div class="line">  // 必传且是字符串</div><div class="line">  propC: &#123;</div><div class="line">    type: String,</div><div class="line">    required: true</div><div class="line">  &#125;,</div><div class="line">  // 数字，有默认值</div><div class="line">  propD: &#123;</div><div class="line">    type: Number,</div><div class="line">    default: 100</div><div class="line">  &#125;,</div><div class="line">  // 数组/对象的默认值应当由一个工厂函数返回</div><div class="line">  propE: &#123;</div><div class="line">    type: Object,</div><div class="line">    default: function () &#123;</div><div class="line">      return &#123; message: &apos;hello&apos; &#125;</div><div class="line">    &#125;</div><div class="line">  &#125;,</div><div class="line">  // 自定义验证函数</div><div class="line">  propF: &#123;</div><div class="line">    validator: function (value) &#123;</div><div class="line">      return value &gt; 10</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<ul>
+<li>type 可以是下面原生构造器：</li>
+</ul>
+<ul>
+<li>String</li>
+<li>Number</li>
+<li>Boolean</li>
+<li>Function</li>
+<li>Object</li>
+<li>Array</li>
+<li>Symbol</li>
+</ul>
+<p>type 也可以是一个自定义构造器函数，使用 instanceof 检测。</p>
+<p>当 prop 验证失败，Vue 会在抛出警告 (如果使用的是开发版本)。注意 props 会在组件示例创建之前进行校验，所以在 default 或 validator 函数里，诸如 data、computed 或 methods 的示例属性还无法使用。</p>
+<h2 id="自定义事件"><a href="#自定义事件" class="headerlink" title="自定义事件"></a>自定义事件</h2><p>我们知道，父组件是使用 props 传递数据给子组件，但如果子组件要把数据传递回去，应该怎样做？那就是自定义事件！</p>
+<h3 id="使用v-on绑定自定义事件"><a href="#使用v-on绑定自定义事件" class="headerlink" title="使用v-on绑定自定义事件"></a>使用v-on绑定自定义事件</h3><p>每个 Vue 实例都实现了事件接口 (Events interface)，即：</p>
+<blockquote>
+<p>使用 $on(eventName) 监听事件<br>使用 $emit(eventName) 触发事件</p>
+</blockquote>
+<p>请看下面的例子:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;counter-event-example&quot;&gt;</div><div class="line">    &lt;p&gt;&#123;&#123;total&#125;&#125;&lt;/p&gt;</div><div class="line">    //父组件可以直接在模板中调用子组件的地方，使用 v-on 监听子组件触发的事件。</div><div class="line">    &lt;button-counter v-on:increment=&quot;incrementTotal&quot;&gt;&lt;/button-counter&gt;</div><div class="line">    &lt;button-counter v-on:increment=&quot;incrementTotal&quot;&gt;&lt;/button-counter&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">Vue.component(&apos;button-counter&apos;,&#123;</div><div class="line">        template:&apos;&lt;button v-on:click=&quot;increment&quot;&gt;&#123;&#123;counter&#125;&#125;&lt;/button&gt;&apos;,</div><div class="line">        data:function () &#123;</div><div class="line">            return &#123;</div><div class="line">                counter : 0</div><div class="line">            &#125;</div><div class="line">        &#125;,</div><div class="line">        methods:&#123;</div><div class="line">            increment:function () &#123;</div><div class="line">                this.counter += 1</div><div class="line">                this.$emit(&apos;increment&apos;)</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div><div class="line">    new Vue(&#123;</div><div class="line">        el:&apos;#counter-event-example&apos;,</div><div class="line">        data:&#123;</div><div class="line">            total:0</div><div class="line">        &#125;,</div><div class="line">        methods:&#123;</div><div class="line">            incrementTotal:function () &#123;</div><div class="line">                this.total += 1</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div></pre></td></tr></table></figure>
+<p><strong>注意：父组件可以直接在模板中调用子组件的地方，使用 <code>v-on</code> 监听子组件触发的事件。</strong> <strong>无法在父组件或父实例中使用 <code>$on</code> 来监听子组件触发的事件。必须直接在模板中使用 <code>v-on</code>，就像是上面的例子。</strong></p>
+<p>在这个例子中，需要注意的要点是，子组件仍然是与组件外部环境发生的变化之间完全解耦的。它需要做的就是将自身内部的信息全部通知到父组件中，以防止父组件主动关注子组件内部信息造成耦合。</p>
+<h3 id="给组件绑定原生事件"><a href="#给组件绑定原生事件" class="headerlink" title="给组件绑定原生事件"></a>给组件绑定原生事件</h3><p>有时候，你可能想在某个组件的根元素上监听一个原生事件。可以使用 .native 修饰 v-on。例如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;my-component v-on:click.native=&quot;doTheThing&quot;&gt;&lt;/my-component&gt;</div></pre></td></tr></table></figure>
+<h3 id="双向绑定的实现"><a href="#双向绑定的实现" class="headerlink" title="双向绑定的实现"></a>双向绑定的实现</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;app&quot;&gt;</div><div class="line">    &lt;switchbtn :result=&quot;result&quot; @on-result-change=&quot;onResultChange&quot;&gt;&lt;/switchbtn&gt;</div><div class="line">    &lt;input type=&quot;button&quot; value=&quot;change&quot; @click=&quot;change&quot;&gt;</div><div class="line">&lt;/div&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">Vue.component(&apos;switchbtn&apos;,&#123;</div><div class="line">    template:&quot;&lt;div @click=&apos;change&apos;&gt;&#123;&#123;myResult?&apos;开&apos;:&apos;关&apos;&#125;&#125;&lt;/div&gt;&quot;,</div><div class="line">    props:[&apos;result&apos;],</div><div class="line">    data:function () &#123;</div><div class="line">        return &#123;</div><div class="line">            myResult:this.result</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    watch:&#123;</div><div class="line">        result : function (val) &#123;</div><div class="line">            this.myResult = val;</div><div class="line">        &#125;,</div><div class="line">        myResult:function (val) &#123;</div><div class="line">            this.$emit(&quot;on-result-change&quot;, val);</div><div class="line">        &#125;</div><div class="line">    &#125;,</div><div class="line">    methods:&#123;</div><div class="line">        change:function () &#123;</div><div class="line">            this.myResult = !this.myResult;</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line">   var app =  new Vue(&#123;</div><div class="line">        el:&apos;#app&apos;,</div><div class="line">        data:&#123;</div><div class="line">            result:true</div><div class="line">        &#125;,</div><div class="line">        methods:&#123;</div><div class="line">            change:function () &#123;</div><div class="line">                this.result = !this.result;</div><div class="line">            &#125;,</div><div class="line">            onResultChange:function (val) &#123;</div><div class="line">                this.result = val;</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;)</div></pre></td></tr></table></figure>
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/Vue/" rel="tag"># Vue</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/03/Vue学习笔记之组件的内容分发/" rel="next" title="Vue学习笔记之组件的内容分发">
+                <i class="fa fa-chevron-left"></i> Vue学习笔记之组件的内容分发
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/09/05/Vue学习笔记之组件杂项/" rel="prev" title="Vue学习笔记之组件杂项">
+                Vue学习笔记之组件杂项 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/IMG_2036.JPG"
+               alt="大闯仔儿" />
+          <p class="site-author-name" itemprop="name">大闯仔儿</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界那么大，谁不想去看看！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">43</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tages/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#Prop"><span class="nav-number">1.</span> <span class="nav-text">Prop</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用Prop传递数据"><span class="nav-number">1.1.</span> <span class="nav-text">使用Prop传递数据</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#单向数据流"><span class="nav-number">1.2.</span> <span class="nav-text">单向数据流</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#prop验证"><span class="nav-number">1.3.</span> <span class="nav-text">prop验证</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#自定义事件"><span class="nav-number">2.</span> <span class="nav-text">自定义事件</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#使用v-on绑定自定义事件"><span class="nav-number">2.1.</span> <span class="nav-text">使用v-on绑定自定义事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#给组件绑定原生事件"><span class="nav-number">2.2.</span> <span class="nav-text">给组件绑定原生事件</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#双向绑定的实现"><span class="nav-number">2.3.</span> <span class="nav-text">双向绑定的实现</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">大闯仔儿</span>
+</div>
+
+
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 背景动画 -->
+<script type="text/javascript" src="/js/src/particle.js"></script>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
