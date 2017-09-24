@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="MongoDB," />
+  <meta name="keywords" content="Vue," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="其实关于这部分一直在用，用的也很多了，只不过关于API总是忘记，特意专门拿出来一篇文章记录一下。 MongoDB 查询文档MongoDB 查询文档使用 find() 方法。 find() 方法以非结构化的方式来显示所有文档。 语法MongoDB 查询数据的语法格式如下： 1db.collection.find(query, projection)  query ：可选，使用查询操作符指定查询条件">
-<meta name="keywords" content="MongoDB">
+<meta name="description" content="首先附上官网API。 ##什么是导航钩子 注意：【导航】是表示路由正在发生变化。 正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。 全局钩子你可以使用 router.beforeEach 注册一个全局的 before 钩子： 12345const router = new VueR">
+<meta name="keywords" content="Vue">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MongoDB文档查询find">
-<meta property="og:url" content="http://yoursite.com/2017/07/27/MongoDB文档查询find/index.html">
+<meta property="og:title" content="Vue学习笔记之导航钩子">
+<meta property="og:url" content="http://yoursite.com/2017/09/24/Vue学习笔记之导航钩子/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="其实关于这部分一直在用，用的也很多了，只不过关于API总是忘记，特意专门拿出来一篇文章记录一下。 MongoDB 查询文档MongoDB 查询文档使用 find() 方法。 find() 方法以非结构化的方式来显示所有文档。 语法MongoDB 查询数据的语法格式如下： 1db.collection.find(query, projection)  query ：可选，使用查询操作符指定查询条件">
-<meta property="og:updated_time" content="2017-07-26T18:26:25.000Z">
+<meta property="og:description" content="首先附上官网API。 ##什么是导航钩子 注意：【导航】是表示路由正在发生变化。 正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。 全局钩子你可以使用 router.beforeEach 注册一个全局的 before 钩子： 12345const router = new VueR">
+<meta property="og:updated_time" content="2017-09-24T11:45:46.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MongoDB文档查询find">
-<meta name="twitter:description" content="其实关于这部分一直在用，用的也很多了，只不过关于API总是忘记，特意专门拿出来一篇文章记录一下。 MongoDB 查询文档MongoDB 查询文档使用 find() 方法。 find() 方法以非结构化的方式来显示所有文档。 语法MongoDB 查询数据的语法格式如下： 1db.collection.find(query, projection)  query ：可选，使用查询操作符指定查询条件">
+<meta name="twitter:title" content="Vue学习笔记之导航钩子">
+<meta name="twitter:description" content="首先附上官网API。 ##什么是导航钩子 注意：【导航】是表示路由正在发生变化。 正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。 全局钩子你可以使用 router.beforeEach 注册一个全局的 before 钩子： 12345const router = new VueR">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/07/27/MongoDB文档查询find/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/09/24/Vue学习笔记之导航钩子/"/>
 
 
 
 
 
-  <title>MongoDB文档查询find | Big Chuang's WebSite</title>
+  <title>Vue学习笔记之导航钩子 | Big Chuang's WebSite</title>
   
 
 
@@ -286,7 +286,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/27/MongoDB文档查询find/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/24/Vue学习笔记之导航钩子/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="大闯仔儿">
@@ -303,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">MongoDB文档查询find</h1>
+          <h1 class="post-title" itemprop="name headline">Vue学习笔记之导航钩子</h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-27T02:17:57+08:00">
-                2017-07-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-24T18:57:46+08:00">
+                2017-09-24
               </time>
             
 
@@ -338,8 +338,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MongoDB/" itemprop="url" rel="index">
-                    <span itemprop="name">MongoDB</span>
+                  <a href="/categories/Vue学习笔记/" itemprop="url" rel="index">
+                    <span itemprop="name">Vue学习笔记</span>
                   </a>
                 </span>
 
@@ -372,24 +372,42 @@
       
 
       
-        <p>其实关于这部分一直在用，用的也很多了，只不过关于API总是忘记，特意专门拿出来一篇文章记录一下。</p>
-<h2 id="MongoDB-查询文档"><a href="#MongoDB-查询文档" class="headerlink" title="MongoDB 查询文档"></a>MongoDB 查询文档</h2><p>MongoDB 查询文档使用 find() 方法。</p>
-<p>find() 方法以非结构化的方式来显示所有文档。</p>
-<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><p>MongoDB 查询数据的语法格式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.collection.find(query, projection)</div></pre></td></tr></table></figure>
+        <p>首先附上<a href="https://router.vuejs.org/zh-cn/advanced/navigation-guards.html" target="_blank" rel="external">官网API。</a></p>
+<p>##什么是导航钩子</p>
+<p><a href="">注意：【导航】是表示路由正在发生变化。</a></p>
+<p>正如其名，<code>vue-router</code> 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。</p>
+<h3 id="全局钩子"><a href="#全局钩子" class="headerlink" title="全局钩子"></a>全局钩子</h3><p>你可以使用 <code>router.beforeEach</code> 注册一个全局的 <code>before</code> 钩子：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;...&#125;)</div><div class="line"></div><div class="line">router.beforeEach((to,from,next) =&gt; &#123;</div><div class="line">  //...</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>当一个导航触发时，全局的 <code>before</code> 钩子按照创建顺序调用。钩子是异步解析执行，此时导航在所有钩子 resolve 完之前一直处于 <strong>等待中</strong>。</p>
+<p>每个钩子方法接收三个参数：</p>
 <ul>
-<li><strong>query</strong> ：可选，使用查询操作符指定查询条件</li>
-<li><strong>projection</strong> ：可选，使用投影操作符指定返回的键。查询时返回文档中所有键值， 只需省略该参数即可（默认省略）。</li>
+<li><strong>to: Route</strong>: 即将要进入的目标 <a href="https://router.vuejs.org/zh-cn/api/route-object.html" target="_blank" rel="external">路由对象</a></li>
+<li><strong>from: Route</strong>: 当前导航正要离开的路由</li>
+<li><strong>next: Function</strong>: 一定要调用该方法来 <strong>resolve</strong> 这个钩子。执行效果依赖 <code>next</code> 方法的调用参数。<ul>
+<li><strong>next()</strong>: 进行管道中的下一个钩子。如果全部钩子执行完了，则导航的状态就是 <strong>confirmed</strong> （确认的）。</li>
+<li><strong>next(false)</strong>: 中断当前的导航。如果浏览器的 URL 改变了（可能是用户手动或者浏览器后退按钮），那么 URL 地址会重置到 <code>from</code> 路由对应的地址。</li>
+<li><strong>next(‘/‘) 或者 next({ path: ‘/‘ })</strong>: 跳转到一个不同的地址。当前的导航被中断，然后进行一个新的导航。</li>
 </ul>
-<p><strong>值得注意的是<code>_id</code>这个键总是被返回，即便是没有指定也一样。但是我们可以显示的将其从查询结果中移除掉。</strong></p>
-<p>例如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt; db.users.find(&#123;&#125;, &#123;&quot;name&quot; ： 1, &quot;age&quot; ： 1, &quot;_id&quot;：0&#125;)</div><div class="line">//上述语句返回的结果和&gt; db.users.find(&#123;&#125;, &#123;&quot;name&quot;: 1, &quot;age&quot;: 1&#125;)只在于是否返回_id属性。</div></pre></td></tr></table></figure>
-<p>如果你需要以易读的方式来读取数据，可以使用 pretty() 方法，语法格式如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;db.col.find().pretty()</div></pre></td></tr></table></figure>
-<p>pretty() 方法以格式化的方式来显示所有文档。</p>
-<h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>以下实例我们查询了集合 col 中的数据：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&gt; db.col.find().pretty()</div><div class="line">&#123;</div><div class="line">        &quot;_id&quot; : ObjectId(&quot;56063f17ade2f21f36b03133&quot;),</div><div class="line">        &quot;title&quot; : &quot;MongoDB 教程&quot;,</div><div class="line">        &quot;description&quot; : &quot;MongoDB 是一个 Nosql 数据库&quot;,</div><div class="line">        &quot;by&quot; : &quot;菜鸟教程&quot;,</div><div class="line">        &quot;url&quot; : &quot;http://www.runoob.com&quot;,</div><div class="line">        &quot;tags&quot; : [</div><div class="line">                &quot;mongodb&quot;,</div><div class="line">                &quot;database&quot;,</div><div class="line">                &quot;NoSQL&quot;</div><div class="line">        ],</div><div class="line">        &quot;likes&quot; : 100</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>除了 find() 方法之外，还有一个 findOne() 方法，它只返回一个文档。</p>
+</li>
+</ul>
+<p><strong>确保要调用 next 方法，否则钩子就不会被 resolved。</strong></p>
+<p>同样可以注册一个全局的 <code>after</code> 钩子，不过它不像 <code>before</code> 钩子那样，<code>after</code> 钩子没有 <code>next</code> 方法，不能改变导航：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">router.afterEach(route =&gt; &#123;</div><div class="line">  // ...</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<h3 id="某个路由独享的钩子"><a href="#某个路由独享的钩子" class="headerlink" title="某个路由独享的钩子"></a>某个路由独享的钩子</h3><p>你可以在路由配置上直接定义<code>beforeEnter</code>钩子</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">const router = new VueRouter(&#123;</div><div class="line">  routes: [</div><div class="line">  &#123;</div><div class="line">    path: &apos;/&apos;,</div><div class="line">    component: Foo,</div><div class="line">    beforeEnter: (to,from,next) =&gt; &#123;</div><div class="line">      //...</div><div class="line">    &#125;</div><div class="line">  &#125;</div><div class="line">  ]</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>这些钩子与全局<code>before</code>钩子的方法参数是一样的。</p>
+<h3 id="组件内的钩子"><a href="#组件内的钩子" class="headerlink" title="组件内的钩子"></a>组件内的钩子</h3><p>最后，你可以在路由组件内直接定义以下路由导航钩子：</p>
+<ul>
+<li><code>beforeRouteEnter</code></li>
+<li><code>beforeRouteUpdate</code> (2.2 新增)</li>
+<li><code>beforeRouteLeave</code></li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">const Foo = &#123;</div><div class="line">  template: `...`,</div><div class="line">  beforeRouteEnter (to, from, next) &#123;</div><div class="line">    // 在渲染该组件的对应路由被 confirm 前调用</div><div class="line">    // 不！能！获取组件实例 `this`</div><div class="line">    // 因为当钩子执行前，组件实例还没被创建</div><div class="line">  &#125;,</div><div class="line">  beforeRouteUpdate (to, from, next) &#123;</div><div class="line">    // 在当前路由改变，但是该组件被复用时调用</div><div class="line">    // 举例来说，对于一个带有动态参数的路径 /foo/:id，在 /foo/1 和 /foo/2 之间跳转的时候，</div><div class="line">    // 由于会渲染同样的 Foo 组件，因此组件实例会被复用。而这个钩子就会在这个情况下被调用。</div><div class="line">    // 可以访问组件实例 `this`</div><div class="line">  &#125;,</div><div class="line">  beforeRouteLeave (to, from, next) &#123;</div><div class="line">    // 导航离开该组件的对应路由时调用</div><div class="line">    // 可以访问组件实例 `this`</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>beforeRouteEnter</code> 钩子 <strong>不能</strong> 访问 <code>this</code>，因为钩子在导航确认前被调用,因此即将登场的新组件还没被创建。</p>
+<p>不过，你可以通过传一个回调给 <code>next</code>来访问组件实例。在导航被确认的时候执行回调，并且把组件实例作为回调方法的参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">beforeRouteEnter (to, from, next) &#123;</div><div class="line">  next(vm =&gt; &#123;</div><div class="line">    // 通过 `vm` 访问组件实例</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>你可以 在 <code>beforeRouteLeave</code> 中直接访问 <code>this</code>。这个 <code>leave</code> 钩子通常用来禁止用户在还未保存修改前突然离开。可以通过 <code>next(false)</code> 来取消导航。</p>
+<p>建议在看导航钩子同时结合下一篇<a href="">Vue生命周期钩子来看。</a></p>
 
       
     </div>
@@ -419,7 +437,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+            <a href="/tags/Vue/" rel="tag"># Vue</a>
           
         </div>
       
@@ -432,8 +450,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/27/mongodb之关系/" rel="next" title="mongodb之关系">
-                <i class="fa fa-chevron-left"></i> mongodb之关系
+              <a href="/2017/09/05/Vue学习笔记之组件杂项/" rel="next" title="Vue学习笔记之组件杂项">
+                <i class="fa fa-chevron-left"></i> Vue学习笔记之组件杂项
               </a>
             
           </div>
@@ -442,8 +460,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/07/29/Node源码解析-buffer/" rel="prev" title="Node源码解析---buffer">
-                Node源码解析---buffer <i class="fa fa-chevron-right"></i>
+              <a href="/2017/09/24/Vue学习笔记之生命周期钩子/" rel="prev" title="Vue学习笔记之生命周期钩子">
+                Vue学习笔记之生命周期钩子 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -573,7 +591,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB-查询文档"><span class="nav-number">1.</span> <span class="nav-text">MongoDB 查询文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">1.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例"><span class="nav-number">1.2.</span> <span class="nav-text">实例</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#全局钩子"><span class="nav-number">1.</span> <span class="nav-text">全局钩子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#某个路由独享的钩子"><span class="nav-number">2.</span> <span class="nav-text">某个路由独享的钩子</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#组件内的钩子"><span class="nav-number">3.</span> <span class="nav-text">组件内的钩子</span></a></li></ol></div>
             
 
           </div>
