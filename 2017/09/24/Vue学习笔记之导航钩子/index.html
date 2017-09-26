@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/09/24/Vue学习笔记之导航钩子/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
 <meta property="og:description" content="首先附上官网API。 ##什么是导航钩子 注意：【导航】是表示路由正在发生变化。 正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。 全局钩子你可以使用 router.beforeEach 注册一个全局的 before 钩子： 12345const router = new VueR">
-<meta property="og:updated_time" content="2017-09-24T11:45:46.000Z">
+<meta property="og:updated_time" content="2017-09-24T11:59:16.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Vue学习笔记之导航钩子">
 <meta name="twitter:description" content="首先附上官网API。 ##什么是导航钩子 注意：【导航】是表示路由正在发生变化。 正如其名，vue-router 提供的导航钩子主要用来拦截导航，让它完成跳转或取消。有多种方式可以在路由导航发生时执行钩子：全局的, 单个路由独享的, 或者组件级的。 全局钩子你可以使用 router.beforeEach 注册一个全局的 before 钩子： 12345const router = new VueR">
@@ -407,7 +407,7 @@
 <p>不过，你可以通过传一个回调给 <code>next</code>来访问组件实例。在导航被确认的时候执行回调，并且把组件实例作为回调方法的参数。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">beforeRouteEnter (to, from, next) &#123;</div><div class="line">  next(vm =&gt; &#123;</div><div class="line">    // 通过 `vm` 访问组件实例</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>你可以 在 <code>beforeRouteLeave</code> 中直接访问 <code>this</code>。这个 <code>leave</code> 钩子通常用来禁止用户在还未保存修改前突然离开。可以通过 <code>next(false)</code> 来取消导航。</p>
-<p>建议在看导航钩子同时结合下一篇<a href="">Vue生命周期钩子来看。</a></p>
+<p>建议在看导航钩子同时结合下一篇<a href="http://bigfacechuang.website/2017/09/24/Vue%E5%AD%A6%E4%B9%A0%E7%AC%94%E8%AE%B0%E4%B9%8B%E7%94%9F%E5%91%BD%E5%91%A8%E6%9C%9F%E9%92%A9%E5%AD%90/" target="_blank" rel="external">Vue生命周期钩子来看。</a></p>
 
       
     </div>
@@ -534,7 +534,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">45</span>
+                <span class="site-state-item-count">47</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>

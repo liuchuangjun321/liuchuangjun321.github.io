@@ -1,0 +1,772 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ES6," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="rest参数和扩展运算符都是ES6新增的特性。rest参数的形式为：...变量名；扩展运算符是三个点（...）。 rest参数rest参数接收函数的多余参数，组成一个数组，放在形参的最后，形式如下： 123function func(a, b, ...theArgs) &amp;#123;    // ...&amp;#125; rest参数用于获取函数的多余参数，这样就不需要使用arguments对象了，res">
+<meta name="keywords" content="ES6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript之rest参数详解">
+<meta property="og:url" content="http://yoursite.com/2017/09/25/javascript之rest参数详解/index.html">
+<meta property="og:site_name" content="Big Chuang&#39;s WebSite">
+<meta property="og:description" content="rest参数和扩展运算符都是ES6新增的特性。rest参数的形式为：...变量名；扩展运算符是三个点（...）。 rest参数rest参数接收函数的多余参数，组成一个数组，放在形参的最后，形式如下： 123function func(a, b, ...theArgs) &amp;#123;    // ...&amp;#125; rest参数用于获取函数的多余参数，这样就不需要使用arguments对象了，res">
+<meta property="og:updated_time" content="2017-09-26T02:07:41.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="javascript之rest参数详解">
+<meta name="twitter:description" content="rest参数和扩展运算符都是ES6新增的特性。rest参数的形式为：...变量名；扩展运算符是三个点（...）。 rest参数rest参数接收函数的多余参数，组成一个数组，放在形参的最后，形式如下： 123function func(a, b, ...theArgs) &amp;#123;    // ...&amp;#125; rest参数用于获取函数的多余参数，这样就不需要使用arguments对象了，res">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/09/25/javascript之rest参数详解/"/>
+
+
+
+
+
+  <title>javascript之rest参数详解 | Big Chuang's WebSite</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?12cfbab09f3fcdee181cf994706182d5";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Big Chuang's WebSite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/25/javascript之rest参数详解/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大闯仔儿">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2036.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Big Chuang's WebSite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">javascript之rest参数详解</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-25T21:52:49+08:00">
+                2017-09-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p><strong><code>rest</code>参数</strong>和<strong>扩展运算符</strong>都是<code>ES6</code>新增的特性。<br><strong><code>rest</code>参数</strong>的形式为：<code>...变量名</code>；<strong>扩展运算符</strong>是三个点（<code>...</code>）。</p>
+<h2 id="rest参数"><a href="#rest参数" class="headerlink" title="rest参数"></a><code>rest</code>参数</h2><p><code>rest</code>参数接收函数的多余参数，组成一个数组，放在形参的最后，形式如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function func(a, b, ...theArgs) &#123;</div><div class="line">    // ...</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><code>rest</code>参数用于获取函数的多余参数，这样就不需要使用<code>arguments</code>对象了，<strong><code>rest</code>参数搭配的变量是一个数组，该变量将多余的参数放入该数组中。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">function add(...values)&#123;</div><div class="line">  let sum = 0;</div><div class="line">  for(var val of values)&#123;</div><div class="line">    sum += val;</div><div class="line">  &#125;</div><div class="line">  return sum;</div><div class="line">&#125;</div><div class="line"></div><div class="line">add(1,2,3)  //6</div></pre></td></tr></table></figure>
+<p>传递给<code>add</code>函数的一组参数值，被整合成数组<code>values</code>。</p>
+<p>下面是一个<code>rest</code>参数替代<code>arguments</code>变量的例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">//arguments变量的写法</div><div class="line">function sortNumbers()&#123;</div><div class="line">  return Array.prototype.slice.call(arguments).sort();</div><div class="line">&#125;</div><div class="line"></div><div class="line">//rest函数的写法</div><div class="line">const sortNumbers = (...numbers) =&gt; numbers.sort();</div></pre></td></tr></table></figure>
+<p>###<code>rest</code>函数与<code>arguments</code>对象的差别</p>
+<ul>
+<li><code>rest</code>参数只包含那些没有对应形参的实参；而<code>arguments</code>对象包含了传给函数的所有<strong>实参</strong>。</li>
+<li><code>arguments</code> 对象不是一个真实的数组；而<code>rest</code>参数是真实的<code>Array</code>实例，也就是说你能够在它上面直接使用所有的数组方法。</li>
+<li><code>arguments</code> 对象对象还有一些附加的属性 (比如callee属性)。</li>
+</ul>
+<p>另外，使用<code>rest</code>参数时应注意一下两点：</p>
+<ul>
+<li><code>rest</code> 参数之后不能再有其他参数（即只能是最后一个参数），否则会报错。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">function f(a, ...b, c) &#123; ... &#125; // 报错</div></pre></td></tr></table></figure>
+<ul>
+<li>函数的<code>length</code>属性，不包括<code>rest</code>参数。</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">(function(a) &#123;&#125;).length  // 1</div><div class="line">(function(...a) &#123;&#125;).length  // 0</div><div class="line">(function(a, ...b) &#123;&#125;).length  // 1</div></pre></td></tr></table></figure>
+<h2 id="扩展运算符"><a href="#扩展运算符" class="headerlink" title="扩展运算符"></a>扩展运算符</h2><p>扩展运算符可以看做是<code>rest</code> 参数的逆运算，将一个数组转为用逗号分隔的参数序列。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">console.log(...[1, 2, 3]) // 1 2 3</div><div class="line"></div><div class="line">console.log(1, ...[2, 3, 4], 5) //1 2 3 4 5</div></pre></td></tr></table></figure>
+<h3 id="扩展运算符的应用"><a href="#扩展运算符的应用" class="headerlink" title="扩展运算符的应用"></a>扩展运算符的应用</h3><h4 id="普通的函数调用"><a href="#普通的函数调用" class="headerlink" title="普通的函数调用"></a>普通的函数调用</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function push(array, ...items) &#123;</div><div class="line">  array.push(...items);</div><div class="line">&#125;</div><div class="line"></div><div class="line">function add(x, y) &#123;</div><div class="line">  return x + y;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var numbers = [4, 38];</div><div class="line">add(...numbers) // 42</div></pre></td></tr></table></figure>
+<p>上面代码中，<code>array.push(...items)</code>和<code>add(...numbers)</code>这两行，都是函数的调用，它们的都使用了扩展运算符。该运算符将一个数组，变为参数序列。</p>
+<h4 id="替代-apply-方法调用函数"><a href="#替代-apply-方法调用函数" class="headerlink" title="替代 apply 方法调用函数"></a>替代 apply 方法调用函数</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">// ES5 的写法</div><div class="line">Math.max.apply(null, [14, 3, 77])</div><div class="line"></div><div class="line">// ES6 的写法</div><div class="line">Math.max(...[14, 3, 77])</div><div class="line"></div><div class="line">// 等同于</div><div class="line">Math.max(14, 3, 77);</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">// ES5 的写法</div><div class="line">var arr1 = [0, 1, 2];</div><div class="line">var arr2 = [3, 4, 5];</div><div class="line">Array.prototype.push.apply(arr1, arr2);</div><div class="line"></div><div class="line">// ES6 的写法</div><div class="line">var arr1 = [0, 1, 2];</div><div class="line">var arr2 = [3, 4, 5];</div><div class="line">arr1.push(...arr2);</div></pre></td></tr></table></figure>
+<h4 id="合并数组"><a href="#合并数组" class="headerlink" title="合并数组"></a>合并数组</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var arr1 = [&apos;a&apos;, &apos;b&apos;];</div><div class="line">var arr2 = [&apos;c&apos;];</div><div class="line">var arr3 = [&apos;d&apos;, &apos;e&apos;];</div><div class="line"></div><div class="line">// ES5的合并数组</div><div class="line">arr1.concat(arr2, arr3)  // [ &apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;d&apos;, &apos;e&apos; ]</div><div class="line"></div><div class="line">// ES6的合并数组</div><div class="line">[...arr1, ...arr2, ...arr3]  // [ &apos;a&apos;, &apos;b&apos;, &apos;c&apos;, &apos;d&apos;, &apos;e&apos; ]</div></pre></td></tr></table></figure>
+<h4 id="与解构赋值结合"><a href="#与解构赋值结合" class="headerlink" title="与解构赋值结合"></a>与解构赋值结合</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">const [first, ...rest] = [1, 2, 3, 4, 5];</div><div class="line">first // 1</div><div class="line">rest  // [2, 3, 4, 5]</div><div class="line"></div><div class="line">const [first, ...rest] = [];</div><div class="line">first // undefined</div><div class="line">rest  // []</div><div class="line"></div><div class="line">const [first, ...rest] = [&quot;foo&quot;];</div><div class="line">first  // &quot;foo&quot;</div><div class="line">rest   // []</div></pre></td></tr></table></figure>
+<p>如果将扩展运算符用于数组赋值，只能放在参数的最后一位，否则会报错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">const [...butLast, last] = [1, 2, 3, 4, 5];  // 报错</div><div class="line"></div><div class="line">const [first, ...middle, last] = [1, 2, 3, 4, 5];  // 报错</div></pre></td></tr></table></figure>
+<h4 id="将字符串转为数组"><a href="#将字符串转为数组" class="headerlink" title="将字符串转为数组"></a>将字符串转为数组</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var str = &apos;hello&apos;;</div><div class="line"></div><div class="line">// ES5  </div><div class="line">var arr1 = str.split(&apos;&apos;);  // [ &quot;h&quot;, &quot;e&quot;, &quot;l&quot;, &quot;l&quot;, &quot;o&quot; ] </div><div class="line"></div><div class="line">// ES6  </div><div class="line">var arr2 = [...str];  // [ &quot;h&quot;, &quot;e&quot;, &quot;l&quot;, &quot;l&quot;, &quot;o&quot; ]</div></pre></td></tr></table></figure>
+<h4 id="实现了-Iterator-接口的对象"><a href="#实现了-Iterator-接口的对象" class="headerlink" title="实现了 Iterator 接口的对象"></a>实现了 Iterator 接口的对象</h4><p>任何 <a href="http://es6.ruanyifeng.com/#docs/iterator" target="_blank" rel="external">Iterator</a> 接口的对象，都可以用扩展运算符转为真正的数组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var nodeList = document.querySelectorAll(&apos;div&apos;);</div><div class="line">var array = [...nodeList];</div></pre></td></tr></table></figure>
+<p>上面代码中，<code>querySelectorAll</code>方法返回的是一个<code>nodeList</code>对象。它不是数组，而是一个类似数组的对象。这时，扩展运算符可以将其转为真正的数组，原因就在于<code>NodeList</code>对象实现了 <code>Iterator</code> 。</p>
+<h2 id="补充知识点"><a href="#补充知识点" class="headerlink" title="补充知识点"></a>补充知识点</h2><p>在学习这部分知识的时候，看到数组的<code>apply()</code>和<code>concat()</code>方法时有点儿懵逼，补充一下：</p>
+<h3 id="Array-prototype-concat"><a href="#Array-prototype-concat" class="headerlink" title="Array.prototype.concat()"></a>Array.prototype.concat()</h3><p><code>concat()</code>方法用于合并数组，此方法并不改变现有的数组，返回一个新的数组。</p>
+<p>即如果<code>concat</code>方法的参数是一个元素，该元素会被直接插入到新数组中；如果参数是一个数组，该数组的各个元素将被插入到新数组中；将该特性应用到代码中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">// create two arrays</div><div class="line">var arr1 = [&apos;a&apos;, &apos;b&apos;, &apos;c&apos;];</div><div class="line">var arr2 = [&apos;d&apos;, &apos;e&apos;, &apos;f&apos;];</div><div class="line"></div><div class="line">/* call concat() on the first array passing the second as an argument */</div><div class="line">var arr3 = arr1.concat(arr2);</div><div class="line"></div><div class="line">// log the result</div><div class="line">console.log(arr3);  // expected output: a,b,c,d,e,f</div><div class="line">console.log(arr2);  // expected output: d,e,f</div><div class="line">console.log(arr1);  // expected output: a,b,c</div><div class="line">//现有数组arr1和arr2并没有发生改变。</div></pre></td></tr></table></figure>
+<p>###Array.prototype.apply()</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">func.apply(thisArg, [argsArray])</div></pre></td></tr></table></figure>
+<p><code>apply</code>方法会调用一个函数，<code>apply</code>方法的第一个参数会作为被调用函数的this值，<code>apply</code>方法的第二个参数（一个数组，或类数组的对象）会作为被调用对象的<code>arguments</code>s值，也就是说该数组的各个元素将会依次成为被调用函数的各个参数；</p>
+<p>利用数组的<code>concat()</code>和<code>apply()</code>方法，可以巧妙的给数组降维，而不需要传统的两层循环嵌套。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function reduceDimension(arr) &#123;</div><div class="line">    return Array.prototype.concat.apply([], arr);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>arr作为<code>apply</code>方法的第二个参数，本身是一个数组，数组中的每一个元素（还是数组，即二维数组的第二维）会被作为参数依次传入到<code>concat</code>中，效果等同于<code>[].concat([1,2], [3,4], [5,6])</code>。s</p>
+<p>更多数组降维参见博客<a href="http://www.cnblogs.com/front-end-ralph/p/4871332.html" target="_blank" rel="external">优雅的数组降维——Javascript中apply方法的妙用</a></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ES6/" rel="tag"># ES6</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/25/javascript之arguments对象详解/" rel="next" title="javascript之arguments对象详解">
+                <i class="fa fa-chevron-left"></i> javascript之arguments对象详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/IMG_2036.JPG"
+               alt="大闯仔儿" />
+          <p class="site-author-name" itemprop="name">大闯仔儿</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界那么大，谁不想去看看！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">47</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tages/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#rest参数"><span class="nav-number">1.</span> <span class="nav-text">rest参数</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展运算符"><span class="nav-number">2.</span> <span class="nav-text">扩展运算符</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#扩展运算符的应用"><span class="nav-number">2.1.</span> <span class="nav-text">扩展运算符的应用</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#普通的函数调用"><span class="nav-number">2.1.1.</span> <span class="nav-text">普通的函数调用</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#替代-apply-方法调用函数"><span class="nav-number">2.1.2.</span> <span class="nav-text">替代 apply 方法调用函数</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#合并数组"><span class="nav-number">2.1.3.</span> <span class="nav-text">合并数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#与解构赋值结合"><span class="nav-number">2.1.4.</span> <span class="nav-text">与解构赋值结合</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#将字符串转为数组"><span class="nav-number">2.1.5.</span> <span class="nav-text">将字符串转为数组</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#实现了-Iterator-接口的对象"><span class="nav-number">2.1.6.</span> <span class="nav-text">实现了 Iterator 接口的对象</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#补充知识点"><span class="nav-number">3.</span> <span class="nav-text">补充知识点</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Array-prototype-concat"><span class="nav-number">3.1.</span> <span class="nav-text">Array.prototype.concat()</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">大闯仔儿</span>
+</div>
+
+
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 背景动画 -->
+<script type="text/javascript" src="/js/src/particle.js"></script>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
