@@ -1,0 +1,743 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="ES6," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="在我们使用vue进行开发的过程中，可能会遇到一种情况：当生成vue实例后，添加新的属性到vue实例上，并不会自动更新到视图上去。 翻看vue文档，我们会发现根源所在：如果在实例创建之后添加新的属性到实例上，它不会触发视图更新。 看代码： 123456789101112131415161718192021222324252627282930313233343536&amp;lt;!DOCTYPE html&amp;">
+<meta name="keywords" content="ES6">
+<meta property="og:type" content="article">
+<meta property="og:title" content="深入理解vue实例的$set()方法">
+<meta property="og:url" content="http://yoursite.com/2017/10/01/深入理解vue中的$set()方法/index.html">
+<meta property="og:site_name" content="Big Chuang&#39;s WebSite">
+<meta property="og:description" content="在我们使用vue进行开发的过程中，可能会遇到一种情况：当生成vue实例后，添加新的属性到vue实例上，并不会自动更新到视图上去。 翻看vue文档，我们会发现根源所在：如果在实例创建之后添加新的属性到实例上，它不会触发视图更新。 看代码： 123456789101112131415161718192021222324252627282930313233343536&amp;lt;!DOCTYPE html&amp;">
+<meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/20171001.jpg">
+<meta property="og:updated_time" content="2017-09-30T18:42:43.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="深入理解vue实例的$set()方法">
+<meta name="twitter:description" content="在我们使用vue进行开发的过程中，可能会遇到一种情况：当生成vue实例后，添加新的属性到vue实例上，并不会自动更新到视图上去。 翻看vue文档，我们会发现根源所在：如果在实例创建之后添加新的属性到实例上，它不会触发视图更新。 看代码： 123456789101112131415161718192021222324252627282930313233343536&amp;lt;!DOCTYPE html&amp;">
+<meta name="twitter:image" content="http://os20uatm3.bkt.clouddn.com/20171001.jpg">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2017/10/01/深入理解vue中的$set()方法/"/>
+
+
+
+
+
+  <title>深入理解vue实例的$set()方法 | Big Chuang's WebSite</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?12cfbab09f3fcdee181cf994706182d5";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Big Chuang's WebSite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/01/深入理解vue中的$set()方法/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大闯仔儿">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2036.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Big Chuang's WebSite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">深入理解vue实例的$set()方法</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-01T01:52:28+08:00">
+                2017-10-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>在我们使用vue进行开发的过程中，可能会遇到一种情况：当生成vue实例后，添加新的属性到vue实例上，并不会自动更新到视图上去。</p>
+<p>翻看vue文档，我们会发现根源所在：<strong>如果在实例创建之后添加新的属性到实例上，它不会触发视图更新。</strong></p>
+<p>看代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&lt;meta charset=&quot;utf-8&quot;&gt;</div><div class="line">&lt;title&gt;vue $set&lt;/title&gt;</div><div class="line">&lt;script src=&quot;https://static.runoob.com/assets/vue/1.0.11/vue.min.js&quot;&gt;&lt;/script&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">&lt;div id=&quot;app&quot;&gt;</div><div class="line">  姓名：&#123;&#123; name &#125;&#125;&lt;br&gt;</div><div class="line">    年龄：&#123;&#123;age&#125;&#125;&lt;br&gt;</div><div class="line">    性别：&#123;&#123;sex&#125;&#125;&lt;br&gt;</div><div class="line">    说明：&#123;&#123;info.content&#125;&#125;</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;!-- JavaScript 代码需要放在尾部（指定的HTML元素之后） --&gt;</div><div class="line">&lt;script&gt;</div><div class="line">var data = &#123;</div><div class="line">    name: &quot;简书&quot;,</div><div class="line">    age: &apos;3&apos;,</div><div class="line">    info: &#123;</div><div class="line">        content: &apos;my name is test&apos;</div><div class="line">    &#125;</div><div class="line">&#125;    </div><div class="line">var key = &apos;content&apos;;</div><div class="line">var vm = new Vue(&#123;</div><div class="line">    el:&apos;#app&apos;,</div><div class="line">    data: data,</div><div class="line">    ready: function()&#123;</div><div class="line">        //Vue.set(data,&apos;sex&apos;, &apos;男&apos;)</div><div class="line">        //this.$set(&apos;info.&apos;+key, &apos;what is this?&apos;);</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">data.sex = &apos;男&apos;；</div><div class="line">&lt;/script&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">姓名：简书</div><div class="line">年龄：3</div><div class="line">性别：</div><div class="line">说明：my name is test</div></pre></td></tr></table></figure>
+<p>为什么会这样呢？当去查对应文档时，你会发现<a href="http://blog.csdn.net/crystal6918/article/details/62053147" target="_blank" rel="external">响应系统</a> ,把一个普通 Javascript 对象传给 Vue 实例来作为它的 data 选项，Vue 将遍历它的属性，用 Object.defineProperty 将它们转为 getter/setter,如上示例，将data在控制台打印出来会发现：</p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/20171001.jpg" alt="20171001"></p>
+<p>在age及name都有get和set方法,但是在sex里面并没有这两个方法，因此，设置了sex值后vue并不会自动更新视图；也就是说sex属性是在实例创建之后添加到实例上的属性，它不会触发视图更新。</p>
+<p>解决办法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">&lt;script&gt;</div><div class="line">var data = &#123;</div><div class="line">    name: &quot;简书&quot;,</div><div class="line">    age: &apos;3&apos;,</div><div class="line">    info: &#123;</div><div class="line">        content: &apos;my name is test&apos;</div><div class="line">    &#125;</div><div class="line">&#125;    </div><div class="line">var key = &apos;content&apos;;</div><div class="line">new Vue(&#123;</div><div class="line">    el:&apos;#app&apos;,</div><div class="line">    data: data,</div><div class="line">    ready: function()&#123;</div><div class="line">        Vue.set(data,&apos;sex&apos;, &apos;男&apos;);</div><div class="line">        this.$set(&apos;info.&apos;+key, &apos;what is this?&apos;);</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>1.通过<code>Vue.set()</code>方法设置data属性，如上</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Vue.set(data,&apos;sex&apos;, &apos;男&apos;);</div></pre></td></tr></table></figure>
+<ul>
+<li>2.使用<code>vm.$set()</code>实例方法</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var key = &apos;content&apos;; //这种主要用于当对象中某个属性值动态生成时处理方式</div><div class="line">this.$set(&apos;info.&apos;+key, &apos;what is this?&apos;);</div><div class="line"> 或</div><div class="line">this.$set(&apos;info.content&apos;, &apos;what is this?&apos;);</div></pre></td></tr></table></figure>
+<p><strong>需要注意的是第一种反法是全局的，第二种实在vue实例中实现的</strong></p>
+<p><strong>需要注意的是，由于javascript的限制，Vue不能检测以下变动的数组:</strong></p>
+<ul>
+<li>利用索引直接设置一项时，例如<code>vm.items[indexOfItem] =newValue</code></li>
+<li>修改数组长度，例如<code>vm.items.length = newLength</code></li>
+</ul>
+<p>第一种情况如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;app&quot;&gt;</div><div class="line">  &lt;ul&gt;</div><div class="line">    &lt;li v-for = &quot;item in arr&quot;&gt;&#123;&#123;item&#125;&#125;&lt;/li&gt;</div><div class="line">  &lt;/ul&gt; </div><div class="line">&lt;/div&gt;</div><div class="line">&lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">  var vm = new Vue(&#123;</div><div class="line">    el: &quot;#app&quot;,</div><div class="line">    data: &#123;</div><div class="line">       arr: [&quot;aaa&quot;,&quot;bbb&quot;,&quot;ccc&quot;]</div><div class="line">    &#125;</div><div class="line">  &#125;);</div><div class="line">  vm.arr[1] = &quot;ddd&quot;;</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">aaa</div><div class="line">bbb</div><div class="line">ccc</div></pre></td></tr></table></figure>
+<p>当利用索引改变数组某一项目时，页面不会刷新，解决方法如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;app&quot;&gt;</div><div class="line">  &lt;ul&gt;</div><div class="line">    &lt;li v-for = &quot;item in arr&quot;&gt;&#123;&#123;item&#125;&#125;&lt;/li&gt;</div><div class="line">  &lt;/ul&gt; </div><div class="line">&lt;/div&gt;</div><div class="line">&lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">  var vm = new Vue(&#123;</div><div class="line">    el: &quot;#app&quot;,</div><div class="line">    data: &#123;</div><div class="line">       arr: [&quot;aaa&quot;,&quot;bbb&quot;,&quot;ccc&quot;]</div><div class="line">    &#125;</div><div class="line">  &#125;);</div><div class="line">  vm.$set(vm.arr,1,&quot;ddd&quot;);</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
+<p>运行结果：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">aaa</div><div class="line">ddd</div><div class="line">ccc</div></pre></td></tr></table></figure>
+<p>另外：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;app&quot;&gt;</div><div class="line">  &lt;ul&gt;</div><div class="line">    &lt;li v-for = &quot;item in arr&quot;&gt;&#123;&#123;item&#125;&#125;&lt;/li&gt;</div><div class="line">  &lt;/ul&gt; </div><div class="line">&lt;/div&gt;</div><div class="line">&lt;script type=&quot;text/javascript&quot;&gt;</div><div class="line">  var vm = new Vue(&#123;</div><div class="line">    el: &quot;#app&quot;,</div><div class="line">    data: &#123;</div><div class="line">       arr: [&quot;aaa&quot;,&quot;bbb&quot;,&quot;ccc&quot;],</div><div class="line">       arr2: [&quot;111&quot;,&quot;222&quot;,&quot;333&quot;]</div><div class="line">    &#125;</div><div class="line">  &#125;);</div><div class="line">  vm.arr[1] = &quot;ddd&quot;;</div><div class="line">  vm.$set(vm.arr2,1,&quot;ddd&quot;);</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
+<p>第一个数组通过利用下标改变第二项，第二个数组使用$set()方法改变第二项，根据上面的代码，我们会知道：第一个数组的第二项改变不会在页面更新，只有第二个数组的更改会在页面更新。然而结果却是：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">aaa</div><div class="line">ddd</div><div class="line">ccc</div><div class="line"></div><div class="line">111</div><div class="line">ddd</div><div class="line">333</div></pre></td></tr></table></figure>
+<p>两个数组的的改变都在页面更新了。也就是说，$set()方法调用时，页面会全部更新一遍。</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ES6/" rel="tag"># ES6</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/09/25/javascript之rest参数详解/" rel="next" title="javascript之rest参数详解">
+                <i class="fa fa-chevron-left"></i> javascript之rest参数详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/04/vue-resource拦截器的使用/" rel="prev" title="vue-resource拦截器的使用">
+                vue-resource拦截器的使用 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+
+      <section class="site-overview sidebar-panel sidebar-panel-active">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/IMG_2036.JPG"
+               alt="大闯仔儿" />
+          <p class="site-author-name" itemprop="name">大闯仔儿</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界那么大，谁不想去看看！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">5</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tages/index.html">
+                <span class="site-state-item-count">15</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2017</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">大闯仔儿</span>
+</div>
+
+
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 背景动画 -->
+<script type="text/javascript" src="/js/src/particle.js"></script>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
