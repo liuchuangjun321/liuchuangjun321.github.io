@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/10/04/vue-resource拦截器的使用/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
 <meta property="og:description" content="##vue-resource中的拦截 在vue项目使用vue-resource的过程中，临时增加了一个需求，需要在任何一个页面任何一次http请求，增加对token过期的判断，如果token已过期，需要跳转至登录页面。如果要在每个页面中的http请求操作中添加一次判断，那么会是一个非常大的修改工作量。那么vue-resource是否存在一个对于任何一次请求响应捕获的的公共回调函数呢？答案是有的!">
-<meta property="og:updated_time" content="2017-10-05T15:39:06.000Z">
+<meta property="og:updated_time" content="2017-10-06T07:00:24.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="vue-resource拦截器的使用">
 <meta name="twitter:description" content="##vue-resource中的拦截 在vue项目使用vue-resource的过程中，临时增加了一个需求，需要在任何一个页面任何一次http请求，增加对token过期的判断，如果token已过期，需要跳转至登录页面。如果要在每个页面中的http请求操作中添加一次判断，那么会是一个非常大的修改工作量。那么vue-resource是否存在一个对于任何一次请求响应捕获的的公共回调函数呢？答案是有的!">
@@ -379,6 +379,9 @@
 <p>##axios中的拦截</p>
 <p>同样的，axios插件一样可以进行对请求和响应进行拦截。</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">mounted: function()&#123;</div><div class="line">  axios.interceptors.request.use(function (config)&#123;</div><div class="line">    // 在请求之前可以进行一些预处理和配置</div><div class="line">    ...</div><div class="line">    return config;</div><div class="line">  &#125;)</div><div class="line">  axios.interceptors.response.use(function (response)&#123;</div><div class="line">    // 请求之后对response的处理</div><div class="line">    ...</div><div class="line">    return response;</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="question"><a href="#question" class="headerlink" title="question"></a>question</h2><p>在之前的demo中，做类似于判断用户是否登录处理时，均是放在后端的，如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">app.use(function (req,res,next) &#123;</div><div class="line">  if(req.cookies.userId)&#123;</div><div class="line">    next();</div><div class="line">  &#125;else&#123;</div><div class="line">      console.log(&quot;url:&quot;+req.originalUrl);</div><div class="line">      if(req.originalUrl==&apos;/users/login&apos; || req.originalUrl==&apos;/users/logout&apos; || req.originalUrl.indexOf(&apos;/goods/list&apos;)&gt;-1)&#123;</div><div class="line">          next();</div><div class="line">      &#125;else&#123;</div><div class="line">          res.json(&#123;</div><div class="line">            status:&apos;10001&apos;,</div><div class="line">            msg:&apos;当前未登录&apos;,</div><div class="line">            result:&apos;&apos;</div><div class="line">          &#125;);</div><div class="line">      &#125;</div><div class="line">  &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>而学到拦截器，莫名懵逼，那以后岂不是可以直接把这部分判断放在前端实现，减少了与后端的交互？暂时先记一下这个问题，后续学到了，再来解答。</p>
 
       
     </div>
@@ -480,8 +483,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/IMG_2036.JPG"
@@ -496,7 +508,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">50</span>
+                <span class="site-state-item-count">52</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -543,6 +555,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#question"><span class="nav-number">1.</span> <span class="nav-text">question</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
