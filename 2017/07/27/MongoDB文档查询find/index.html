@@ -96,13 +96,13 @@
 <meta name="description" content="其实关于这部分一直在用，用的也很多了，只不过关于API总是忘记，特意专门拿出来一篇文章记录一下。 MongoDB 查询文档MongoDB 查询文档使用 find() 方法。 find() 方法以非结构化的方式来显示所有文档。 语法MongoDB 查询数据的语法格式如下： 1db.collection.find(query, projection)  query ：可选，使用查询操作符指定查询条件">
 <meta name="keywords" content="MongoDB">
 <meta property="og:type" content="article">
-<meta property="og:title" content="MongoDB文档查询find">
+<meta property="og:title" content="MongoDB文档查询find()">
 <meta property="og:url" content="http://yoursite.com/2017/07/27/MongoDB文档查询find/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
 <meta property="og:description" content="其实关于这部分一直在用，用的也很多了，只不过关于API总是忘记，特意专门拿出来一篇文章记录一下。 MongoDB 查询文档MongoDB 查询文档使用 find() 方法。 find() 方法以非结构化的方式来显示所有文档。 语法MongoDB 查询数据的语法格式如下： 1db.collection.find(query, projection)  query ：可选，使用查询操作符指定查询条件">
-<meta property="og:updated_time" content="2017-07-26T18:26:25.000Z">
+<meta property="og:updated_time" content="2017-10-15T12:46:01.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="MongoDB文档查询find">
+<meta name="twitter:title" content="MongoDB文档查询find()">
 <meta name="twitter:description" content="其实关于这部分一直在用，用的也很多了，只不过关于API总是忘记，特意专门拿出来一篇文章记录一下。 MongoDB 查询文档MongoDB 查询文档使用 find() 方法。 find() 方法以非结构化的方式来显示所有文档。 语法MongoDB 查询数据的语法格式如下： 1db.collection.find(query, projection)  query ：可选，使用查询操作符指定查询条件">
 
 
@@ -137,7 +137,7 @@
 
 
 
-  <title>MongoDB文档查询find | Big Chuang's WebSite</title>
+  <title>MongoDB文档查询find() | Big Chuang's WebSite</title>
   
 
 
@@ -303,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">MongoDB文档查询find</h1>
+          <h1 class="post-title" itemprop="name headline">MongoDB文档查询find()</h1>
         
 
         <div class="post-meta">
@@ -390,6 +390,28 @@
 <h3 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h3><p>以下实例我们查询了集合 col 中的数据：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">&gt; db.col.find().pretty()</div><div class="line">&#123;</div><div class="line">        &quot;_id&quot; : ObjectId(&quot;56063f17ade2f21f36b03133&quot;),</div><div class="line">        &quot;title&quot; : &quot;MongoDB 教程&quot;,</div><div class="line">        &quot;description&quot; : &quot;MongoDB 是一个 Nosql 数据库&quot;,</div><div class="line">        &quot;by&quot; : &quot;菜鸟教程&quot;,</div><div class="line">        &quot;url&quot; : &quot;http://www.runoob.com&quot;,</div><div class="line">        &quot;tags&quot; : [</div><div class="line">                &quot;mongodb&quot;,</div><div class="line">                &quot;database&quot;,</div><div class="line">                &quot;NoSQL&quot;</div><div class="line">        ],</div><div class="line">        &quot;likes&quot; : 100</div><div class="line">&#125;</div></pre></td></tr></table></figure>
 <p>除了 find() 方法之外，还有一个 findOne() 方法，它只返回一个文档。</p>
+<h3 id="查询条件详解"><a href="#查询条件详解" class="headerlink" title="查询条件详解"></a>查询条件详解</h3><h4 id="lt-lte-gt-gte"><a href="#lt-lte-gt-gte" class="headerlink" title="$lt $lte $gt $gte"></a><strong>$lt $lte $gt $gte</strong></h4><p>以上四个分别表示为：&lt; 、 &lt;= 、 &gt; 、 &gt;= 。 通常的做法是将他们组合起来，以便查找一个范围。 比如，查询年龄在18到25岁（含）的人，我们可以这样</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.user.find(&#123;&quot;age&quot;:&#123;&quot;$gte&quot;:18,&quot;$lte&quot;:25&#125;&#125;)</div></pre></td></tr></table></figure>
+<p>这样的范围查询对查询日期特别有用 比如，查询在2015年1月1日后注册的用户</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">start = new Date(&quot;01/01/2015&quot;) db.user.find(&#123;&quot;register&quot;:&#123;&quot;$gte&quot;:start&#125;&#125;)</div></pre></td></tr></table></figure>
+<h4 id="ne"><a href="#ne" class="headerlink" title="$ne"></a>$ne</h4><p>$ne表示不相等</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.user.find(&#123;&quot;name&quot;:&#123;&quot;$ne&quot;:&quot;william&quot;&#125;&#125;)</div></pre></td></tr></table></figure>
+<h4 id="in"><a href="#in" class="headerlink" title="$in"></a>$in</h4><p>$in可以查询一个键的多个值 举例，每个人有爱好，假定为一个,数据太多，咱们用第二个参数来过滤一下</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">db.user.find(&#123;&#125;,&#123;&quot;_id&quot;:0&#125;)  </div><div class="line">&#123; &quot;hobby&quot; : &quot;swimming&quot;, &quot;gender&quot; : &quot;female&quot; &#125;  </div><div class="line">&#123; &quot;hobby&quot; : &quot;dancing&quot;, &quot;gender&quot; : &quot;male&quot; &#125;  </div><div class="line">&#123; &quot;hobby&quot; : &quot;singing&quot;, &quot;gender&quot; : &quot;male&quot; &#125;</div></pre></td></tr></table></figure>
+<p>我们想查询喜欢dancing和swimming和的人，可以得到如下结果</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">db.user.find(&#123;&quot;hobby&quot;:&#123;&quot;$in&quot;:[&quot;dancing&quot;,&quot;swimming&quot;]&#125;&#125;,&#123;&quot;_id&quot;:0&#125;)  </div><div class="line">&#123; &quot;hobby&quot; : &quot;swimming&quot;, &quot;gender&quot; : &quot;female&quot; &#125;  </div><div class="line">&#123; &quot;hobby&quot; : &quot;dancing&quot;, &quot;gender&quot; : &quot;male&quot; &#125;</div></pre></td></tr></table></figure>
+<p>若只查询会跳舞的人</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">db.user.find(&#123;&quot;hobby&quot;:&#123;&quot;$in&quot;:[&quot;dancing&quot;]&#125;&#125;,&#123;&quot;_id&quot;:0&#125;)  </div><div class="line">&#123; &quot;hobby&quot; : &quot;dancing&quot;, &quot;gender&quot; : &quot;male&quot; &#125;</div></pre></td></tr></table></figure>
+<p>既然$in,那么与之相对的就$nin,可以查询到不包括指明信息的文档</p>
+<h4 id="or"><a href="#or" class="headerlink" title="$or"></a>$or</h4><p>$in 是对单个键进行的查询，用$or查询可以匹配多个键</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">db.user.find(&quot;$or&quot;:[&#123;&quot;hobby&quot;:&quot;swimming&quot;&#125;,&#123;&quot;gender&quot;:&quot;male&quot;&#125;],&#123;&quot;_id&quot;:0&#125;)</div></pre></td></tr></table></figure>
+<h4 id="size"><a href="#size" class="headerlink" title="$size"></a>$size</h4><p>size可以获得指定数组长度的文档</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">db.user.find(&#123;&quot;fruit&quot;:&#123;&quot;$size&quot;:3&#125;&#125;,&#123;&quot;_id&quot;:0&#125;)  </div><div class="line">&#123; &quot;fruit&quot; : [ &quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot; ] &#125;  </div><div class="line">&#123; &quot;fruit&quot; : [ &quot;apple&quot;, &quot;banana&quot;, &quot;pear&quot; ] &#125;  </div><div class="line">&#123; &quot;fruit&quot; : [ &quot;apple&quot;, &quot;watermelon&quot;, &quot;pear&quot; ] &#125;</div></pre></td></tr></table></figure>
+<h4 id="all"><a href="#all" class="headerlink" title="$all"></a>$all</h4><p>利用all来查询所以满足的匹配项,已知数据库有这些数据</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">db.user.find(&#123;&#125;,&#123;&quot;_id&quot;:0&#125;)  </div><div class="line">&#123; &quot;fruit&quot; : [ &quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot; ] &#125;  </div><div class="line">&#123; &quot;fruit&quot; : [ &quot;apple&quot;, &quot;banana&quot;, &quot;pear&quot; ] &#125;  </div><div class="line">&#123; &quot;fruit&quot; : [ &quot;apple&quot;, &quot;watermelon&quot;, &quot;pear&quot; ] &#125;</div></pre></td></tr></table></figure>
+<p>需要查询出有apple和cherry的文档</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">db.user.find(&#123;&quot;fruit&quot;:&#123;$all:[&quot;apple&quot;,&quot;cherry&quot;]&#125;&#125;,&#123;&quot;_id&quot;:0&#125;)  </div><div class="line">&#123; &quot;fruit&quot; : [ &quot;apple&quot;, &quot;banana&quot;, &quot;cherry&quot; ] &#125;</div></pre></td></tr></table></figure>
+<p>与之前的OR查询（$or $in）相比，$all的查询模式更像是去取交集，即同时满足查询条件才能被查询出来。</p>
 
       
     </div>
@@ -573,7 +595,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB-查询文档"><span class="nav-number">1.</span> <span class="nav-text">MongoDB 查询文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">1.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例"><span class="nav-number">1.2.</span> <span class="nav-text">实例</span></a></li></ol></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB-查询文档"><span class="nav-number">1.</span> <span class="nav-text">MongoDB 查询文档</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">1.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#实例"><span class="nav-number">1.2.</span> <span class="nav-text">实例</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#查询条件详解"><span class="nav-number">1.3.</span> <span class="nav-text">查询条件详解</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#lt-lte-gt-gte"><span class="nav-number">1.3.1.</span> <span class="nav-text">$lt $lte $gt $gte</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#ne"><span class="nav-number">1.3.2.</span> <span class="nav-text">$ne</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#in"><span class="nav-number">1.3.3.</span> <span class="nav-text">$in</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#or"><span class="nav-number">1.3.4.</span> <span class="nav-text">$or</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#size"><span class="nav-number">1.3.5.</span> <span class="nav-text">$size</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#all"><span class="nav-number">1.3.6.</span> <span class="nav-text">$all</span></a></li></ol></li></ol></li></ol></div>
             
 
           </div>
