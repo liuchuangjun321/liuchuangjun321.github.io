@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="koa," />
+  <meta name="keywords" content="Question,ES6," />
 
 
 
@@ -93,17 +93,19 @@
 
 
 
-<meta name="description" content="koa2使用cookiekoa提供了从上下文直接读取、写入cookie的方法  ctx.cookies.get(name, [options]) 读取上下文请求中的cookie ctx.cookies.set(name, value, [options]) 在上下文中写入cookie  koa2 中操作的cookies是使用了npm的cookies模块，源码在https://github.com/">
-<meta name="keywords" content="koa">
+<meta name="description" content="话说平时对回调函数等等不以为然，遇到问题了就是一脸懵逼，找了半天完全不知道bug在哪里，记录一下今天的狗血经历！ 先上代码！  重点是goodsToCartId，carts成功保存数据库之后，获取_id字段赋值给goodsToCartId。userSchema字段如下： 123456789101112131415161718var userSchema = new mongoose.Schema(">
+<meta name="keywords" content="Question,ES6">
 <meta property="og:type" content="article">
-<meta property="og:title" content="koa2使用cookie &amp; session">
-<meta property="og:url" content="http://yoursite.com/2017/06/25/koa2使用cookie & session/index.html">
+<meta property="og:title" content="demo项目中遇到的回调函数问题">
+<meta property="og:url" content="http://yoursite.com/2017/10/23/demo项目中遇到的回调函数问题/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="koa2使用cookiekoa提供了从上下文直接读取、写入cookie的方法  ctx.cookies.get(name, [options]) 读取上下文请求中的cookie ctx.cookies.set(name, value, [options]) 在上下文中写入cookie  koa2 中操作的cookies是使用了npm的cookies模块，源码在https://github.com/">
-<meta property="og:updated_time" content="2017-06-25T14:54:45.000Z">
+<meta property="og:description" content="话说平时对回调函数等等不以为然，遇到问题了就是一脸懵逼，找了半天完全不知道bug在哪里，记录一下今天的狗血经历！ 先上代码！  重点是goodsToCartId，carts成功保存数据库之后，获取_id字段赋值给goodsToCartId。userSchema字段如下： 123456789101112131415161718var userSchema = new mongoose.Schema(">
+<meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/20171023.jpeg">
+<meta property="og:updated_time" content="2017-10-23T13:35:45.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="koa2使用cookie &amp; session">
-<meta name="twitter:description" content="koa2使用cookiekoa提供了从上下文直接读取、写入cookie的方法  ctx.cookies.get(name, [options]) 读取上下文请求中的cookie ctx.cookies.set(name, value, [options]) 在上下文中写入cookie  koa2 中操作的cookies是使用了npm的cookies模块，源码在https://github.com/">
+<meta name="twitter:title" content="demo项目中遇到的回调函数问题">
+<meta name="twitter:description" content="话说平时对回调函数等等不以为然，遇到问题了就是一脸懵逼，找了半天完全不知道bug在哪里，记录一下今天的狗血经历！ 先上代码！  重点是goodsToCartId，carts成功保存数据库之后，获取_id字段赋值给goodsToCartId。userSchema字段如下： 123456789101112131415161718var userSchema = new mongoose.Schema(">
+<meta name="twitter:image" content="http://os20uatm3.bkt.clouddn.com/20171023.jpeg">
 
 
 
@@ -131,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/25/koa2使用cookie & session/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/10/23/demo项目中遇到的回调函数问题/"/>
 
 
 
 
 
-  <title>koa2使用cookie & session | Big Chuang's WebSite</title>
+  <title>demo项目中遇到的回调函数问题 | Big Chuang's WebSite</title>
   
 
 
@@ -286,7 +288,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/koa2使用cookie & session/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/23/demo项目中遇到的回调函数问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="大闯仔儿">
@@ -303,7 +305,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">koa2使用cookie & session</h1>
+          <h1 class="post-title" itemprop="name headline">demo项目中遇到的回调函数问题</h1>
         
 
         <div class="post-meta">
@@ -315,8 +317,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-25T22:24:04+08:00">
-                2017-06-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-23T20:55:06+08:00">
+                2017-10-23
               </time>
             
 
@@ -325,28 +327,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/koa2进阶/" itemprop="url" rel="index">
-                    <span itemprop="name">koa2进阶</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -372,14 +352,16 @@
       
 
       
-        <h2 id="koa2使用cookie"><a href="#koa2使用cookie" class="headerlink" title="koa2使用cookie"></a>koa2使用cookie</h2><p>koa提供了从上下文直接读取、写入cookie的方法</p>
-<ul>
-<li>ctx.cookies.get(name, [options]) 读取上下文请求中的cookie</li>
-<li>ctx.cookies.set(name, value, [options]) 在上下文中写入cookie</li>
-</ul>
-<p>koa2 中操作的cookies是使用了npm的cookies模块，源码在<a href="https://github.com/pillarjs/cookies" target="_blank" rel="external">https://github.com/pillarjs/cookies</a>，所以在读写cookie的使用参数与该模块的使用一致。</p>
-<h4 id="例子代码"><a href="#例子代码" class="headerlink" title="例子代码"></a>例子代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">const Koa = require(&apos;koa&apos;)</div><div class="line">const app = new Koa()</div><div class="line"></div><div class="line">app.use( async ( ctx ) =&gt; &#123;</div><div class="line"></div><div class="line">  if ( ctx.url === &apos;/index&apos; ) &#123;</div><div class="line">    ctx.cookies.set(</div><div class="line">      &apos;cid&apos;, </div><div class="line">      &apos;hello world&apos;,</div><div class="line">      &#123;</div><div class="line">        domain: &apos;localhost&apos;,  // 写cookie所在的域名</div><div class="line">        path: &apos;/index&apos;,       // 写cookie所在的路径</div><div class="line">        maxAge: 10 * 60 * 1000, // cookie有效时长</div><div class="line">        expires: new Date(&apos;2017-02-15&apos;),  // cookie失效时间</div><div class="line">        httpOnly: false,  // 是否只用于http请求中获取</div><div class="line">        overwrite: false  // 是否允许重写</div><div class="line">      &#125;</div><div class="line">    )</div><div class="line">    ctx.body = &apos;cookie is ok&apos;</div><div class="line">  &#125; else &#123;</div><div class="line">    ctx.body = &apos;hello world&apos; </div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;)</div><div class="line"></div><div class="line">app.listen(3000)</div><div class="line">console.log(&apos;[demo] cookie is starting at port 3000&apos;)</div></pre></td></tr></table></figure>
-<h2 id="koa2使用session"><a href="#koa2使用session" class="headerlink" title="koa2使用session"></a>koa2使用session</h2>
+        <p>话说平时对回调函数等等不以为然，遇到问题了就是一脸懵逼，找了半天完全不知道bug在哪里，记录一下今天的狗血经历！</p>
+<p>先上代码！</p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/20171023.jpeg" alt="20171023"></p>
+<p>重点是<code>goodsToCartId</code>，<code>carts</code>成功保存数据库之后，获取<code>_id</code>字段赋值给<code>goodsToCartId</code>。<code>userSchema</code>字段如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">var userSchema = new mongoose.Schema(&#123;</div><div class="line">  &quot;userId&quot;:String,</div><div class="line">  &quot;userName&quot;:String,</div><div class="line">  &quot;userPwd&quot;:String,</div><div class="line">  &quot;orderList&quot;:[&#123;</div><div class="line">    type: mongoose.Schema.Types.ObjectId,</div><div class="line">    ref: &apos;Order&apos;</div><div class="line">  &#125;],</div><div class="line">  &quot;cartList&quot;:[&#123;</div><div class="line">    type: mongoose.Schema.Types.ObjectId,</div><div class="line">    ref: &apos;Cart&apos;</div><div class="line">  &#125;],</div><div class="line">  &quot;addressList&quot;:[&#123;</div><div class="line">    type: mongoose.Schema.Types.ObjectId,</div><div class="line">    ref: &apos;Address&apos;</div><div class="line">  &#125;],</div><div class="line">  &quot;__v&quot;: Number</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>所以需要赋值后的<code>goodsToCartId</code>保存在<code>userDoc.cartList</code>中，也就是红框括起来的部分。</p>
+<p>问题就出在这里，刚开始，我把红框部分写在了<code>carts.save(function(){...})</code>回调函数之后，而不是回调函数内部，结果出现了令人抓狂的问题。</p>
+<p>前端请求成功后，<code>carts</code>中成功保存了<code>goodsToCart</code>，但是<code>goodsToCartId</code>竟然没有成功保存在<code>userDoc.cartList</code>中，后来想了好久才反应过来是回调函数的问题，也就是说程序执行到<code>carts.save()</code>时，还没保存成功，函数就接着往下执行到了<code>userDoc.cartList.push(goodsToCartId);</code>此时，很显然</p>
+<p><code>goodsToCartId</code>还没被赋值，也就是说<code>push</code>了个空值，这也就是为什么<code>goodsToCartId</code>没有保存到<code>userDoc.cartList</code>中。</p>
+
       
     </div>
 
@@ -408,7 +390,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/koa/" rel="tag"># koa</a>
+            <a href="/tags/Question/" rel="tag"># Question</a>
+          
+            <a href="/tags/ES6/" rel="tag"># ES6</a>
           
         </div>
       
@@ -421,8 +405,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/25/Get&Post请求数据的获取方式/" rel="next" title="Get&Post请求数据的获取方式">
-                <i class="fa fa-chevron-left"></i> Get&Post请求数据的获取方式
+              <a href="/2017/10/18/Express框架四种取参方法对比/" rel="next" title="Express框架四种取参方法对比">
+                <i class="fa fa-chevron-left"></i> Express框架四种取参方法对比
               </a>
             
           </div>
@@ -430,10 +414,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/06/26/koa中的路径问题（-dirname、-filename、-、-）/" rel="prev" title="koa中的路径问题（__dirname、__filename、./、../）">
-                koa中的路径问题（__dirname、__filename、./、../） <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -480,17 +460,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/IMG_2036.JPG"
@@ -552,22 +523,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#koa2使用cookie"><span class="nav-number">1.</span> <span class="nav-text">koa2使用cookie</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#例子代码"><span class="nav-number">1.0.1.</span> <span class="nav-text">例子代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#koa2使用session"><span class="nav-number">2.</span> <span class="nav-text">koa2使用session</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
