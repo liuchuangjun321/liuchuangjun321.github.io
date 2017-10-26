@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="node,Express," />
+  <meta name="keywords" content="基础知识," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="nodejs取参四种方法req.body,req.params,req.param(),req.body 获取请求很中的参数是每个web后台处理的必经之路，nodejs提供了四种方法来实现。 获取请求很中的参数是每个web后台处理的必经之路，nodejs的express框架 提供了四种方法来实现。  req.body req.query req.params req.param()  req.bo">
-<meta name="keywords" content="node,Express">
+<meta name="description" content="connect-mongo github:https://github.com/kcbanner/connect-mongo该模块用于将session存入mongo中。   使用session希望达到以下两个目的：1、对于未登陆的用户跳至某些页面进行拦截  2、跳转某些页面需带有用户信息。  环境配置：版本Express4.x 、Connect 3.x 需要通过npm额外引入的与cookie、se">
+<meta name="keywords" content="基础知识">
 <meta property="og:type" content="article">
-<meta property="og:title" content="Express框架四种取参方法对比">
-<meta property="og:url" content="http://yoursite.com/2017/10/18/Express框架四种取参方法对比/index.html">
+<meta property="og:title" content="使用connect-mongo为NodeJS项目添加会话session">
+<meta property="og:url" content="http://yoursite.com/2017/10/26/使用connect-mongo为NodeJS项目添加会话session/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="nodejs取参四种方法req.body,req.params,req.param(),req.body 获取请求很中的参数是每个web后台处理的必经之路，nodejs提供了四种方法来实现。 获取请求很中的参数是每个web后台处理的必经之路，nodejs的express框架 提供了四种方法来实现。  req.body req.query req.params req.param()  req.bo">
-<meta property="og:updated_time" content="2017-10-18T13:54:27.000Z">
+<meta property="og:description" content="connect-mongo github:https://github.com/kcbanner/connect-mongo该模块用于将session存入mongo中。   使用session希望达到以下两个目的：1、对于未登陆的用户跳至某些页面进行拦截  2、跳转某些页面需带有用户信息。  环境配置：版本Express4.x 、Connect 3.x 需要通过npm额外引入的与cookie、se">
+<meta property="og:updated_time" content="2017-10-26T07:05:19.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Express框架四种取参方法对比">
-<meta name="twitter:description" content="nodejs取参四种方法req.body,req.params,req.param(),req.body 获取请求很中的参数是每个web后台处理的必经之路，nodejs提供了四种方法来实现。 获取请求很中的参数是每个web后台处理的必经之路，nodejs的express框架 提供了四种方法来实现。  req.body req.query req.params req.param()  req.bo">
+<meta name="twitter:title" content="使用connect-mongo为NodeJS项目添加会话session">
+<meta name="twitter:description" content="connect-mongo github:https://github.com/kcbanner/connect-mongo该模块用于将session存入mongo中。   使用session希望达到以下两个目的：1、对于未登陆的用户跳至某些页面进行拦截  2、跳转某些页面需带有用户信息。  环境配置：版本Express4.x 、Connect 3.x 需要通过npm额外引入的与cookie、se">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/10/18/Express框架四种取参方法对比/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/10/26/使用connect-mongo为NodeJS项目添加会话session/"/>
 
 
 
 
 
-  <title>Express框架四种取参方法对比 | Big Chuang's WebSite</title>
+  <title>使用connect-mongo为NodeJS项目添加会话session | Big Chuang's WebSite</title>
   
 
 
@@ -286,7 +286,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/18/Express框架四种取参方法对比/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/10/26/使用connect-mongo为NodeJS项目添加会话session/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="大闯仔儿">
@@ -303,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">Express框架四种取参方法对比</h1>
+          <h1 class="post-title" itemprop="name headline">使用connect-mongo为NodeJS项目添加会话session</h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-18T21:04:06+08:00">
-                2017-10-18
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-10-26T14:42:11+08:00">
+                2017-10-26
               </time>
             
 
@@ -325,28 +325,6 @@
             
           </span>
 
-          
-            <span class="post-category" >
-            
-              <span class="post-meta-divider">|</span>
-            
-              <span class="post-meta-item-icon">
-                <i class="fa fa-folder-o"></i>
-              </span>
-              
-                <span class="post-meta-item-text">分类于</span>
-              
-              
-                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/Express/" itemprop="url" rel="index">
-                    <span itemprop="name">Express</span>
-                  </a>
-                </span>
-
-                
-                
-              
-            </span>
           
 
           
@@ -372,36 +350,25 @@
       
 
       
-        <p><code>nodejs</code>取参四种方法<code>req.body,req.params,req.param(),req.body</code> 获取请求很中的参数是每个web后台处理的必经之路，<code>nodejs</code>提供了四种方法来实现。</p>
-<p>获取请求很中的参数是每个web后台处理的必经之路，<code>nodejs</code>的<code>express</code>框架 提供了四种方法来实现。</p>
-<ul>
-<li>req.body</li>
-<li>req.query</li>
-<li>req.params</li>
-<li>req.param()</li>
-</ul>
-<h2 id="req-body"><a href="#req-body" class="headerlink" title="req.body"></a>req.body</h2><p>解析body不是nodejs默认提供的，你需要载入<code>body-parser</code>中间件才可以使用<code>req.body</code>。</p>
-<p><strong>此方法通常用于解析POST请求中的数据。</strong></p>
-<h2 id="req-query"><a href="#req-query" class="headerlink" title="req.query"></a>req.query</h2><p><code>nodejs</code>默认提供，无需载入中间件。</p>
-<p><strong>此方法多适用于GET请求，解析GET里的参数。</strong></p>
-<h2 id="req-params"><a href="#req-params" class="headerlink" title="req.params"></a>req.params</h2><p><code>nodejs</code>默认提供，无需载入其他中间件。</p>
-<p><strong>此方法适用于restful风格url中的参数的解析。</strong></p>
-<h3 id="req-query与req-params的区别"><a href="#req-query与req-params的区别" class="headerlink" title="req.query与req.params的区别"></a>req.query与req.params的区别</h3><blockquote>
-<p>req.params包含路由参数（在URL的路径部分），而req.query包含URL的查询参数（在URL的？后的参数）。</p>
+        <p>connect-mongo github:<br><a href="http://www.jianshu.com/p/9ee41b22cfe6" target="_blank" rel="external">https://github.com/kcbanner/connect-mongo</a>该模块用于将session存入mongo中。</p>
+<hr>
+<blockquote>
+<p>使用session希望达到以下两个目的：<br>1、对于未登陆的用户跳至某些页面进行拦截</p>
+<p> 2、跳转某些页面需带有用户信息。</p>
 </blockquote>
-<h2 id="req-param"><a href="#req-param" class="headerlink" title="req.param()"></a>req.param()</h2><p>此方法被弃用，请看<a href="http://www.expressjs.com.cn/4x/api.html#req.param" target="_blank" rel="external">官方解释</a></p>
-<h3 id="req-params和req-param-区别"><a href="#req-params和req-param-区别" class="headerlink" title="req.params和req.param()区别"></a>req.params和req.param()区别</h3><p>其实区别很简单，看了一下<code>Express</code>API文档，貌似现在只有<code>req.params</code>，但是我在项目中用到了后者也是可以用的。</p>
-<p>举个例子：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">console.log(req.param)   为 [Function]</div><div class="line">console.log(req.params)  为 []</div></pre></td></tr></table></figure>
-<p>想必大家就明白了。</p>
-<h2 id="实例"><a href="#实例" class="headerlink" title="实例"></a>实例</h2><p>取得 GET Request 的 Query Strings：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">GET /test?name=fred&amp;tel=0926xxx572</div><div class="line"></div><div class="line">app.get(&apos;/test&apos;, function(req, res) &#123;</div><div class="line">    console.log(req.query.name);</div><div class="line">    console.log(req.query.tel);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>如果是表单且是用 POST method：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;form action=&apos;/test&apos; method=&apos;post&apos;&gt; </div><div class="line">    &lt;input type=&apos;text&apos; name=&apos;name&apos; value=&apos;fred&apos;&gt; </div><div class="line">    &lt;input type=&apos;text&apos; name=&apos;tel&apos; value=&apos;0926xxx572&apos;&gt; </div><div class="line">    &lt;input type=&apos;submit&apos; value=&apos;Submit&apos;&gt; </div><div class="line">&lt;/form&gt;</div><div class="line">app.post(&apos;/test&apos;, function(req, res) &#123;</div><div class="line">    console.log(req.query.id);</div><div class="line">    console.log(req.body.name);</div><div class="line">    console.log(req.body.tel);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>当然也可以 Query Strings 和 POST method 的表单同时使用：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;form action=&apos;/test?id=3&apos; method=&apos;post&apos;&gt; </div><div class="line">    &lt;input type=&apos;text&apos; name=&apos;name&apos; value=&apos;fred&apos;&gt; </div><div class="line">    &lt;input type=&apos;text&apos; name=&apos;tel&apos; value=&apos;0926xxx572&apos;&gt; </div><div class="line">    &lt;input type=&apos;submit&apos; value=&apos;Submit&apos;&gt; </div><div class="line">&lt;/form&gt;</div><div class="line">app.post(&apos;/test&apos;, function(req, res) &#123;</div><div class="line">    console.log(req.query.id);</div><div class="line">    console.log(req.body.name);</div><div class="line">    console.log(req.body.tel);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>顺带补充，还有另一种方法传递参数给 Server，就是使用路径的方式，可以利用 Web Server 的 HTTP Routing 來解析，常见于各种 Web Framework。這不算是传统标准规范的做法，是属于 HTTP Routing 的延伸应用。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">GET /hello/fred/0926xxx572</div><div class="line"></div><div class="line">app.get(&apos;/hello/:name/:tel&apos;, function(req, res) &#123;</div><div class="line">    console.log(req.params.name);</div><div class="line">    console.log(req.params.tel);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h3 id="环境配置："><a href="#环境配置：" class="headerlink" title="环境配置："></a>环境配置：</h3><p>版本Express4.x 、Connect 3.x</p>
+<p>需要通过npm额外引入的与cookie、session相关的模块有：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">&quot;connect&quot;:&quot;3.4.1&quot;,</div><div class="line">&quot;connect-mongo&quot;:&quot;1.1.0&quot;,</div><div class="line">&quot;express-session&quot;:&quot;1.13.0&quot;,</div><div class="line">&quot;cookie-parser&quot;:&quot;1.4.1&quot;,</div><div class="line">&quot;body-parser&quot;:&quot;1.14.2&quot;,</div></pre></td></tr></table></figure>
+<h3 id="使用方法"><a href="#使用方法" class="headerlink" title="使用方法"></a>使用方法</h3><p>建立项目时选用了Mongoose模块操作数据库mongodb，所以在connect-mongo中选用了<code>Re-use a Mongoose connection</code>的方式</p>
+<p>app.js 中涉及到的相关代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">var mongoose = require(&apos;mongoose&apos;),</div><div class="line">    dbUrl =&apos;mongodb://@localhost:27017/mongodbtest&apos;,</div><div class="line">    session = require(&apos;express-session&apos;),</div><div class="line">    connect = require(&apos;connect&apos;),</div><div class="line">    MongoStore = require(&apos;connect-mongo&apos;)(session),</div><div class="line">    cookieParser = require(&apos;cookie-parser&apos;),</div><div class="line">    bodyParser = require(&apos;body-parser&apos;); </div><div class="line">app.use(session(&#123;</div><div class="line">     store: new MongoStore(&#123; </div><div class="line">      url: dbUrl,</div><div class="line">      ttl: 14 * 24 * 60 * 60 // = 14 days. Default</div><div class="line">    &#125;)</div><div class="line">&#125;));</div></pre></td></tr></table></figure>
+<p>到这里基本设置就完成了，接下来我们要做的是<br>1、在登录的时候将session存入数据库；<br>2、根据session进行页面拦截。</p>
+<h4 id="登录存入session"><a href="#登录存入session" class="headerlink" title="登录存入session"></a>登录存入session</h4><p>当登录的用户名和密码进行验证之后，执行如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">req.session.user = &#123;</div><div class="line">     &apos;username&apos;:User.username,</div><div class="line">     &apos;chatNumber&apos;:User.chatNumber,</div><div class="line">     &apos;userimg&apos;:User.userimg</div><div class="line">   &#125;     //User为存入数据库回调回来的用户对象</div></pre></td></tr></table></figure>
+<p>此时数据库中会有sessions的集合，我们也可在全局取得<strong>req.session.user</strong>,这样每进入一个需要user对象信息的页面时就可以通过session将用户信息传入页面。</p>
+<p>session 中间件会在 req 上添加 session 对象，即 req.session 初始值为 <code>{}</code>，当我们登录后设置 <code>req.session.user = 用户信息</code>，返回浏览器的头信息中会带上 <code>set-cookie</code> 将 session id 写到浏览器 cookie 中，那么该用户下次请求时，通过带上来的 cookie 中的 session id 我们就可以查找到该用户，并将用户信息保存到 <code>req.session.user</code>。</p>
+<h4 id="session拦截"><a href="#session拦截" class="headerlink" title="session拦截"></a>session拦截</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">在app.js中插入如下代码：</div><div class="line">/session 拦截器</div><div class="line">app.use(function (req, res, next) &#123;          </div><div class="line">    var url = req.originalUrl;//获取url</div><div class="line">    if(!req.session.user&amp;&amp;url != &quot;/login&quot;&amp;&amp;url != &quot;/register&quot;&amp;&amp;url != &quot;/postLogin&quot;)&#123;</div><div class="line">        return res.redirect(&quot;/login&quot;);</div><div class="line">    &#125;</div><div class="line">    next();</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>以上除了注册登录页面，其余页面在未登录情况下将都被拦截，postLogin为登录过程中提交的地址，不能被拦截，否则cookie将不会被存入。</p>
 
       
     </div>
@@ -431,9 +398,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/node/" rel="tag"># node</a>
-          
-            <a href="/tags/Express/" rel="tag"># Express</a>
+            <a href="/tags/基础知识/" rel="tag"># 基础知识</a>
           
         </div>
       
@@ -446,8 +411,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/10/18/解决开发环境的跨域问题/" rel="next" title="Vue-cli proxyTable解决开发环境的跨域问题">
-                <i class="fa fa-chevron-left"></i> Vue-cli proxyTable解决开发环境的跨域问题
+              <a href="/2017/10/25/Cookie和Session的使用简记/" rel="next" title="Cookie和Session的使用简记">
+                <i class="fa fa-chevron-left"></i> Cookie和Session的使用简记
               </a>
             
           </div>
@@ -455,10 +420,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/10/23/demo项目中遇到的回调函数问题/" rel="prev" title="demo项目中遇到的回调函数问题">
-                demo项目中遇到的回调函数问题 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -587,7 +548,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#req-body"><span class="nav-number">1.</span> <span class="nav-text">req.body</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#req-query"><span class="nav-number">2.</span> <span class="nav-text">req.query</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#req-params"><span class="nav-number">3.</span> <span class="nav-text">req.params</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#req-query与req-params的区别"><span class="nav-number">3.1.</span> <span class="nav-text">req.query与req.params的区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#req-param"><span class="nav-number">4.</span> <span class="nav-text">req.param()</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#req-params和req-param-区别"><span class="nav-number">4.1.</span> <span class="nav-text">req.params和req.param()区别</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#实例"><span class="nav-number">5.</span> <span class="nav-text">实例</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-3"><a class="nav-link" href="#环境配置："><span class="nav-number">1.</span> <span class="nav-text">环境配置：</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#使用方法"><span class="nav-number">2.</span> <span class="nav-text">使用方法</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#登录存入session"><span class="nav-number">2.1.</span> <span class="nav-text">登录存入session</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#session拦截"><span class="nav-number">2.2.</span> <span class="nav-text">session拦截</span></a></li></ol></li></ol></div>
             
 
           </div>

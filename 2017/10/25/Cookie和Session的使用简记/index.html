@@ -103,7 +103,7 @@
 <meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/201710251954.png">
 <meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/201710251955.png">
 <meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/201710252030.png">
-<meta property="og:updated_time" content="2017-10-25T12:33:50.000Z">
+<meta property="og:updated_time" content="2017-10-25T12:52:21.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="Cookie和Session的使用简记">
 <meta name="twitter:description" content="关于Cookie的基础使用参考文章Cookie 在前端中的实践 下面主要讲解原理性的东西。 最近在用 Node.js 写一个 Web，需要实现一个保持用户登陆状态的一个功能，每当用户进入这个 App 或者进行一些操作的时候，都要判断这个用户是否在登陆状态。我的思路是这样的，没进行一些操作（向服务端发起一个请求），都向服务端查询当前用户是否在登陆状态。那么，这样应该怎么实现呢？ 下面就来谈谈我是怎么">
@@ -399,7 +399,9 @@
 <h2 id="express-session和connect-mongo插件的使用"><a href="#express-session和connect-mongo插件的使用" class="headerlink" title="express-session和connect-mongo插件的使用"></a>express-session和connect-mongo插件的使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var cookieParser = require(&apos;cookie-parser&apos;),</div><div class="line">    session = require(&apos;express-session&apos;),  				  // session依赖cookie模块</div><div class="line">    mongoStore = require(&apos;connect-mongo&apos;)(session),		  // 对session进行持久化</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">app.use(session(&#123;</div><div class="line">	secret:&apos;douban&apos;,                          // 设置的secret字符串，来计算hash值并放在cookie中</div><div class="line">	resave: false,                            // session变化才进行存储</div><div class="line">	saveUninitialized: true,</div><div class="line">	// 使用mongo对session进行持久化，将session存储进数据库中</div><div class="line">	store: new mongoStore(&#123;</div><div class="line">		url: &apos;mongodb://127.0.0.1/douban&apos;,    // 本地数据库地址</div><div class="line">		collection: &apos;sessions&apos;                // 存储到mongodb中的sessions集合</div><div class="line">	&#125;);</div><div class="line">&#125;));</div></pre></td></tr></table></figure>
 <p>用户请求登录路由时：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">var mongoose = require(&apos;mongoose&apos;),</div><div class="line">    User = mongoose.model(&apos;User&apos;);</div><div class="line"></div><div class="line">router.post(&apos;/users/signin&apos;,function(req,res,next)&#123;</div><div class="line">  var user = req.bady.user,</div><div class="line">      name = user.name,</div><div class="line">      value= user.value,</div><div class="line">      _user = &#123;&#125;;</div><div class="line">  _user[name] = value;</div><div class="line">  </div><div class="line">  User.find(&#123;...&#125;,function(err,doc)&#123;</div><div class="line">    ... //查找该用户，一下代码假设查找到，报错或者查找失败均不考虑</div><div class="line">    user = new User(_user);</div><div class="line">    user.save(function(err,userDoc)&#123;</div><div class="line">      if(err)&#123;</div><div class="line">        ...</div><div class="line">      &#125;else &#123;</div><div class="line">        req.session.user = userDoc;   // 将当前登录用户名保存到session中</div><div class="line">        res.json(&#123;</div><div class="line">          ...</div><div class="line">        &#125;)</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  &#125;)</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">var mongoose = require(&apos;mongoose&apos;),</div><div class="line">    User = mongoose.model(&apos;User&apos;);</div><div class="line"></div><div class="line">exports.signin =function(req,res)&#123;</div><div class="line">  var user = req.bady.user,</div><div class="line">      name = user.name,</div><div class="line">      value= user.value,</div><div class="line">      _user = &#123;&#125;;</div><div class="line">  _user[name] = value;</div><div class="line">  </div><div class="line">  User.find(&#123;...&#125;,function(err,doc)&#123;</div><div class="line">    ... //查找该用户，一下代码假设查找到，报错或者查找失败均不考虑</div><div class="line">    user = new User(_user);</div><div class="line">    user.save(function(err,userDoc)&#123;</div><div class="line">      if(err)&#123;</div><div class="line">        ...</div><div class="line">      &#125;else &#123;</div><div class="line">        req.session.user = userDoc;   // 将当前登录用户名保存到session中</div><div class="line">        res.json(&#123;</div><div class="line">          ...</div><div class="line">        &#125;)</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>路由文件中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">app.get(&apos;/user/signin&apos;,User.signin);</div></pre></td></tr></table></figure>
 <p>查看数据库中的<code>sessions</code>集合</p>
 <p><img src="http://os20uatm3.bkt.clouddn.com/201710252030.png" alt="201710252030"></p>
 
@@ -453,6 +455,10 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2017/10/26/使用connect-mongo为NodeJS项目添加会话session/" rel="prev" title="使用connect-mongo为NodeJS项目添加会话session">
+                使用connect-mongo为NodeJS项目添加会话session <i class="fa fa-chevron-right"></i>
+              </a>
             
           </div>
         </div>
@@ -524,7 +530,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">59</span>
+                <span class="site-state-item-count">60</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
