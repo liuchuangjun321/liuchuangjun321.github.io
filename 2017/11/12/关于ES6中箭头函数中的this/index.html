@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="node,Express," />
+  <meta name="keywords" content="ES6,基础知识," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="locals是Express应用中 Application(app)对象和Response(res)对象中的属性，该属性是一个对象。该对象的主要作用是，将值传递到所渲染的模板中。 1.locals对象locals对象用于将数据传递至所渲染的模板中。 对于如下一个index.ejs模板： 12345678910&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html&amp;gt;  &amp;lt;head&amp;g">
-<meta name="keywords" content="node,Express">
+<meta name="description" content="今天码代码的时候遇到一个小问题 12345axios.post(&amp;apos;/address/addressNew&amp;apos;,param).then(function(result) &amp;#123;    console.log(result);    this.cancleAddress();    this.getAddressList();&amp;#125;) 看似没有问题，结果运行的时候报错了">
+<meta name="keywords" content="ES6,基础知识">
 <meta property="og:type" content="article">
-<meta property="og:title" content="模板传值对象app.locals、res.locals">
-<meta property="og:url" content="http://yoursite.com/2017/06/28/模板传值对象app-locals、res-locals/index.html">
+<meta property="og:title" content="关于ES6中箭头函数中的this">
+<meta property="og:url" content="http://yoursite.com/2017/11/12/关于ES6中箭头函数中的this/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="locals是Express应用中 Application(app)对象和Response(res)对象中的属性，该属性是一个对象。该对象的主要作用是，将值传递到所渲染的模板中。 1.locals对象locals对象用于将数据传递至所渲染的模板中。 对于如下一个index.ejs模板： 12345678910&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html&amp;gt;  &amp;lt;head&amp;g">
-<meta property="og:updated_time" content="2017-06-28T13:25:07.000Z">
+<meta property="og:description" content="今天码代码的时候遇到一个小问题 12345axios.post(&amp;apos;/address/addressNew&amp;apos;,param).then(function(result) &amp;#123;    console.log(result);    this.cancleAddress();    this.getAddressList();&amp;#125;) 看似没有问题，结果运行的时候报错了">
+<meta property="og:updated_time" content="2017-11-12T13:18:16.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="模板传值对象app.locals、res.locals">
-<meta name="twitter:description" content="locals是Express应用中 Application(app)对象和Response(res)对象中的属性，该属性是一个对象。该对象的主要作用是，将值传递到所渲染的模板中。 1.locals对象locals对象用于将数据传递至所渲染的模板中。 对于如下一个index.ejs模板： 12345678910&amp;lt;!DOCTYPE html&amp;gt;&amp;lt;html&amp;gt;  &amp;lt;head&amp;g">
+<meta name="twitter:title" content="关于ES6中箭头函数中的this">
+<meta name="twitter:description" content="今天码代码的时候遇到一个小问题 12345axios.post(&amp;apos;/address/addressNew&amp;apos;,param).then(function(result) &amp;#123;    console.log(result);    this.cancleAddress();    this.getAddressList();&amp;#125;) 看似没有问题，结果运行的时候报错了">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/28/模板传值对象app-locals、res-locals/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/11/12/关于ES6中箭头函数中的this/"/>
 
 
 
 
 
-  <title>模板传值对象app.locals、res.locals | Big Chuang's WebSite</title>
+  <title>关于ES6中箭头函数中的this | Big Chuang's WebSite</title>
   
 
 
@@ -286,7 +286,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/28/模板传值对象app-locals、res-locals/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/12/关于ES6中箭头函数中的this/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="大闯仔儿">
@@ -303,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">模板传值对象app.locals、res.locals</h1>
+          <h1 class="post-title" itemprop="name headline">关于ES6中箭头函数中的this</h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-28T21:13:34+08:00">
-                2017-06-28
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-12T21:05:41+08:00">
+                2017-11-12
               </time>
             
 
@@ -325,6 +325,28 @@
             
           </span>
 
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JS基础/" itemprop="url" rel="index">
+                    <span itemprop="name">JS基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
           
 
           
@@ -350,23 +372,30 @@
       
 
       
-        <p><code>locals</code>是Express应用中 <code>Application</code>(<code>app</code>)对象和<code>Response</code>(<code>res</code>)对象中的属性，该属性是一个对象。该对象的主要作用是，将值传递到所渲染的模板中。</p>
-<h2 id="1-locals对象"><a href="#1-locals对象" class="headerlink" title="1.locals对象"></a>1.locals对象</h2><p><code>locals</code>对象用于将数据传递至所渲染的模板中。</p>
-<p>对于如下一个<code>index.ejs</code>模板：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &lt;title&gt;&lt;%= name %&gt;&lt;/title&gt;</div><div class="line">  &lt;/head&gt;</div><div class="line">  &lt;body&gt;</div><div class="line">    &lt;h1&gt;&lt;a href=&quot;&lt;%= url %&gt;&quot;&gt;&lt;%= name %&gt;&lt;/a&gt;&lt;/h1&gt;</div><div class="line">    &lt;p&gt;&lt;%= introduce %&gt;&lt;/p&gt;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-<p>我们可以像下面这样渲染页面，并向页面传递<code>name</code>、<code>url</code>、<code>introduce</code>三个变量的值：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">router.get(&apos;/&apos;, function(req, res) &#123;  </div><div class="line">  res.render(&apos;index&apos;, &#123;name:&apos;IT笔录&apos;, url:&apos;http://itbilu.com&apos;, introduce:&apos;学习、记录、整理&apos;&#125;);</div><div class="line">  // 也可以使用 res.locals 变量</div><div class="line">  // res.locals = &#123;</div><div class="line">  //   name:&apos;IT笔录&apos;, </div><div class="line">  //   url:&apos;http://itbilu.com&apos;, </div><div class="line">  //   introduce:&apos;学习、记录、整理&apos;</div><div class="line">  // &#125;;</div><div class="line">  // res.render(&apos;index&apos;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>渲染后的页面HTML：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">  &lt;head&gt;</div><div class="line">    &lt;title&gt;&lt;IT笔录&gt;&lt;/title&gt;</div><div class="line">  &lt;/head&gt;</div><div class="line">  &lt;body&gt;</div><div class="line">    &lt;h1&gt;&lt;a href=&quot;http://itbilu.com&quot;&gt;IT笔录&lt;/a&gt;&lt;/h1&gt;</div><div class="line">    &lt;p&gt;学习、记录、整理&lt;/p&gt;</div><div class="line">  &lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
-<p><code>locals</code>对象会被传递到页面，在模板中可以直接引用该对象的属性，也可以通过该对象引用。如：<code>&lt;%= name %&gt;</code>属性同样可以通过<code>&lt;%= locals.name %&gt;</code>来引用。</p>
-<p><strong>app.locals与res.locals</strong></p>
-<p><code>locals</code>可能存在于<code>app</code>对象中即：<a href="http://itbilu.com/nodejs/npm/VJ5TlyRnl.html#app-properties-locals" target="_blank" rel="external"><code>app.locals</code></a>；也可能存在于<code>res</code>对象中，即：<a href="http://itbilu.com/nodejs/npm/Vkp32gJpg.html#res-prop-locals" target="_blank" rel="external"><code>res.locals</code></a>。两者都会将该对象传递至所渲染的页面中。不同的是，<code>app.locals</code>会在整个生命周期中起作用；而<code>res.locals</code>只会有当前请求中起作用。由于<code>app.locals</code>在当前应用所有的渲染模中访问，这样我们就可以在该对象中定义一些顶级/全局的数据，并在渲染模板中使用。<a href="https://github.com/nswbmw/N-blog/blob/master/book/4.5%20%E9%A1%B5%E9%9D%A2%E8%AE%BE%E8%AE%A1.md" target="_blank" rel="external">更多请参考这篇文章</a>。</p>
-<h2 id="2-在中间件中使用"><a href="#2-在中间件中使用" class="headerlink" title="2.在中间件中使用"></a>2.在中间件中使用</h2><p>我们常利用Expres的中间件将复杂的问题拆解成多个简单的问题，实现复杂的问题简单化。<code>locals</code>对象中样也可以<a href="http://itbilu.com/nodejs/npm/4k-rFZt3l.html" target="_blank" rel="external">应用中间件</a>或<a href="http://itbilu.com/nodejs/npm/E1ahfYcnl.html" target="_blank" rel="external">路由中间件</a>中引用，该对象和<code>app</code>、<code>req</code>、<code>res</code>一样可以依次传递，添加或修改其属性值后，会在后面的处理中体现出来。</p>
-<p>如，在<code>app</code>中使用<code>locals</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var app = express();</div><div class="line">app.locals.name = &apos;这是一个APP&apos;; // 定义可以应用整个生命周期中使用的变量</div><div class="line">app.use(function(req, res, next) &#123;</div><div class="line">  app.locals.name = &apos;新名称&apos;; // 修改</div><div class="line">  res.locals.url = &apos;http://itbilu.com&apos;</div><div class="line">  next(err);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
-<p>在路由中间件中使用<code>locals</code>：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">router.get(&apos;/&apos;, urlAndIntroduce, function(req, res) &#123;  </div><div class="line">  res.render(&apos;index&apos;, &#123;name:&apos;IT笔录&apos;&#125;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">function urlAndIntroduce(req, res, next) &#123;</div><div class="line">  res.locals = &#123; url:&apos;http://itbilu.com&apos;, introduce:&apos;学习、记录、整理&apos;&#125;;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-
+        <p>今天码代码的时候遇到一个小问题</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">axios.post(&apos;/address/addressNew&apos;,param).then(function(result) &#123;</div><div class="line">    console.log(result);</div><div class="line">    this.cancleAddress();</div><div class="line">    this.getAddressList();</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>看似没有问题，结果运行的时候报错了</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">Uncaught (in promise) TypeError: Cannot read property &apos;cancleAddress&apos; of undefined</div></pre></td></tr></table></figure>
+<p>在<a href="https://stackoverflow.com/questions/38459451/vuejs-uncaught-in-promise-typeerror-cannot-read-property-push-of-undefined" target="_blank" rel="external">Stack Overflow</a>上一查，瞬间恍然大悟，原来的ES6中箭头函数里this指向的问题。</p>
+<p>简要介绍：箭头函数中的this，指向与一般function定义的函数不同，比较容易绕晕，箭头函数this的定义：箭头函数中的this是在定义函数的时候绑定，而不是在执行函数的时候绑定。</p>
+<ul>
+<li>何为定义时绑定</li>
+</ul>
+<p>(1)</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var x=11;</div><div class="line">var obj=&#123;</div><div class="line">  x:22,</div><div class="line">  say:function()&#123;</div><div class="line">    console.log(this.x)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">obj.say();</div><div class="line">//console.log输出的是22123456789</div></pre></td></tr></table></figure>
+<p>一般的定义函数跟我们的理解是一样的，运行的时候决定this的指向，我们可以知道当运行obj.say()时候，this指向的是obj这个对象。</p>
+<p>（2）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var x=11;</div><div class="line">var obj=&#123;</div><div class="line"> x:22,</div><div class="line"> say:()=&gt;&#123;</div><div class="line">   console.log(this.x);</div><div class="line"> &#125;</div><div class="line">&#125;</div><div class="line">obj.say();</div><div class="line">//输出的值为11123456789</div></pre></td></tr></table></figure>
+<p>这样就非常奇怪了如果按照之前function定义应该输出的是22,而此时输出了11，那么如何解释ES6中箭头函数中的this是定义时的绑定呢？</p>
+<p>所谓的定义时候绑定，就是this是继承自父执行上下文！！中的this，比如这里的箭头函数中的this.x，箭头函数本身与say平级以key:value的形式，也就是箭头函数本身所在的对象为obj，而obj的父执行上下文就是window，因此这里的this.x实际上表示的是window.x，因此输出的是11。</p>
+<p>（3）</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var a=11</div><div class="line">function test1()&#123;</div><div class="line">  this.a=22;</div><div class="line">  let b=function()&#123;</div><div class="line">    console.log(this.a);</div><div class="line">  &#125;;</div><div class="line">  b();</div><div class="line">&#125;</div><div class="line">var x=new test1();</div><div class="line">输出1112345678910</div></pre></td></tr></table></figure>
+<p>箭头函数情况：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var a=11;</div><div class="line">function test2()&#123;</div><div class="line">  this.a=22;</div><div class="line">  let b=()=&gt;&#123;console.log(this.a)&#125;</div><div class="line">  b();</div><div class="line">&#125;</div><div class="line">var x=new test2();</div><div class="line">//输出2212345678</div></pre></td></tr></table></figure>
+<p>很奇怪对不对，我是这样理解的，ES6中定义的时候绑定this的具体含义，应该继承的是父执行上下文里面的this，切忌是父执行上下文！！！这样就很多箭头函数中的指向不明确就迎刃而解了。</p>
+<p>注意：简单对象（非函数）是没有执行上下文的！</p>
+<p>所以遇到的bug这样可解：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">axios.post(&apos;/address/addressNew&apos;,param).then(function(result) &#123;</div><div class="line">    console.log(result);</div><div class="line">    this.cancleAddress();</div><div class="line">    this.getAddressList();</div><div class="line">&#125;)</div><div class="line"></div><div class="line">//或者</div><div class="line">var _this = this;</div><div class="line">axios.post(&apos;/address/addressNew&apos;,param).then(function(result) &#123;</div><div class="line">    console.log(result);</div><div class="line">    _this.cancleAddress();</div><div class="line">    _this.getAddressList();</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
       
     </div>
 
@@ -395,9 +424,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/node/" rel="tag"># node</a>
+            <a href="/tags/ES6/" rel="tag"># ES6</a>
           
-            <a href="/tags/Express/" rel="tag"># Express</a>
+            <a href="/tags/基础知识/" rel="tag"># 基础知识</a>
           
         </div>
       
@@ -410,8 +439,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/27/require源码再解读/" rel="next" title="require源码再解读">
-                <i class="fa fa-chevron-left"></i> require源码再解读
+              <a href="/2017/11/06/Policy/" rel="next" title="Privacy Policy">
+                <i class="fa fa-chevron-left"></i> Privacy Policy
               </a>
             
           </div>
@@ -419,10 +448,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/07/03/mongolass入门/" rel="prev" title="mongolass入门">
-                mongolass入门 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -469,17 +494,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/IMG_2036.JPG"
@@ -541,22 +557,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#1-locals对象"><span class="nav-number">1.</span> <span class="nav-text">1.locals对象</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#2-在中间件中使用"><span class="nav-number">2.</span> <span class="nav-text">2.在中间件中使用</span></a></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
