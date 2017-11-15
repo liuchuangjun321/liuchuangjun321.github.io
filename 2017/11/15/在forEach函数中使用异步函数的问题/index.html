@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="MongoDB," />
+  <meta name="keywords" content="基础知识," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="MongoDB 关系MongoDB 的关系表示多个文档之间在逻辑上的相互联系。 文档间可以通过嵌入和引用来建立联系。 MongoDB 中的关系可以是：  1:1 (1对1) 1: N (1对多) N: 1 (多对1) N: N (多对多)  接下来我们来考虑下用户与用户地址的关系。 一个用户可以有多个地址，所以是一对多的关系。 以下是 user 文档的简单结构： 123456&amp;#123;   &amp;q">
-<meta name="keywords" content="MongoDB">
+<meta name="description" content="异步函数果然是一个比较令人头疼的问题，今天遇到了一个小bug，在这里记录一下。 orderList是一个数组，我想要遍历这个数组，对其中的每一个element进行数据库操作，即是查找该element.productId对应的商品的_id属性，然后将该_id属性保存在_orderList数组里。然后再将_orderList保存在order集合中的goodsList字段中。 看代码： 12345678">
+<meta name="keywords" content="基础知识">
 <meta property="og:type" content="article">
-<meta property="og:title" content="mongodb之关系">
-<meta property="og:url" content="http://yoursite.com/2017/07/27/mongodb之关系/index.html">
+<meta property="og:title" content="在forEach函数中使用异步函数的问题">
+<meta property="og:url" content="http://yoursite.com/2017/11/15/在forEach函数中使用异步函数的问题/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="MongoDB 关系MongoDB 的关系表示多个文档之间在逻辑上的相互联系。 文档间可以通过嵌入和引用来建立联系。 MongoDB 中的关系可以是：  1:1 (1对1) 1: N (1对多) N: 1 (多对1) N: N (多对多)  接下来我们来考虑下用户与用户地址的关系。 一个用户可以有多个地址，所以是一对多的关系。 以下是 user 文档的简单结构： 123456&amp;#123;   &amp;q">
-<meta property="og:updated_time" content="2017-07-26T18:16:55.000Z">
+<meta property="og:description" content="异步函数果然是一个比较令人头疼的问题，今天遇到了一个小bug，在这里记录一下。 orderList是一个数组，我想要遍历这个数组，对其中的每一个element进行数据库操作，即是查找该element.productId对应的商品的_id属性，然后将该_id属性保存在_orderList数组里。然后再将_orderList保存在order集合中的goodsList字段中。 看代码： 12345678">
+<meta property="og:updated_time" content="2017-11-15T09:21:37.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="mongodb之关系">
-<meta name="twitter:description" content="MongoDB 关系MongoDB 的关系表示多个文档之间在逻辑上的相互联系。 文档间可以通过嵌入和引用来建立联系。 MongoDB 中的关系可以是：  1:1 (1对1) 1: N (1对多) N: 1 (多对1) N: N (多对多)  接下来我们来考虑下用户与用户地址的关系。 一个用户可以有多个地址，所以是一对多的关系。 以下是 user 文档的简单结构： 123456&amp;#123;   &amp;q">
+<meta name="twitter:title" content="在forEach函数中使用异步函数的问题">
+<meta name="twitter:description" content="异步函数果然是一个比较令人头疼的问题，今天遇到了一个小bug，在这里记录一下。 orderList是一个数组，我想要遍历这个数组，对其中的每一个element进行数据库操作，即是查找该element.productId对应的商品的_id属性，然后将该_id属性保存在_orderList数组里。然后再将_orderList保存在order集合中的goodsList字段中。 看代码： 12345678">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/07/27/mongodb之关系/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/11/15/在forEach函数中使用异步函数的问题/"/>
 
 
 
 
 
-  <title>mongodb之关系 | Big Chuang's WebSite</title>
+  <title>在forEach函数中使用异步函数的问题 | Big Chuang's WebSite</title>
   
 
 
@@ -286,7 +286,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/07/27/mongodb之关系/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/15/在forEach函数中使用异步函数的问题/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="大闯仔儿">
@@ -303,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">mongodb之关系</h1>
+          <h1 class="post-title" itemprop="name headline">在forEach函数中使用异步函数的问题</h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-07-27T02:12:34+08:00">
-                2017-07-27
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-15T17:03:45+08:00">
+                2017-11-15
               </time>
             
 
@@ -338,8 +338,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/MongoDB/" itemprop="url" rel="index">
-                    <span itemprop="name">MongoDB</span>
+                  <a href="/categories/JS基础/" itemprop="url" rel="index">
+                    <span itemprop="name">JS基础</span>
                   </a>
                 </span>
 
@@ -372,33 +372,14 @@
       
 
       
-        <h2 id="MongoDB-关系"><a href="#MongoDB-关系" class="headerlink" title="MongoDB 关系"></a>MongoDB 关系</h2><p>MongoDB 的关系表示多个文档之间在逻辑上的相互联系。</p>
-<p>文档间可以通过嵌入和引用来建立联系。</p>
-<p>MongoDB 中的关系可以是：</p>
-<ul>
-<li>1:1 (1对1)</li>
-<li>1: N (1对多)</li>
-<li>N: 1 (多对1)</li>
-<li>N: N (多对多)</li>
-</ul>
-<p>接下来我们来考虑下用户与用户地址的关系。</p>
-<p>一个用户可以有多个地址，所以是一对多的关系。</p>
-<p>以下是 <strong>user</strong> 文档的简单结构：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">   &quot;_id&quot;:ObjectId(&quot;52ffc33cd85242f436000001&quot;),</div><div class="line">   &quot;name&quot;: &quot;Tom Hanks&quot;,</div><div class="line">   &quot;contact&quot;: &quot;987654321&quot;,</div><div class="line">   &quot;dob&quot;: &quot;01-01-1991&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>以下是 <strong>address</strong> 文档的简单结构：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">   &quot;_id&quot;:ObjectId(&quot;52ffc4a5d85242602e000000&quot;),</div><div class="line">   &quot;building&quot;: &quot;22 A, Indiana Apt&quot;,</div><div class="line">   &quot;pincode&quot;: 123456,</div><div class="line">   &quot;city&quot;: &quot;Los Angeles&quot;,</div><div class="line">   &quot;state&quot;: &quot;California&quot;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<h3 id="嵌入式关系-用的并不多，实际生产中多用引用式关系！"><a href="#嵌入式关系-用的并不多，实际生产中多用引用式关系！" class="headerlink" title="嵌入式关系(用的并不多，实际生产中多用引用式关系！)"></a>嵌入式关系(用的并不多，实际生产中多用引用式关系！)</h3><p>使用嵌入式方法，我们可以把用户地址嵌入到用户的文档中：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">   &quot;_id&quot;:ObjectId(&quot;52ffc33cd85242f436000001&quot;),</div><div class="line">   &quot;contact&quot;: &quot;987654321&quot;,</div><div class="line">   &quot;dob&quot;: &quot;01-01-1991&quot;,</div><div class="line">   &quot;name&quot;: &quot;Tom Benzamin&quot;,</div><div class="line">   &quot;address&quot;: [</div><div class="line">      &#123;</div><div class="line">         &quot;building&quot;: &quot;22 A, Indiana Apt&quot;,</div><div class="line">         &quot;pincode&quot;: 123456,</div><div class="line">         &quot;city&quot;: &quot;Los Angeles&quot;,</div><div class="line">         &quot;state&quot;: &quot;California&quot;</div><div class="line">      &#125;,</div><div class="line">      &#123;</div><div class="line">         &quot;building&quot;: &quot;170 A, Acropolis Apt&quot;,</div><div class="line">         &quot;pincode&quot;: 456789,</div><div class="line">         &quot;city&quot;: &quot;Chicago&quot;,</div><div class="line">         &quot;state&quot;: &quot;Illinois&quot;</div><div class="line">      &#125;]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>以上数据保存在单一的文档中，可以比较容易的获取和维护数据。 你可以这样查询用户的地址：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&gt;db.users.findOne(&#123;&quot;name&quot;:&quot;Tom Benzamin&quot;&#125;,&#123;&quot;address&quot;:1&#125;)</div></pre></td></tr></table></figure>
-<p>注意：以上查询中 <strong>db</strong> 和 <strong>users</strong> 表示数据库和集合。</p>
-<p>这种数据结构的缺点是，如果用户和用户地址在不断增加，数据量不断变大，会影响读写性能。</p>
-<h3 id="引用式关系"><a href="#引用式关系" class="headerlink" title="引用式关系"></a>引用式关系</h3><p>引用式关系是设计数据库时经常用到的方法，这种方法把用户数据文档和用户地址数据文档分开，通过引用文档的 <strong>id</strong> 字段来建立关系。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">&#123;</div><div class="line">   &quot;_id&quot;:ObjectId(&quot;52ffc33cd85242f436000001&quot;),</div><div class="line">   &quot;contact&quot;: &quot;987654321&quot;,</div><div class="line">   &quot;dob&quot;: &quot;01-01-1991&quot;,</div><div class="line">   &quot;name&quot;: &quot;Tom Benzamin&quot;,</div><div class="line">   &quot;address_ids&quot;: [</div><div class="line">      ObjectId(&quot;52ffc4a5d85242602e000000&quot;),</div><div class="line">      ObjectId(&quot;52ffc4a5d85242602e000001&quot;)</div><div class="line">   ]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p>以上实例中，用户文档的 <strong>address_ids</strong> 字段包含用户地址的对象id（ObjectId）数组。</p>
-<p>我们可以读取这些用户地址的对象id（ObjectId）来获取用户的详细地址信息。</p>
-<p>这种方法需要两次查询，第一次查询用户地址的对象id（ObjectId），第二次通过查询的id获取用户的详细地址信息。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&gt;var result = db.users.findOne(&#123;&quot;name&quot;:&quot;Tom Benzamin&quot;&#125;,&#123;&quot;address_ids&quot;:1&#125;)</div><div class="line">&gt;var addresses = db.address.find(&#123;&quot;_id&quot;:&#123;&quot;$in&quot;:result[&quot;address_ids&quot;]&#125;&#125;)</div></pre></td></tr></table></figure>
+        <p>异步函数果然是一个比较令人头疼的问题，今天遇到了一个小bug，在这里记录一下。</p>
+<p><code>orderList</code>是一个数组，我想要遍历这个数组，对其中的每一个<code>element</code>进行数据库操作，即是查找该<code>element.productId</code>对应的商品的<code>_id</code>属性，然后将该<code>_id</code>属性保存在<code>_orderList</code>数组里。然后再将<code>_orderList</code>保存在<code>order</code>集合中的<code>goodsList</code>字段中。</p>
+<p>看代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line">router.post(&apos;/payMent&apos;,function (req,res,next) &#123;</div><div class="line">    // console.log(req.session);</div><div class="line">    var userId = req.session.user._id;</div><div class="line">    var userName = req.session.user.userName;</div><div class="line">    var addressId = req.body.addressId;</div><div class="line">    var orderList = req.body.orderList;</div><div class="line">    var subTotal = req.body.subTotal;</div><div class="line">    var shipping = req.body.shipping;</div><div class="line">    var discount = req.body.discount;</div><div class="line">    var tax = req.body.tax;</div><div class="line">    var orderTotal = req.body.orderTotal;</div><div class="line">    var _orderList = [];</div><div class="line">    //重点在这里 itemsProcessed</div><div class="line">    var itemsProcessed = 0;    </div><div class="line">    orderList.forEach(element =&gt; &#123;</div><div class="line">        //itemsProcessed ++;    //刚开始的时候将这条语句放在了这里，遇到了一个问题，下面详细解释。</div><div class="line">        Goods.findOne(&#123;&quot;productId&quot;:element.productId&#125;,&#123;_id:1&#125;,function (err,docs) &#123;</div><div class="line">            if (err) &#123;</div><div class="line">                res.json(&#123;</div><div class="line">                    &quot;status&quot;: &quot;1&quot;</div><div class="line">                &#125;)</div><div class="line">            &#125; else &#123;</div><div class="line">                // console.log(docs);</div><div class="line">                //主要是为了解决异步问题，等到foreach函数执行完每一个element，才能执行保存order操作</div><div class="line">                itemsProcessed ++;</div><div class="line">                _orderList.push(docs._id);</div><div class="line">                console.log(itemsProcessed === orderList.length);</div><div class="line">                if (itemsProcessed === orderList.length) &#123;</div><div class="line">                    // console.log(_orderList[0]+_orderList[1]);   //释放该注释，可以测试下面</div><div class="line">                                                                   //的论证是否正确</div><div class="line">                    var _order = &#123;</div><div class="line">                        userId: userId,</div><div class="line">                        userName: userName,</div><div class="line">                        orderList: &#123;</div><div class="line">                            orderId: new Date().getTime(),</div><div class="line">                            subTotal,</div><div class="line">                            shipping,</div><div class="line">                            discount,</div><div class="line">                            tax,</div><div class="line">                            orderTotal,</div><div class="line">                            addressInfo: [addressId],</div><div class="line">                            goodsList: _orderList,</div><div class="line">                            orderStatus: false,</div><div class="line">                            creatDate: new Date().getTime()</div><div class="line">                        &#125;</div><div class="line">                    &#125;;</div><div class="line">                    var order = new Order(_order);</div><div class="line">                    order.save(function (err,docs1) &#123;</div><div class="line">                        if (err) &#123;</div><div class="line">                            res.json(&#123;</div><div class="line">                                &quot;status&quot;: &quot;1&quot;</div><div class="line">                            &#125;)</div><div class="line">                        &#125; else &#123;</div><div class="line">                            console.log(docs1);</div><div class="line">                            res.json(&#123;</div><div class="line">                                &quot;status&quot;: &quot;0&quot;</div><div class="line">                            &#125;)</div><div class="line">                        &#125;</div><div class="line">                    &#125;)</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>但是遇到了一个问题，上面代码中也说了，将<code>itemsProcessed ++;</code>放在了带回调函数的函数的外面，这样导致了一个什么问题呐。。。</p>
+<p>假设<code>orderList</code>是一个二维数组，将<code>itemsProcessed ++;</code>放在带回调函数的函数的外面之后，首先<code>itemsProcessed ++;</code>，<code>itemsProcessed</code>此时为1，然后执行<code>Goods.findOne()</code>函数,在查找到数据之前，也就是执行回调函数之前，会接着往下执行，也就是再次执行<code>orderList.forEach()</code>函数，此时<code>itemsProcessed ++;</code>，<code>itemsProcessed</code>的值为2，也就是说在查找到数据之前，很有可能<code>itemsProcessed === orderList.length</code>值为<code>true</code>。</p>
+<p>释放上面的注释，果然两次打印的结果均为<code>true</code>，最后前端点击一次操作，数据库中也相应的增加了两天数据，一条数据中<code>goodsList</code>字段中有一条数据，另一条数据中<code>goodsList</code>字段中有两条数据。</p>
+
       
     </div>
 
@@ -427,7 +408,7 @@
       
         <div class="post-tags">
           
-            <a href="/tags/MongoDB/" rel="tag"># MongoDB</a>
+            <a href="/tags/基础知识/" rel="tag"># 基础知识</a>
           
         </div>
       
@@ -440,8 +421,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/07/27/mongoDB之数据库索引/" rel="next" title="mongoDB之数据库索引">
-                <i class="fa fa-chevron-left"></i> mongoDB之数据库索引
+              <a href="/2017/11/13/Vue进阶computed计算属性/" rel="next" title="Vue进阶computed计算属性">
+                <i class="fa fa-chevron-left"></i> Vue进阶computed计算属性
               </a>
             
           </div>
@@ -449,10 +430,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/07/27/MongoDB文档查询find/" rel="prev" title="MongoDB文档查询find()">
-                MongoDB文档查询find() <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -499,17 +476,8 @@
       
 
       
-        <ul class="sidebar-nav motion-element">
-          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
-            文章目录
-          </li>
-          <li class="sidebar-nav-overview" data-target="site-overview">
-            站点概览
-          </li>
-        </ul>
-      
 
-      <section class="site-overview sidebar-panel">
+      <section class="site-overview sidebar-panel sidebar-panel-active">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/IMG_2036.JPG"
@@ -571,22 +539,6 @@
 
       </section>
 
-      
-      <!--noindex-->
-        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
-          <div class="post-toc">
-
-            
-              
-            
-
-            
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#MongoDB-关系"><span class="nav-number">1.</span> <span class="nav-text">MongoDB 关系</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#嵌入式关系-用的并不多，实际生产中多用引用式关系！"><span class="nav-number">1.1.</span> <span class="nav-text">嵌入式关系(用的并不多，实际生产中多用引用式关系！)</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#引用式关系"><span class="nav-number">1.2.</span> <span class="nav-text">引用式关系</span></a></li></ol></li></ol></div>
-            
-
-          </div>
-        </section>
-      <!--/noindex-->
       
 
       
