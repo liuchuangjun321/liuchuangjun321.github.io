@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="koa," />
+  <meta name="keywords" content="基础知识,ES6," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="koa2使用cookiekoa提供了从上下文直接读取、写入cookie的方法  ctx.cookies.get(name, [options]) 读取上下文请求中的cookie ctx.cookies.set(name, value, [options]) 在上下文中写入cookie  koa2 中操作的cookies是使用了npm的cookies模块，源码在https://github.com/">
-<meta name="keywords" content="koa">
+<meta name="description" content="对象和数组在javascript中，对象和数组都是这门语言的原生规范中的基本数据类型，处于并列的位置。 一般来说，如果我们有一个对象obj和一个数组arr： obj[&amp;#39;attr1&amp;#39;]:  //取obj对象的attr1属性。 arr[1]: //取数组的第二个元素。 但是，有些时候，也会将一个对象伪装成一个数组来使用，我们把这种对象称为‘‘类数组对象’’，在此，我们可以给它下一个定义">
+<meta name="keywords" content="基础知识,ES6">
 <meta property="og:type" content="article">
-<meta property="og:title" content="koa2使用cookie &amp; session">
-<meta property="og:url" content="http://yoursite.com/2017/06/25/koa2使用cookie & session/index.html">
+<meta property="og:title" content="javascript中的类数组对象">
+<meta property="og:url" content="http://yoursite.com/2017/11/30/javascript中的类数组对象/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="koa2使用cookiekoa提供了从上下文直接读取、写入cookie的方法  ctx.cookies.get(name, [options]) 读取上下文请求中的cookie ctx.cookies.set(name, value, [options]) 在上下文中写入cookie  koa2 中操作的cookies是使用了npm的cookies模块，源码在https://github.com/">
-<meta property="og:updated_time" content="2017-06-25T14:54:45.000Z">
+<meta property="og:description" content="对象和数组在javascript中，对象和数组都是这门语言的原生规范中的基本数据类型，处于并列的位置。 一般来说，如果我们有一个对象obj和一个数组arr： obj[&amp;#39;attr1&amp;#39;]:  //取obj对象的attr1属性。 arr[1]: //取数组的第二个元素。 但是，有些时候，也会将一个对象伪装成一个数组来使用，我们把这种对象称为‘‘类数组对象’’，在此，我们可以给它下一个定义">
+<meta property="og:updated_time" content="2017-11-30T02:28:23.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="koa2使用cookie &amp; session">
-<meta name="twitter:description" content="koa2使用cookiekoa提供了从上下文直接读取、写入cookie的方法  ctx.cookies.get(name, [options]) 读取上下文请求中的cookie ctx.cookies.set(name, value, [options]) 在上下文中写入cookie  koa2 中操作的cookies是使用了npm的cookies模块，源码在https://github.com/">
+<meta name="twitter:title" content="javascript中的类数组对象">
+<meta name="twitter:description" content="对象和数组在javascript中，对象和数组都是这门语言的原生规范中的基本数据类型，处于并列的位置。 一般来说，如果我们有一个对象obj和一个数组arr： obj[&amp;#39;attr1&amp;#39;]:  //取obj对象的attr1属性。 arr[1]: //取数组的第二个元素。 但是，有些时候，也会将一个对象伪装成一个数组来使用，我们把这种对象称为‘‘类数组对象’’，在此，我们可以给它下一个定义">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/06/25/koa2使用cookie & session/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/11/30/javascript中的类数组对象/"/>
 
 
 
 
 
-  <title>koa2使用cookie & session | Big Chuang's WebSite</title>
+  <title>javascript中的类数组对象 | Big Chuang's WebSite</title>
   
 
 
@@ -286,7 +286,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/06/25/koa2使用cookie & session/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/11/30/javascript中的类数组对象/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="大闯仔儿">
@@ -303,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">koa2使用cookie & session</h1>
+          <h1 class="post-title" itemprop="name headline">javascript中的类数组对象</h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-06-25T22:24:04+08:00">
-                2017-06-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-11-30T09:57:04+08:00">
+                2017-11-30
               </time>
             
 
@@ -338,8 +338,8 @@
               
               
                 <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
-                  <a href="/categories/koa2进阶/" itemprop="url" rel="index">
-                    <span itemprop="name">koa2进阶</span>
+                  <a href="/categories/JS基础/" itemprop="url" rel="index">
+                    <span itemprop="name">JS基础</span>
                   </a>
                 </span>
 
@@ -372,14 +372,29 @@
       
 
       
-        <h2 id="koa2使用cookie"><a href="#koa2使用cookie" class="headerlink" title="koa2使用cookie"></a>koa2使用cookie</h2><p>koa提供了从上下文直接读取、写入cookie的方法</p>
+        <h2 id="对象和数组"><a href="#对象和数组" class="headerlink" title="对象和数组"></a>对象和数组</h2><p>在<code>javascript</code>中，对象和数组都是这门语言的原生规范中的基本数据类型，处于并列的位置。</p>
+<p>一般来说，如果我们有一个对象<code>obj</code>和一个数组<code>arr</code>：</p>
+<p><code>obj[&#39;attr1&#39;]</code>:  //取obj对象的attr1属性。</p>
+<p><code>arr[1]</code>: //取数组的第二个元素。</p>
+<p>但是，有些时候，也会将一个对象伪装成一个数组来使用，我们把这种对象称为‘‘类数组对象’’，在此，我们可以给它下一个定义，看如下代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var a = &#123;&#125;;</div><div class="line">var i = 0;</div><div class="line">for (i=0;i&lt;10;i++)&#123;</div><div class="line">  a[i] = i*i;</div><div class="line">&#125;</div><div class="line"></div><div class="line">a.length = i;</div><div class="line">var total = 0;</div><div class="line">for(var j = 0; j &lt; a.length: j++) &#123;</div><div class="line">  total += a[j]</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上述代码中的a就是一个类数组对象，因此，我们可以在这里给类数组对象下一个定义：<strong>任何一个具有length属性以及对应的非负整数属性的对象作为一种数组。</strong></p>
+<p>但是，类数组对象毕竟本质上是一个Object，而不是真正的Array，那么<strong>二者的区别</strong>在哪里呢？</p>
 <ul>
-<li>ctx.cookies.get(name, [options]) 读取上下文请求中的cookie</li>
-<li>ctx.cookies.set(name, value, [options]) 在上下文中写入cookie</li>
+<li>一个是对象，一个是数组</li>
+<li>数组的length属性，当新的元素添加到列表中的时候，其值会自动更新。类数组对象的不会。</li>
+<li>设置数组的length属性可以扩展或截断数组。</li>
+<li>数组也是Array的实例可以调用Array的方法，比如push,pop等等。</li>
 </ul>
-<p>koa2 中操作的cookies是使用了npm的cookies模块，源码在<a href="https://github.com/pillarjs/cookies" target="_blank" rel="external">https://github.com/pillarjs/cookies</a>，所以在读写cookie的使用参数与该模块的使用一致。</p>
-<h4 id="例子代码"><a href="#例子代码" class="headerlink" title="例子代码"></a>例子代码</h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div></pre></td><td class="code"><pre><div class="line">const Koa = require(&apos;koa&apos;)</div><div class="line">const app = new Koa()</div><div class="line"></div><div class="line">app.use( async ( ctx ) =&gt; &#123;</div><div class="line"></div><div class="line">  if ( ctx.url === &apos;/index&apos; ) &#123;</div><div class="line">    ctx.cookies.set(</div><div class="line">      &apos;cid&apos;, </div><div class="line">      &apos;hello world&apos;,</div><div class="line">      &#123;</div><div class="line">        domain: &apos;localhost&apos;,  // 写cookie所在的域名</div><div class="line">        path: &apos;/index&apos;,       // 写cookie所在的路径</div><div class="line">        maxAge: 10 * 60 * 1000, // cookie有效时长</div><div class="line">        expires: new Date(&apos;2017-02-15&apos;),  // cookie失效时间</div><div class="line">        httpOnly: false,  // 是否只用于http请求中获取</div><div class="line">        overwrite: false  // 是否允许重写</div><div class="line">      &#125;</div><div class="line">    )</div><div class="line">    ctx.body = &apos;cookie is ok&apos;</div><div class="line">  &#125; else &#123;</div><div class="line">    ctx.body = &apos;hello world&apos; </div><div class="line">  &#125;</div><div class="line"></div><div class="line">&#125;)</div><div class="line"></div><div class="line">app.listen(3000)</div><div class="line">console.log(&apos;[demo] cookie is starting at port 3000&apos;)</div></pre></td></tr></table></figure>
-<h2 id="koa2使用session"><a href="#koa2使用session" class="headerlink" title="koa2使用session"></a>koa2使用session</h2>
+<p><strong>一些个类数组对象的实例：</strong></p>
+<ul>
+<li>function内部的arguments对象就是一个类数组对象，它用arguments[2]来代表传入的第3个参数。</li>
+<li>DOM方法document.getElementsByTagName()，返回的也是一个类数组对象</li>
+<li>jQuery中的应用： 我们知道可以通过 $(‘#id’)[0]来从jQuery对象获取原生的dom对象，但是jQuery中是如何实现的呢，$(‘#id’)获取的jQuery对象到底是一个对象还是一个数组呢，答案是：一个类数组对象</li>
+</ul>
+<p>​     我们看一下jQuery的源代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">jQuery = window.jQuery = window.$ = function( selector, context ) &#123;</div><div class="line">　　　　　　　　return new jQuery.fn.init( selector, context );</div><div class="line">　　　　&#125;,</div><div class="line">jQuery.fn = jQuery.prototype = &#123;</div><div class="line">　　　　init: function( selector, context ) &#123;</div><div class="line">　　　　　　　　selector = selector || document;</div><div class="line"></div><div class="line">　　　　　　　　// Handle $(DOMElement)</div><div class="line">　　　　　　　　if ( selector.nodeType ) &#123;</div><div class="line">　　　　　　　　　　this[0] = selector;</div><div class="line">　　　　　　　　　　this.length = 1;</div><div class="line">　　　　　　　　　　this.context = selector;</div><div class="line">　　　　　　　　　　return this;</div><div class="line">　　　　　　　　　&#125;</div><div class="line"></div><div class="line">　　　　...</div><div class="line"></div><div class="line">//红色字部分，构造了一个类数组对象，this指向的是通过jQuery(&apos;#id&apos;)构造的jQuery对象，而selector就是原生的dom对象，在此，把dom对象存在jQuery对象的0属性里了（属性名就叫0）。</div></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -408,7 +423,9 @@
       
         <div class="post-tags">
           
-            <a href="/tags/koa/" rel="tag"># koa</a>
+            <a href="/tags/基础知识/" rel="tag"># 基础知识</a>
+          
+            <a href="/tags/ES6/" rel="tag"># ES6</a>
           
         </div>
       
@@ -421,8 +438,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/06/25/Get&Post请求数据的获取方式/" rel="next" title="Get&Post请求数据的获取方式">
-                <i class="fa fa-chevron-left"></i> Get&Post请求数据的获取方式
+              <a href="/2017/11/16/前端小技巧之footer固定/" rel="next" title="前端小技巧之footer固定">
+                <i class="fa fa-chevron-left"></i> 前端小技巧之footer固定
               </a>
             
           </div>
@@ -431,8 +448,8 @@
 
           <div class="post-nav-prev post-nav-item">
             
-              <a href="/2017/06/26/koa中的路径问题（-dirname、-filename、-、-）/" rel="prev" title="koa中的路径问题（__dirname、__filename、./、../）">
-                koa中的路径问题（__dirname、__filename、./、../） <i class="fa fa-chevron-right"></i>
+              <a href="/2017/11/30/javascript中的执行环境、作用域和闭包大串讲/" rel="prev" title="javascript中的执行环境、作用域和闭包大串讲">
+                javascript中的执行环境、作用域和闭包大串讲 <i class="fa fa-chevron-right"></i>
               </a>
             
           </div>
@@ -562,7 +579,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#koa2使用cookie"><span class="nav-number">1.</span> <span class="nav-text">koa2使用cookie</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#例子代码"><span class="nav-number">1.0.1.</span> <span class="nav-text">例子代码</span></a></li></ol></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#koa2使用session"><span class="nav-number">2.</span> <span class="nav-text">koa2使用session</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#对象和数组"><span class="nav-number">1.</span> <span class="nav-text">对象和数组</span></a></li></ol></div>
             
 
           </div>
