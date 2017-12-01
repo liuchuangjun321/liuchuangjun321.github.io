@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="Hexo, NexT" />
+  <meta name="keywords" content="ES6,基础知识," />
 
 
 
@@ -93,15 +93,17 @@
 
 
 
-<meta name="description" content="世界那么大，谁不想去看看！">
-<meta property="og:type" content="website">
-<meta property="og:title" content="Big Chuang&#39;s WebSite">
-<meta property="og:url" content="http://yoursite.com/archives/page/2/index.html">
+<meta name="description" content="上一节讲了javascript中的执行环境、作用域和闭包大串讲，现在我们可以来看一下在不适用let命令的前提下模仿块级作用域。 其实这部分内容并不复杂，看代码： 12345678function ouputNumbers(count) &amp;#123;  for (var i=0; i &amp;lt; count; i++)&amp;#123;    ...  &amp;#125;  alert(i); //计数&amp;#125">
+<meta name="keywords" content="ES6,基础知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="模仿块级作用域">
+<meta property="og:url" content="http://yoursite.com/2017/12/01/模仿块级作用域/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="世界那么大，谁不想去看看！">
+<meta property="og:description" content="上一节讲了javascript中的执行环境、作用域和闭包大串讲，现在我们可以来看一下在不适用let命令的前提下模仿块级作用域。 其实这部分内容并不复杂，看代码： 12345678function ouputNumbers(count) &amp;#123;  for (var i=0; i &amp;lt; count; i++)&amp;#123;    ...  &amp;#125;  alert(i); //计数&amp;#125">
+<meta property="og:updated_time" content="2017-12-01T13:18:18.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="Big Chuang&#39;s WebSite">
-<meta name="twitter:description" content="世界那么大，谁不想去看看！">
+<meta name="twitter:title" content="模仿块级作用域">
+<meta name="twitter:description" content="上一节讲了javascript中的执行环境、作用域和闭包大串讲，现在我们可以来看一下在不适用let命令的前提下模仿块级作用域。 其实这部分内容并不复杂，看代码： 12345678function ouputNumbers(count) &amp;#123;  for (var i=0; i &amp;lt; count; i++)&amp;#123;    ...  &amp;#125;  alert(i); //计数&amp;#125">
 
 
 
@@ -129,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/archives/page/2/"/>
+  <link rel="canonical" href="http://yoursite.com/2017/12/01/模仿块级作用域/"/>
 
 
 
 
 
-  <title>归档 | Big Chuang's WebSite</title>
+  <title>模仿块级作用域 | Big Chuang's WebSite</title>
   
 
 
@@ -170,7 +172,7 @@
     
   
 
-  <div class="container sidebar-position-left  page-archive  ">
+  <div class="container sidebar-position-left page-post-detail ">
     <div class="headband"></div>
 
     <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
@@ -274,402 +276,181 @@
           <div id="content" class="content">
             
 
-  <section id="posts" class="posts-collapse">
-    <span class="archive-move-on"></span>
+  <div id="posts" class="posts-expand">
+    
 
-    <span class="archive-page-counter">
-      
-      
-       
-        
-      好! 目前共计 69 篇日志。 继续努力。
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/12/01/模仿块级作用域/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大闯仔儿">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2036.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Big Chuang's WebSite">
     </span>
 
     
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">模仿块级作用域</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-12-01T20:30:53+08:00">
+                2017-12-01
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JS基础/" itemprop="url" rel="index">
+                    <span itemprop="name">JS基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
 
       
       
-      
 
+      
+        <p>上一节讲了<a href="http://bigfacechuang.website/2017/11/30/javascript%E4%B8%AD%E7%9A%84%E6%89%A7%E8%A1%8C%E7%8E%AF%E5%A2%83%E3%80%81%E4%BD%9C%E7%94%A8%E5%9F%9F%E5%92%8C%E9%97%AD%E5%8C%85%E5%A4%A7%E4%B8%B2%E8%AE%B2/" target="_blank" rel="external">javascript中的执行环境、作用域和闭包大串讲</a>，现在我们可以来看一下在不适用<code>let</code>命令的前提下模仿块级作用域。</p>
+<p>其实这部分内容并不复杂，看代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function ouputNumbers(count) &#123;</div><div class="line">  for (var i=0; i &lt; count; i++)&#123;</div><div class="line">    ...</div><div class="line">  &#125;</div><div class="line">  alert(i); //计数</div><div class="line">&#125;</div><div class="line"></div><div class="line">ouputNumbers(10); //10</div></pre></td></tr></table></figure>
+<p>与之对比：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">function ouputNumbers(count) &#123;</div><div class="line">	(function()&#123;</div><div class="line">      for (var i=0; i &lt; count; i++)&#123;</div><div class="line">        ...</div><div class="line">      &#125;      </div><div class="line">	&#125;)();</div><div class="line">    alert(i); //报错</div><div class="line">&#125;</div><div class="line"></div><div class="line">ouputNumbers(10); //报错</div></pre></td></tr></table></figure>
+<p>第二部分代码的不同之处在于定义并立即执行了一个匿名函数。将函数声明包含在一个圆括号中，表示它实际上是一个函数表达式。而紧随其后的另一个圆括号会立即执行该函数。</p>
+<p>重写后的<code>ouputNumbers()</code>函数中，for循环外部插入了一个私有作用域。在匿名函数中定义的任何变量，都会在执行结束时被销毁。因此，变量<code>i</code>只 能在循环中使用，使用后被销毁。而在私有作用域中能够访问变量count，是因为这个匿名函数是一个闭包，它能够访问包含作用域中的所有变量。</p>
+<p>这种技术经常在全局作用中被用在函数外部，从而限制向全局作用域中添加过多的变量和函数。一般来说，我们都应该尽量少向全局作用中添加变量和函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">(function()&#123;</div><div class="line">  var now = new Date();</div><div class="line">  if(now.getMonth() == 0 &amp;&amp; now.getDate() == 1)&#123;</div><div class="line">    alert(&apos;Happy new Year!&apos;)</div><div class="line">  &#125;</div><div class="line">&#125;)();</div></pre></td></tr></table></figure>
+<p>以上这种做法可以减少闭包占用的内存问题，因为没有指向匿名函数的引用。只要函数执行完毕，就可以立即销毁其作用域链了。</p>
+
+      
+    </div>
+
+    <div>
       
         
-        <div class="collection-title">
-          <h2 class="archive-year motion-element" id="archive-year-2017">2017</h2>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/ES6/" rel="tag"># ES6</a>
+          
+            <a href="/tags/基础知识/" rel="tag"># 基础知识</a>
+          
         </div>
       
+
+      
+      
       
 
       
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2017/11/30/javascript中的执行环境、作用域和闭包大串讲/" rel="next" title="javascript中的执行环境、作用域和闭包大串讲">
+                <i class="fa fa-chevron-left"></i> javascript中的执行环境、作用域和闭包大串讲
+              </a>
+            
+          </div>
 
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
+          <span class="post-nav-divider"></span>
 
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/25/Cookie和Session的使用简记/" itemprop="url">
-              
-                <span itemprop="name">Cookie和Session的使用简记</span>
-              
-            </a>
-        
-      </h2>
+          <div class="post-nav-prev post-nav-item">
+            
+          </div>
+        </div>
+      
 
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-25T19:48:43+08:00"
-              content="2017-10-25" >
-          10-25
-        </time>
-      </div>
-
-    </header>
+      
+      
+    </footer>
   </article>
 
 
 
-    
-
+    <div class="post-spread">
       
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/25/离奇bug解决/" itemprop="url">
-              
-                <span itemprop="name">离奇bug解决</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-25T09:26:01+08:00"
-              content="2017-10-25" >
-          10-25
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/24/javascript中的构造函数与普通函数的区别/" itemprop="url">
-              
-                <span itemprop="name">javascript中的构造函数与普通函数的区别</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-24T16:07:47+08:00"
-              content="2017-10-24" >
-          10-24
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/23/demo项目中遇到的回调函数问题/" itemprop="url">
-              
-                <span itemprop="name">demo项目中遇到的回调函数问题</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-23T20:55:06+08:00"
-              content="2017-10-23" >
-          10-23
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/18/Express框架四种取参方法对比/" itemprop="url">
-              
-                <span itemprop="name">Express框架四种取参方法对比</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-18T21:04:06+08:00"
-              content="2017-10-18" >
-          10-18
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/18/解决开发环境的跨域问题/" itemprop="url">
-              
-                <span itemprop="name">Vue-cli proxyTable解决开发环境的跨域问题</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-18T15:19:13+08:00"
-              content="2017-10-18" >
-          10-18
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/16/mongodb数据库之引用/" itemprop="url">
-              
-                <span itemprop="name">mongodb数据库之引用</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-16T09:07:00+08:00"
-              content="2017-10-16" >
-          10-16
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/15/mongodb数据库实现小数据量分页功能/" itemprop="url">
-              
-                <span itemprop="name">mongodb数据库实现小数据量分页功能</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-15T18:18:02+08:00"
-              content="2017-10-15" >
-          10-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/15/mongoos操作schema时默认集合名添加s以及解决/" itemprop="url">
-              
-                <span itemprop="name">mongoos操作schema时默认集合名添加s以及解决</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-15T14:47:22+08:00"
-              content="2017-10-15" >
-          10-15
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-      
-      
-      
-
-      
-      
-
-      
-
-  <article class="post post-type-normal" itemscope itemtype="http://schema.org/Article">
-    <header class="post-header">
-
-      <h2 class="post-title">
-        
-            <a class="post-title-link" href="/2017/10/05/vue实现懒加载vue-lazyload插件详解/" itemprop="url">
-              
-                <span itemprop="name">vue实现懒加载vue-lazyload插件详解</span>
-              
-            </a>
-        
-      </h2>
-
-      <div class="post-meta">
-        <time class="post-time" itemprop="dateCreated"
-              datetime="2017-10-05T23:37:10+08:00"
-              content="2017-10-05" >
-          10-05
-        </time>
-      </div>
-
-    </header>
-  </article>
-
-
-
-    
-
-  </section>
-
-  
-  <nav class="pagination">
-    <a class="extend prev" rel="prev" href="/archives/"><i class="fa fa-angle-left"></i></a><a class="page-number" href="/archives/">1</a><span class="page-number current">2</span><a class="page-number" href="/archives/page/3/">3</a><span class="space">&hellip;</span><a class="page-number" href="/archives/page/7/">7</a><a class="extend next" rel="next" href="/archives/page/3/"><i class="fa fa-angle-right"></i></a>
-  </nav>
-
-
+    </div>
+  </div>
 
 
           </div>
@@ -677,6 +458,10 @@
 
 
           
+  <div class="comments" id="comments">
+    
+  </div>
+
 
         </div>
         
@@ -876,11 +661,9 @@
 
 
   
-  
-    <script type="text/javascript" id="motion.page.archive">
-      $('.archive-year').velocity('transition.slideLeftIn');
-    </script>
-  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
 
 
   
