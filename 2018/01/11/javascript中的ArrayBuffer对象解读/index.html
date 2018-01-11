@@ -1,0 +1,870 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="基础知识," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="ArrayBuffer是什么？官方解释： ArrayBuffer 对象用来表示通用的、固定长度的原始二进制数据缓冲区。ArrayBuffer 不能直接操作，而是要通过类型数组对象或 DataView 对象来操作，它们会将缓冲区中的数据表示为特定的格式，并通过这些格式来读写缓冲区的内容。 简单地说： JS里的Array，因为有很多功能，而且是不限制类型的，或者它还可能是稀疏的……总之这个Array是">
+<meta name="keywords" content="基础知识">
+<meta property="og:type" content="article">
+<meta property="og:title" content="javascript中的ArrayBuffer对象解读">
+<meta property="og:url" content="http://yoursite.com/2018/01/11/javascript中的ArrayBuffer对象解读/index.html">
+<meta property="og:site_name" content="Big Chuang&#39;s WebSite">
+<meta property="og:description" content="ArrayBuffer是什么？官方解释： ArrayBuffer 对象用来表示通用的、固定长度的原始二进制数据缓冲区。ArrayBuffer 不能直接操作，而是要通过类型数组对象或 DataView 对象来操作，它们会将缓冲区中的数据表示为特定的格式，并通过这些格式来读写缓冲区的内容。 简单地说： JS里的Array，因为有很多功能，而且是不限制类型的，或者它还可能是稀疏的……总之这个Array是">
+<meta property="og:updated_time" content="2018-01-11T13:20:45.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="javascript中的ArrayBuffer对象解读">
+<meta name="twitter:description" content="ArrayBuffer是什么？官方解释： ArrayBuffer 对象用来表示通用的、固定长度的原始二进制数据缓冲区。ArrayBuffer 不能直接操作，而是要通过类型数组对象或 DataView 对象来操作，它们会将缓冲区中的数据表示为特定的格式，并通过这些格式来读写缓冲区的内容。 简单地说： JS里的Array，因为有很多功能，而且是不限制类型的，或者它还可能是稀疏的……总之这个Array是">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/11/javascript中的ArrayBuffer对象解读/"/>
+
+
+
+
+
+  <title>javascript中的ArrayBuffer对象解读 | Big Chuang's WebSite</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?12cfbab09f3fcdee181cf994706182d5";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Big Chuang's WebSite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/11/javascript中的ArrayBuffer对象解读/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大闯仔儿">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2036.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Big Chuang's WebSite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">javascript中的ArrayBuffer对象解读</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-11T20:45:43+08:00">
+                2018-01-11
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JS基础/" itemprop="url" rel="index">
+                    <span itemprop="name">JS基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <h2 id="ArrayBuffer是什么？"><a href="#ArrayBuffer是什么？" class="headerlink" title="ArrayBuffer是什么？"></a>ArrayBuffer是什么？</h2><p><strong>官方解释：</strong></p>
+<p><strong>ArrayBuffer</strong> 对象用来表示通用的、固定长度的原始二进制数据缓冲区。<code>ArrayBuffer</code> 不能直接操作，而是要通过<a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" target="_blank" rel="external">类型数组对象</a>或 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/DataView" target="_blank" rel="external"><code>DataView</code></a> 对象来操作，它们会将缓冲区中的数据表示为特定的格式，并通过这些格式来读写缓冲区的内容。</p>
+<p><strong>简单地说：</strong></p>
+<p>JS里的Array，因为有很多功能，而且是不限制类型的，或者它还可能是稀疏的……总之这个Array是“托管”的，它内部有比较复杂的实现。<br>而如果你从XHR、File API、Canvas等等各种地方，读取了一大串字节流，如果用JS里的Array去存，又浪费，又低效。<br>于是为了配合这些新的API增强JS的二进制处理能力，就有了ArrayBuffer。</p>
+<h3 id="语法"><a href="#语法" class="headerlink" title="语法"></a>语法</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">new ArrayBuffer(length)</div></pre></td></tr></table></figure>
+<ul>
+<li><p>参数：length</p>
+<p>要创建的ArrayBuffer的大小，单位为字节。</p>
+</li>
+<li><p>返回值</p>
+<p>一个指定大小的ArrayBuffer对象，其内容被初始化为0。</p>
+</li>
+<li><p>异常</p>
+<p>如果 length 大于 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Number/MAX_SAFE_INTEGER" target="_blank" rel="external"><code>Number.MAX_SAFE_INTEGER</code></a>（&gt;= 2 ** 53）或为负数，则抛出一个  <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/RangeError" target="_blank" rel="external"><code>RangeError</code></a>  异常。</p>
+</li>
+</ul>
+<p><code>ArrayBuffer</code> 构造函数用来创建一个指定字节长度的 <code>ArrayBuffer</code> 对象。但是也可以以现有数据获取ArrayBuffer。</p>
+<ul>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/WindowBase64/Base64_encoding_and_decoding#Appendix.3A_Decode_a_Base64_string_to_Uint8Array_or_ArrayBuffer" target="_blank" rel="external">从 Base64 字符串</a></li>
+<li><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader#readAsArrayBuffer(" target="_blank" rel="external">从本地文件</a>)</li>
+</ul>
+<h3 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h3><ul>
+<li><p><code>ArrayBuffer.length</code></p>
+<p>ArrayBuffer 构造函数的 length 属性，其值为1。</p>
+</li>
+<li><p><code>get ArrayBuffer[@@species\]</code></p>
+<p>返回 ArrayBuffer 的构造函数。</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer/prototype" target="_blank" rel="external"><code>ArrayBuffer.prototype</code></a></p>
+<p>通过 ArrayBuffer 的原型对象可以为所有 ArrayBuffer 对象添加属性。</p>
+</li>
+</ul>
+<h3 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h3><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer/isView" target="_blank" rel="external"><code>ArrayBuffer.isView(arg)</code></a></p>
+<p>如果参数是 ArrayBuffer 的视图实例则返回 <code>true</code>，例如 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/TypedArray" target="_blank" rel="external">类型数组对象</a> 或 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/DataView" target="_blank" rel="external"><code>DataView</code></a> 对象；否则返回 <code>false</code>。</p>
+<p><code>ArrayBuffer.transfer(oldBuffer [, newByteLength\])</code> **</p>
+<p>返回一个新的 ArrayBuffer 对象，其内容取自 <code>oldBuffer</code> 中的数据，并且根据 <code>newByteLength</code> 的大小对数据进行截取或补 0。</p>
+<p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer/slice" target="_blank" rel="external"><code>ArrayBuffer.slice()</code></a> **</p>
+<p>和 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer/slice" target="_blank" rel="external"><code>ArrayBuffer.prototype.slice()</code></a> 功能相同。</p>
+<h2 id="ArrayBuffer实例"><a href="#ArrayBuffer实例" class="headerlink" title="ArrayBuffer实例"></a>ArrayBuffer实例</h2><p>所有 <code>ArrayBuffer</code> 实例都会从 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer/prototype" target="_blank" rel="external"><code>ArrayBuffer.prototype</code></a> 继承属性和方法。</p>
+<h3 id="属性-1"><a href="#属性-1" class="headerlink" title="属性"></a>属性</h3><ul>
+<li><p><code>ArrayBuffer.prototype.constructor</code></p>
+<p>指定函数，它创建一个对象的原型。其初始值是标准ArrayBuffer内置构造函数。</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer/byteLength" target="_blank" rel="external"><code>ArrayBuffer.prototype.byteLength</code></a> 只读</p>
+<p>数组的字节大小。在数组创建时确定，并且不可变更。<strong>只读</strong>。</p>
+</li>
+</ul>
+<h3 id="方法-1"><a href="#方法-1" class="headerlink" title="方法"></a>方法</h3><ul>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/ArrayBuffer/slice" target="_blank" rel="external"><code>ArrayBuffer.prototype.slice()</code></a></p>
+<p>返回一个新的 <code>ArrayBuffer</code> ，它的内容是这个 <code>ArrayBuffer</code> 的字节副本，从begin（包括），到end（不包括）。如果begin或end是负数，则指的是从数组末尾开始的索引，而不是从头开始。</p>
+</li>
+</ul>
+<h3 id="示例"><a href="#示例" class="headerlink" title="示例"></a>示例</h3><p>下面的例子创建了一个 8 字节的缓冲区，并使用一个 <a href="https://developer.mozilla.org/zh-CN/docs/Web/JavaScript/Reference/Global_Objects/Int32Array" target="_blank" rel="external"><code>Int32Array</code></a> 来引用它：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var buffer = new ArrayBuffer(8);</div><div class="line">var view   = new Int32Array(buffer);</div></pre></td></tr></table></figure>
+<h2 id="视图"><a href="#视图" class="headerlink" title="视图"></a>视图</h2><p>ArrayBuffer作为内存区域，可以存放多种类型的数据。不同数据有不同的存储方式，这就叫做“视图”。目前，JavaScript提供以下类型的视图：</p>
+<blockquote>
+<ul>
+<li>Int8Array：8位有符号整数，长度1个字节。</li>
+<li>Uint8Array：8位无符号整数，长度1个字节。</li>
+<li>Int16Array：16位有符号整数，长度2个字节。</li>
+<li>Uint16Array：16位无符号整数，长度2个字节。</li>
+<li>Int32Array：32位有符号整数，长度4个字节。</li>
+<li>Uint32Array：32位无符号整数，长度4个字节。</li>
+<li>Float32Array：32位浮点数，长度4个字节。</li>
+<li>Float64Array：64位浮点数，长度8个字节。</li>
+</ul>
+</blockquote>
+<p>每一种视图都有一个BYTES_PER_ELEMENT常数，表示这种数据类型占据的字节数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">Int8Array.BYTES_PER_ELEMENT  // 1</div><div class="line">Uint8Array.BYTES_PER_ELEMENT // 1</div><div class="line">// ...</div></pre></td></tr></table></figure>
+<p>每一种视图都是一个构造函数，有多种方法可以生成：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">// 浏览器控制台输出：</div><div class="line">&gt; Int32Array</div><div class="line">&gt; function Int32Array() &#123; [native code] &#125;</div></pre></td></tr></table></figure>
+<h3 id="视图的多种生成方式"><a href="#视图的多种生成方式" class="headerlink" title="视图的多种生成方式"></a>视图的多种生成方式</h3><h4 id="01-在ArrayBuffer对象之上生成视图"><a href="#01-在ArrayBuffer对象之上生成视图" class="headerlink" title="01.在ArrayBuffer对象之上生成视图"></a><strong>01.在ArrayBuffer对象之上生成视图</strong></h4><p>同一个ArrayBuffer对象之上，可以根据不同的数据类型，建立多个视图。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">// 创建一个8字节的ArrayBuffer</div><div class="line">var b = new ArrayBuffer(8);</div><div class="line"></div><div class="line">// 创建一个指向b的Int32视图，开始于字节0，直到缓冲区的末尾</div><div class="line">var v1 = new Int32Array(b);</div><div class="line"></div><div class="line">// 创建一个指向b的Uint8视图，开始于字节2，直到缓冲区的末尾</div><div class="line">var v2 = new Uint8Array(b, 2);</div><div class="line"></div><div class="line">// 创建一个指向b的Int16视图，开始于字节2，长度为2</div><div class="line">var v3 = new Int16Array(b, 2, 2);</div></pre></td></tr></table></figure>
+<p>上面代码在一段长度为8个字节的内存（b）之上，生成了三个视图：v1、v2和v3。视图的构造函数可以接受三个参数：</p>
+<blockquote>
+<ul>
+<li>第一个参数：视图对应的底层ArrayBuffer对象，该参数是必需的。</li>
+<li>第二个参数：视图开始的字节序号，默认从0开始。</li>
+<li>第三个参数：视图包含的数据个数，默认直到本段内存区域结束。</li>
+</ul>
+</blockquote>
+<p>值得注意的是：v1、v2和v3是重叠：v1[0]是一个32位整数，指向字节0～字节3；v2[0]是一个8位无符号整数，指向字节2；v3[0]是一个16位整数，指向字节2～字节3。只要任何一个视图对内存有所修改，就会在另外两个视图上反应出来。</p>
+<h4 id="02-直接生成"><a href="#02-直接生成" class="headerlink" title="02.直接生成"></a><strong>02.直接生成</strong></h4><p>视图还可以不通过ArrayBuffer对象，直接分配内存而生成。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var f64a = new Float64Array(8);</div><div class="line">f64a[0] = 10;</div><div class="line">f64a[1] = 20;</div><div class="line">f64a[2] = f64a[0] + f64a[1];</div></pre></td></tr></table></figure>
+<p>上面代码生成一个8个成员的Float64Array数组（共64字节），然后依次对每个成员赋值。这时，视图构造函数的参数就是成员的个数。可以看到，视图数组的赋值操作与普通数组的操作毫无两样。</p>
+<h4 id="03-将普通数组转为视图数组"><a href="#03-将普通数组转为视图数组" class="headerlink" title="03.将普通数组转为视图数组"></a><strong>03.将普通数组转为视图数组</strong></h4><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var typedArray = new Uint8Array( [ 1, 2, 3, 4 ] );</div></pre></td></tr></table></figure>
+<p>也可以将视图直接转化为数组</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">Array.from(typeArray); </div><div class="line">// Array.apply([],typeArray);</div></pre></td></tr></table></figure>
+<h3 id="视图的操作"><a href="#视图的操作" class="headerlink" title="视图的操作"></a>视图的操作</h3><p><strong>建立了视图以后，就可以进行各种操作了。这里需要明确的是，视图其实就是普通数组，语法完全没有什么不同，只不过它直接针对内存进行操作，而且每个成员都有确定的数据类型。所以，视图就被叫做“类型化数组（typeArray）”</strong></p>
+<p>普通数组的操作方法和属性，对类型化数组完全适用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var buffer = new ArrayBuffer(16);</div><div class="line"></div><div class="line">var int32View = new Int32Array(buffer);</div><div class="line"></div><div class="line">for (var i=0; i&lt;int32View.length; i++) &#123;</div><div class="line">  int32View[i] = i*2;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>普通数组的操作方法和属性，对类型化数组完全适用。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">var buffer = new ArrayBuffer(16);</div><div class="line"></div><div class="line">var int32View = new Int32Array(buffer);</div><div class="line"></div><div class="line">for (var i=0; i&lt;int32View.length; i++) &#123;</div><div class="line">  int32View[i] = i*2;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="应用"><a href="#应用" class="headerlink" title="应用"></a>应用</h2><h3 id="Ajax"><a href="#Ajax" class="headerlink" title="Ajax"></a>Ajax</h3><p>传统上，服务器通过Ajax操作只能返回文本数据。XMLHttpRequest 第二版允许服务器返回二进制数据，这时分成两种情况。如果明确知道返回的二进制数据类型，可以把返回类型（responseType）设为arraybuffer；如果不知道，就设为blob。</p>
+<blockquote>
+<p>xhr.responseType = ‘arraybuffer’;</p>
+</blockquote>
+<p>如果知道传回来的是32位整数，可以像下面这样处理。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">xhr.onreadystatechange = function () &#123;</div><div class="line">if (req.readyState === 4 ) &#123;</div><div class="line">    var arrayResponse = xhr.response;</div><div class="line">    var dataView = new DataView(arrayResponse);</div><div class="line">    var ints = new Uint32Array(dataView.byteLength / 4);</div><div class="line"></div><div class="line">    xhrDiv.style.backgroundColor = &quot;#00FF00&quot;;</div><div class="line">    xhrDiv.innerText = &quot;Array is &quot; + ints.length + &quot;uints long&quot;;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h3 id="Canvas"><a href="#Canvas" class="headerlink" title="Canvas"></a>Canvas</h3><p>网页Canvas元素输出的二进制像素数据，就是类型化数组。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">var canvas = document.getElementById(&apos;myCanvas&apos;);</div><div class="line">var ctx = canvas.getContext(&apos;2d&apos;);</div><div class="line"></div><div class="line">var imageData = ctx.getImageData(0,0, 200, 100);</div><div class="line">var typedArray = imageData.data;</div></pre></td></tr></table></figure>
+<p>需要注意的是，上面代码的typedArray虽然是一个类型化数组，但是它的视图类型是一种针对Canvas元素的专有类型Uint8ClampedArray。这个视图类型的特点，就是专门针对颜色，把每个字节解读为无符号的8位整数，即只能取值0～255，而且发生运算的时候自动过滤高位溢出。这为图像处理带来了巨大的方便。</p>
+<p>举例来说，如果把像素的颜色值设为Uint8Array类型，那么乘以一个gamma值的时候，就必须这样计算：</p>
+<blockquote>
+<p>u8[i] = Math.min(255, Math.max(0, u8[i] * gamma));</p>
+</blockquote>
+<p>因为Uint8Array类型对于大于255的运算结果（比如0xFF+1），会自动变为0x00，所以图像处理必须要像上面这样算。这样做很麻烦，而且影响性能。如果将颜色值设为Uint8ClampedArray类型，计算就简化许多。</p>
+<blockquote>
+<p>pixels[i] *= gamma;</p>
+</blockquote>
+<p>Uint8ClampedArray类型确保将小于0的值设为0，将大于255的值设为255。注意，IE 10不支持该类型。</p>
+<h3 id="File"><a href="#File" class="headerlink" title="File"></a>File</h3><p>如果知道一个文件的二进制数据类型，也可以将这个文件读取为类型化数组。</p>
+<blockquote>
+<p>reader.readAsArrayBuffer(file);</p>
+</blockquote>
+<p>下面以处理bmp文件为例。假定file变量是一个指向bmp文件的文件对象，首先读取文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var reader = new FileReader();</div><div class="line">reader.addEventListener(&quot;load&quot;, processimage, false); </div><div class="line">reader.readAsArrayBuffer(file);</div></pre></td></tr></table></figure>
+<p>然后，定义处理图像的回调函数：先在二进制数据之上建立一个DataView视图，再建立一个bitmap对象，用于存放处理后的数据，最后将图像展示在canvas元素之中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">function processimage(e) &#123; </div><div class="line"> var buffer = e.target.result; </div><div class="line"> var datav = new DataView(buffer); </div><div class="line"> var bitmap = &#123;&#125;;</div><div class="line"> // 具体的处理步骤</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>更多关于<code>FileReader()</code>请查看<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader#readAsArrayBuffer(" target="_blank" rel="external">博客</a>)</p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/基础知识/" rel="tag"># 基础知识</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/10/XMPP协议基础（二）/" rel="next" title="XMPP协议基础（二）">
+                <i class="fa fa-chevron-left"></i> XMPP协议基础（二）
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/11/javascript中的FileReader函数解读/" rel="prev" title="javascript中的FileReader函数解读">
+                javascript中的FileReader函数解读 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/IMG_2036.JPG"
+               alt="大闯仔儿" />
+          <p class="site-author-name" itemprop="name">大闯仔儿</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界那么大，谁不想去看看！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">73</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tages/index.html">
+                <span class="site-state-item-count">17</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#ArrayBuffer是什么？"><span class="nav-number">1.</span> <span class="nav-text">ArrayBuffer是什么？</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#语法"><span class="nav-number">1.1.</span> <span class="nav-text">语法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#属性"><span class="nav-number">1.2.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法"><span class="nav-number">1.3.</span> <span class="nav-text">方法</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#ArrayBuffer实例"><span class="nav-number">2.</span> <span class="nav-text">ArrayBuffer实例</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#属性-1"><span class="nav-number">2.1.</span> <span class="nav-text">属性</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#方法-1"><span class="nav-number">2.2.</span> <span class="nav-text">方法</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#示例"><span class="nav-number">2.3.</span> <span class="nav-text">示例</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#视图"><span class="nav-number">3.</span> <span class="nav-text">视图</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#视图的多种生成方式"><span class="nav-number">3.1.</span> <span class="nav-text">视图的多种生成方式</span></a><ol class="nav-child"><li class="nav-item nav-level-4"><a class="nav-link" href="#01-在ArrayBuffer对象之上生成视图"><span class="nav-number">3.1.1.</span> <span class="nav-text">01.在ArrayBuffer对象之上生成视图</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#02-直接生成"><span class="nav-number">3.1.2.</span> <span class="nav-text">02.直接生成</span></a></li><li class="nav-item nav-level-4"><a class="nav-link" href="#03-将普通数组转为视图数组"><span class="nav-number">3.1.3.</span> <span class="nav-text">03.将普通数组转为视图数组</span></a></li></ol></li><li class="nav-item nav-level-3"><a class="nav-link" href="#视图的操作"><span class="nav-number">3.2.</span> <span class="nav-text">视图的操作</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#应用"><span class="nav-number">4.</span> <span class="nav-text">应用</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#Ajax"><span class="nav-number">4.1.</span> <span class="nav-text">Ajax</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#Canvas"><span class="nav-number">4.2.</span> <span class="nav-text">Canvas</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#File"><span class="nav-number">4.3.</span> <span class="nav-text">File</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">大闯仔儿</span>
+</div>
+
+
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 背景动画 -->
+<script type="text/javascript" src="/js/src/particle.js"></script>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
