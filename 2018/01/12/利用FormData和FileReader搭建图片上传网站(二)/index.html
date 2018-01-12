@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="世界那么大，谁不想去看看！">
+<meta name="description" content="上一篇博客利用FormData和FileReader搭建图片上传网站(一)/)介绍了图片上传功能的简单实现，这篇博客介绍具体的实现细节，比如图片上传百分比。 XMLHttpRequest.upload我们先考虑一个问题： XMLHttpRequest.upload.progress事件和XMLHttpRequest.progress事件有什么区别和联系呢？ 参见这篇文章XMLHttpRequest">
 <meta name="keywords" content="基础知识,HTML5,Ajax">
 <meta property="og:type" content="article">
 <meta property="og:title" content="利用FormData和FileReader搭建图片上传网站(二)">
 <meta property="og:url" content="http://yoursite.com/2018/01/12/利用FormData和FileReader搭建图片上传网站(二)/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="世界那么大，谁不想去看看！">
-<meta property="og:updated_time" content="2018-01-12T13:12:43.000Z">
+<meta property="og:description" content="上一篇博客利用FormData和FileReader搭建图片上传网站(一)/)介绍了图片上传功能的简单实现，这篇博客介绍具体的实现细节，比如图片上传百分比。 XMLHttpRequest.upload我们先考虑一个问题： XMLHttpRequest.upload.progress事件和XMLHttpRequest.progress事件有什么区别和联系呢？ 参见这篇文章XMLHttpRequest">
+<meta property="og:updated_time" content="2018-01-12T13:32:00.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="利用FormData和FileReader搭建图片上传网站(二)">
-<meta name="twitter:description" content="世界那么大，谁不想去看看！">
+<meta name="twitter:description" content="上一篇博客利用FormData和FileReader搭建图片上传网站(一)/)介绍了图片上传功能的简单实现，这篇博客介绍具体的实现细节，比如图片上传百分比。 XMLHttpRequest.upload我们先考虑一个问题： XMLHttpRequest.upload.progress事件和XMLHttpRequest.progress事件有什么区别和联系呢？ 参见这篇文章XMLHttpRequest">
 
 
 
@@ -372,7 +372,18 @@
       
 
       
-        
+        <p>上一篇博客<a href="http://bigfacechuang.website/2018/01/12/利用FormData和FileReader搭建图片上传网站(一" target="_blank" rel="external">利用FormData和FileReader搭建图片上传网站(一)</a>/)介绍了图片上传功能的简单实现，这篇博客介绍具体的实现细节，比如图片上传百分比。</p>
+<h2 id="XMLHttpRequest-upload"><a href="#XMLHttpRequest-upload" class="headerlink" title="XMLHttpRequest.upload"></a>XMLHttpRequest.upload</h2><p>我们先考虑一个问题：</p>
+<p><code>XMLHttpRequest.upload.progress</code>事件和<code>XMLHttpRequest.progress</code>事件有什么区别和联系呢？</p>
+<p>参见这篇文章<a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/upload" target="_blank" rel="external">XMLHttpRequest.upload</a>。</p>
+<p>XMLHttpRequest.upload属性返回一个XMLHttpRequestUpload对象，表示上传过程。它是一个不透明的对象，但是作为一个XMLHttpRequestEventTarget，可以在其上设置事件监听器来跟踪其进程。</p>
+<p>可以在上传对象上触发的事件侦听器如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">onloadstart:	The fetch starts</div><div class="line">onprogress:	    Data transfer is going on</div><div class="line">onabort:	    The fetch operation was aborted</div><div class="line">onerror:	    The fetch failed</div><div class="line">onload:	        The fetch succeeded</div><div class="line">ontimeout:	    The fetch operation didn&apos;t complete by the timeout the author specified</div><div class="line">onloadend:	    The fetch operation completed (either success or failure)</div></pre></td></tr></table></figure>
+<p>其实可以看到，<code>XMLHttpRequest.upload</code>表示文件上传的进度事件，和XHR请求的进度事件类似，都是从<code>loadstart</code>事件开始，接下来是一个或多个<code>progress</code>事件，然后触发<code>error</code>、<code>abort</code>和<code>load</code>事件中的一个，最后以触发<code>loadend</code>事件结束。</p>
+<p>这些事件虽然最早只针对XHR操作，但目前也被其他API借鉴。</p>
+<p>针对上篇博客里“上传服务器js”代码，我们可以做如下改动：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">var button = document.querySelector(&apos;#upload&apos;);</div><div class="line">var fileinput = document.getElementById(&apos;file&apos;)</div><div class="line"></div><div class="line">button.onclick = function () &#123;</div><div class="line">    var xhr = new XMLHttpRequest()</div><div class="line">    var formdata = new FormData()</div><div class="line"></div><div class="line">    var files = fileinput.files</div><div class="line">    if (!files[0]) &#123;</div><div class="line">        alert(&apos;请先选择图片，再上传！&apos;)</div><div class="line">        return</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    for (let i = 0; i &lt; files.length; i++) &#123;</div><div class="line">    	formdata.append(&apos;imgfile&apos;, files[i], files[i].name)</div><div class="line">    &#125;</div><div class="line">    xhr.open(&apos;POST&apos;, &apos;/uploadimg&apos;)</div><div class="line">    xhr.onload = () =&gt; &#123;</div><div class="line">        if (xhr.status === 200 &amp;&amp; xhr.responseText === &apos;success&apos;) &#123;</div><div class="line">            previewDOM.innerHTML = &apos;&apos;</div><div class="line">            xhr = null</div><div class="line">            alert(&apos;图片上传成功！&apos;)</div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">    xhr.send(formdata)</div><div class="line">    </div><div class="line">    xhr.upload.onprogress = e =&gt; &#123;</div><div class="line">    	//progress事件同样有三个属性，e.lengthComputable为true表示进度信息可用</div><div class="line">    	//e.loaded和e.total分别表示已上传数据量和总数据量</div><div class="line">    	if (e.lengthComputable) &#123;</div><div class="line">           var percentComplete = e.loaded / e.total * 100</div><div class="line">           //...其他操作</div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
       
     </div>
 
@@ -473,8 +484,17 @@
       
 
       
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
 
-      <section class="site-overview sidebar-panel sidebar-panel-active">
+      <section class="site-overview sidebar-panel">
         <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
           <img class="site-author-image" itemprop="image"
                src="/images/IMG_2036.JPG"
@@ -536,6 +556,22 @@
 
       </section>
 
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#XMLHttpRequest-upload"><span class="nav-number">1.</span> <span class="nav-text">XMLHttpRequest.upload</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
       
 
       
