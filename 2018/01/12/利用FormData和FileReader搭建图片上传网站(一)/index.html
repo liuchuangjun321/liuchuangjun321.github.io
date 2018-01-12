@@ -1,0 +1,777 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="基础知识,HTML5,Ajax," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="先放前两篇博客。 H5的FormData与ajax2对象详解 javascript中的FileReader函数解读 进入正题，开始讲解前端图片上传功能。 用普通的表单提交方法实现文件上传。前端代码1234&amp;lt;form action=&amp;quot;uploadimg&amp;quot; method=&amp;quot;POST&amp;quot; enctype=&amp;quot;multipart/form-data&amp;qu">
+<meta name="keywords" content="基础知识,HTML5,Ajax">
+<meta property="og:type" content="article">
+<meta property="og:title" content="利用FormData和FileReader搭建图片上传网站(一)">
+<meta property="og:url" content="http://yoursite.com/2018/01/12/利用FormData和FileReader搭建图片上传网站(一)/index.html">
+<meta property="og:site_name" content="Big Chuang&#39;s WebSite">
+<meta property="og:description" content="先放前两篇博客。 H5的FormData与ajax2对象详解 javascript中的FileReader函数解读 进入正题，开始讲解前端图片上传功能。 用普通的表单提交方法实现文件上传。前端代码1234&amp;lt;form action=&amp;quot;uploadimg&amp;quot; method=&amp;quot;POST&amp;quot; enctype=&amp;quot;multipart/form-data&amp;qu">
+<meta property="og:updated_time" content="2018-01-12T13:11:18.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="利用FormData和FileReader搭建图片上传网站(一)">
+<meta name="twitter:description" content="先放前两篇博客。 H5的FormData与ajax2对象详解 javascript中的FileReader函数解读 进入正题，开始讲解前端图片上传功能。 用普通的表单提交方法实现文件上传。前端代码1234&amp;lt;form action=&amp;quot;uploadimg&amp;quot; method=&amp;quot;POST&amp;quot; enctype=&amp;quot;multipart/form-data&amp;qu">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/12/利用FormData和FileReader搭建图片上传网站(一)/"/>
+
+
+
+
+
+  <title>利用FormData和FileReader搭建图片上传网站(一) | Big Chuang's WebSite</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?12cfbab09f3fcdee181cf994706182d5";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Big Chuang's WebSite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/12/利用FormData和FileReader搭建图片上传网站(一)/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大闯仔儿">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2036.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Big Chuang's WebSite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">利用FormData和FileReader搭建图片上传网站(一)</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-12T11:33:41+08:00">
+                2018-01-12
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/JS基础/" itemprop="url" rel="index">
+                    <span itemprop="name">JS基础</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>先放前两篇博客。</p>
+<p><a href="http://bigfacechuang.website/2018/01/12/H5的FormData与ajax2对象详解/" target="_blank" rel="external">H5的FormData与ajax2对象详解</a></p>
+<p><a href="http://bigfacechuang.website/2018/01/11/javascript中的FileReader函数解读/" target="_blank" rel="external">javascript中的FileReader函数解读</a></p>
+<p>进入正题，开始讲解前端图片上传功能。</p>
+<h2 id="用普通的表单提交方法实现文件上传。"><a href="#用普通的表单提交方法实现文件上传。" class="headerlink" title="用普通的表单提交方法实现文件上传。"></a>用普通的表单提交方法实现文件上传。</h2><h3 id="前端代码"><a href="#前端代码" class="headerlink" title="前端代码"></a>前端代码</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">&lt;form action=&quot;uploadimg&quot; method=&quot;POST&quot; enctype=&quot;multipart/form-data&quot;&gt;</div><div class="line">    &lt;input type=&quot;file&quot; name=&quot;imgfile&quot; multiple&gt;</div><div class="line">    &lt;input type=&quot;submit&quot; value=&quot;提交&quot;&gt;</div><div class="line">&lt;/form&gt;</div></pre></td></tr></table></figure>
+<ul>
+<li>设置action为提交地址，<strong><code>enctype=&quot;multipart/form-data&quot;</code></strong></li>
+<li>设置提交文件表单域名为<code>imgfile</code></li>
+</ul>
+<h3 id="后端代码"><a href="#后端代码" class="headerlink" title="后端代码"></a>后端代码</h3><p>采用<code>express</code>框架，使用京台中间件指定放置js css html文件的目录</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var app = express()；</div><div class="line">app.use(express.static(&apos;dist&apos;));</div></pre></td></tr></table></figure>
+<p>下载处理上传文件的插件<code>multer</code></p>
+<p>在readme.md文件中有基本的使用方法，我们复制过来代码实例稍微改改就可以使用了。把文件上传路径指定到uploads,然后用当前日期和文件名命名上传过来的文件。这个imgfile域名必须严格和前端表单文件域名对应起来。</p>
+<p>完整代码如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">&quot;use strict&quot;;</div><div class="line">exports.__esModule = true;</div><div class="line">var express = require(&quot;express&quot;);</div><div class="line">var multer = require(&quot;multer&quot;);</div><div class="line">var storage = multer.diskStorage(&#123;</div><div class="line">    destination: function(req, file, cb) &#123;</div><div class="line">        cb(null, &apos;./uploads&apos;);</div><div class="line">    &#125;,</div><div class="line">    filename: function(req, file, cb) &#123;</div><div class="line">        cb(null, `$&#123;Date.now()&#125;-$&#123;file.originalname&#125;`)</div><div class="line">    &#125;</div><div class="line">&#125;)</div><div class="line">var upload = multer(&#123; storage: storage &#125;);</div><div class="line">var app = express();</div><div class="line">app.use(express.static(&apos;dist&apos;));</div><div class="line">//var cpUpload = upload.fields([&#123; name: &apos;imgfile&apos;, maxCount: 12 &#125;])</div><div class="line">app.post(&apos;/uploadimg&apos;, upload.array(&apos;imgfile&apos;, 40), function(req, res, next) &#123;</div><div class="line">    var files = req.files</div><div class="line">    console.log(files)</div><div class="line">    if (!files[0]) &#123;</div><div class="line">        res.send(&apos;error&apos;);</div><div class="line">    &#125; else &#123;</div><div class="line">        res.send(&apos;success&apos;);</div><div class="line">    &#125;</div><div class="line">    console.log(files);</div><div class="line">&#125;)</div><div class="line"></div><div class="line">var server = app.listen(9999, &apos;localhost&apos;, function() &#123;</div><div class="line">    console.log(&apos;server is running at port 9999...&apos;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>这样选择文件，点击提交按钮后文件就被上传到了服务器uploads文件夹下。</p>
+<h2 id="用H5-FileReader和ajax2-FormData技术实现无刷新文件上传"><a href="#用H5-FileReader和ajax2-FormData技术实现无刷新文件上传" class="headerlink" title="用H5-FileReader和ajax2-FormData技术实现无刷新文件上传"></a>用H5-FileReader和ajax2-FormData技术实现无刷新文件上传</h2><p>1.改造原来的选择文件按钮，让它变成一个可爱的小图标，点击后选择文件。<br>这个过于简单就不放代码了，具体思路是把一个a标签放上背景图片，把上传文件<code>input type=&quot;file&quot;</code>大小设置成a标签一样大，并且放置到a标签上面，opacity设置成0透明的。点击a实际上是点击了<code>input type=&quot;file&quot;</code><br>2.选取文件后生成缩略图，这个基本思路是监听<code>input type=&quot;file&quot;</code>的onchange事件，如果选了文件就利用FileReader生成一个图片data:url添加到div.preview里面动态生成的img上，给div.preview设置成flex布局就可以灵活放置预览图了。</p>
+<h3 id="html"><a href="#html" class="headerlink" title="html"></a>html</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;input type=&quot;file&quot; id=&quot;file&quot; onchange=&quot;previewFile()&quot;&gt;&lt;br&gt;</div><div class="line">&lt;img src=&quot;&quot; height=&quot;200&quot; alt=&quot;Image preview...&quot;&gt;</div><div class="line">&lt;input type=&quot;button&quot; value=&quot;上传&quot; id=&quot;upload&quot;&gt;</div></pre></td></tr></table></figure>
+<h3 id="缩略图js"><a href="#缩略图js" class="headerlink" title="缩略图js"></a>缩略图js</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">function previewFile() &#123;</div><div class="line">  var preview = document.querySelector(&apos;img&apos;);</div><div class="line">  var file    = document.querySelector(&apos;input[type=file]&apos;).files[0];</div><div class="line">  var reader  = new FileReader();</div><div class="line">  </div><div class="line">  // 调用reader.readAsDataURL()方法，把图片转成base64</div><div class="line">  if (file) &#123;</div><div class="line">    reader.readAsDataURL(file);</div><div class="line">  &#125;</div><div class="line">  </div><div class="line">  // 监听reader对象的的onload事件，当图片加载完成时，把base64编码賦值给预览图片</div><div class="line">  reader.addEventListener(&quot;load&quot;, function () &#123;</div><div class="line">    preview.src = reader.result;</div><div class="line">  &#125;, false);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p><strong><code>readAsDataURL()</code>方法会读取指定的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="external"><code>Blob</code></a> 或 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/File" target="_blank" rel="external"><code>File</code></a> 对象。读取操作完成的时候，<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/readyState" target="_blank" rel="external"><code>readyState</code></a> 会变成已完成（DONE），并触发 <code>loadend</code> 事件，同时 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/result" target="_blank" rel="external"><code>result</code></a> 属性将包含一个<code>data:</code>URL格式的字符串（base64编码）以表示所读取文件的内容。</strong></p>
+<h3 id="上传服务器js"><a href="#上传服务器js" class="headerlink" title="上传服务器js"></a>上传服务器js</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">var button = document.querySelector(&apos;#upload&apos;);</div><div class="line">var fileinput = document.getElementById(&apos;file&apos;)</div><div class="line"></div><div class="line">button.onclick = function () &#123;</div><div class="line">    var xhr = new XMLHttpRequest()</div><div class="line">    var formdata = new FormData()</div><div class="line"></div><div class="line">    var files = fileinput.files</div><div class="line">    if (!files[0]) &#123;</div><div class="line">        alert(&apos;请先选择图片，再上传！&apos;)</div><div class="line">        return</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    for (let i = 0; i &lt; files.length; i++) &#123;</div><div class="line">    	formdata.append(&apos;imgfile&apos;, files[i], files[i].name)</div><div class="line">    &#125;</div><div class="line">    xhr.open(&apos;POST&apos;, &apos;/uploadimg&apos;)</div><div class="line">    xhr.onload = () =&gt; &#123;</div><div class="line">        if (xhr.status === 200 &amp;&amp; xhr.responseText === &apos;success&apos;) &#123;</div><div class="line">            previewDOM.innerHTML = &apos;&apos;</div><div class="line">            xhr = null</div><div class="line">            alert(&apos;图片上传成功！&apos;)</div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">    xhr.send(formdata)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="总结"><a href="#总结" class="headerlink" title="总结"></a>总结</h2><p><strong>FileReader读取文件，并可以设置缩略图;</strong></p>
+<p><strong>FormData上传文件，并可以查看上传进度，在下一篇博客讲解！</strong></p>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/基础知识/" rel="tag"># 基础知识</a>
+          
+            <a href="/tags/HTML5/" rel="tag"># HTML5</a>
+          
+            <a href="/tags/Ajax/" rel="tag"># Ajax</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/12/H5的FormData与ajax2对象详解/" rel="next" title="H5的FormData与ajax2对象详解">
+                <i class="fa fa-chevron-left"></i> H5的FormData与ajax2对象详解
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/12/利用FormData和FileReader搭建图片上传网站(二)/" rel="prev" title="利用FormData和FileReader搭建图片上传网站(二)">
+                利用FormData和FileReader搭建图片上传网站(二) <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/IMG_2036.JPG"
+               alt="大闯仔儿" />
+          <p class="site-author-name" itemprop="name">大闯仔儿</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界那么大，谁不想去看看！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">76</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tages/index.html">
+                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#用普通的表单提交方法实现文件上传。"><span class="nav-number">1.</span> <span class="nav-text">用普通的表单提交方法实现文件上传。</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#前端代码"><span class="nav-number">1.1.</span> <span class="nav-text">前端代码</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#后端代码"><span class="nav-number">1.2.</span> <span class="nav-text">后端代码</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#用H5-FileReader和ajax2-FormData技术实现无刷新文件上传"><span class="nav-number">2.</span> <span class="nav-text">用H5-FileReader和ajax2-FormData技术实现无刷新文件上传</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#html"><span class="nav-number">2.1.</span> <span class="nav-text">html</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#缩略图js"><span class="nav-number">2.2.</span> <span class="nav-text">缩略图js</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#上传服务器js"><span class="nav-number">2.3.</span> <span class="nav-text">上传服务器js</span></a></li></ol></li><li class="nav-item nav-level-2"><a class="nav-link" href="#总结"><span class="nav-number">3.</span> <span class="nav-text">总结</span></a></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">大闯仔儿</span>
+</div>
+
+
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 背景动画 -->
+<script type="text/javascript" src="/js/src/particle.js"></script>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
