@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="ES6,基础知识," />
+  <meta name="keywords" content="基础知识," />
 
 
 
@@ -93,17 +93,19 @@
 
 
 
-<meta name="description" content="什么是arguments对象在函数代码中，使用特殊对象 arguments，开发者无需明确指出参数名，就能访问它们。 在javascript中，arguments对象算是一个比较特殊的对象，实际上相当于当前函数的一个内置属性。arguments非常类似Array，但实际上又不是Array实例，可以通过以下代码证实（当然，实际上，在函数funcArg中，调用arguments是不必要写成funcAr">
-<meta name="keywords" content="ES6,基础知识">
+<meta name="description" content="总是困，写写博客吧，帮助记忆！！！ 文本框包含两种：一种是使用元素的单行文本框，另一种是使用的多行文本框。 选择所有文本–select()两种文本框都支持select()方法，这个方法用于选取文本框中的所有文本，通常和focus事件一起使用。在文本框获得焦点时，即选取所有文本，方便用户进行删除操作。 HTMLInputElement.select() 方法选中一个 textarea 元素或者一个">
+<meta name="keywords" content="基础知识">
 <meta property="og:type" content="article">
-<meta property="og:title" content="javascript之arguments对象详解">
-<meta property="og:url" content="http://yoursite.com/2017/09/25/javascript之arguments对象详解/index.html">
+<meta property="og:title" content="文本框脚本">
+<meta property="og:url" content="http://yoursite.com/2018/01/13/文本框脚本/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="什么是arguments对象在函数代码中，使用特殊对象 arguments，开发者无需明确指出参数名，就能访问它们。 在javascript中，arguments对象算是一个比较特殊的对象，实际上相当于当前函数的一个内置属性。arguments非常类似Array，但实际上又不是Array实例，可以通过以下代码证实（当然，实际上，在函数funcArg中，调用arguments是不必要写成funcAr">
-<meta property="og:updated_time" content="2017-11-30T01:58:36.000Z">
+<meta property="og:description" content="总是困，写写博客吧，帮助记忆！！！ 文本框包含两种：一种是使用元素的单行文本框，另一种是使用的多行文本框。 选择所有文本–select()两种文本框都支持select()方法，这个方法用于选取文本框中的所有文本，通常和focus事件一起使用。在文本框获得焦点时，即选取所有文本，方便用户进行删除操作。 HTMLInputElement.select() 方法选中一个 textarea 元素或者一个">
+<meta property="og:image" content="http://os20uatm3.bkt.clouddn.com/2018011300.png">
+<meta property="og:updated_time" content="2018-01-13T13:25:55.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="javascript之arguments对象详解">
-<meta name="twitter:description" content="什么是arguments对象在函数代码中，使用特殊对象 arguments，开发者无需明确指出参数名，就能访问它们。 在javascript中，arguments对象算是一个比较特殊的对象，实际上相当于当前函数的一个内置属性。arguments非常类似Array，但实际上又不是Array实例，可以通过以下代码证实（当然，实际上，在函数funcArg中，调用arguments是不必要写成funcAr">
+<meta name="twitter:title" content="文本框脚本">
+<meta name="twitter:description" content="总是困，写写博客吧，帮助记忆！！！ 文本框包含两种：一种是使用元素的单行文本框，另一种是使用的多行文本框。 选择所有文本–select()两种文本框都支持select()方法，这个方法用于选取文本框中的所有文本，通常和focus事件一起使用。在文本框获得焦点时，即选取所有文本，方便用户进行删除操作。 HTMLInputElement.select() 方法选中一个 textarea 元素或者一个">
+<meta name="twitter:image" content="http://os20uatm3.bkt.clouddn.com/2018011300.png">
 
 
 
@@ -131,13 +133,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/09/25/javascript之arguments对象详解/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/13/文本框脚本/"/>
 
 
 
 
 
-  <title>javascript之arguments对象详解 | Big Chuang's WebSite</title>
+  <title>文本框脚本 | Big Chuang's WebSite</title>
   
 
 
@@ -286,7 +288,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/25/javascript之arguments对象详解/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/13/文本框脚本/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="大闯仔儿">
@@ -303,7 +305,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">javascript之arguments对象详解</h1>
+          <h1 class="post-title" itemprop="name headline">文本框脚本</h1>
         
 
         <div class="post-meta">
@@ -315,8 +317,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-25T20:23:04+08:00">
-                2017-09-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-13T20:18:02+08:00">
+                2018-01-13
               </time>
             
 
@@ -372,22 +374,35 @@
       
 
       
-        <h2 id="什么是arguments对象"><a href="#什么是arguments对象" class="headerlink" title="什么是arguments对象"></a>什么是arguments对象</h2><p>在函数代码中，使用特殊对象 arguments，开发者<strong>无需明确指出参数名</strong>，就能访问它们。</p>
-<p>在<code>javascript</code>中，<code>arguments</code>对象算是一个比较特殊的对象，实际上相当于当前函数的一个内置属性。<code>arguments</code>非常类似<code>Array</code>，但实际上又不是<code>Array</code>实例，可以通过以下代码证实（当然，实际上，在函数funcArg中，调用<code>arguments</code>是不必要写成<code>funcArg.arguments</code>，直接写成<code>arguments</code>即可。）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Array.prototype.testArg = &apos;test&apos;;</div><div class="line"></div><div class="line">function funcArg()&#123;</div><div class="line">  alert(funcArg.arguments.testArg);</div><div class="line">  alert(funcArg.arguments[0]);</div><div class="line">&#125; </div><div class="line"></div><div class="line">alert(new Array().testArg);    //result: &quot;test&quot;</div><div class="line">funcArg(10);                   //result: &quot;undefined&quot; &quot;10&quot;</div></pre></td></tr></table></figure>
-<p>需要注意的是<strong><code>arguments</code>对象的长度并不是有形参个数决定的，而是由实参个数决定的</strong>。形参是函数内部重新开辟内存空间存储的变量，但是其与<code>arguments</code>对象内存空间并不重叠。对于<code>arguments</code>和值都存在的情况下，两者值是同步的，但是针对其中一个无值的情况下，对于此无值的情形值不会得以同步。如下代码可以得以验证。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function f(a,b,c)&#123;</div><div class="line">  alert(arguments.length);   // result: &quot;2&quot;</div><div class="line">  a = 100;</div><div class="line">  alert(arguments[0]);       //result: &quot;100&quot;</div><div class="line">  arguments[0] = &quot;qqyumidi&quot;;</div><div class="line">  alert(a);                  // result: &quot;qqyumidi&quot;</div><div class="line">  alert(c);                  // result: &quot;undefined&quot;</div><div class="line">  c = 2012;</div><div class="line">  alert(arguments[2]);       // result: &quot;undefined&quot;</div><div class="line">&#125;</div><div class="line"></div><div class="line">f(1,2);</div></pre></td></tr></table></figure>
-<p>由<code>JavaScript</code>中函数的声明和调用特性，可以看出<code>JavaScript</code>中函数是不能重载的。</p>
-<p>根据其他语言中重载的依据：”函数返回值不同或形参个数不同”，我们可以得出上述结论：</p>
-<ul>
-<li><code>JavaScript</code>函数的声明是没有返回值类型这一说法的；</li>
-<li><code>JavaScript</code>形参的个数严格意义上来讲只是为了方便在函数中的变量操作，实际上实参已经存储在<code>arguments</code>对象中了。</li>
-</ul>
-<p>另外，从<code>JavaScript</code>函数本身深入理解为什么<code>JavaScript</code>中函数是不能重载的：在<code>JavaScript</code>中，函数其实也是对象，函数名是关于函数的引用，或者说函数名本身就是变量。对于如下所示的函数声明与函数表达式，其实含以上是一样的（在不考虑函数声明与函数表达式区别的前提下），非常有利于我们理解<code>JavaScript</code>中函数是不能重载的这一特性。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">function f(a)&#123;</div><div class="line">     return a + 10;</div><div class="line"> &#125;</div><div class="line"> </div><div class="line"> function f(a)&#123;</div><div class="line">     return a - 10;</div><div class="line"> &#125;</div><div class="line"> </div><div class="line"> // 在不考虑函数声明与函数表达式区别的前提下，其等价于如下</div><div class="line"></div><div class="line">var f = function(a)&#123;</div><div class="line">    return a + 10;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var f = function(a)&#123;</div><div class="line">    return a - 10;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><code>arguments</code>对象中有一个非常有用的属性：<code>callee</code>。<code>arguments.callee</code>返回此<code>arguments</code>对象所在的当前函数引用。在使用函数递归调用时推荐使用<code>arguments.callee</code>代替函数名本身。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function count(a)&#123;</div><div class="line">  if (a == 1) &#123;</div><div class="line">    return 1;</div><div class="line">  &#125;</div><div class="line">  return a + arguments.callee(--a);</div><div class="line">&#125;</div><div class="line"></div><div class="line">alert(count(10));</div></pre></td></tr></table></figure>
-<p>注意：<code>arguments.callee</code>严格模式下已经被禁用。</p>
+        <p>总是困，写写博客吧，帮助记忆！！！</p>
+<p>文本框包含两种：一种是使用<input>元素的单行文本框，另一种是使用<textarea>的多行文本框。</textarea></p>
+<h2 id="选择所有文本–select"><a href="#选择所有文本–select" class="headerlink" title="选择所有文本–select()"></a>选择所有文本–select()</h2><p>两种文本框都支持<code>select()</code>方法，这个方法用于选取文本框中的所有文本，<strong>通常和<code>focus</code>事件一起使用。</strong>在文本框获得焦点时，即选取所有文本，方便用户进行删除操作。</p>
+<p><strong>HTMLInputElement.select()</strong> 方法选中一个 <code>textarea</code> 元素或者一个 带有 text 字段的 <code>input</code>元素里的所有内容。</p>
+<p><strong>select</strong>事件。</p>
+<h2 id="选择部分文本–setSelectionRange"><a href="#选择部分文本–setSelectionRange" class="headerlink" title="选择部分文本–setSelectionRange()"></a>选择部分文本–setSelectionRange()</h2><p><strong>HTMLInputElement.setSelectionRange </strong>方法可以从一个被 focused 的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/input" target="_blank" rel="external">``</a> 元素中选中特定范围的内容。</p>
+<p>在较新的浏览器中，你可以通过一个可选的 selectionDirection 来指定文本选中过程中的方向。比如通过点击和拖动从结束位置往起始位置选中一个字符串。</p>
+<p>每次调用这个这个方法会更新 <code>HTMLInputElement 的 selectionStart</code>, <code>selectionEnd</code>,和 <code>selectionDirection</code> 属性。</p>
+<p><strong>语法</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">inputElement.setSelectionRange(selectionStart, selectionEnd, [optional] selectionDirection);</div></pre></td></tr></table></figure>
+<p><strong>selectionStart</strong></p>
+<p>被选中的第一个字符的位置。</p>
+<p><strong>selectionEnd</strong></p>
+<p>被选中的最后一个字符的 <strong>下一个</strong> 位置。</p>
+<p><strong>selectionDirection</strong> (可选)</p>
+<p>一个指明选择方向的字符串，有”forward”,”backward”和”none” 3个可选值, 分别表示”从前往后”, “从后往前”和”选择方向未知或不重要”。</p>
+<p><strong>例子</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div></pre></td><td class="code"><pre><div class="line">&lt;!DOCTYPE html&gt;</div><div class="line">&lt;html&gt;</div><div class="line">&lt;head&gt;</div><div class="line">&lt;meta charset=utf-8&gt;</div><div class="line">&lt;title&gt;JS Bin&lt;/title&gt;</div><div class="line">&lt;script&gt;</div><div class="line">function SelectText () &#123;</div><div class="line">        var input = document.getElementById(&quot;mytextbox&quot;);</div><div class="line">            input.focus();</div><div class="line">            input.setSelectionRange(2,5);   // 选择特定部分</div><div class="line">            input.setSelectionRange(0, -1); // 全选</div><div class="line"></div><div class="line">&#125;</div><div class="line">&lt;/script&gt;</div><div class="line">&lt;/head&gt;</div><div class="line">&lt;body&gt;</div><div class="line">  &lt;p&gt;&lt;input type=&quot;text&quot; id=&quot;mytextbox&quot; size=&quot;20&quot; value=&quot;Mozilla&quot;/&gt;&lt;/p&gt;</div><div class="line">  &lt;p&gt;&lt;button onclick=&quot;SelectText()&quot;&gt;Select text&lt;/button&gt;&lt;/p&gt;</div><div class="line">&lt;/body&gt;</div><div class="line">&lt;/html&gt;</div></pre></td></tr></table></figure>
+<p><img src="http://os20uatm3.bkt.clouddn.com/2018011300.png" alt="2018011300"></p>
+<h2 id="取得所选的文本"><a href="#取得所选的文本" class="headerlink" title="取得所选的文本"></a>取得所选的文本</h2><p>通过<code>select</code>事件虽然可以知道用户选取了文本，但是还是没有办法获取用户选取的文本，<code>HTML5</code>通过一系列扩展解决了这个问题。即是<code>HTMLInputElement</code> 的<code>selectionStart</code>和 <code>selectionEnd</code>属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">function getSelectedText(textbox)&#123;</div><div class="line">  return textbox.value.substring(textbox.selectionStart,textbox.selectionEnd)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="兼容性"><a href="#兼容性" class="headerlink" title="兼容性"></a>兼容性</h2><p>但是IE8及更早的浏览器是不支持<code>setSelectionRange</code>方法的。</p>
+<p>为了实现跨浏览器编程，可以采用以下方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">function selectText(textbox,startIndex,endIndex)&#123;</div><div class="line">  if(textbox.setSelectionRange)&#123;</div><div class="line">    textbox.setSelectionRange(startIndex,endIndex);</div><div class="line">  &#125; else if(textbox.createTextRange)&#123;</div><div class="line">    var range = textbox.createTextRange();</div><div class="line">    range.collapse(true);</div><div class="line">    range.moveStart(&quot;character&quot;,startIndex);</div><div class="line">    range.moveEnd(&quot;character&quot;,endIndex-startIndex);</div><div class="line">    range.select();</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<h2 id="HTML5约束验证API"><a href="#HTML5约束验证API" class="headerlink" title="HTML5约束验证API"></a>HTML5约束验证API</h2><p>表单的验证一般情况下需要借助于<code>javascript</code>,但是<code>HTML5</code>新增了一些功能，可以在javascript被禁用或者由于种种原因未能加载的情况下，进行一些基础的表单验证。</p>
+<h3 id="必填字段"><a href="#必填字段" class="headerlink" title="必填字段"></a>必填字段</h3><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;input type=&quot;text&quot; name=&quot;username&quot; required&gt;</div></pre></td></tr></table></figure>
+<h3 id="其他输入类型"><a href="#其他输入类型" class="headerlink" title="其他输入类型"></a>其他输入类型</h3><p><code>HTML5</code>为<input>新增了一些新的<code>type</code>属性。这些新的类型信息不仅仅能反映数据类型的信息，还可以进行一些基础验证。其中，<code>email</code>和<code>url</code>是最常用的两个类型，各浏览器也为他们增加了验证机制。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">&lt;input type=&quot;email&quot; name=&quot;email&quot;&gt;</div><div class="line">&lt;input type=&quot;url&quot; name=&quot;url&quot;&gt;</div></pre></td></tr></table></figure>
+<p>其他的一些API因为浏览器兼容性原因，在此处不再介绍，可以参考红宝书。</p>
 
       
     </div>
@@ -417,8 +432,6 @@
       
         <div class="post-tags">
           
-            <a href="/tags/ES6/" rel="tag"># ES6</a>
-          
             <a href="/tags/基础知识/" rel="tag"># 基础知识</a>
           
         </div>
@@ -432,8 +445,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/24/Vue学习笔记之生命周期钩子/" rel="next" title="Vue学习笔记之生命周期钩子">
-                <i class="fa fa-chevron-left"></i> Vue学习笔记之生命周期钩子
+              <a href="/2018/01/12/利用FormData和FileReader搭建图片上传网站(二)/" rel="next" title="利用FormData和FileReader搭建图片上传网站(二)">
+                <i class="fa fa-chevron-left"></i> 利用FormData和FileReader搭建图片上传网站(二)
               </a>
             
           </div>
@@ -441,10 +454,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/09/25/javascript之rest参数详解/" rel="prev" title="javascript之rest参数详解">
-                javascript之rest参数详解 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -573,7 +582,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是arguments对象"><span class="nav-number">1.</span> <span class="nav-text">什么是arguments对象</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#选择所有文本–select"><span class="nav-number">1.</span> <span class="nav-text">选择所有文本–select()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#选择部分文本–setSelectionRange"><span class="nav-number">2.</span> <span class="nav-text">选择部分文本–setSelectionRange()</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#取得所选的文本"><span class="nav-number">3.</span> <span class="nav-text">取得所选的文本</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#兼容性"><span class="nav-number">4.</span> <span class="nav-text">兼容性</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#HTML5约束验证API"><span class="nav-number">5.</span> <span class="nav-text">HTML5约束验证API</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#必填字段"><span class="nav-number">5.1.</span> <span class="nav-text">必填字段</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#其他输入类型"><span class="nav-number">5.2.</span> <span class="nav-text">其他输入类型</span></a></li></ol></li></ol></div>
             
 
           </div>
