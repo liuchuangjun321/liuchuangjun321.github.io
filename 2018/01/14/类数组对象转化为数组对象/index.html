@@ -77,7 +77,7 @@
 <link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
 
 
-  <meta name="keywords" content="基础知识,ES6," />
+  <meta name="keywords" content="基础知识," />
 
 
 
@@ -93,17 +93,17 @@
 
 
 
-<meta name="description" content="什么是arguments对象在函数代码中，使用特殊对象 arguments，开发者无需明确指出参数名，就能访问它们。 在javascript中，arguments对象算是一个比较特殊的对象，实际上相当于当前函数的一个内置属性。arguments非常类似Array，但实际上又不是Array实例，可以通过以下代码证实（当然，实际上，在函数funcArg中，调用arguments是不必要写成funcAr">
-<meta name="keywords" content="基础知识,ES6">
+<meta name="description" content="我们都知道，在 JavaScript 中，函数的参数 arguments 对象只是一个 类数组（Array-like） 对象，而不是真正的数组。那么如果我们想把它变成一个真正的数组对象，该怎么做呢？ 下面就以 arguments 为例，总结几种类数组对象转换为数组对象的办法。 原始法最简单粗暴的办法，莫过于把 arguments 对象遍历，再放到一个空数组对象里。如下所示： 12345678910">
+<meta name="keywords" content="基础知识">
 <meta property="og:type" content="article">
-<meta property="og:title" content="javascript之arguments对象详解">
-<meta property="og:url" content="http://yoursite.com/2017/09/25/javascript之arguments对象详解/index.html">
+<meta property="og:title" content="类数组对象转化为数组对象">
+<meta property="og:url" content="http://yoursite.com/2018/01/14/类数组对象转化为数组对象/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
-<meta property="og:description" content="什么是arguments对象在函数代码中，使用特殊对象 arguments，开发者无需明确指出参数名，就能访问它们。 在javascript中，arguments对象算是一个比较特殊的对象，实际上相当于当前函数的一个内置属性。arguments非常类似Array，但实际上又不是Array实例，可以通过以下代码证实（当然，实际上，在函数funcArg中，调用arguments是不必要写成funcAr">
-<meta property="og:updated_time" content="2017-11-30T01:58:36.000Z">
+<meta property="og:description" content="我们都知道，在 JavaScript 中，函数的参数 arguments 对象只是一个 类数组（Array-like） 对象，而不是真正的数组。那么如果我们想把它变成一个真正的数组对象，该怎么做呢？ 下面就以 arguments 为例，总结几种类数组对象转换为数组对象的办法。 原始法最简单粗暴的办法，莫过于把 arguments 对象遍历，再放到一个空数组对象里。如下所示： 12345678910">
+<meta property="og:updated_time" content="2018-01-14T14:15:45.000Z">
 <meta name="twitter:card" content="summary">
-<meta name="twitter:title" content="javascript之arguments对象详解">
-<meta name="twitter:description" content="什么是arguments对象在函数代码中，使用特殊对象 arguments，开发者无需明确指出参数名，就能访问它们。 在javascript中，arguments对象算是一个比较特殊的对象，实际上相当于当前函数的一个内置属性。arguments非常类似Array，但实际上又不是Array实例，可以通过以下代码证实（当然，实际上，在函数funcArg中，调用arguments是不必要写成funcAr">
+<meta name="twitter:title" content="类数组对象转化为数组对象">
+<meta name="twitter:description" content="我们都知道，在 JavaScript 中，函数的参数 arguments 对象只是一个 类数组（Array-like） 对象，而不是真正的数组。那么如果我们想把它变成一个真正的数组对象，该怎么做呢？ 下面就以 arguments 为例，总结几种类数组对象转换为数组对象的办法。 原始法最简单粗暴的办法，莫过于把 arguments 对象遍历，再放到一个空数组对象里。如下所示： 12345678910">
 
 
 
@@ -131,13 +131,13 @@
 
 
 
-  <link rel="canonical" href="http://yoursite.com/2017/09/25/javascript之arguments对象详解/"/>
+  <link rel="canonical" href="http://yoursite.com/2018/01/14/类数组对象转化为数组对象/"/>
 
 
 
 
 
-  <title>javascript之arguments对象详解 | Big Chuang's WebSite</title>
+  <title>类数组对象转化为数组对象 | Big Chuang's WebSite</title>
   
 
 
@@ -286,7 +286,7 @@
   
 
   <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
-    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2017/09/25/javascript之arguments对象详解/">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/14/类数组对象转化为数组对象/">
 
     <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
       <meta itemprop="name" content="大闯仔儿">
@@ -303,7 +303,7 @@
 
         
         
-          <h1 class="post-title" itemprop="name headline">javascript之arguments对象详解</h1>
+          <h1 class="post-title" itemprop="name headline">类数组对象转化为数组对象</h1>
         
 
         <div class="post-meta">
@@ -315,8 +315,8 @@
               
                 <span class="post-meta-item-text">发表于</span>
               
-              <time title="创建于" itemprop="dateCreated datePublished" datetime="2017-09-25T20:23:04+08:00">
-                2017-09-25
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-14T22:05:42+08:00">
+                2018-01-14
               </time>
             
 
@@ -372,23 +372,23 @@
       
 
       
-        <h2 id="什么是arguments对象"><a href="#什么是arguments对象" class="headerlink" title="什么是arguments对象"></a>什么是arguments对象</h2><p>在函数代码中，使用特殊对象 arguments，开发者<strong>无需明确指出参数名</strong>，就能访问它们。</p>
-<p>在<code>javascript</code>中，<code>arguments</code>对象算是一个比较特殊的对象，实际上相当于当前函数的一个内置属性。<code>arguments</code>非常类似<code>Array</code>，但实际上又不是<code>Array</code>实例，可以通过以下代码证实（当然，实际上，在函数funcArg中，调用<code>arguments</code>是不必要写成<code>funcArg.arguments</code>，直接写成<code>arguments</code>即可。）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">Array.prototype.testArg = &apos;test&apos;;</div><div class="line"></div><div class="line">function funcArg()&#123;</div><div class="line">  alert(funcArg.arguments.testArg);</div><div class="line">  alert(funcArg.arguments[0]);</div><div class="line">&#125; </div><div class="line"></div><div class="line">alert(new Array().testArg);    //result: &quot;test&quot;</div><div class="line">funcArg(10);                   //result: &quot;undefined&quot; &quot;10&quot;</div></pre></td></tr></table></figure>
-<p>需要注意的是<strong><code>arguments</code>对象的长度并不是有形参个数决定的，而是由实参个数决定的</strong>。形参是函数内部重新开辟内存空间存储的变量，但是其与<code>arguments</code>对象内存空间并不重叠。对于<code>arguments</code>和值都存在的情况下，两者值是同步的，但是针对其中一个无值的情况下，对于此无值的情形值不会得以同步。如下代码可以得以验证。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function f(a,b,c)&#123;</div><div class="line">  alert(arguments.length);   // result: &quot;2&quot;</div><div class="line">  a = 100;</div><div class="line">  alert(arguments[0]);       //result: &quot;100&quot;</div><div class="line">  arguments[0] = &quot;qqyumidi&quot;;</div><div class="line">  alert(a);                  // result: &quot;qqyumidi&quot;</div><div class="line">  alert(c);                  // result: &quot;undefined&quot;</div><div class="line">  c = 2012;</div><div class="line">  alert(arguments[2]);       // result: &quot;undefined&quot;</div><div class="line">&#125;</div><div class="line"></div><div class="line">f(1,2);</div></pre></td></tr></table></figure>
-<p>由<code>JavaScript</code>中函数的声明和调用特性，可以看出<code>JavaScript</code>中函数是不能重载的。</p>
-<p>根据其他语言中重载的依据：”函数返回值不同或形参个数不同”，我们可以得出上述结论：</p>
-<ul>
-<li><code>JavaScript</code>函数的声明是没有返回值类型这一说法的；</li>
-<li><code>JavaScript</code>形参的个数严格意义上来讲只是为了方便在函数中的变量操作，实际上实参已经存储在<code>arguments</code>对象中了。</li>
-</ul>
-<p>另外，从<code>JavaScript</code>函数本身深入理解为什么<code>JavaScript</code>中函数是不能重载的：在<code>JavaScript</code>中，函数其实也是对象，函数名是关于函数的引用，或者说函数名本身就是变量。对于如下所示的函数声明与函数表达式，其实含以上是一样的（在不考虑函数声明与函数表达式区别的前提下），非常有利于我们理解<code>JavaScript</code>中函数是不能重载的这一特性。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">function f(a)&#123;</div><div class="line">     return a + 10;</div><div class="line"> &#125;</div><div class="line"> </div><div class="line"> function f(a)&#123;</div><div class="line">     return a - 10;</div><div class="line"> &#125;</div><div class="line"> </div><div class="line"> // 在不考虑函数声明与函数表达式区别的前提下，其等价于如下</div><div class="line"></div><div class="line">var f = function(a)&#123;</div><div class="line">    return a + 10;</div><div class="line">&#125;</div><div class="line"></div><div class="line">var f = function(a)&#123;</div><div class="line">    return a - 10;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
-<p><code>arguments</code>对象中有一个非常有用的属性：<code>callee</code>。<code>arguments.callee</code>返回此<code>arguments</code>对象所在的当前函数引用。在使用函数递归调用时推荐使用<code>arguments.callee</code>代替函数名本身。</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function count(a)&#123;</div><div class="line">  if (a == 1) &#123;</div><div class="line">    return 1;</div><div class="line">  &#125;</div><div class="line">  return a + arguments.callee(--a);</div><div class="line">&#125;</div><div class="line"></div><div class="line">alert(count(10));</div></pre></td></tr></table></figure>
-<p>注意：<code>arguments.callee</code>严格模式下已经被禁用。</p>
-
+        <p>我们都知道，在 JavaScript 中，函数的参数 arguments 对象只是一个 <strong>类数组（Array-like）</strong> 对象，而不是真正的数组。那么如果我们想把它变成一个真正的数组对象，该怎么做呢？</p>
+<p>下面就以 arguments 为例，总结几种类数组对象转换为数组对象的办法。</p>
+<h2 id="原始法"><a href="#原始法" class="headerlink" title="原始法"></a>原始法</h2><p>最简单粗暴的办法，莫过于把 arguments 对象遍历，再放到一个空数组对象里。如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">function listA() &#123;</div><div class="line">   let arr = [];</div><div class="line">   for(let i = 0, len = arguments.length; i &lt; len; i++) &#123;</div><div class="line">   arr.push(arguments[i]);</div><div class="line">   &#125;</div><div class="line">   return arr;</div><div class="line">&#125;</div><div class="line">function listB() &#123;</div><div class="line">   let arr = [];</div><div class="line">   for(let i = 0, len = arguments.length; i &lt; len; i++) &#123;</div><div class="line">   arr[i] = arguments[i]; //据说比上一种方式快</div><div class="line">   &#125;</div><div class="line">   return arr;</div><div class="line">&#125;</div><div class="line">function listC() &#123;</div><div class="line">   let arr = [];</div><div class="line">   //利用 ES6 的 for...of 遍历类数组对象</div><div class="line">   for(let item of arguments) &#123;</div><div class="line">   arr.push(item);</div><div class="line">   &#125;</div><div class="line">   return arr;</div><div class="line">&#125;</div><div class="line">listA(2, 6, 9, 3); //[2, 6, 9, 3]</div><div class="line">listB(2, 6, 9, 3); //[2, 6, 9, 3]</div><div class="line">listC(2, 6, 9, 3); //[2, 6, 9, 3]</div></pre></td></tr></table></figure>
+<h2 id="Array-prototype-slice-法"><a href="#Array-prototype-slice-法" class="headerlink" title="Array.prototype.slice() 法"></a>Array.prototype.slice() 法</h2><p><code>Array.prototype.slice()</code> 方法的常规用法，是将数组的一部分进行浅复制, 返回从开始到结束（不包括结束）选择的新数组对象。</p>
+<p>除了上面这种用法，<code>slice()</code> 方法也可用于将一个类数组（Array-like）对象/集合转换成一个数组。我们只需将该方法绑定到需要转换的对象上。如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function listA() &#123;</div><div class="line"> return Array.prototype.slice.call(arguments);    </div><div class="line">&#125;</div><div class="line">function listB() &#123;    </div><div class="line"> return Array.prototype.slice.apply(arguments);  </div><div class="line">&#125;</div><div class="line">listA(2, 6, 9, 3); //[2, 6, 9, 3]  </div><div class="line">listB(2, 6, 9, 3); //[2, 6, 9, 3]</div></pre></td></tr></table></figure>
+<p>或者你也可以用 <code>[].slice</code> 来代替冗长的 <code>Array.prototype.slice</code> ：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">function listC() &#123;</div><div class="line"> return [].slice.call(arguments);</div><div class="line">&#125;</div><div class="line">function listD() &#123;</div><div class="line"> return [].slice.apply(arguments);</div><div class="line">&#125;</div><div class="line">listC(2, 6, 9, 3); //[2, 6, 9, 3]</div><div class="line">listD(2, 6, 9, 3); //[2, 6, 9, 3]</div></pre></td></tr></table></figure>
+<h2 id="Function-prototype-apply-法"><a href="#Function-prototype-apply-法" class="headerlink" title="Function.prototype.apply() 法"></a>Function.prototype.apply() 法</h2><p><code>Function.prototype.apply()</code> 方法的作用，是在指定 this 值和参数（参数以数组或类数组对象的形式存在）的情况下调用某个函数。</p>
+<p>而 <code>Array()</code> 是一个构造函数，也就是 Function 对象的实例，所以它可以直接调用 <code>apply()</code> 方法，并利用该方法将类数组对象转换为数组对象。如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">function list() &#123;   </div><div class="line"> return Array.apply(null, arguments);    </div><div class="line"> //相当于将 arguments 对象的值一个一个传递给 Array 函数作为参数    </div><div class="line">&#125;    </div><div class="line">list(2, 6, 9, 3); //[2, 6, 9, 3]</div></pre></td></tr></table></figure>
+<h2 id="Array-from-法"><a href="#Array-from-法" class="headerlink" title="Array.from() 法"></a>Array.from() 法</h2><p>ES6 中新增了一个 <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Global_Objects/Array/from" target="_blank" rel="external"><code>Array.from()</code></a> 方法，用于将 <strong>类数组对象</strong> 和 <strong>可遍历（Iterable）对象</strong> 转换为真正的数组。也就是说，在 ES6 中，有 “正统” 的办法把类数组对象转换为真正的数组对象了。如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">function list() &#123;   </div><div class="line"> return Array.from(arguments);    </div><div class="line">&#125;    </div><div class="line">list(2, 6, 9, 3); //[2, 6, 9, 3]</div></pre></td></tr></table></figure>
+<h2 id="扩展运算符（…）法"><a href="#扩展运算符（…）法" class="headerlink" title="扩展运算符（…）法"></a>扩展运算符（…）法</h2><p>ES6 还新增了一种运算符， <a href="https://developer.mozilla.org/en-US/docs/Web/JavaScript/Reference/Operators/Spread_operator" target="_blank" rel="external">扩展运算符</a>，它用三个半角句号（<code>...</code>）来表示。</p>
+<p>扩展运算符可以将数组对象或类数组对象转换为用逗号分隔的参数序列。因此我们可以利用这一点来将类数组对象转换为真正的数组对象，如下所示：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div></pre></td><td class="code"><pre><div class="line">function listA() &#123;</div><div class="line"> return [...arguments]; //变为参数序列后直接放入数组字面量中    </div><div class="line">&#125;    </div><div class="line">function listB() &#123;   </div><div class="line"> return new Array(...arguments);   </div><div class="line"> //变为参数序列后传递给 Array() 构造函数  </div><div class="line">&#125;    </div><div class="line">function listC() &#123;  </div><div class="line"> return Array.call(null, ...arguments);   </div><div class="line"> //变为参数序列后利用 call() 方法传递给 Array() 构造函数   </div><div class="line">&#125;    </div><div class="line">listA(2, 6, 9, 3); //[2, 6, 9, 3]    </div><div class="line">listB(2, 6, 9, 3); //[2, 6, 9, 3]   </div><div class="line">listC(2, 6, 9, 3); //[2, 6, 9, 3]</div></pre></td></tr></table></figure>
       
     </div>
 
@@ -419,8 +419,6 @@
           
             <a href="/tags/基础知识/" rel="tag"># 基础知识</a>
           
-            <a href="/tags/ES6/" rel="tag"># ES6</a>
-          
         </div>
       
 
@@ -432,8 +430,8 @@
         <div class="post-nav">
           <div class="post-nav-next post-nav-item">
             
-              <a href="/2017/09/24/Vue学习笔记之生命周期钩子/" rel="next" title="Vue学习笔记之生命周期钩子">
-                <i class="fa fa-chevron-left"></i> Vue学习笔记之生命周期钩子
+              <a href="/2018/01/14/跨域通信/" rel="next" title="跨域通信">
+                <i class="fa fa-chevron-left"></i> 跨域通信
               </a>
             
           </div>
@@ -441,10 +439,6 @@
           <span class="post-nav-divider"></span>
 
           <div class="post-nav-prev post-nav-item">
-            
-              <a href="/2017/09/25/javascript之rest参数详解/" rel="prev" title="javascript之rest参数详解">
-                javascript之rest参数详解 <i class="fa fa-chevron-right"></i>
-              </a>
             
           </div>
         </div>
@@ -573,7 +567,7 @@
             
 
             
-              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#什么是arguments对象"><span class="nav-number">1.</span> <span class="nav-text">什么是arguments对象</span></a></li></ol></div>
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#原始法"><span class="nav-number">1.</span> <span class="nav-text">原始法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Array-prototype-slice-法"><span class="nav-number">2.</span> <span class="nav-text">Array.prototype.slice() 法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Function-prototype-apply-法"><span class="nav-number">3.</span> <span class="nav-text">Function.prototype.apply() 法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#Array-from-法"><span class="nav-number">4.</span> <span class="nav-text">Array.from() 法</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#扩展运算符（…）法"><span class="nav-number">5.</span> <span class="nav-text">扩展运算符（…）法</span></a></li></ol></div>
             
 
           </div>
