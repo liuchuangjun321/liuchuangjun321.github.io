@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://yoursite.com/2018/01/14/跨域通信/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
 <meta property="og:description" content="CORS服务器端对于CORS的支持，主要就是通过设置Access-Control-Allow-Origin来进行的。如果浏览器检测到相应的设置，就可以允许Ajax进行跨域的访问。 CORS的基本思想就是：使用自己定义的HTTP头部让浏览器与服务器进行沟通，从而决定请求或者响应是应该成功，还是应该失败。 比如一个简单的使用GET和POST发送的请求，它没有自己的头部信息，而主题内容是text/pla">
-<meta property="og:updated_time" content="2018-01-14T13:59:44.000Z">
+<meta property="og:updated_time" content="2018-01-15T14:28:52.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="跨域通信">
 <meta name="twitter:description" content="CORS服务器端对于CORS的支持，主要就是通过设置Access-Control-Allow-Origin来进行的。如果浏览器检测到相应的设置，就可以允许Ajax进行跨域的访问。 CORS的基本思想就是：使用自己定义的HTTP头部让浏览器与服务器进行沟通，从而决定请求或者响应是应该成功，还是应该失败。 比如一个简单的使用GET和POST发送的请求，它没有自己的头部信息，而主题内容是text/pla">
@@ -420,7 +420,7 @@
 <li>让iframe内的跨域页面，在设置了window.name之后，跳转到与iframe外页面同域的页面，这个过程是必须，否则通过$(‘iframe’).contentWindow.name访问会报跨域错误。</li>
 <li>实际操作中，我们一般使用一个隐藏的iframe，然后监听它第二次onload事件，就知道该iframe已经跳到同域页面了，然后使用$(‘iframe’).contentWindow.name即可。</li>
 </ul>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">&lt;body&gt;</div><div class="line">  &lt;script type=&quot;text/javascript&quot;&gt; </div><div class="line">    iframe = document.createElement(&apos;iframe&apos;);</div><div class="line">    iframe.style.display = &apos;none&apos;;</div><div class="line">    var state = 0;</div><div class="line">    </div><div class="line">    iframe.onload = function() &#123;</div><div class="line">      if(state === 1) &#123;</div><div class="line">          //第三步：获取数据</div><div class="line">          var data = JSON.parse(iframe.contentWindow.name);</div><div class="line">          console.log(data);</div><div class="line">          iframe.contentWindow.document.write(&apos;&apos;);</div><div class="line">          iframe.contentWindow.close();</div><div class="line">        document.body.removeChild(iframe);</div><div class="line">      &#125; else if(state === 0) &#123;</div><div class="line">          state = 1;</div><div class="line">          //第二步：修改iframe.src属性，再次触发load事件，此时 state == 1</div><div class="line">          iframe.contentWindow.location = &apos;http://localhost:81/cross-domain/proxy.html&apos;; </div><div class="line">      &#125;</div><div class="line">    &#125;;</div><div class="line">    //第一步：iframe.src为服务器地址，触发load事件；</div><div class="line">    iframe.src = &apos;http://localhost:8080/data.php&apos;;   //远端服务器地址</div><div class="line">    document.body.appendChild(iframe);</div><div class="line">  &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div></pre></td><td class="code"><pre><div class="line">&lt;body&gt;</div><div class="line">  &lt;script type=&quot;text/javascript&quot;&gt; </div><div class="line">    iframe = document.createElement(&apos;iframe&apos;);</div><div class="line">    iframe.style.display = &apos;none&apos;;</div><div class="line">    var state = 0;</div><div class="line">    </div><div class="line">    iframe.onload = function() &#123;</div><div class="line">      if(state === 1) &#123;</div><div class="line">          //第三步：获取数据</div><div class="line">          var data = JSON.parse(iframe.contentWindow.name);</div><div class="line">          console.log(data);    //获取成功</div><div class="line">      &#125; else if(state === 0) &#123;</div><div class="line">          state = 1;</div><div class="line">          //第二步：修改iframe.src属性，再次触发load事件，此时 state == 1</div><div class="line">          iframe.contentWindow.location = &apos;http://localhost:81/cross-domain/proxy.html&apos;; </div><div class="line">      &#125;</div><div class="line">    &#125;;</div><div class="line">    //第一步：iframe.src为服务器地址，触发load事件；</div><div class="line">    iframe.src = &apos;http://localhost:8080/data.php&apos;;   //远端服务器地址</div><div class="line">    document.body.appendChild(iframe);</div><div class="line">  &lt;/script&gt;</div><div class="line">&lt;/body&gt;</div></pre></td></tr></table></figure>
 <p><strong>能使用这种方式跨域，有几个条件必不可少：</strong></p>
 <ul>
 <li><strong>iframe标签的跨域能力</strong></li>
@@ -434,7 +434,7 @@
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">//http://www.example.com/a.html</div><div class="line">&lt;script&gt;</div><div class="line">	document.domain = &quot;example.com&quot;;</div><div class="line">	function onLoad()&#123;</div><div class="line">      var iframe = document.getElementById(&quot;iframe&quot;);</div><div class="line">      var win = iframe.contentWindow; </div><div class="line">      var doc = win.document; </div><div class="line">      var name = win.name; </div><div class="line">      // ... </div><div class="line">	&#125;</div><div class="line">&lt;script&gt;</div><div class="line">&lt;iframe id=&quot;iframe&quot; src=&quot;http://www.example.com/b.html&quot; onload=&quot;onLoad()&quot;&gt;</div></pre></td></tr></table></figure>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">//http://www.example.com/a.html</div><div class="line">&lt;script&gt;</div><div class="line">	document.domain = &quot;example.com&quot;;</div><div class="line">	window.name = &quot;想要跨域获取的值&quot;;</div><div class="line">&lt;script&gt;</div></pre></td></tr></table></figure>
 <p>这样我们就可以通过js访问到iframe中的各种属性和对象了。</p>
-<h3 id="使用HTML5中新引进的window-postMessage方法来跨域传送数据"><a href="#使用HTML5中新引进的window-postMessage方法来跨域传送数据" class="headerlink" title="使用HTML5中新引进的window.postMessage方法来跨域传送数据"></a><strong>使用HTML5中新引进的window.postMessage方法来跨域传送数据</strong></h3><p>跨文档消息传送（XDM），指的是在来自不同域的页面间传递消息。XDM的核心是<code>postMessage()</code>方法。向另一个地方传送消息，对于XDM而言，“另一个地方”指的是包含在当前页面中的<iframe>元素，或者由当前页面弹出的窗口。</iframe></p>
+<h3 id="使用HTML5中新引进的window-postMessage方法来跨域传送数据"><a href="#使用HTML5中新引进的window-postMessage方法来跨域传送数据" class="headerlink" title="使用HTML5中新引进的window.postMessage方法来跨域传送数据"></a><strong>使用HTML5中新引进的window.postMessage方法来跨域传送数据</strong></h3><p>跨文档消息传送（XDM），指的是在来自不同域的页面间传递消息。XDM的核心是<code>postMessage()</code>方法。向另一个地方传送消息，对于XDM而言，“另一个地方”指的是包含在当前页面中的<iframe>元素，或者由当前页面弹出的窗口，<strong>无论同源与否，均可以发送消息。</strong></iframe></p>
 <p><code>postMessage()</code>方法接收两个参数：一条消息和一个表达消息接收方来自哪个域的字符串。第二个参数至关重要，可以防止浏览器把消息发送到不安全的地方，举例子：</p>
 <figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">var iframeWindow = document.getElementById(&quot;myIframe&quot;).contentWindow;</div><div class="line">iframeWindow.postMessage(&quot;一条消息&quot;,&quot;http://www.bigfacechuang.com&quot;);</div></pre></td></tr></table></figure>
 <p>最后一行代码尝试向内嵌框架中发送一条消息，并指定框架中的文档必须来源于<code>&quot;http://www.bigfacechuang.com&quot;</code>域，如果匹配，消息会传送到内嵌框架中，否则的话，<code>postMessage()</code>什么也不做。如果<code>postMessage()</code>方法的第二个参数是<code>*</code>,则表示可以把消息传送到来自任何域的文档。</p>
@@ -592,7 +592,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">79</span>
+                <span class="site-state-item-count">81</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -603,7 +603,7 @@
             
             <div class="site-state-item site-state-categories">
               <a href="/categories/index.html">
-                <span class="site-state-item-count">8</span>
+                <span class="site-state-item-count">9</span>
                 <span class="site-state-item-name">分类</span>
               </a>
             </div>
@@ -614,7 +614,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tages/index.html">
-                <span class="site-state-item-count">18</span>
+                <span class="site-state-item-count">19</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>
