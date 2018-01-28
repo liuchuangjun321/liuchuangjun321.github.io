@@ -100,7 +100,7 @@
 <meta property="og:url" content="http://yoursite.com/2017/11/12/关于ES6中箭头函数中的this/index.html">
 <meta property="og:site_name" content="Big Chuang&#39;s WebSite">
 <meta property="og:description" content="今天码代码的时候遇到一个小问题 12345axios.post(&amp;apos;/address/addressNew&amp;apos;,param).then(function(result) &amp;#123;    console.log(result);    this.cancleAddress();    this.getAddressList();&amp;#125;) 看似没有问题，结果运行的时候报错了">
-<meta property="og:updated_time" content="2017-11-12T13:18:16.000Z">
+<meta property="og:updated_time" content="2018-01-18T05:35:29.000Z">
 <meta name="twitter:card" content="summary">
 <meta name="twitter:title" content="关于ES6中箭头函数中的this">
 <meta name="twitter:description" content="今天码代码的时候遇到一个小问题 12345axios.post(&amp;apos;/address/addressNew&amp;apos;,param).then(function(result) &amp;#123;    console.log(result);    this.cancleAddress();    this.getAddressList();&amp;#125;) 看似没有问题，结果运行的时候报错了">
@@ -382,20 +382,20 @@
 <li>何为定义时绑定</li>
 </ul>
 <p>(1)</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var x=11;</div><div class="line">var obj=&#123;</div><div class="line">  x:22,</div><div class="line">  say:function()&#123;</div><div class="line">    console.log(this.x)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">obj.say();</div><div class="line">//console.log输出的是22123456789</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var x=11;</div><div class="line">var obj=&#123;</div><div class="line">  x:22,</div><div class="line">  say:function()&#123;</div><div class="line">    console.log(this.x)</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line">obj.say();</div><div class="line">//console.log输出的是22</div></pre></td></tr></table></figure>
 <p>一般的定义函数跟我们的理解是一样的，运行的时候决定this的指向，我们可以知道当运行obj.say()时候，this指向的是obj这个对象。</p>
 <p>（2）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var x=11;</div><div class="line">var obj=&#123;</div><div class="line"> x:22,</div><div class="line"> say:()=&gt;&#123;</div><div class="line">   console.log(this.x);</div><div class="line"> &#125;</div><div class="line">&#125;</div><div class="line">obj.say();</div><div class="line">//输出的值为11123456789</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var x=11;</div><div class="line">var obj=&#123;</div><div class="line"> x:22,</div><div class="line"> say:()=&gt;&#123;</div><div class="line">   console.log(this.x);</div><div class="line"> &#125;</div><div class="line">&#125;</div><div class="line">obj.say();</div><div class="line">//输出的值为11</div></pre></td></tr></table></figure>
 <p>这样就非常奇怪了如果按照之前function定义应该输出的是22,而此时输出了11，那么如何解释ES6中箭头函数中的this是定义时的绑定呢？</p>
 <p>所谓的定义时候绑定，就是this是继承自父执行上下文！！中的this，比如这里的箭头函数中的this.x，箭头函数本身与say平级以key:value的形式，也就是箭头函数本身所在的对象为obj，而obj的父执行上下文就是window，因此这里的this.x实际上表示的是window.x，因此输出的是11。</p>
 <p>（3）</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var a=11</div><div class="line">function test1()&#123;</div><div class="line">  this.a=22;</div><div class="line">  let b=function()&#123;</div><div class="line">    console.log(this.a);</div><div class="line">  &#125;;</div><div class="line">  b();</div><div class="line">&#125;</div><div class="line">var x=new test1();</div><div class="line">输出1112345678910</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">var a=11</div><div class="line">function test1()&#123;</div><div class="line">  this.a=22;</div><div class="line">  let b=function()&#123;</div><div class="line">    console.log(this.a);</div><div class="line">  &#125;;</div><div class="line">  b();</div><div class="line">&#125;</div><div class="line">var x=new test1();</div><div class="line">输出11</div></pre></td></tr></table></figure>
 <p>箭头函数情况：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var a=11;</div><div class="line">function test2()&#123;</div><div class="line">  this.a=22;</div><div class="line">  let b=()=&gt;&#123;console.log(this.a)&#125;</div><div class="line">  b();</div><div class="line">&#125;</div><div class="line">var x=new test2();</div><div class="line">//输出2212345678</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var a=11;</div><div class="line">function test2()&#123;</div><div class="line">  this.a=22;</div><div class="line">  let b=()=&gt;&#123;console.log(this.a)&#125;</div><div class="line">  b();</div><div class="line">&#125;</div><div class="line">var x=new test2();</div><div class="line">//输出22</div></pre></td></tr></table></figure>
 <p>很奇怪对不对，我是这样理解的，ES6中定义的时候绑定this的具体含义，应该继承的是父执行上下文里面的this，切忌是父执行上下文！！！这样就很多箭头函数中的指向不明确就迎刃而解了。</p>
 <p>注意：简单对象（非函数）是没有执行上下文的！</p>
 <p>所以遇到的bug这样可解：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">axios.post(&apos;/address/addressNew&apos;,param).then(function(result) &#123;</div><div class="line">    console.log(result);</div><div class="line">    this.cancleAddress();</div><div class="line">    this.getAddressList();</div><div class="line">&#125;)</div><div class="line"></div><div class="line">//或者</div><div class="line">var _this = this;</div><div class="line">axios.post(&apos;/address/addressNew&apos;,param).then(function(result) &#123;</div><div class="line">    console.log(result);</div><div class="line">    _this.cancleAddress();</div><div class="line">    _this.getAddressList();</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div></pre></td><td class="code"><pre><div class="line">axios.post(&apos;/address/addressNew&apos;,param).then((result) =&gt; &#123;</div><div class="line">    console.log(result);</div><div class="line">    this.cancleAddress();</div><div class="line">    this.getAddressList();</div><div class="line">&#125;)</div><div class="line"></div><div class="line">//或者</div><div class="line">var _this = this;</div><div class="line">axios.post(&apos;/address/addressNew&apos;,param).then(function(result) &#123;</div><div class="line">    console.log(result);</div><div class="line">    _this.cancleAddress();</div><div class="line">    _this.getAddressList();</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
       
     </div>
 
@@ -514,7 +514,7 @@
           
             <div class="site-state-item site-state-posts">
               <a href="/archives/">
-                <span class="site-state-item-count">81</span>
+                <span class="site-state-item-count">85</span>
                 <span class="site-state-item-name">日志</span>
               </a>
             </div>
@@ -536,7 +536,7 @@
             
             <div class="site-state-item site-state-tags">
               <a href="/tages/index.html">
-                <span class="site-state-item-count">19</span>
+                <span class="site-state-item-count">20</span>
                 <span class="site-state-item-name">标签</span>
               </a>
             </div>

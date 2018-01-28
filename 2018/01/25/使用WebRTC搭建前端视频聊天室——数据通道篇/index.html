@@ -1,0 +1,803 @@
+<!doctype html>
+
+
+
+  
+
+
+<html class="theme-next pisces use-motion" lang="zh-Hans">
+<head>
+  <meta charset="UTF-8"/>
+<meta http-equiv="X-UA-Compatible" content="IE=edge" />
+<meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1"/>
+
+
+
+
+
+
+
+
+
+<meta http-equiv="Cache-Control" content="no-transform" />
+<meta http-equiv="Cache-Control" content="no-siteapp" />
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  
+  <link href="/lib/fancybox/source/jquery.fancybox.css?v=2.1.5" rel="stylesheet" type="text/css" />
+
+
+
+
+  
+  
+  
+  
+
+  
+    
+    
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+    
+    
+    <link href="//fonts.googleapis.com/css?family=Lato:300,300italic,400,400italic,700,700italic&subset=latin,latin-ext" rel="stylesheet" type="text/css">
+  
+
+
+
+
+
+
+<link href="/lib/font-awesome/css/font-awesome.min.css?v=4.6.2" rel="stylesheet" type="text/css" />
+
+<link href="/css/main.css?v=5.1.1" rel="stylesheet" type="text/css" />
+
+
+  <meta name="keywords" content="WebRTC," />
+
+
+
+
+
+
+
+
+  <link rel="shortcut icon" type="image/x-icon" href="/favicon.ico?v=5.1.1" />
+
+
+
+
+
+
+<meta name="description" content="本文翻译自WebRTC data channels 在两个浏览器中，为聊天、游戏、或是文件传输等需求发送信息是十分复杂的。通常情况下，我们需要建立一台服务器来转发数据，当然规模比较大的情况下，会扩展成多个数据中心。这种情况下很容易出现很高的延迟，同时难以保证数据的私密性。 这些问题可以通过WebRTC提供的RTCDataChannel API来解决，他能直接在点对点之间传输数据。这篇文章将介绍如何">
+<meta name="keywords" content="WebRTC">
+<meta property="og:type" content="article">
+<meta property="og:title" content="使用WebRTC搭建前端视频聊天室——数据通道篇">
+<meta property="og:url" content="http://yoursite.com/2018/01/25/使用WebRTC搭建前端视频聊天室——数据通道篇/index.html">
+<meta property="og:site_name" content="Big Chuang&#39;s WebSite">
+<meta property="og:description" content="本文翻译自WebRTC data channels 在两个浏览器中，为聊天、游戏、或是文件传输等需求发送信息是十分复杂的。通常情况下，我们需要建立一台服务器来转发数据，当然规模比较大的情况下，会扩展成多个数据中心。这种情况下很容易出现很高的延迟，同时难以保证数据的私密性。 这些问题可以通过WebRTC提供的RTCDataChannel API来解决，他能直接在点对点之间传输数据。这篇文章将介绍如何">
+<meta property="og:updated_time" content="2018-01-25T09:56:55.000Z">
+<meta name="twitter:card" content="summary">
+<meta name="twitter:title" content="使用WebRTC搭建前端视频聊天室——数据通道篇">
+<meta name="twitter:description" content="本文翻译自WebRTC data channels 在两个浏览器中，为聊天、游戏、或是文件传输等需求发送信息是十分复杂的。通常情况下，我们需要建立一台服务器来转发数据，当然规模比较大的情况下，会扩展成多个数据中心。这种情况下很容易出现很高的延迟，同时难以保证数据的私密性。 这些问题可以通过WebRTC提供的RTCDataChannel API来解决，他能直接在点对点之间传输数据。这篇文章将介绍如何">
+
+
+
+<script type="text/javascript" id="hexo.configurations">
+  var NexT = window.NexT || {};
+  var CONFIG = {
+    root: '/',
+    scheme: 'Pisces',
+    sidebar: {"position":"left","display":"post","offset":12,"offset_float":0,"b2t":false,"scrollpercent":false},
+    fancybox: true,
+    motion: true,
+    duoshuo: {
+      userId: '0',
+      author: '博主'
+    },
+    algolia: {
+      applicationID: '',
+      apiKey: '',
+      indexName: '',
+      hits: {"per_page":10},
+      labels: {"input_placeholder":"Search for Posts","hits_empty":"We didn't find any results for the search: ${query}","hits_stats":"${hits} results found in ${time} ms"}
+    }
+  };
+</script>
+
+
+
+  <link rel="canonical" href="http://yoursite.com/2018/01/25/使用WebRTC搭建前端视频聊天室——数据通道篇/"/>
+
+
+
+
+
+  <title>使用WebRTC搭建前端视频聊天室——数据通道篇 | Big Chuang's WebSite</title>
+  
+
+
+
+
+
+  <script type="text/javascript">
+    var _hmt = _hmt || [];
+    (function() {
+      var hm = document.createElement("script");
+      hm.src = "https://hm.baidu.com/hm.js?12cfbab09f3fcdee181cf994706182d5";
+      var s = document.getElementsByTagName("script")[0];
+      s.parentNode.insertBefore(hm, s);
+    })();
+  </script>
+
+
+
+
+
+
+
+
+
+
+</head>
+
+<body itemscope itemtype="http://schema.org/WebPage" lang="zh-Hans">
+
+  
+  
+    
+  
+
+  <div class="container sidebar-position-left page-post-detail ">
+    <div class="headband"></div>
+
+    <header id="header" class="header" itemscope itemtype="http://schema.org/WPHeader">
+      <div class="header-inner"><div class="site-brand-wrapper">
+  <div class="site-meta ">
+    
+
+    <div class="custom-logo-site-title">
+      <a href="/"  class="brand" rel="start">
+        <span class="logo-line-before"><i></i></span>
+        <span class="site-title">Big Chuang's WebSite</span>
+        <span class="logo-line-after"><i></i></span>
+      </a>
+    </div>
+      
+        <p class="site-subtitle"></p>
+      
+  </div>
+
+  <div class="site-nav-toggle">
+    <button>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+      <span class="btn-bar"></span>
+    </button>
+  </div>
+</div>
+
+<nav class="site-nav">
+  
+
+  
+    <ul id="menu" class="menu">
+      
+        
+        <li class="menu-item menu-item-home">
+          <a href="/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-home"></i> <br />
+            
+            首页
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-categories">
+          <a href="/categories/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-th"></i> <br />
+            
+            分类
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-about">
+          <a href="/about/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-user"></i> <br />
+            
+            关于
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-archives">
+          <a href="/archives/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-archive"></i> <br />
+            
+            归档
+          </a>
+        </li>
+      
+        
+        <li class="menu-item menu-item-tags">
+          <a href="/tags/" rel="section">
+            
+              <i class="menu-item-icon fa fa-fw fa-tags"></i> <br />
+            
+            标签
+          </a>
+        </li>
+      
+
+      
+    </ul>
+  
+
+  
+</nav>
+
+
+
+ </div>
+    </header>
+
+    <main id="main" class="main">
+      <div class="main-inner">
+        <div class="content-wrap">
+          <div id="content" class="content">
+            
+
+  <div id="posts" class="posts-expand">
+    
+
+  
+
+  
+  
+  
+
+  <article class="post post-type-normal " itemscope itemtype="http://schema.org/Article">
+    <link itemprop="mainEntityOfPage" href="http://yoursite.com/2018/01/25/使用WebRTC搭建前端视频聊天室——数据通道篇/">
+
+    <span hidden itemprop="author" itemscope itemtype="http://schema.org/Person">
+      <meta itemprop="name" content="大闯仔儿">
+      <meta itemprop="description" content="">
+      <meta itemprop="image" content="/images/IMG_2036.JPG">
+    </span>
+
+    <span hidden itemprop="publisher" itemscope itemtype="http://schema.org/Organization">
+      <meta itemprop="name" content="Big Chuang's WebSite">
+    </span>
+
+    
+      <header class="post-header">
+
+        
+        
+          <h1 class="post-title" itemprop="name headline">使用WebRTC搭建前端视频聊天室——数据通道篇</h1>
+        
+
+        <div class="post-meta">
+          <span class="post-time">
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-calendar-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">发表于</span>
+              
+              <time title="创建于" itemprop="dateCreated datePublished" datetime="2018-01-25T15:34:26+08:00">
+                2018-01-25
+              </time>
+            
+
+            
+
+            
+          </span>
+
+          
+            <span class="post-category" >
+            
+              <span class="post-meta-divider">|</span>
+            
+              <span class="post-meta-item-icon">
+                <i class="fa fa-folder-o"></i>
+              </span>
+              
+                <span class="post-meta-item-text">分类于</span>
+              
+              
+                <span itemprop="about" itemscope itemtype="http://schema.org/Thing">
+                  <a href="/categories/毕业设计之即时通信子系统/" itemprop="url" rel="index">
+                    <span itemprop="name">毕业设计之即时通信子系统</span>
+                  </a>
+                </span>
+
+                
+                
+              
+            </span>
+          
+
+          
+            
+          
+
+          
+          
+
+          
+
+          
+
+          
+
+        </div>
+      </header>
+    
+
+    <div class="post-body" itemprop="articleBody">
+
+      
+      
+
+      
+        <p>本文翻译自<a href="http://www.html5rocks.com/en/tutorials/webrtc/datachannels/" target="_blank" rel="external">WebRTC data channels</a></p>
+<p>在两个浏览器中，为聊天、游戏、或是文件传输等需求发送信息是十分复杂的。通常情况下，我们需要建立一台服务器来转发数据，当然规模比较大的情况下，会扩展成多个数据中心。这种情况下很容易出现很高的延迟，同时难以保证数据的私密性。</p>
+<p>这些问题可以通过WebRTC提供的RTCDataChannel API来解决，他能直接在点对点之间传输数据。这篇文章将介绍如何创建并使用数据通道，并提供了一些网络上常见的用例</p>
+<blockquote>
+<p>为了充分理解这篇文章，你可能需要去了解一些RTCPeerConnection API的相关知识，以及STUN，TURN、信道如何工作。强烈推荐<a href="http://www.html5rocks.com/en/tutorials/webrtc/basics/" target="_blank" rel="external">Getting Started With WebRTC</a>这篇文章</p>
+</blockquote>
+<h2 id="为什么我们需要另外一个数据通道"><a href="#为什么我们需要另外一个数据通道" class="headerlink" title="为什么我们需要另外一个数据通道"></a>为什么我们需要另外一个数据通道</h2><p>我们已经有<a href="http://www.html5rocks.com/en/tutorials/websockets/basics/" target="_blank" rel="external">WebSocket</a>、<a href="http://www.html5rocks.com/en/tutorials/file/xhr2/" target="_blank" rel="external">AJAX</a>和<a href="http://www.html5rocks.com/en/tutorials/eventsource/basics/" target="_blank" rel="external">服务器发送事件</a>了，为什么我们需要另外一个通信信道？WebSocket是全双工的，但这些技术的设计都是让浏览器与服务器之间进行通信。</p>
+<p>RTCDataChannel则是一个完全不同的途径：<br>* 它通过RTCPeerConnection API，可以建立点对点互联。由于不需要中介服务器，中间的“跳数”减少，延迟更低。<br>* RTCDataChannel使用<a href="https://en.wikipedia.org/wiki/Stream_Control_Transmission_Protocol#Features" target="_blank" rel="external">Stream Control Transmission Protocol</a>(SCTP)协议，允许我们配置传递语义：我们可以配置包传输的顺序并提供重传时的一些配置。</p>
+<p>基于SCTP的支持的RTCDataChannel已经能够在桌面的Chrome、Opera和Firefox中使用，移动端则有Android支持。</p>
+<h2 id="一个警告：信令、STUN和TURN"><a href="#一个警告：信令、STUN和TURN" class="headerlink" title="一个警告：信令、STUN和TURN"></a>一个警告：信令、STUN和TURN</h2><p>尽管WebRTC允许点对点的通信，但它依然需要服务器：<br>* 信令传输：建立点对点的连接需要传输一些媒体和网络相关的元数据信息，需要通过服务器<br>* NAT和防火墙穿透：我们需要通过ICE框架来建立点与点之间的网络路径。可以使用STUN服务器（确定双方的可公开访问你的IP地址和端口）以及TURN服务器（如果直接连接失败，就必须数据中继了）</p>
+<p><a href="http://www.html5rocks.com/en/tutorials/webrtc/infrastructure/" target="_blank" rel="external">WebRTC in the real world: STUN, TURN, and signaling</a> 文章详细介绍了WebRTC如何与这两种服务器进行交互</p>
+<h3 id="功能"><a href="#功能" class="headerlink" title="功能"></a>功能</h3><p>RTCDataChannel API支持灵活的数据类型。它的API是模仿WebSocket设计的，并且支持JavaScript中的二进制类型如Blob、ArrayBuffer和ArrayBufferView，另外还支持字符串。这些类型对于文件传输和多玩家的游戏来说意义重大。</p>
+<p>RTCDataChannel在不可靠模式（类似于UDP）或可靠模式（类似于TCP）下都能够正常工作。但这两种模式有一些不同：<br>* 可靠模式：保证消息传输一定成功，并保证按序到达。这自然需要一定量的开销，速度也更慢<br>* 不可靠模式：不保证消息传输一定成功，也不保证按序到达。这消除了那些开销，速度也更快</p>
+<p>在不会丢包的情况下，这两种模式的效率差不多。然而，可靠模式下，丢包将造成后续的所有包阻塞，丢失的数据包也将重传直至其成功到达。当然，我们能在同一个应用中使用多个数据通道，每一个有他们自己的可靠性</p>
+<p>下面将说明如何去配置可靠模式或不可靠模式的RTCDataChannel</p>
+<h3 id="配置数据通道"><a href="#配置数据通道" class="headerlink" title="配置数据通道"></a>配置数据通道</h3><p>网上已经有很多RTCDataChannel的例子了：</p>
+<ul>
+<li><a href="http://simpl.info/dc" target="_blank" rel="external">simpl.info/dc</a></li>
+<li><a href="http://googlechrome.github.io/webrtc/dc1.html" target="_blank" rel="external">googlechrome.github.io/webrtc/dc1.html</a>(SCTP或者RTP)</li>
+<li><a href="http://pubnub.github.io/webrtc" target="_blank" rel="external">pubnub.github.io/webrtc</a>(两个PubNub用户)</li>
+</ul>
+<p>ps：PubBub是一个实时信息通讯应用开发公司</p>
+<p>在这个例子中，浏览器创建了一个对等连接连接到自己。然后在这个对等连接n上创建了一个数据通道，发送了一些消息。最后，消息成功抵达并显示在页面上。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">var peerConnection = new RTCPeerConnection();</div><div class="line"></div><div class="line">//使用信令传输信道创建对等连接</div><div class="line">var dataChannel =</div><div class="line">  peerConnection.createDataChannel(&quot;myLabel&quot;, dataChannelOptions);</div><div class="line"></div><div class="line">dataChannel.onerror = function (error) &#123;</div><div class="line">  console.log(&quot;Data Channel Error:&quot;, error);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">dataChannel.onmessage = function (event) &#123;</div><div class="line">  console.log(&quot;Got Data Channel Message:&quot;, event.data);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">dataChannel.onopen = function () &#123;</div><div class="line">  dataChannel.send(&quot;Hello World!&quot;);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">dataChannel.onclose = function () &#123;</div><div class="line">  console.log(&quot;The Data Channel is Closed&quot;);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p><code>dataChannel</code>对象建立在一个已经创建完毕的对等连接之上。它可以创建在信令传输前后。另外，可以赋予一个label来作区分，并提供一系列的配置选项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var dataChannelOptions = &#123;</div><div class="line">  ordered: false, //不保证到达顺序</div><div class="line">  maxRetransmitTime: 3000, //最大重传时间</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>我们可以加入一个<code>maxRetransimits</code>选项（最大重传次数），但<code>maxRetransimitTime</code>或<code>maxRetransimits</code>只能设定一个，不能两个懂事设定。如果想使用UDP的方式，设定<code>maxRetransmits</code>为0，<code>ordered</code>为<code>false</code>。如果想要获取更多信息，请查看<a href="http://tools.ietf.org/html/rfc4960" target="_blank" rel="external">RFC 4960</a>（SCTP）和<a href="http://tools.ietf.org/html/rfc3758" target="_blank" rel="external">RFC 3758</a>（SCTP部分可靠性）<br>* ordered: 数据通道是否保证按序传输数据<br>* maxRetrasmitTime：在信息失败前的最大重传时间（强迫进入不可靠模式）<br>* maxRetransmits：在信息失败前的最大重传次数（强迫进入不可靠模式）<br>* protocol：允许使用一个自协议，但如果协议不支持，将会失败<br>* negotiated：如果设为true，将一处对方的数据通道的自动设置，也就是说，将使用相同的id以自己配置的方式与对方建立数据通道<br>* id：为数据通道提供一个自己定义的ID</p>
+<h3 id="它安全吗？"><a href="#它安全吗？" class="headerlink" title="它安全吗？"></a>它安全吗？</h3><p>在WebRTC所有的组件中，都会强制进行加密。在RTCDataChannel中，所有的数据都使用<a href="https://en.wikipedia.org/wiki/Datagram_Transport_Layer_Security" target="_blank" rel="external">数据报传输层安全性</a>（DTLS）。DTLS是SSL的衍生，也就是说，你的数据将和使用基于SSL的连接一样安全。DTLS已经被标准化，并内置于所有支持WebRTC的浏览器中。如果需要更多关于DTLS信息，请访问<a href="http://wiki.wireshark.org/DTLS" target="_blank" rel="external">Wireshark的维基</a></p>
+<h3 id="改变你考虑数据的方式"><a href="#改变你考虑数据的方式" class="headerlink" title="改变你考虑数据的方式"></a>改变你考虑数据的方式</h3><p>处理大批量的数据，一直是JavaScript的一个难点。正如<a href="http://www.sharefest.me/" target="_blank" rel="external">Sharefest</a>所提出的观点，我们需要用一种新的方式来考虑数据。如果你需要传输一个比你当前可用内存更大的文件，就必须考虑新的保存信息的方式了。这也就是像<a href="http://www.html5rocks.com/en/tutorials/file/filesystem/" target="_blank" rel="external">FileSystem API</a>等技术存在的意义。我们将在下面进行介绍</p>
+<h3 id="搭建一个文件共享应用"><a href="#搭建一个文件共享应用" class="headerlink" title="搭建一个文件共享应用"></a>搭建一个文件共享应用</h3><p>现在我们可以通过RTCDataChannel来创建文件共享应用。将应用建立在RTCDataChannel智商也意味着传输的文件数据都将加密，而且不会经过应用的服务器端。通过这个功能，我们能够实现多用户之间的互联，进行文件共享。</p>
+<p>需要成功传输一个文件，我们需要如下几步：<br>\1. <a href="http://www.html5rocks.com/en/tutorials/file/dndfiles/" target="_blank" rel="external">通过JavaScript的File API读取文件数据</a><br>\2. 使用RTCPeerConnection在用户间创建一个对等连接<br>\3. 使用RTCDataChannel在用户间创建一个数据通道</p>
+<p>在使用RTCDataChannel时，还有一些其他问题需要考虑：</p>
+<ul>
+<li><strong>文件大小</strong>：如果文件很小，能够直接通过一个Blob进行存储和读取，那么我们可以直接使用File API将其读进内存，并通过可靠的数据通道发送（但是需要注意的是，浏览器有最大传输大小的限制）。随着文件变大的话，就不那么简单了。我们需要一个分块机制：文件将分成多个碎片，称为文件块。我们不再直接发送整个文件，而是一次发送一个文件块。当然文件块上会有一些元数据如块的ID，方便对方能够识别。接收到文件块之后，首先将这些文件块保存在离线存储中（例如，使用FileSystem API），只有当所有块都接收完毕，才将其拼合起来成为完整的文件，保存到用户的硬盘。</li>
+<li><strong>速度</strong>：文件传输更适合使用可靠模式（像TCP）还是非可靠模式（像UDP）还有待商榷。如果应用知识简单的一对一文件传输，使用不可靠的数据通道将需要设计一定的响应/重传协议。你必须自己来实现它，就算你非常优秀，它仍然不会比使用可靠的数据传输快多少。可靠而无序的数据通道将会更加合适，但是如果是多方文件传输，结果可能会有所不同。</li>
+<li><strong>块大小</strong>：这些是你的应用中的最小的“原子”数据。目前有传输大小限制（尽管以后可能不会有限制），所以必须要进行分块。目前建议的最大块大小为16KB。</li>
+</ul>
+<p>如果文件已经被完全传输，就可以使用一个a标签提供下载了：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">function saveFile(blob) &#123;</div><div class="line">  var link = document.createElement(&apos;a&apos;);</div><div class="line">  link.href = window.URL.createObjectURL(blob);</div><div class="line">  link.download = &apos;File Name&apos;;</div><div class="line">  link.click();</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>目前已经有两个文件共享的应用使用了这种方式：<a href="http://pubnub.github.io/rtc-pubnub-fileshare/" target="_blank" rel="external">pubnub.github.io/rtc-pubnub-fileshare</a>和<a href="https://github.com/Peer5/ShareFest" target="_blank" rel="external">github.com/Peer5/ShareFest</a>，这两个应用都是开源的，并提供了基于RTCDataChannel的文件共享</p>
+<h3 id="那么我们能做什么？"><a href="#那么我们能做什么？" class="headerlink" title="那么我们能做什么？"></a>那么我们能做什么？</h3><p>RTCDataChannel为文件共享、多人游戏以及内容交付应用提供了全新的实现思路：<br>* 上面已经提到了点对点的文件传输了<br>* 多人游戏，与诸如WebGL等其他技术相结合，比如Mozilla的<a href="https://hacks.mozilla.org/2013/03/webrtc-data-channels-for-great-multiplayer/" target="_blank" rel="external">Banana Bread</a><br>* 内容交付：由<a href="https://peercdn.com/" target="_blank" rel="external">PeerCDN</a>重新改造的一个用于提供点对点通信提供资源的框架</p>
+<h3 id="改变你构建应用的方式"><a href="#改变你构建应用的方式" class="headerlink" title="改变你构建应用的方式"></a>改变你构建应用的方式</h3><p>现在我们可使用高新能、低延迟的RTCDataChannel来创建更优秀的应用了。一些框架，诸如<a href="http://peerjs.com/" target="_blank" rel="external">PeerJS</a>和<a href="https://github.com/pubnub/webrtc" target="_blank" rel="external">PubNub WebRTC SDK</a>，使得RTCDataChannel更加易于使用，其API也被各个平台所支持</p>
+<p>RTCDataChannel所带来的优势能够改变你在浏览器中传输数据的观念。</p>
+<h3 id="更多资讯"><a href="#更多资讯" class="headerlink" title="更多资讯"></a>更多资讯</h3><ul>
+<li><a href="http://www.html5rocks.com/en/tutorials/webrtc/basics/" target="_blank" rel="external">Getting started with WebRTC</a></li>
+<li><a href="http://www.html5rocks.com/en/tutorials/webrtc/infrastructure/" target="_blank" rel="external">WebRTC in the real world: STUN, TURN and signaling</a></li>
+<li><a href="http://bit.ly/webrtcwebaudio" target="_blank" rel="external">WebRTC resources</a></li>
+<li><a href="http://www.w3.org/TR/webrtc/#peer-to-peer-data-api" target="_blank" rel="external">W3C Working Draft</a></li>
+<li><a href="http://tools.ietf.org/html/draft-jesup-rtcweb-data-protocol-04" target="_blank" rel="external">IETF WebRTC Data Channel Protocol Draft</a></li>
+<li><a href="http://bloggeek.me/send-file-webrtc-data-api/" target="_blank" rel="external">How to send a File Using WebRTC Data API</a></li>
+<li><a href="http://bloggeek.me/webrtc-data-channel-uses/" target="_blank" rel="external">7 Creative Uses of WebRTC’s Data Channel</a></li>
+<li><a href="https://developer.mozilla.org/en/demos/detail/bananabread" target="_blank" rel="external">Banana Bread</a> 3D first person shooter game compiled to JS+WebGL, using WebRTC data channels in multiplayer mode</li>
+</ul>
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <div>
+      
+        
+
+      
+    </div>
+
+    <footer class="post-footer">
+      
+        <div class="post-tags">
+          
+            <a href="/tags/WebRTC/" rel="tag"># WebRTC</a>
+          
+        </div>
+      
+
+      
+      
+      
+
+      
+        <div class="post-nav">
+          <div class="post-nav-next post-nav-item">
+            
+              <a href="/2018/01/25/使用WebRTC搭建前端视频聊天室——入门篇/" rel="next" title="使用WebRTC搭建前端视频聊天室——入门篇">
+                <i class="fa fa-chevron-left"></i> 使用WebRTC搭建前端视频聊天室——入门篇
+              </a>
+            
+          </div>
+
+          <span class="post-nav-divider"></span>
+
+          <div class="post-nav-prev post-nav-item">
+            
+              <a href="/2018/01/28/Object对象的属性遍历/" rel="prev" title="Object对象的属性遍历">
+                Object对象的属性遍历 <i class="fa fa-chevron-right"></i>
+              </a>
+            
+          </div>
+        </div>
+      
+
+      
+      
+    </footer>
+  </article>
+
+
+
+    <div class="post-spread">
+      
+    </div>
+  </div>
+
+
+          </div>
+          
+
+
+          
+  <div class="comments" id="comments">
+    
+  </div>
+
+
+        </div>
+        
+          
+  
+  <div class="sidebar-toggle">
+    <div class="sidebar-toggle-line-wrap">
+      <span class="sidebar-toggle-line sidebar-toggle-line-first"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-middle"></span>
+      <span class="sidebar-toggle-line sidebar-toggle-line-last"></span>
+    </div>
+  </div>
+
+  <aside id="sidebar" class="sidebar">
+    <div class="sidebar-inner">
+
+      
+
+      
+        <ul class="sidebar-nav motion-element">
+          <li class="sidebar-nav-toc sidebar-nav-active" data-target="post-toc-wrap" >
+            文章目录
+          </li>
+          <li class="sidebar-nav-overview" data-target="site-overview">
+            站点概览
+          </li>
+        </ul>
+      
+
+      <section class="site-overview sidebar-panel">
+        <div class="site-author motion-element" itemprop="author" itemscope itemtype="http://schema.org/Person">
+          <img class="site-author-image" itemprop="image"
+               src="/images/IMG_2036.JPG"
+               alt="大闯仔儿" />
+          <p class="site-author-name" itemprop="name">大闯仔儿</p>
+           
+              <p class="site-description motion-element" itemprop="description">世界那么大，谁不想去看看！</p>
+          
+        </div>
+        <nav class="site-state motion-element">
+
+          
+            <div class="site-state-item site-state-posts">
+              <a href="/archives/">
+                <span class="site-state-item-count">85</span>
+                <span class="site-state-item-name">日志</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-categories">
+              <a href="/categories/index.html">
+                <span class="site-state-item-count">9</span>
+                <span class="site-state-item-name">分类</span>
+              </a>
+            </div>
+          
+
+          
+            
+            
+            <div class="site-state-item site-state-tags">
+              <a href="/tages/index.html">
+                <span class="site-state-item-count">20</span>
+                <span class="site-state-item-name">标签</span>
+              </a>
+            </div>
+          
+
+        </nav>
+
+        
+
+        <div class="links-of-author motion-element">
+          
+        </div>
+
+        
+        
+
+        
+        
+
+        
+
+
+      </section>
+
+      
+      <!--noindex-->
+        <section class="post-toc-wrap motion-element sidebar-panel sidebar-panel-active">
+          <div class="post-toc">
+
+            
+              
+            
+
+            
+              <div class="post-toc-content"><ol class="nav"><li class="nav-item nav-level-2"><a class="nav-link" href="#为什么我们需要另外一个数据通道"><span class="nav-number">1.</span> <span class="nav-text">为什么我们需要另外一个数据通道</span></a></li><li class="nav-item nav-level-2"><a class="nav-link" href="#一个警告：信令、STUN和TURN"><span class="nav-number">2.</span> <span class="nav-text">一个警告：信令、STUN和TURN</span></a><ol class="nav-child"><li class="nav-item nav-level-3"><a class="nav-link" href="#功能"><span class="nav-number">2.1.</span> <span class="nav-text">功能</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#配置数据通道"><span class="nav-number">2.2.</span> <span class="nav-text">配置数据通道</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#它安全吗？"><span class="nav-number">2.3.</span> <span class="nav-text">它安全吗？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改变你考虑数据的方式"><span class="nav-number">2.4.</span> <span class="nav-text">改变你考虑数据的方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#搭建一个文件共享应用"><span class="nav-number">2.5.</span> <span class="nav-text">搭建一个文件共享应用</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#那么我们能做什么？"><span class="nav-number">2.6.</span> <span class="nav-text">那么我们能做什么？</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#改变你构建应用的方式"><span class="nav-number">2.7.</span> <span class="nav-text">改变你构建应用的方式</span></a></li><li class="nav-item nav-level-3"><a class="nav-link" href="#更多资讯"><span class="nav-number">2.8.</span> <span class="nav-text">更多资讯</span></a></li></ol></li></ol></div>
+            
+
+          </div>
+        </section>
+      <!--/noindex-->
+      
+
+      
+
+    </div>
+  </aside>
+
+
+        
+      </div>
+    </main>
+
+    <footer id="footer" class="footer">
+      <div class="footer-inner">
+        <div class="copyright" >
+  
+  &copy; 
+  <span itemprop="copyrightYear">2018</span>
+  <span class="with-love">
+    <i class="fa fa-heart"></i>
+  </span>
+  <span class="author" itemprop="copyrightHolder">大闯仔儿</span>
+</div>
+
+
+
+<div class="theme-info">
+  主题 -
+  <a class="theme-link" href="https://github.com/iissnan/hexo-theme-next">
+    NexT.Pisces
+  </a>
+</div>
+
+
+        
+
+        
+      </div>
+    </footer>
+
+    
+      <div class="back-to-top">
+        <i class="fa fa-arrow-up"></i>
+        
+      </div>
+    
+
+  </div>
+
+  
+
+<script type="text/javascript">
+  if (Object.prototype.toString.call(window.Promise) !== '[object Function]') {
+    window.Promise = null;
+  }
+</script>
+
+
+
+
+
+
+
+
+
+  
+
+
+
+
+
+
+
+
+
+
+
+
+  
+  <script type="text/javascript" src="/lib/jquery/index.js?v=2.1.3"></script>
+
+  
+  <script type="text/javascript" src="/lib/fastclick/lib/fastclick.min.js?v=1.0.6"></script>
+
+  
+  <script type="text/javascript" src="/lib/jquery_lazyload/jquery.lazyload.js?v=1.9.7"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/velocity/velocity.ui.min.js?v=1.2.1"></script>
+
+  
+  <script type="text/javascript" src="/lib/fancybox/source/jquery.fancybox.pack.js?v=2.1.5"></script>
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/utils.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/motion.js?v=5.1.1"></script>
+
+
+
+  
+  
+
+
+  <script type="text/javascript" src="/js/src/affix.js?v=5.1.1"></script>
+
+  <script type="text/javascript" src="/js/src/schemes/pisces.js?v=5.1.1"></script>
+
+
+
+  
+  <script type="text/javascript" src="/js/src/scrollspy.js?v=5.1.1"></script>
+<script type="text/javascript" src="/js/src/post-details.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  <script type="text/javascript" src="/js/src/bootstrap.js?v=5.1.1"></script>
+
+
+
+  
+
+
+  
+
+
+
+
+	
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+
+
+
+
+
+  
+
+
+
+
+
+  
+
+  
+
+  
+
+  
+
+  
+
+  
+
+</body>
+</html>
+<!-- 背景动画 -->
+<script type="text/javascript" src="/js/src/particle.js"></script>
+<!-- 页面点击小红心 -->
+<script type="text/javascript" src="/js/src/love.js"></script>
+
