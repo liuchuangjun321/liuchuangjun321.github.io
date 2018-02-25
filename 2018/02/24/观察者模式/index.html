@@ -18,11 +18,11 @@
     <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
     <title>
         
-        mongoos操作schema时默认集合名添加s以及解决｜undefined
+        观察者模式｜undefined
         
     </title>
 
-    <link rel="canonical" href="http://yoursite.com/2017/10/15/mongoos操作schema时默认集合名添加s以及解决/">
+    <link rel="canonical" href="http://yoursite.com/2018/02/24/观察者模式/">
 
     <!-- Bootstrap Core CSS -->
     <link rel="stylesheet" href="/css/bootstrap.min.css">
@@ -163,21 +163,18 @@
         <div class="row">
             <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
                 <div class="post-heading">
-                    <h1>mongoos操作schema时默认集合名添加s以及解决</h1>
+                    <h1>观察者模式</h1>
                     
                     <span class="meta">
                          作者 大闯仔儿
                         <span>
-                          日期 2017-10-15
+                          日期 2018-02-24
                          </span>
                     </span>
                     <div class="tags text-center">
                         
-                        <a class="tag" href="/tags/#MongoDB"
-                           title="MongoDB">MongoDB</a>
-                        
-                        <a class="tag" href="/tags/#Question"
-                           title="Question">Question</a>
+                        <a class="tag" href="/tags/#基础知识、设计模式"
+                           title="基础知识、设计模式">基础知识、设计模式</a>
                         
                     </div>
                 </div>
@@ -186,7 +183,7 @@
     </div>
     <div class="post-title-haojen">
         <span>
-            mongoos操作schema时默认集合名添加s以及解决
+            观察者模式
         </span>
     </div>
 </header>
@@ -197,28 +194,26 @@
         <div class="row">
             <!-- Post Container -->
             <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
-                <p>今天在操作<code>Mongoose</code>时，编写一个<code>schema</code>，结果查询出的结果数据的长度是0，很郁闷，编写的<code>schmea</code>代码如下：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">var mongoose = require(&apos;mongoose&apos;);</div><div class="line">var Schema = mongoose.Schema;</div><div class="line">var PageSchema = new Schema(&#123;</div><div class="line">    name: &#123; type: String, default: &apos;&apos; &#125;,</div><div class="line">    id: &#123; type: Number&#125;,</div><div class="line">    pageno: &#123; type: String, default: &apos;1&apos; &#125;,</div><div class="line">    modelType:&#123;type:String&#125;</div><div class="line">&#125;);</div><div class="line">exports.Page= mongoose.model(&apos;Page&apos;,PageSchema);</div></pre></td></tr></table></figure>
-<p>连接数据库：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var mongoose = require(&apos;mongoose&apos;);</div><div class="line"></div><div class="line">mongoose.connect(&apos;mongodb://账户名:密码@localhost:27017/test&apos;);</div></pre></td></tr></table></figure>
-<p>结合之前的操作，在使用<code>mongoose.model</code>设置表<code>Page</code>时，发现<code>mongoose</code>实际上操作的表为<code>pages</code>。在使用过程中需要注意这一点。</p>
-<p>如果不想使用<code>model</code>方法默认的<code>model</code>的<code>name</code>转换为<code>collection</code>的<code>names</code>，则只需要传递三个参数即可，其中最后一个参数真正的<code>collection</code>的<code>name</code>.如：</p>
-<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">exports.Page= mongoose.model(&apos;Page&apos;,PageSchema,&quot;PAGE&quot;);//其中PAGE为数据库中的collection的名称</div></pre></td></tr></table></figure>
+                <p>（1）笔试中有一个<strong>自定义事件</strong>的题，这个题其实考的就是观察者模式。</p>
+<p>（2）Js中实现双向数据绑定也可以用观察者模式。所谓双向数据绑定指的是：数据的操作可以实时反映到数据，数据的变更也可以实时的展现在页面。（如Angular.Js、Vue.Js）</p>
+<h2 id="观察者模式"><a href="#观察者模式" class="headerlink" title="观察者模式"></a>观察者模式</h2><p>观察者模式是一种设计模式，又叫发布订阅模式（Publish/Subscribe）。它定义了对象间一对多的关系，让多个观察者对象同时监听某个主体对象，当这个对象的状态发生变化时，所有监听这个对象的观察者都会收到一个通知，从而自动更新自己的状态。</p>
+<p>例子：</p>
+<p>假如我们正在开发一个商城网站，网站里有header头部、nav导航、消息列表、购物车等模块。这几个模块的渲染有一个共同的前提条件，就是必须先用ajax异步请求获取用户的登录信息。这是很正常的，比如用户的名字和头像要显示在header模块里，而这两个字段都来自用户登录后返回的信息。这个时候，我们就可以把这几个模块的渲染事件都放到一个数组里面，然后待登录成功之后再遍历这个数组并且调用每一个方法。</p>
+<p>一个PubSub模型主要有三个方法：<strong>订阅（subscribe）</strong>，<strong>退订（unsubscribe）</strong>，<strong>发布（publish）</strong>。</p>
+<p>我们先来实现一个简单的PubSub模块。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">var PubSub=&#123;&#125;;</div><div class="line"></div><div class="line">//用于存储事件队列，事件管理器</div><div class="line">var quene=&#123;&#125;;</div><div class="line"></div><div class="line">//其中event为事件名称，callback为事件函数。</div><div class="line">//订阅接口  </div><div class="line">PubSub.on=function(event,callback)&#123;</div><div class="line">　　if(!quene[event])&#123;</div><div class="line">　　　　  quene[event]=[];　</div><div class="line">　　&#125;</div><div class="line">　　quene[event].push(callback);</div><div class="line">&#125;</div><div class="line"></div><div class="line">//退订接口</div><div class="line">PubSub.off=function(event,callback)&#123;</div><div class="line">　  var currentEvent=quene[event];</div><div class="line">　　if(currentEvent)&#123;</div><div class="line">　　　　for (var i=0;i&lt;currentEvent.length;i++)&#123;</div><div class="line">　　　　　　if(currentEvent[i]===callback)&#123;</div><div class="line">　　　　　　　　currentEvent.splice(i,1);</div><div class="line">　　　　　　&#125;</div><div class="line">　　　　&#125;</div><div class="line">　　&#125;　　</div><div class="line">&#125;　</div><div class="line"></div><div class="line">//发布接口</div><div class="line">PubSub.emit=function(event)&#123;</div><div class="line">　　var currentEvent=quene[event];</div><div class="line">　　if(currentEvent)&#123;</div><div class="line">　　　　for(var i=0;i&lt;currentEvent.length;i++)&#123;   //遍历这个事件下所有的事件处理器。</div><div class="line">　　　　　　currnetEvent[i]();   //执行函数</div><div class="line">　　　　&#125;</div><div class="line">　　&#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>使用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div></pre></td><td class="code"><pre><div class="line">//订阅</div><div class="line">var callbackA=function()&#123;</div><div class="line">　　console.log(&apos;eventA&apos;);</div><div class="line">&#125;</div><div class="line">var callbackB=function()&#123;</div><div class="line">　　console.log(&apos;eventB&apos;);</div><div class="line">&#125;</div><div class="line">PubSub.on(&apos;a&apos;,callbackA);   //将事件加入事件队列，名称为 a</div><div class="line">PubSub.on(&apos;b&apos;,callbackB);   //将事件加入事件队列，名称为 b</div><div class="line"></div><div class="line">//退订  第二个参数为回调函数的引用</div><div class="line">PubSub.off(&apos;a&apos;,callbackA);</div><div class="line"></div><div class="line">//发布</div><div class="line">PubSub.emit(&apos;a&apos;);</div><div class="line">Pubsub.emit(&apos;b&apos;);</div></pre></td></tr></table></figure>
 
                 <hr>
                 
 
                 <ul class="pager">
                     
-                    <li class="previous">
-                        <a href="/2017/10/15/mongodb数据库实现小数据量分页功能/" data-toggle="tooltip" data-placement="top"
-                           title="mongodb数据库实现小数据量分页功能">&larr; Previous Post</a>
-                    </li>
-                    
                     
                     <li class="next">
-                        <a href="/2017/10/05/vue实现懒加载vue-lazyload插件详解/" data-toggle="tooltip" data-placement="top"
-                           title="vue实现懒加载vue-lazyload插件详解">Next Post &rarr;</a>
+                        <a href="/2018/01/28/Object对象的属性遍历/" data-toggle="tooltip" data-placement="top"
+                           title="Object对象的属性遍历">Next Post &rarr;</a>
                     </li>
                     
                 </ul>
@@ -234,7 +229,7 @@
 
             <div class="hidden-xs col-sm-3 toc-col">
                 <div class="toc-wrap">
-                    
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#观察者模式"><span class="toc-text">观察者模式</span></a></li></ol>
                 </div>
             </div>
         </div>
