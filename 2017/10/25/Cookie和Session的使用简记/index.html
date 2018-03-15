@@ -1,0 +1,407 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="世界那么大，谁不想去看看！">
+    <meta name="keyword" content="undefined">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Big Chuang&#39;s WebSite" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Cookie和Session的使用简记｜undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2017/10/25/Cookie和Session的使用简记/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('undefined')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Big Chuang&#39;s WebSite
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/categories/">categories</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tages/">tages</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Cookie和Session的使用简记</h1>
+                    
+                    <span class="meta">
+                         作者 大闯仔儿
+                        <span>
+                          日期 2017-10-25
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#基础知识"
+                           title="基础知识">基础知识</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Cookie和Session的使用简记
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>关于Cookie的基础使用参考文章<a href="https://segmentfault.com/a/1190000007243675" target="_blank" rel="external">Cookie 在前端中的实践</a></p>
+<p>下面主要讲解原理性的东西。</p>
+<p>最近在用 <code>Node.js</code> 写一个 Web，需要实现一个保持用户登陆状态的一个功能，每当用户进入这个 App 或者进行一些操作的时候，都要判断这个用户是否在登陆状态。我的思路是这样的，没进行一些操作（向服务端发起一个请求），都向服务端查询当前用户是否在登陆状态。那么，这样应该怎么实现呢？</p>
+<p>下面就来谈谈我是怎么解决这个问题的。</p>
+<blockquote>
+<p>要实现保持登录状态这个需求，第一步要做的就是登录。登录的操作就是，<code>用户A</code> 在浏览器发送一个带有账号、密码的 POST 请求到服务器，如果服务器验证成功的话，就要告诉 <code>用户A</code> 已经登录成功了。<br>很好，现在已经登录成功了，但是当 <code>用户A</code> 再发送一个请求到服务器去获取 <code>用户A</code> 的资料的时候，可是 HTTP 是无状态的协议，所以服务器根本不知道这个请求是谁、从哪里发出来的。</p>
+</blockquote>
+<p><strong>那么，怎么样才能让服务器知道它接收到的这个请求是谁发出来的？</strong></p>
+<h2 id="cookie"><a href="#cookie" class="headerlink" title="cookie"></a>cookie</h2><p>在这里我只写一下 cookie 是怎样工作的，如果想详细了解 cookie 的话可以看看我<a href="http://mertensming.github.io/2016/10/19/cookie-session/" target="_blank" rel="external">这篇文章</a>。</p>
+<h3 id="cookie-是怎么工作的？"><a href="#cookie-是怎么工作的？" class="headerlink" title="cookie 是怎么工作的？"></a>cookie 是怎么工作的？</h3><p>先不介绍 cookie 到底是什么，我们来看看 <code>cookie</code> 是如何工作的：</p>
+<p><strong>1. 没有 cookie 信息状态下的请求</strong></p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/201710251954.png" alt="201710251954"></p>
+<p><strong>2. 第 2 次以后(存有 cookie 信息状态)的请求</strong></p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/201710251955.png" alt="201710251955"></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">1. 首先，我们假设当前域名下还是没有 cookie 的</div><div class="line">2. 接下来，浏览器发送了一个请求给服务器（这个请求是还没带上 cookie 的）</div><div class="line">3. 服务器设置 cookie 并发送给浏览器（当然也可以不设置）</div><div class="line">4. 浏览器将 cookie 保存下来</div><div class="line">5. 接下来，以后的每一次请求，都会带上这些 cookie，发送给服务器</div></pre></td></tr></table></figure>
+<p>看到这里就应该能够想到可以怎么解决上面的那个问题了吧。</p>
+<blockquote>
+<p>我们可以将在 <code>用户A</code> 登录请求的那个响应中，设置 <code>用户A</code> 已经登录的 cookie。那么当 <code>用户A</code> 再次发送其他请求的时候，就会带上这个 cookie，服务器就可以识别到这是已经登录了的 <code>用户A</code>。</p>
+</blockquote>
+<p>但是，这样做就可以了吗？</p>
+<h2 id="session"><a href="#session" class="headerlink" title="session"></a>session</h2><p>cookie 虽然很方便，但是使用 cookie 有两个的弊端：</p>
+<ol>
+<li>cookie 中的所有数据在客户端就可以被修改。这就意味着数据非常容易被伪造，一些重要的数据就不能存放在 cookie 中</li>
+<li>而且如果 cookie 中数据字段太多会影响传输效率。</li>
+</ol>
+<h3 id="session-是如何工作的？"><a href="#session-是如何工作的？" class="headerlink" title="session 是如何工作的？"></a>session 是如何工作的？</h3><p>为了解决这些问题，就产生了 session，那么 session 又是怎样工作的呢？</p>
+<ol>
+<li>每个 session 都对应一个 session_id，通过 session_id 可以查询到对应的 session</li>
+<li>session_id 通常是存放在客户端的 cookie 中，服务端存好 session 之后将对应的 session_id 设置在 cookie 中发送给客户端</li>
+<li>当请求到来时，服务端检查 cookie 中保存的 session_id 并通过这个 session_id 与服务器端的 session 关联起来，进行数据的保存和修改</li>
+</ol>
+<p>这意思就是说，当你浏览一个网页时，服务端随机产生一个很长的字符串，然后存在你 cookie 中。当你下次访问时，cookie 会带有这个字符串，然后浏览器就知道你是上次访问过的某某某，然后从服务器的存储中取出上次记录在你身上的数据。由于字符串是随机产生的，而且位数足够多，所以也不担心有人能够伪造。</p>
+<h3 id="session-储存"><a href="#session-储存" class="headerlink" title="session 储存"></a>session 储存</h3><p>session 的储存有四个常用选项：内存、 cookie、缓存、数据库</p>
+<ol>
+<li>内存：开发环境存内存比较方便，问题是不能够共享状态（只能在本机访问）</li>
+<li>cookie：使用 cookie 来储存 session 的话，session 保存在用户浏览器端，每次用户访问时，都会主动带上他自己的信息。安全性的话，只要遵照最佳实践来，也是有保证的。它的弊端是增大了数据量传输，好处是比较方便</li>
+<li>缓存：可以共享</li>
+<li>数据库：可以共享</li>
+</ol>
+<h2 id="signedCookie"><a href="#signedCookie" class="headerlink" title="signedCookie"></a>signedCookie</h2><p>如果非要使用 cookie 来记录登陆的用户凭证，也不是不可以，只需要做一些对 cookie 做一个哈希处理就好了。</p>
+<p>这样一来，用户就没法伪造信息了。一旦它更改了 cookie 中的信息，则服务器会发现 hash 校验的不一致。</p>
+<p>毕竟他不懂我们的 secret_string 是什么，而暴力破解哈希值的成本太高。</p>
+<h2 id="express-session和connect-mongo插件的使用"><a href="#express-session和connect-mongo插件的使用" class="headerlink" title="express-session和connect-mongo插件的使用"></a>express-session和connect-mongo插件的使用</h2><figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">var cookieParser = require(&apos;cookie-parser&apos;),</div><div class="line">    session = require(&apos;express-session&apos;),  				  // session依赖cookie模块</div><div class="line">    mongoStore = require(&apos;connect-mongo&apos;)(session),		  // 对session进行持久化</div></pre></td></tr></table></figure>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">app.use(session(&#123;</div><div class="line">	secret:&apos;douban&apos;,                          // 设置的secret字符串，来计算hash值并放在cookie中</div><div class="line">	resave: false,                            // session变化才进行存储</div><div class="line">	saveUninitialized: true,</div><div class="line">	// 使用mongo对session进行持久化，将session存储进数据库中</div><div class="line">	store: new mongoStore(&#123;</div><div class="line">		url: &apos;mongodb://127.0.0.1/douban&apos;,    // 本地数据库地址</div><div class="line">		collection: &apos;sessions&apos;                // 存储到mongodb中的sessions集合</div><div class="line">	&#125;);</div><div class="line">&#125;));</div></pre></td></tr></table></figure>
+<p>用户请求登录路由时：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div></pre></td><td class="code"><pre><div class="line">var mongoose = require(&apos;mongoose&apos;),</div><div class="line">    User = mongoose.model(&apos;User&apos;);</div><div class="line"></div><div class="line">exports.signin =function(req,res)&#123;</div><div class="line">  var user = req.bady.user,</div><div class="line">      name = user.name,</div><div class="line">      value= user.value,</div><div class="line">      _user = &#123;&#125;;</div><div class="line">  _user[name] = value;</div><div class="line">  </div><div class="line">  User.find(&#123;...&#125;,function(err,doc)&#123;</div><div class="line">    ... //查找该用户，一下代码假设查找到，报错或者查找失败均不考虑</div><div class="line">    user = new User(_user);</div><div class="line">    user.save(function(err,userDoc)&#123;</div><div class="line">      if(err)&#123;</div><div class="line">        ...</div><div class="line">      &#125;else &#123;</div><div class="line">        req.session.user = userDoc;   // 将当前登录用户名保存到session中</div><div class="line">        res.json(&#123;</div><div class="line">          ...</div><div class="line">        &#125;)</div><div class="line">      &#125;</div><div class="line">    &#125;)</div><div class="line">  &#125;)</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>路由文件中：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">app.get(&apos;/user/signin&apos;,User.signin);</div></pre></td></tr></table></figure>
+<p>查看数据库中的<code>sessions</code>集合</p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/201710252030.png" alt="201710252030"></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/10/26/使用connect-mongo为NodeJS项目添加会话session/" data-toggle="tooltip" data-placement="top"
+                           title="使用connect-mongo为NodeJS项目添加会话session">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/10/25/离奇bug解决/" data-toggle="tooltip" data-placement="top"
+                           title="离奇bug解决">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#cookie"><span class="toc-text">cookie</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#cookie-是怎么工作的？"><span class="toc-text">cookie 是怎么工作的？</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#session"><span class="toc-text">session</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#session-是如何工作的？"><span class="toc-text">session 是如何工作的？</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#session-储存"><span class="toc-text">session 储存</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#signedCookie"><span class="toc-text">signedCookie</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#express-session和connect-mongo插件的使用"><span class="toc-text">express-session和connect-mongo插件的使用</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Big Chuang&#39;s WebSite 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','undefined','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="undefined">
+</body>
+
+</html>

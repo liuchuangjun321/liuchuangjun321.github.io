@@ -1,0 +1,415 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="世界那么大，谁不想去看看！">
+    <meta name="keyword" content="undefined">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Big Chuang&#39;s WebSite" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        javascript中的FileReader函数解读｜undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2018/01/11/javascript中的FileReader函数解读/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('undefined')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Big Chuang&#39;s WebSite
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/categories/">categories</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tages/">tages</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>javascript中的FileReader函数解读</h1>
+                    
+                    <span class="meta">
+                         作者 大闯仔儿
+                        <span>
+                          日期 2018-01-11
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#基础知识"
+                           title="基础知识">基础知识</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            javascript中的FileReader函数解读
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p><code>FileReader</code> 对象允许Web应用程序异步读取存储在用户计算机上的文件（或原始数据缓冲区）的内容，使用 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/File" target="_blank" rel="external"><code>File</code></a> 或 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="external"><code>Blob</code></a> 对象指定要读取的文件或数据。</p>
+<p>其中File对象可以是来自用户在一个<a href="https://developer.mozilla.org/zh-CN/docs/Web/HTML/Element/input" target="_blank" rel="external">``</a>元素上选择文件后返回的<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileList" target="_blank" rel="external"><code>FileList</code></a>对象,也可以来自拖放操作生成的 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DataTransfer" target="_blank" rel="external"><code>DataTransfer</code></a>对象,还可以是来自在一个<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/HTMLCanvasElement" target="_blank" rel="external"><code>HTMLCanvasElement</code></a>上执行<code>mozGetAsFile()</code>方法后返回结果。</p>
+<p><strong>Note:</strong> 此特性在 <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Web_Workers_API" target="_blank" rel="external">Web Worker</a> 中可用。</p>
+<h2 id="构造函数"><a href="#构造函数" class="headerlink" title="构造函数"></a>构造函数</h2><ul>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/FileReader" target="_blank" rel="external"><code>FileReader()</code></a></p>
+<p>返回一个新构造的<code>FileReader</code>。</p>
+</li>
+</ul>
+<p>有关详细信息和示例，请参阅<a href="https://developer.mozilla.org/zh-CN/Using_files_from_web_applications" target="_blank" rel="external">如何在web应用程序中使用文件</a>。</p>
+<h2 id="属性"><a href="#属性" class="headerlink" title="属性"></a>属性</h2><ul>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/error" target="_blank" rel="external"><code>FileReader.error</code></a> 只读</p>
+<p>一个<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/DOMException" target="_blank" rel="external"><code>DOMException</code></a>，表示在读取文件时发生的错误 。</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/readyState" target="_blank" rel="external"><code>FileReader.readyState</code></a> 只读</p>
+<p>表示<code>FileReader</code>状态的数字。取值如下：常量名值描述<code>EMPTY``0</code>还没有加载任何数据.<code>LOADING``1</code>数据正在被加载.<code>DONE``2</code>已完成全部的读取请求.</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/result" target="_blank" rel="external"><code>FileReader.result</code></a> 只读</p>
+<p>文件的内容。该属性仅在读取操作完成后才有效，数据的格式取决于使用哪个方法来启动读取操作。</p>
+</li>
+</ul>
+<h3 id="事件处理"><a href="#事件处理" class="headerlink" title="事件处理"></a>事件处理</h3><ul>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/onabort" target="_blank" rel="external"><code>FileReader.onabort</code></a></p>
+<p>处理<code>abort</code>事件。该事件在读取操作被中断时触发。</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/onerror" target="_blank" rel="external"><code>FileReader.onerror</code></a></p>
+<p>处理<code>error</code>事件。该事件在读取操作发生错误时触发。</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/onload" target="_blank" rel="external"><code>FileReader.onload</code></a></p>
+<p>处理<code>load</code>事件。该事件在读取操作完成时触发。</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/onloadstart" target="_blank" rel="external"><code>FileReader.onloadstart</code></a></p>
+<p>处理<code>loadstart</code>事件。该事件在读取操作开始时触发。</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/onloadend" target="_blank" rel="external"><code>FileReader.onloadend</code></a></p>
+<p>处理<code>loadend</code>事件。该事件在读取操作结束时（要么成功，要么失败）触发。</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/onprogress" target="_blank" rel="external"><code>FileReader.onprogress</code></a></p>
+<p>处理<code>progress</code>事件。该事件在读取<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="external"><code>Blob</code></a>时触发。</p>
+</li>
+</ul>
+<p>因为 <code>FileReader</code> 继承自<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget" target="_blank" rel="external"><code>EventTarget</code></a>，所以所有这些事件也可以通过<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/EventTarget/addEventListener" target="_blank" rel="external"><code>addEventListener</code></a>方法使用。</p>
+<h2 id="方法"><a href="#方法" class="headerlink" title="方法"></a>方法</h2><ul>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/abort" target="_blank" rel="external"><code>FileReader.abort()</code></a></p>
+<p>中止读取操作。在返回时，<code>readyState</code>属性为<code>DONE</code>。</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/readAsArrayBuffer" target="_blank" rel="external"><code>FileReader.readAsArrayBuffer()</code></a></p>
+<p>Starts reading the contents of the specified <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="external"><code>Blob</code></a>, once finished, the <code>result</code> attribute contains an <a href="https://developer.mozilla.org/zh-CN/docs/Web/API/ArrayBuffer" target="_blank" rel="external"><code>ArrayBuffer</code></a> representing the file’s data.</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/readAsBinaryString" target="_blank" rel="external"><code>FileReader.readAsBinaryString()</code></a> **</p>
+<p>开始读取指定的<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="external"><code>Blob</code></a>中的内容。一旦完成，<code>result</code>属性中将包含所读取文件的原始二进制数据。</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/readAsDataURL" target="_blank" rel="external"><code>FileReader.readAsDataURL()</code></a></p>
+<p>开始读取指定的<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="external"><code>Blob</code></a>中的内容。一旦完成，<code>result</code>属性中将包含一个<code>data:</code> URL格式的字符串以表示所读取文件的内容。</p>
+</li>
+<li><p><a href="https://developer.mozilla.org/zh-CN/docs/Web/API/FileReader/readAsText" target="_blank" rel="external"><code>FileReader.readAsText()</code></a></p>
+<p>开始读取指定的<a href="https://developer.mozilla.org/zh-CN/docs/Web/API/Blob" target="_blank" rel="external"><code>Blob</code></a>中的内容。一旦完成，<code>result</code>属性中将包含一个字符串以表示所读取的文件内容。</p>
+</li>
+</ul>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/01/12/H5的FormData与ajax2对象详解/" data-toggle="tooltip" data-placement="top"
+                           title="H5的FormData与ajax2对象详解">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/01/11/javascript中的ArrayBuffer对象解读/" data-toggle="tooltip" data-placement="top"
+                           title="javascript中的ArrayBuffer对象解读">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#构造函数"><span class="toc-text">构造函数</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#属性"><span class="toc-text">属性</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#事件处理"><span class="toc-text">事件处理</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#方法"><span class="toc-text">方法</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Big Chuang&#39;s WebSite 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','undefined','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="undefined">
+</body>
+
+</html>

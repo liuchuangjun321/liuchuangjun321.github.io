@@ -1,0 +1,409 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="世界那么大，谁不想去看看！">
+    <meta name="keyword" content="undefined">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Big Chuang&#39;s WebSite" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        XMPP协议基础（一）｜undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2018/01/10/XMPP协议基础（一）/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('undefined')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Big Chuang&#39;s WebSite
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/categories/">categories</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tages/">tages</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>XMPP协议基础（一）</h1>
+                    
+                    <span class="meta">
+                         作者 大闯仔儿
+                        <span>
+                          日期 2018-01-10
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#XMPP"
+                           title="XMPP">XMPP</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            XMPP协议基础（一）
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="XMPP（Extensible-Messaging-and-Presence-Protocol，前称Jabber）协议介绍"><a href="#XMPP（Extensible-Messaging-and-Presence-Protocol，前称Jabber）协议介绍" class="headerlink" title="XMPP（Extensible Messaging and Presence Protocol，前称Jabber）协议介绍"></a>XMPP（Extensible Messaging and Presence Protocol，前称Jabber）协议介绍</h2><p><strong>可扩展消息处理现场协议</strong>(eXtensible Messaging and Presence Protocol , XMPP) 是一种基于可扩展标记语言(eXtensible Markup Language, XML)的近端串流式即时通信协议。它将现场和上下文敏感信息标记嵌入到XML 结构化数据中, 使得人与人之间、应用系统之间以及人与应用系统之间能即时相互通信<br>XMPP是一种基于XML架构的开放式协议.XMPP的基础部分已经在2002-2004年得到了互联网工程任务组(IETF)的批准，未来XMPP协议会理所当然的同Internet协议TCP/IP、HTTP、FTP、SMTP、POP一样成为Internet标准。</p>
+<h3 id="Xmpp协议内容"><a href="#Xmpp协议内容" class="headerlink" title="Xmpp协议内容"></a>Xmpp协议内容</h3><p>XMPP中定义了三个角色，<strong>客户端，服务器，网关</strong>。通信能够在这三者的任意两个之间双向发生。服务器同时承担了客户端信息记录，连接管理和信息的 路由功能。网关承担着与异构即时通信系统的互联互通，异构系统可以包括SMS（短信），MSN，ICQ等。基本的网络形式是单客户端通过 TCP/IP连接到单服务器，然后在之上传输XML。整体框架如下图：</p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/2018011000.png" alt="2018011000"></p>
+<h4 id="服务器"><a href="#服务器" class="headerlink" title="服务器"></a>服务器</h4><p>充当xmpp通信的一个智能抽象层，负责</p>
+<ul>
+<li>对受验证的客户端，服务器以及其他实体之间以xml流的形式的连接和会话进行管理。</li>
+<li>在这些实体间使用xml流对合理编址的xml节进行路由</li>
+<li>存储和处理客户端使用的数据</li>
+</ul>
+<p><strong>XMPP 服务器遵循两个主要法则：</strong></p>
+<ul>
+<li>监听客户端连接，并直接与客户端应用程序通信；</li>
+<li>与其他 XMPP 服务器通信；</li>
+</ul>
+<p>不要小看它只需遵循的原则少，这两个原则是所有xmpp服务器的核心与根本，不然，基于xmpp的im根本无从谈起，更别说基于此的模块化扩展了…</p>
+<p>XMPP开源服务器一般被设计成模块化，由各个不同的代码包（模块/组件）构成，这些代码包包括但不限于以下：</p>
+<ul>
+<li>Session管理</li>
+<li>用户和服务器之间的通信</li>
+<li>服务器之间的通信</li>
+<li>DNS（Domain Name System）转换</li>
+<li>存储用户的个人信息和朋友名单</li>
+<li>保留用户在下线时收到的信息</li>
+<li>用户注册</li>
+<li>用户的身份和权限认证</li>
+<li>根据用户的要求过滤信息</li>
+<li>系统记录</li>
+</ul>
+<p>另外，服务器可以通过附加服务来进行扩展，如完整的安全策略，允许服务器组件的连接或客户端选择，通向其他消息系统的网关。</p>
+<h4 id="客户端"><a href="#客户端" class="headerlink" title="客户端"></a>客户端</h4><p>通过TCP连接直接连接到服务器，并通过xmpp获得由服务器以及联合服务器所提供的全部功能。多个不同的客户端可以同时登陆并且并发的连接到一个服务器，每个不同资源的客户端通过xmpp地址的资源标识符来区分。建议的客户端和服务器连接的端口时5222</p>
+<p>XMPP 系统的一个设计标准是必须支持简单的客户端。事实上，XMPP 系统架构对客户端只有很少的几个限制。一个XMPP 客户端必须支持的功能有：</p>
+<ul>
+<li>通过 TCP 套接字与XMPP 服务器进行通信；</li>
+<li>解析组织好的 XML 信息包；</li>
+<li>理解消息数据类型。</li>
+</ul>
+<h4 id="网关"><a href="#网关" class="headerlink" title="网关"></a>网关</h4><p>网关是一个特殊用途的服务器端的服务，主要功能是把xmpp翻译成外部消息系统，并把返回的消息翻译成xmpp.</p>
+<h3 id="XMPP系统特点"><a href="#XMPP系统特点" class="headerlink" title="XMPP系统特点"></a>XMPP系统特点</h3><p>客户机/服务器通信模式、分布式网络、简单的客户端、XML的数据格式。</p>
+<h2 id="工作原理"><a href="#工作原理" class="headerlink" title="工作原理"></a>工作原理</h2><p><strong>(1)节点(client1)连接到服务器；</strong><br><strong>(2)服务器利用本地目录系统中的证书对其认证； </strong><br><strong>(3)节点指定目标（client2）地址，让服务器告知目标状态；</strong><br><strong>(4)服务器查找、连接并进行相互认证； </strong><br><strong>(5)节点之间（client1与client2）进行交互．</strong></p>
+<p><strong>举例子：</strong></p>
+<p>客户端（kuusipuu）连接到一个XMPP服务器（amessage.de:5222/TCP），发送一条消息（主题和内容均为“test 1449”）到另一个客户端（tero），然后注销。</p>
+<p>用户发送连接请求到服务器<br>kuusipuu:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;?xmlversion=&apos;1.0&apos;?&gt;</div><div class="line">&lt;stream:stream xmlns:stream=&quot;http://etherx.jabber.org/streams&quot;</div><div class="line">xmlns=&quot;jabber:client&quot; to=&quot;amessage.de&quot;&gt;</div></pre></td></tr></table></figure>
+<p>server对请求应答<br>amessage.de:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&lt;stream:stream xmlns=&apos;jabber:client&apos;</div><div class="line">xmlns:stream=&apos;http://etherx.jabber.org/streams&apos;</div><div class="line">from=&apos;amessage.de&apos; id=&apos;1461777714&apos;&gt;</div></pre></td></tr></table></figure>
+<p>server利用本地目录系统的证书对其认证<br>kuusipuu:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">&lt;iq type=&quot;set&quot; id=&quot;auth_2&quot; to=&quot;amessage.de&quot; &gt;</div><div class="line">&lt;query xmlns=&quot;jabber:iq:auth&quot;&gt;</div><div class="line">  &lt;username&gt;kuusipuu&lt;/username&gt;</div><div class="line">  &lt;password&gt;mypassword&lt;/password&gt;</div><div class="line">  &lt;resource&gt;Work&lt;/resource&gt;</div><div class="line"> &lt;/query&gt;</div><div class="line">&lt;/iq&gt;</div></pre></td></tr></table></figure>
+<p>server将相应的结果返回给用户端<br>amessage.de:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;iq from=&quot;amessage.de&quot; id=&apos;auth_2&apos; type=&apos;result&apos;/&gt;</div></pre></td></tr></table></figure>
+<p>用户发送消息请求，并注销<br>kuusipuu:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">&lt;message to=&quot;tero@example.com&quot; &gt;</div><div class="line">    &lt;subject&gt;test 1449&lt;/subject&gt;</div><div class="line">    &lt;body&gt;test 1449&lt;/body&gt;</div><div class="line">&lt;/message&gt;</div><div class="line">&lt;presence type=&quot;unavailable&quot; &gt;</div><div class="line">    &lt;status&gt;Logged out&lt;/status&gt;</div><div class="line">&lt;/presence&gt;</div><div class="line">&lt;/stream:stream&gt;</div></pre></td></tr></table></figure>
+<p>server返回注销信息<br>amessage.de:</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&lt;/stream:stream&gt;</div></pre></td></tr></table></figure>
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/01/10/XMPP协议基础（二）/" data-toggle="tooltip" data-placement="top"
+                           title="XMPP协议基础（二）">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/12/01/模仿块级作用域/" data-toggle="tooltip" data-placement="top"
+                           title="模仿块级作用域">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#XMPP（Extensible-Messaging-and-Presence-Protocol，前称Jabber）协议介绍"><span class="toc-text">XMPP（Extensible Messaging and Presence Protocol，前称Jabber）协议介绍</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#Xmpp协议内容"><span class="toc-text">Xmpp协议内容</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#服务器"><span class="toc-text">服务器</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#客户端"><span class="toc-text">客户端</span></a></li><li class="toc-item toc-level-4"><a class="toc-link" href="#网关"><span class="toc-text">网关</span></a></li></ol></li><li class="toc-item toc-level-3"><a class="toc-link" href="#XMPP系统特点"><span class="toc-text">XMPP系统特点</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#工作原理"><span class="toc-text">工作原理</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Big Chuang&#39;s WebSite 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','undefined','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="undefined">
+</body>
+
+</html>

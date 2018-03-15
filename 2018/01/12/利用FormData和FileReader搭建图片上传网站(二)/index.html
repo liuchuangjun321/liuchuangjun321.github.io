@@ -1,0 +1,374 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="世界那么大，谁不想去看看！">
+    <meta name="keyword" content="undefined">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Big Chuang&#39;s WebSite" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        利用FormData和FileReader搭建图片上传网站(二)｜undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2018/01/12/利用FormData和FileReader搭建图片上传网站(二)/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('undefined')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Big Chuang&#39;s WebSite
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/categories/">categories</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tages/">tages</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>利用FormData和FileReader搭建图片上传网站(二)</h1>
+                    
+                    <span class="meta">
+                         作者 大闯仔儿
+                        <span>
+                          日期 2018-01-12
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#基础知识"
+                           title="基础知识">基础知识</a>
+                        
+                        <a class="tag" href="/tags/#HTML5"
+                           title="HTML5">HTML5</a>
+                        
+                        <a class="tag" href="/tags/#Ajax"
+                           title="Ajax">Ajax</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            利用FormData和FileReader搭建图片上传网站(二)
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>上一篇博客<a href="http://bigfacechuang.website/2018/01/12/利用FormData和FileReader搭建图片上传网站(一" target="_blank" rel="external">利用FormData和FileReader搭建图片上传网站(一)</a>/)介绍了图片上传功能的简单实现，这篇博客介绍具体的实现细节，比如图片上传百分比。</p>
+<h2 id="XMLHttpRequest-upload"><a href="#XMLHttpRequest-upload" class="headerlink" title="XMLHttpRequest.upload"></a>XMLHttpRequest.upload</h2><p>我们先考虑一个问题：</p>
+<p><code>XMLHttpRequest.upload.progress</code>事件和<code>XMLHttpRequest.progress</code>事件有什么区别和联系呢？</p>
+<p>参见这篇文章<a href="https://developer.mozilla.org/en-US/docs/Web/API/XMLHttpRequest/upload" target="_blank" rel="external">XMLHttpRequest.upload</a>。</p>
+<p>XMLHttpRequest.upload属性返回一个XMLHttpRequestUpload对象，表示上传过程。它是一个不透明的对象，但是作为一个XMLHttpRequestEventTarget，可以在其上设置事件监听器来跟踪其进程。</p>
+<p>可以在上传对象上触发的事件侦听器如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">onloadstart:	The fetch starts</div><div class="line">onprogress:	    Data transfer is going on</div><div class="line">onabort:	    The fetch operation was aborted</div><div class="line">onerror:	    The fetch failed</div><div class="line">onload:	        The fetch succeeded</div><div class="line">ontimeout:	    The fetch operation didn&apos;t complete by the timeout the author specified</div><div class="line">onloadend:	    The fetch operation completed (either success or failure)</div></pre></td></tr></table></figure>
+<p>其实可以看到，<code>XMLHttpRequest.upload</code>表示文件上传的进度事件，和XHR请求的进度事件类似，都是从<code>loadstart</code>事件开始，接下来是一个或多个<code>progress</code>事件，然后触发<code>error</code>、<code>abort</code>和<code>load</code>事件中的一个，最后以触发<code>loadend</code>事件结束。</p>
+<p>这些事件虽然最早只针对XHR操作，但目前也被其他API借鉴。</p>
+<p>针对上篇博客里“上传服务器js”代码，我们可以做如下改动：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">var button = document.querySelector(&apos;#upload&apos;);</div><div class="line">var fileinput = document.getElementById(&apos;file&apos;)</div><div class="line"></div><div class="line">button.onclick = function () &#123;</div><div class="line">    var xhr = new XMLHttpRequest()</div><div class="line">    var formdata = new FormData()</div><div class="line"></div><div class="line">    var files = fileinput.files</div><div class="line">    if (!files[0]) &#123;</div><div class="line">        alert(&apos;请先选择图片，再上传！&apos;)</div><div class="line">        return</div><div class="line">    &#125;</div><div class="line">    </div><div class="line">    for (let i = 0; i &lt; files.length; i++) &#123;</div><div class="line">    	formdata.append(&apos;imgfile&apos;, files[i], files[i].name)</div><div class="line">    &#125;</div><div class="line">    xhr.open(&apos;POST&apos;, &apos;/uploadimg&apos;)</div><div class="line">    xhr.onload = () =&gt; &#123;</div><div class="line">        if (xhr.status === 200 &amp;&amp; xhr.responseText === &apos;success&apos;) &#123;</div><div class="line">            previewDOM.innerHTML = &apos;&apos;</div><div class="line">            xhr = null</div><div class="line">            alert(&apos;图片上传成功！&apos;)</div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">    xhr.send(formdata)</div><div class="line">    </div><div class="line">    xhr.upload.onprogress = e =&gt; &#123;</div><div class="line">    	//progress事件同样有三个属性，e.lengthComputable为true表示进度信息可用</div><div class="line">    	//e.loaded和e.total分别表示已上传数据量和总数据量</div><div class="line">    	if (e.lengthComputable) &#123;</div><div class="line">           var percentComplete = e.loaded / e.total * 100</div><div class="line">           //...其他操作</div><div class="line">    	&#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/01/13/文本框脚本/" data-toggle="tooltip" data-placement="top"
+                           title="文本框脚本">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/01/12/利用FormData和FileReader搭建图片上传网站(一)/" data-toggle="tooltip" data-placement="top"
+                           title="利用FormData和FileReader搭建图片上传网站(一)">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#XMLHttpRequest-upload"><span class="toc-text">XMLHttpRequest.upload</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Big Chuang&#39;s WebSite 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','undefined','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="undefined">
+</body>
+
+</html>

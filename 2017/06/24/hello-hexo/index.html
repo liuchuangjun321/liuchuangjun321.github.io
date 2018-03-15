@@ -1,0 +1,396 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="世界那么大，谁不想去看看！">
+    <meta name="keyword" content="undefined">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Big Chuang&#39;s WebSite" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        async 函数的含义和用法｜undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2017/06/24/hello-hexo/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('undefined')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Big Chuang&#39;s WebSite
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/categories/">categories</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tages/">tages</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>async 函数的含义和用法</h1>
+                    
+                    <span class="meta">
+                         作者 大闯仔儿
+                        <span>
+                          日期 2017-06-24
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#ES6"
+                           title="ES6">ES6</a>
+                        
+                        <a class="tag" href="/tags/#koa"
+                           title="koa">koa</a>
+                        
+                        <a class="tag" href="/tags/#ES7"
+                           title="ES7">ES7</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            async 函数的含义和用法
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="一：终极解决"><a href="#一：终极解决" class="headerlink" title="一：终极解决"></a>一：终极解决</h2><p>异步操作是 JavaScript 编程的麻烦事，麻烦到一直有人提出各种各样的方案，试图解决这个问题。</p>
+<p>从最早的回调函数，到 Promise 对象，再到 Generator 函数，每次都有所改进，但又让人觉得不彻底。它们都有额外的复杂性，都需要理解抽象的底层运行机制。</p>
+<p>异步I/O不就是读取一个文件吗，干嘛要搞得这么复杂？<strong>异步编程的最高境界，就是根本不用关心它是不是异步。</strong></p>
+<p>async 函数就是隧道尽头的亮光，很多人认为它是异步操作的终极解决方案。</p>
+<h2 id="二：async-函数是什么？"><a href="#二：async-函数是什么？" class="headerlink" title="二：async 函数是什么？"></a>二：async 函数是什么？</h2><p>要解决上述问题，我们直接来看代码。下述代码很简单，一个生成器函数Generator，依次读取两个文件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div></pre></td><td class="code"><pre><div class="line">var fs = require(&quot;fs&quot;);</div><div class="line"></div><div class="line">//Promise封装readFile函数，实现异步操作。</div><div class="line">var readFile = function(fileName)&#123;</div><div class="line">  return new Promise (function (resolve,reject)&#123;</div><div class="line">    fs.readFile(fileName,function(error,data)&#123;</div><div class="line">      if(error)reject (error);</div><div class="line">      resolve(data);</div><div class="line">    &#125;);</div><div class="line">  &#125;);</div><div class="line">&#125;;</div><div class="line"></div><div class="line">var gen = function* ()&#123;</div><div class="line">  var f1 = yield readFile(&apos;/etc/file1.txt&apos;);</div><div class="line">  var f2 = yield readFile(&apos;/etc/file2.txt&apos;);</div><div class="line">  console.log(f1.toString());</div><div class="line">  console.log(f2.toString());</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>写成async函数，就是下面这样。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var asyncReadFile = async function ()&#123;</div><div class="line">  var f1 = await readFile(&apos;/etc/file1.txt&apos;);</div><div class="line">  var f2 = await readFile(&apos;/etc/file2.txt&apos;);</div><div class="line">  console.log(f1.toString());</div><div class="line">  console.log(f2.toString());</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>一比较就会发现，async 函数就是将 Generator 函数的星号（*）替换成 async，将 yield 替换成 await，仅此而已。</p>
+<h2 id="三：async函数的优点"><a href="#三：async函数的优点" class="headerlink" title="三：async函数的优点"></a>三：async函数的优点</h2><p>async函数对Generator函数的改进，体现在以下三点：</p>
+<ul>
+<li><p>内置执行器。Generator 函数的执行必须靠执行器，所以才有了 <a href="http://www.ruanyifeng.com/blog/2015/05/co.html" target="_blank" rel="external">co函数库</a>，而 async 函数自带执行器。也就是说，async 函数的执行，与普通函数一模一样，只要一行。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">var result = asyncReadFile();</div></pre></td></tr></table></figure>
+</li>
+<li><p>更好的语义。async 和 await，比起星号和 yield，语义更清楚了。async 表示函数里有异步操作，await 表示紧跟在后面的表达式需要等待结果。</p>
+</li>
+<li><p><strong>更广的适用性。</strong> co 函数库约定，yield 命令后面只能是 Thunk 函数或 Promise 对象，而 async 函数的 await 命令后面，可以跟 Promise 对象和原始类型的值（数值、字符串和布尔值，但这时等同于同步操作）。</p>
+</li>
+</ul>
+<h2 id="四：async-函数的实现"><a href="#四：async-函数的实现" class="headerlink" title="四：async 函数的实现"></a>四：async 函数的实现</h2><p>通过上述代码，可能大部分同学已经猜到了，async函数的实现就是<strong>将Generator 函数和自动执行器，包装在一个函数里。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">async function fn(args)&#123;</div><div class="line">  // ...</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 等同于</div><div class="line"></div><div class="line">function fn(args)&#123; </div><div class="line">  return spawn(function*() &#123;</div><div class="line">    // ...</div><div class="line">  &#125;); </div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>所有的 async 函数都可以写成上面的第二种形式，其中的 spawn 函数就是自动执行器（参考上文co函数库）。</p>
+<p>async 函数是非常新的语法功能，新到都不属于 ES6，而是属于 ES7。目前，它仍处于提案阶段，但是转码器 Babel 和 regenerator 都已经支持，转码后就能使用。</p>
+<h2 id="五：async函数的用法"><a href="#五：async函数的用法" class="headerlink" title="五：async函数的用法"></a>五：async函数的用法</h2><p>同 Generator 函数一样，async 函数返回一个 Promise 对象，可以使用 then 方法添加回调函数。<strong>当函数执行的时候，一旦遇到 await 就会先返回，等到触发的异步操作完成，再接着执行函数体内后面的语句。</strong>而Generator函数则与之不同，需要手动执行。</p>
+<p>下面是一个例子。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">async function getStockPriceByName(name) &#123;</div><div class="line">  var symbol = await getStockSymbol(name);</div><div class="line">  var stockPrice = await getStockPrice(symbol);</div><div class="line">  return stockPrice;</div><div class="line">&#125;</div><div class="line"></div><div class="line">getStockPriceByName(&apos;goog&apos;).then(function (result)&#123;</div><div class="line">  console.log(result);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码是一个获取股票报价的函数，函数前面的async关键字，表明该函数内部有异步操作。调用该函数时，会立即返回一个Promise对象。</p>
+<p>下面的例子，指定多少毫秒后输出一个值。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">function timeout(ms) &#123;</div><div class="line">  return new Promise((resolve) =&gt; &#123;</div><div class="line">    setTimeout(resolve, ms);</div><div class="line">  &#125;);</div><div class="line">&#125;</div><div class="line"></div><div class="line">async function asyncPrint(value, ms) &#123;</div><div class="line">  await timeout(ms);</div><div class="line">  console.log(value)</div><div class="line">&#125;</div><div class="line"></div><div class="line">asyncPrint(&apos;hello world&apos;, 50);</div></pre></td></tr></table></figure>
+<p>上面代码指定50毫秒以后，输出”hello world”。</p>
+<h2 id="六：注意点"><a href="#六：注意点" class="headerlink" title="六：注意点"></a>六：注意点</h2><p>await 命令后面的 Promise 对象，运行结果可能是 rejected，所以最好把 await 命令放在 try…catch 代码块中。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div></pre></td><td class="code"><pre><div class="line">async function myFunction() &#123;</div><div class="line">  try &#123;</div><div class="line">    await somethingThatReturnsAPromise();</div><div class="line">  &#125; catch (err) &#123;</div><div class="line">    console.log(err);</div><div class="line">  &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">// 另一种写法</div><div class="line"></div><div class="line">async function myFunction() &#123;</div><div class="line">  await somethingThatReturnsAPromise().catch(function (err)&#123;</div><div class="line">    console.log(err);</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>await 命令只能用在 async 函数之中，如果用在普通函数，就会报错。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">async function dbFuc(db) &#123;</div><div class="line">  let docs = [&#123;&#125;, &#123;&#125;, &#123;&#125;];</div><div class="line"></div><div class="line">  // 报错</div><div class="line">  docs.forEach(function (doc) &#123;</div><div class="line">    await db.post(doc);</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码会报错，因为 await 用在普通函数之中了。但是，如果将 forEach 方法的参数改成 async 函数，也有问题。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">async function dbFuc(db) &#123;</div><div class="line">  let docs = [&#123;&#125;, &#123;&#125;, &#123;&#125;];</div><div class="line"></div><div class="line">  // 可能得到错误结果</div><div class="line">  docs.forEach(async function (doc) &#123;</div><div class="line">    await db.post(doc);</div><div class="line">  &#125;);</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>上面代码可能不会正常工作，原因是这时三个 db.post 操作将是并发执行，也就是同时执行，而不是继发执行。正确的写法是采用 for 循环。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">async function dbFuc(db) &#123;</div><div class="line">  let docs = [&#123;&#125;, &#123;&#125;, &#123;&#125;];</div><div class="line"></div><div class="line">  for (let doc of docs) &#123;</div><div class="line">    await db.post(doc);</div><div class="line">  &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/06/25/koa简介/" data-toggle="tooltip" data-placement="top"
+                           title="koa简介">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#一：终极解决"><span class="toc-text">一：终极解决</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#二：async-函数是什么？"><span class="toc-text">二：async 函数是什么？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#三：async函数的优点"><span class="toc-text">三：async函数的优点</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#四：async-函数的实现"><span class="toc-text">四：async 函数的实现</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#五：async函数的用法"><span class="toc-text">五：async函数的用法</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#六：注意点"><span class="toc-text">六：注意点</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Big Chuang&#39;s WebSite 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','undefined','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="undefined">
+</body>
+
+</html>

@@ -1,0 +1,408 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="世界那么大，谁不想去看看！">
+    <meta name="keyword" content="undefined">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Big Chuang&#39;s WebSite" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        koa处理url｜undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2017/06/25/koa处理url/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('undefined')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Big Chuang&#39;s WebSite
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/categories/">categories</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tages/">tages</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>koa处理url</h1>
+                    
+                    <span class="meta">
+                         作者 大闯仔儿
+                        <span>
+                          日期 2017-06-25
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#koa"
+                           title="koa">koa</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            koa处理url
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>在hello-koa工程中，我们处理http请求一律返回相同的HTML，这样虽然非常简单，但是用浏览器一测，随便输入任何URL都会返回相同的网页。</p>
+<h2 id="1-koa原生实现路由"><a href="#1-koa原生实现路由" class="headerlink" title="1.koa原生实现路由"></a>1.koa原生实现路由</h2><p>正常情况下，我们应该对不同的URL调用不同的处理函数，这样才能返回不同的结果。例如像这样写：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div></pre></td><td class="code"><pre><div class="line">app.use(async (ctx, next) =&gt; &#123;</div><div class="line">    if (ctx.request.path === &apos;/&apos;) &#123;</div><div class="line">        ctx.response.body = &apos;index page&apos;;</div><div class="line">    &#125; else &#123;</div><div class="line">        await next();</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.use(async (ctx, next) =&gt; &#123;</div><div class="line">    if (ctx.request.path === &apos;/test&apos;) &#123;</div><div class="line">        ctx.response.body = &apos;TEST page&apos;;</div><div class="line">    &#125; else &#123;</div><div class="line">        await next();</div><div class="line">    &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">app.use(async (ctx, next) =&gt; &#123;</div><div class="line">    if (ctx.request.path === &apos;/error&apos;) &#123;</div><div class="line">        ctx.response.body = &apos;ERROR page&apos;;</div><div class="line">    &#125; else &#123;</div><div class="line">        await next();</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>这么写是可以运行的，但是好像有点蠢。</p>
+<p>应该有一个能集中处理URL的middleware，它根据不同的URL调用不同的处理函数，这样，我们才能专心为每个URL编写处理函数。</p>
+<h2 id="2-koa-router"><a href="#2-koa-router" class="headerlink" title="2.koa-router"></a>2.koa-router</h2><p>为了处理URL，我们需要引入<code>koa-router</code>这个middleware，让它负责处理URL映射。</p>
+<p>我们把上一节的<code>hello-koa</code>工程复制一份，重命名为<code>url-koa</code>。</p>
+<p>先在<code>package.json</code>中添加依赖项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;koa-router&quot;: &quot;7.0.0&quot;</div></pre></td></tr></table></figure>
+<p>然后用<code>npm install</code>安装。</p>
+<p>接下来，我们修改<code>app.js</code>，使用<code>koa-router</code>来处理URL：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div></pre></td><td class="code"><pre><div class="line">const Koa = require(&apos;koa&apos;);</div><div class="line"></div><div class="line">// 注意require(&apos;koa-router&apos;)返回的是函数:</div><div class="line">const router = require(&apos;koa-router&apos;)();</div><div class="line"></div><div class="line">const app = new Koa();</div><div class="line"></div><div class="line">// log request URL:</div><div class="line">app.use(async (ctx, next) =&gt; &#123;</div><div class="line">    console.log(`Process $&#123;ctx.request.method&#125; $&#123;ctx.request.url&#125;...`);</div><div class="line">    await next();</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// add url-route:</div><div class="line">router.get(&apos;/hello/:name&apos;, async (ctx, next) =&gt; &#123;</div><div class="line">    var name = ctx.params.name;</div><div class="line">    ctx.response.body = `&lt;h1&gt;Hello, $&#123;name&#125;!&lt;/h1&gt;`;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">router.get(&apos;/&apos;, async (ctx, next) =&gt; &#123;</div><div class="line">    ctx.response.body = &apos;&lt;h1&gt;Index&lt;/h1&gt;&apos;;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// add router middleware:</div><div class="line">app.use(router.routes());</div><div class="line"></div><div class="line">app.listen(3000);</div><div class="line">console.log(&apos;app started at port 3000...&apos;);</div></pre></td></tr></table></figure>
+<p>注意导入<code>koa-router</code>的语句最后的<code>()</code>是函数调用：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">const router = require(&apos;koa-router&apos;)();</div></pre></td></tr></table></figure>
+<p>相当于：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">const fn_router = require(&apos;koa-router&apos;);</div><div class="line">const router = fn_router();</div></pre></td></tr></table></figure>
+<p>然后，我们使用<code>router.get(&#39;/path&#39;, async fn)</code>来注册一个GET请求。可以在请求路径中使用带变量的<code>/hello/:name</code>，变量可以通过<code>ctx.params.name</code>访问。</p>
+<p>再运行<code>app.js</code>，我们就可以测试不同的URL:</p>
+<p>输入：<a href="">http://localhost:3000/hello/koa</a>：</p>
+<p><img src="http://os20uatm3.bkt.clouddn.com/4-1.png" alt="屏幕快照 2017-06-25 下午3.14.35"></p>
+<h4 id="处理post请求"><a href="#处理post请求" class="headerlink" title="处理post请求"></a>处理post请求</h4><p>用<code>router.get(&#39;/path&#39;, async fn)</code>处理的是get请求。如果要处理post请求，可以用<code>router.post(&#39;/path&#39;, async fn)</code>。</p>
+<p>用post请求处理URL时，我们会遇到一个问题：post请求通常会发送一个表单，或者JSON，它作为request的body发送，但无论是Node.js提供的原始request对象，还是koa提供的request对象，都<em>不提供</em>解析request的body的功能！</p>
+<p>所以，我们又需要引入另一个middleware来解析原始request请求，然后，把解析后的参数，绑定到<code>ctx.request.body</code>中。</p>
+<p><code>koa-bodyparser</code>就是用来干这个活的。</p>
+<p>我们在<code>package.json</code>中添加依赖项：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">&quot;koa-bodyparser&quot;: &quot;3.2.0&quot;</div></pre></td></tr></table></figure>
+<p>然后使用<code>npm install</code>安装。</p>
+<p>下面，修改<code>app.js</code>，引入<code>koa-bodyparser</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">const bodyParser = require(&apos;koa-bodyparser&apos;);</div></pre></td></tr></table></figure>
+<p>在合适的位置加上：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">app.use(bodyParser());</div></pre></td></tr></table></figure>
+<p>由于middleware的顺序很重要，这个<code>koa-bodyparser</code>必须在<code>router</code>之前被注册到<code>app</code>对象上。</p>
+<p>现在我们就可以处理post请求了。写一个简单的登录表单：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div></pre></td><td class="code"><pre><div class="line">router.get(&apos;/&apos;, async (ctx, next) =&gt; &#123;</div><div class="line">    ctx.response.body = `&lt;h1&gt;Index&lt;/h1&gt;</div><div class="line">        &lt;form action=&quot;/signin&quot; method=&quot;post&quot;&gt;</div><div class="line">            &lt;p&gt;Name: &lt;input name=&quot;name&quot; value=&quot;koa&quot;&gt;&lt;/p&gt;</div><div class="line">            &lt;p&gt;Password: &lt;input name=&quot;password&quot; type=&quot;password&quot;&gt;&lt;/p&gt;</div><div class="line">            &lt;p&gt;&lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;&lt;/p&gt;</div><div class="line">        &lt;/form&gt;`;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">router.post(&apos;/signin&apos;, async (ctx, next) =&gt; &#123;</div><div class="line">    var</div><div class="line">        name = ctx.request.body.name || &apos;&apos;,</div><div class="line">        password = ctx.request.body.password || &apos;&apos;;</div><div class="line">    console.log(`signin with name: $&#123;name&#125;, password: $&#123;password&#125;`);</div><div class="line">    if (name === &apos;koa&apos; &amp;&amp; password === &apos;12345&apos;) &#123;</div><div class="line">        ctx.response.body = `&lt;h1&gt;Welcome, $&#123;name&#125;!&lt;/h1&gt;`;</div><div class="line">    &#125; else &#123;</div><div class="line">        ctx.response.body = `&lt;h1&gt;Login failed!&lt;/h1&gt;</div><div class="line">        &lt;p&gt;&lt;a href=&quot;/&quot;&gt;Try again&lt;/a&gt;&lt;/p&gt;`;</div><div class="line">    &#125;</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>注意到我们用<code>var name = ctx.request.body.name || &#39;&#39;</code>拿到表单的<code>name</code>字段，如果该字段不存在，默认值设置为<code>&#39;&#39;</code>。</p>
+<p>类似的，put、delete、head请求也可以由router处理。</p>
+<h2 id="3-重构"><a href="#3-重构" class="headerlink" title="3.重构"></a>3.重构</h2><p>现在，我们已经可以处理不同的URL了，但是看看<code>app.js</code>，总觉得还是有点不对劲。</p>
+<p>所有的URL处理函数都放到<code>app.js</code>里显得很乱，而且，每加一个URL，就需要修改<code>app.js</code>。随着URL越来越多，<code>app.js</code>就会越来越长。</p>
+<p>如果能把URL处理函数集中到某个js文件，或者某几个js文件中就好了，然后让<code>app.js</code>自动导入所有处理URL的函数。这样，代码一分离，逻辑就显得清楚了。最好是这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div></pre></td><td class="code"><pre><div class="line">url2-koa/</div><div class="line">|</div><div class="line">+- .vscode/</div><div class="line">|  |</div><div class="line">|  +- launch.json &lt;-- VSCode 配置文件</div><div class="line">|</div><div class="line">+- controllers/</div><div class="line">|  |</div><div class="line">|  +- login.js &lt;-- 处理login相关URL</div><div class="line">|  |</div><div class="line">|  +- users.js &lt;-- 处理用户管理相关URL</div><div class="line">|</div><div class="line">+- app.js &lt;-- 使用koa的js</div><div class="line">|</div><div class="line">+- package.json &lt;-- 项目描述文件</div><div class="line">|</div><div class="line">+- node_modules/ &lt;-- npm安装的所有依赖包</div></pre></td></tr></table></figure>
+<p>于是我们把<code>url-koa</code>复制一份，重命名为<code>url2-koa</code>，准备重构这个项目。</p>
+<p>我们先在<code>controllers</code>目录下编写<code>index.js</code>：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div></pre></td><td class="code"><pre><div class="line">var fn_index = async (ctx, next) =&gt; &#123;</div><div class="line">    ctx.response.body = `&lt;h1&gt;Index&lt;/h1&gt;</div><div class="line">        &lt;form action=&quot;/signin&quot; method=&quot;post&quot;&gt;</div><div class="line">            &lt;p&gt;Name: &lt;input name=&quot;name&quot; value=&quot;koa&quot;&gt;&lt;/p&gt;</div><div class="line">            &lt;p&gt;Password: &lt;input name=&quot;password&quot; type=&quot;password&quot;&gt;&lt;/p&gt;</div><div class="line">            &lt;p&gt;&lt;input type=&quot;submit&quot; value=&quot;Submit&quot;&gt;&lt;/p&gt;</div><div class="line">        &lt;/form&gt;`;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">var fn_signin = async (ctx, next) =&gt; &#123;</div><div class="line">    var</div><div class="line">        name = ctx.request.body.name || &apos;&apos;,</div><div class="line">        password = ctx.request.body.password || &apos;&apos;;</div><div class="line">    console.log(`signin with name: $&#123;name&#125;, password: $&#123;password&#125;`);</div><div class="line">    if (name === &apos;koa&apos; &amp;&amp; password === &apos;12345&apos;) &#123;</div><div class="line">        ctx.response.body = `&lt;h1&gt;Welcome, $&#123;name&#125;!&lt;/h1&gt;`;</div><div class="line">    &#125; else &#123;</div><div class="line">        ctx.response.body = `&lt;h1&gt;Login failed!&lt;/h1&gt;</div><div class="line">        &lt;p&gt;&lt;a href=&quot;/&quot;&gt;Try again&lt;/a&gt;&lt;/p&gt;`;</div><div class="line">    &#125;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">module.exports = &#123;</div><div class="line">    &apos;GET /&apos;: fn_index,</div><div class="line">    &apos;POST /signin&apos;: fn_signin</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>这个<code>index.js</code>通过<code>module.exports</code>把两个URL处理函数暴露出来。</p>
+<p>类似的，<code>hello.js</code>把一个URL处理函数暴露出来：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">var fn_hello = async (ctx, next) =&gt; &#123;</div><div class="line">    var name = ctx.params.name;</div><div class="line">    ctx.response.body = `&lt;h1&gt;Hello, $&#123;name&#125;!&lt;/h1&gt;`;</div><div class="line">&#125;;</div><div class="line"></div><div class="line">module.exports = &#123;</div><div class="line">    &apos;GET /hello/:name&apos;: fn_hello</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>现在，我们修改<code>app.js</code>，让它自动扫描<code>controllers</code>目录，找到所有<code>js</code>文件，导入，然后注册每个URL：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div></pre></td><td class="code"><pre><div class="line">// 先导入fs模块，然后用readdirSync列出文件</div><div class="line">// 这里可以用sync是因为启动时只运行一次，不存在性能问题:</div><div class="line">var files = fs.readdirSync(__dirname + &apos;/controllers&apos;);</div><div class="line"></div><div class="line">// 过滤出.js文件:</div><div class="line">var js_files = files.filter((f)=&gt;&#123;</div><div class="line">    return f.endsWith(&apos;.js&apos;);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// 处理每个js文件:</div><div class="line">for (var f of js_files) &#123;</div><div class="line">    console.log(`process controller: $&#123;f&#125;...`);</div><div class="line">    // 导入js文件:</div><div class="line">    let mapping = require(__dirname + &apos;/controllers/&apos; + f);</div><div class="line">    for (var url in mapping) &#123;</div><div class="line">        if (url.startsWith(&apos;GET &apos;)) &#123;</div><div class="line">            // 如果url类似&quot;GET xxx&quot;:</div><div class="line">            var path = url.substring(4);</div><div class="line">            router.get(path, mapping[url]);</div><div class="line">            console.log(`register URL mapping: GET $&#123;path&#125;`);</div><div class="line">        &#125; else if (url.startsWith(&apos;POST &apos;)) &#123;</div><div class="line">            // 如果url类似&quot;POST xxx&quot;:</div><div class="line">            var path = url.substring(5);</div><div class="line">            router.post(path, mapping[url]);</div><div class="line">            console.log(`register URL mapping: POST $&#123;path&#125;`);</div><div class="line">        &#125; else &#123;</div><div class="line">            // 无效的URL:</div><div class="line">            console.log(`invalid URL: $&#123;url&#125;`);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div></pre></td></tr></table></figure>
+<p>如果上面的大段代码看起来还是有点费劲，那就把它拆成更小单元的函数：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div></pre></td><td class="code"><pre><div class="line">function addMapping(router, mapping) &#123;</div><div class="line">    for (var url in mapping) &#123;</div><div class="line">        if (url.startsWith(&apos;GET &apos;)) &#123;</div><div class="line">            var path = url.substring(4);</div><div class="line">            router.get(path, mapping[url]);</div><div class="line">            console.log(`register URL mapping: GET $&#123;path&#125;`);</div><div class="line">        &#125; else if (url.startsWith(&apos;POST &apos;)) &#123;</div><div class="line">            var path = url.substring(5);</div><div class="line">            router.post(path, mapping[url]);</div><div class="line">            console.log(`register URL mapping: POST $&#123;path&#125;`);</div><div class="line">        &#125; else &#123;</div><div class="line">            console.log(`invalid URL: $&#123;url&#125;`);</div><div class="line">        &#125;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">function addControllers(router) &#123;</div><div class="line">    var files = fs.readdirSync(__dirname + &apos;/controllers&apos;);</div><div class="line">    var js_files = files.filter((f) =&gt; &#123;</div><div class="line">        return f.endsWith(&apos;.js&apos;);</div><div class="line">    &#125;);</div><div class="line"></div><div class="line">    for (var f of js_files) &#123;</div><div class="line">        console.log(`process controller: $&#123;f&#125;...`);</div><div class="line">        let mapping = require(__dirname + &apos;/controllers/&apos; + f);</div><div class="line">        addMapping(router, mapping);</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line"></div><div class="line">addControllers(router);</div></pre></td></tr></table></figure>
+<p>确保每个函数功能非常简单，一眼能看明白，是代码可维护的关键。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/06/25/Get&Post请求数据的获取方式/" data-toggle="tooltip" data-placement="top"
+                           title="Get&Post请求数据的获取方式">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/06/25/koa第一次亲密接触（创建koa2工程）/" data-toggle="tooltip" data-placement="top"
+                           title="koa第一次亲密接触（创建koa2工程）">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#1-koa原生实现路由"><span class="toc-text">1.koa原生实现路由</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#2-koa-router"><span class="toc-text">2.koa-router</span></a><ol class="toc-child"><li class="toc-item toc-level-4"><a class="toc-link" href="#处理post请求"><span class="toc-text">处理post请求</span></a></li></ol></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#3-重构"><span class="toc-text">3.重构</span></a></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Big Chuang&#39;s WebSite 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','undefined','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="undefined">
+</body>
+
+</html>

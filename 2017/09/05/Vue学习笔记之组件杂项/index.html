@@ -1,0 +1,368 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="世界那么大，谁不想去看看！">
+    <meta name="keyword" content="undefined">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Big Chuang&#39;s WebSite" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        Vue学习笔记之组件杂项｜undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2017/09/05/Vue学习笔记之组件杂项/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('undefined')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Big Chuang&#39;s WebSite
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/categories/">categories</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tages/">tages</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>Vue学习笔记之组件杂项</h1>
+                    
+                    <span class="meta">
+                         作者 大闯仔儿
+                        <span>
+                          日期 2017-09-05
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#Vue"
+                           title="Vue">Vue</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            Vue学习笔记之组件杂项
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="动态组件"><a href="#动态组件" class="headerlink" title="动态组件"></a>动态组件</h2><ul>
+<li>简单的来说：几个组件放一个挂载点下，然后根据父组件的某个变量来决定显示哪个，或者都不显示；</li>
+<li>动态切换：在挂载点使用<code>component</code>标签，然后使用<code>v-bind:is=”组件名”</code>，会自动去找匹配的组件名，如果没有，则不显示；</li>
+<li>官方文档解释：通过使用保留的<code>&lt;component&gt;</code> 元素，动态地绑定到它的 is 特性，我们让多个组件可以使用同一个挂载点，并动态切换：</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;app&quot;&gt;</div><div class="line">  &lt;button @click=&quot;toshow&quot;&gt;点击让子组件显示&lt;/button&gt;</div><div class="line">  &lt;component v-bind:is=&quot;which_to_show&quot;&gt;&lt;/component&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;script&gt;</div><div class="line">  var vm = new Vue(&#123;</div><div class="line">     el: &apos;#app&apos;,</div><div class="line">     data: &#123;</div><div class="line">         which_to_show: &quot;first&quot;</div><div class="line">     &#125;,</div><div class="line">     methods: &#123;</div><div class="line">         toshow: function () &#123; //切换组件显示</div><div class="line">              var arr = [&quot;first&quot;, &quot;second&quot;, &quot;third&quot;, &quot;&quot;];</div><div class="line">              var index = arr.indexOf(this.which_to_show);</div><div class="line">              if (index &lt; 3) &#123;</div><div class="line">                  this.which_to_show = arr[index + 1];</div><div class="line">              &#125; else &#123;</div><div class="line">                  this.which_to_show = arr[0];</div><div class="line">              &#125;</div><div class="line">      &#125;</div><div class="line">   &#125;,</div><div class="line">   components: &#123;</div><div class="line">      first: &#123; //第一个子组件</div><div class="line">          template: &quot;&lt;div&gt;这里是子组件1&lt;/div&gt;&quot;</div><div class="line">      &#125;,</div><div class="line">      second: &#123; //第二个子组件</div><div class="line">          template: &quot;&lt;div&gt;这里是子组件2&lt;/div&gt;&quot;</div><div class="line">      &#125;,</div><div class="line">      third: &#123; //第三个子组件</div><div class="line">          template: &quot;&lt;div&gt;这里是子组件3&lt;/div&gt;&quot;</div><div class="line">      &#125;,</div><div class="line">   &#125;</div><div class="line"> &#125;);</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
+<p>点击父组件的按钮，会自动切换显示某一个子组件（根据which_to_show这个变量的值来决定）。</p>
+<h3 id="keep-alive"><a href="#keep-alive" class="headerlink" title="keep-alive"></a>keep-alive</h3><p>在父组件中查看this.$children属性，可以发现，当子组件存在时，该属性的length为1，而子组件不存在时，该属性的length是0（无法获取到子组件）；因此，我们可以得出被切换掉（非当前显示）的组件，是直接被移除了内存。 </p>
+<p>假如需要子组件在切换后，依然需要他保留在内存中，避免下次出现的时候重新渲染。那么就应该在component标签中添加keep-alive属性。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div></pre></td><td class="code"><pre><div class="line">&lt;div id=&quot;app&quot;&gt;</div><div class="line">  &lt;button @click=&quot;toshow&quot;&gt;点击让子组件显示&lt;/button&gt;</div><div class="line">  &lt;component v-bind:is=&quot;which_to_show&quot; keep-alive&gt;&lt;/component&gt;</div><div class="line">&lt;/div&gt;</div><div class="line">&lt;script&gt;</div><div class="line">  var vm = new Vue(&#123;</div><div class="line">     el: &apos;#app&apos;,</div><div class="line">     data: &#123;</div><div class="line">         which_to_show: &quot;first&quot;</div><div class="line">     &#125;,</div><div class="line">     methods: &#123;</div><div class="line">         toshow: function () &#123; //切换组件显示</div><div class="line">              var arr = [&quot;first&quot;, &quot;second&quot;, &quot;third&quot;, &quot;&quot;];</div><div class="line">              var index = arr.indexOf(this.which_to_show);</div><div class="line">              if (index &lt; 3) &#123;</div><div class="line">                  this.which_to_show = arr[index + 1];</div><div class="line">              &#125; else &#123;</div><div class="line">                  this.which_to_show = arr[0];</div><div class="line">              &#125;</div><div class="line">              console.log(this.$children);</div><div class="line">      &#125;</div><div class="line">   &#125;,</div><div class="line">   components: &#123;</div><div class="line">      first: &#123; //第一个子组件</div><div class="line">          template: &quot;&lt;div&gt;这里是子组件1&lt;/div&gt;&quot;</div><div class="line">      &#125;,</div><div class="line">      second: &#123; //第二个子组件</div><div class="line">          template: &quot;&lt;div&gt;这里是子组件2&lt;/div&gt;&quot;</div><div class="line">      &#125;,</div><div class="line">      third: &#123; //第三个子组件</div><div class="line">          template: &quot;&lt;div&gt;这里是子组件3&lt;/div&gt;&quot;</div><div class="line">      &#125;,</div><div class="line">   &#125;</div><div class="line"> &#125;);</div><div class="line">&lt;/script&gt;</div></pre></td></tr></table></figure>
+<p><strong>初始情况下，vm.$children属性中只有一个元素（first组件），点击按钮切换后，vm.$children属性中有两个元素，再次切换后，则有三个元素（三个子组件都保留在内存中）。之后无论如何切换，将一直保持有三个元素。</strong></p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/09/24/Vue学习笔记之导航钩子/" data-toggle="tooltip" data-placement="top"
+                           title="Vue学习笔记之导航钩子">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/09/05/Vue学习笔记之组件的通讯/" data-toggle="tooltip" data-placement="top"
+                           title="Vue学习笔记之组件的通讯">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#动态组件"><span class="toc-text">动态组件</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#keep-alive"><span class="toc-text">keep-alive</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Big Chuang&#39;s WebSite 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','undefined','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="undefined">
+</body>
+
+</html>

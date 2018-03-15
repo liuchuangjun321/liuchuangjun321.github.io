@@ -1,0 +1,431 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="世界那么大，谁不想去看看！">
+    <meta name="keyword" content="undefined">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Big Chuang&#39;s WebSite" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        process对象｜undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2017/07/19/process对象/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('undefined')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Big Chuang&#39;s WebSite
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/categories/">categories</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tages/">tages</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>process对象</h1>
+                    
+                    <span class="meta">
+                         作者 大闯仔儿
+                        <span>
+                          日期 2017-07-19
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#node"
+                           title="node">node</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            process对象
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p><code>process</code>对象是 Node 的一个全局对象，提供当前 Node 进程的信息。它可以在脚本的任意位置使用，不必通过<code>require</code>命令加载。该对象部署了<code>EventEmitter</code>接口。</p>
+<h4 id="1-属性"><a href="#1-属性" class="headerlink" title="1.属性"></a>1.属性</h4><p><code>process</code>对象提供一系列属性，用于返回系统信息。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div></pre></td><td class="code"><pre><div class="line">process.argv：返回一个数组，成员是当前进程的所有命令行参数。</div><div class="line">process.env：返回一个对象，成员为当前Shell的环境变量，比如process.env.HOME。</div><div class="line">process.installPrefix：返回一个字符串，表示 Node 安装路径的前缀，比如/usr/local。相应地，Node 的执行文件目录为/usr/local/bin/node。</div><div class="line">process.pid：返回一个数字，表示当前进程的进程号。</div><div class="line">process.platform：返回一个字符串，表示当前的操作系统，比如Linux。</div><div class="line">process.title：返回一个字符串，默认值为node，可以自定义该值。</div><div class="line">process.version：返回一个字符串，表示当前使用的 Node 版本，比如v7.10.0。</div></pre></td></tr></table></figure>
+<p><code>process</code>对象还有一些属性，用来指向 Shell 提供的接口。</p>
+<h6 id="1-1-process-stdout"><a href="#1-1-process-stdout" class="headerlink" title="1.1 process.stdout"></a>1.1 process.stdout</h6><p><code>process.stdout</code>属性返回一个对象，表示标准输出。该对象的<code>write</code>方法等同于<code>console.log</code>，可用在标准输出向用户显示内容。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">console.log = function(d) &#123;</div><div class="line">  process.stdout.write(d + &apos;\n&apos;);</div><div class="line">&#125;;</div></pre></td></tr></table></figure>
+<p>下面代码表示将一个文件导向标准输出。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div></pre></td><td class="code"><pre><div class="line">var fs = require(&apos;fs&apos;);</div><div class="line"></div><div class="line">fs.createReadStream(&apos;wow.txt&apos;)</div><div class="line">  .pipe(process.stdout);</div></pre></td></tr></table></figure>
+<p>上面代码中，由于<code>process.stdout</code>和<code>process.stdin</code>与其他进程的通信，都是流（stream）形式，所以必须通过<code>pipe</code>管道命令中介。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var fs = require(&apos;fs&apos;);</div><div class="line">var zlib = require(&apos;zlib&apos;);</div><div class="line"></div><div class="line">fs.createReadStream(&apos;wow.txt&apos;)</div><div class="line">  .pipe(zlib.createGzip())</div><div class="line">  .pipe(process.stdout);</div></pre></td></tr></table></figure>
+<p>上面代码通过<code>pipe</code>方法，先将文件数据压缩，然后再导向标准输出。</p>
+<h6 id="1-2-process-stdin"><a href="#1-2-process-stdin" class="headerlink" title="1.2 process.stdin"></a>1.2 process.stdin</h6><p><code>process.stdin</code>返回一个对象，表示标准输入。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">process.stdin.pipe(process.stdout)</div></pre></td></tr></table></figure>
+<p>上面代码表示将标准输入导向标准输出。</p>
+<p>由于stdin和stdout都部署了stream接口，所以可以使用stream接口的方法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">process.stdin.setEncoding(&apos;utf8&apos;);</div><div class="line"></div><div class="line">process.stdin.on(&apos;readable&apos;, function() &#123;</div><div class="line">  var chunk = process.stdin.read();</div><div class="line">  if (chunk !== null) &#123;</div><div class="line">    process.stdout.write(&apos;data: &apos; + chunk);</div><div class="line">  &#125;</div><div class="line">&#125;);</div><div class="line"></div><div class="line">process.stdin.on(&apos;end&apos;, function() &#123;</div><div class="line">  process.stdout.write(&apos;end&apos;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h6 id="1-3-process-stderr"><a href="#1-3-process-stderr" class="headerlink" title="1.3 process.stderr"></a>1.3 process.stderr</h6><p><code>process.stderr</code>属性指向标准错误。</p>
+<h6 id="1-4-process-argv，process-execPath，process-execArgv"><a href="#1-4-process-argv，process-execPath，process-execArgv" class="headerlink" title="1.4 process.argv，process.execPath，process.execArgv"></a>1.4 process.argv，process.execPath，process.execArgv</h6><p><code>process.argv</code>属性返回一个数组，由命令行执行脚本时的各个参数组成。它的第一个成员总是<code>node</code>，第二个成员是脚本文件名，其余成员是脚本文件的参数。</p>
+<p>请看下面的例子，新建一个脚本文件<code>argv.js</code>。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">// argv.js</div><div class="line">console.log(&quot;argv: &quot;, process.argv);</div></pre></td></tr></table></figure>
+<p>命令行下调用这个脚本，会得到以下结果。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">$ node argv.js a b c</div><div class="line">[ &apos;node&apos;, &apos;/path/to/argv.js&apos;, &apos;a&apos;, &apos;b&apos;, &apos;c&apos; ]</div></pre></td></tr></table></figure>
+<p>上面代码表示，<code>argv</code>返回数组的成员依次是命令行的各个部分，真正的参数实际上是从<code>process.argv[2]</code>开始。要得到真正的参数部分，可以把<code>argv.js</code>改写成下面这样。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">// argv.js</div><div class="line">var myArgs = process.argv.slice(2);</div><div class="line">console.log(myArgs);</div></pre></td></tr></table></figure>
+<p><code>process.execPath</code>属性返回执行当前脚本的Node二进制文件的绝对路径。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">&gt; process.execPath</div><div class="line">&apos;/usr/local/bin/node&apos;</div><div class="line">&gt;</div></pre></td></tr></table></figure>
+<p><code>process.execArgv</code>属性返回一个数组，成员是命令行下执行脚本时，在 Node 可执行文件与脚本文件之间的命令行参数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line"># script.js的代码为</div><div class="line"># console.log(process.execArgv);</div><div class="line">$ node --harmony script.js --version</div></pre></td></tr></table></figure>
+<h6 id="1-5-process-env"><a href="#1-5-process-env" class="headerlink" title="1.5 process.env"></a>1.5 process.env</h6><p><code>process.env</code>属性返回一个对象，包含了当前Shell的所有环境变量。比如，<code>process.env.HOME</code>返回用户的主目录。</p>
+<p>通常的做法是，新建一个环境变量<code>NODE_ENV</code>，用它确定当前所处的开发阶段，生产阶段设为<code>production</code>，开发阶段设为<code>develop</code>或<code>staging</code>，然后在脚本中读取<code>process.env.NODE_ENV</code>即可。</p>
+<p>运行脚本时，改变环境变量，可以采用下面的写法。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">$ export NODE_ENV=production &amp;&amp; node app.js</div><div class="line"># 或者</div><div class="line">$ NODE_ENV=production node app.js</div></pre></td></tr></table></figure>
+<h4 id="2-方法"><a href="#2-方法" class="headerlink" title="2.方法"></a>2.方法</h4><p><code>process</code>对象提供以下方法：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">process.chdir()：切换工作目录到指定目录。</div><div class="line">process.cwd()：返回运行当前脚本的工作目录的路径。</div><div class="line">process.exit()：退出当前进程。</div><div class="line">process.getgid()：返回当前进程的组ID（数值）。</div><div class="line">process.getuid()：返回当前进程的用户ID（数值）。</div><div class="line">process.nextTick()：指定回调函数在当前执行栈的尾部、下一次Event Loop之前执行。</div><div class="line">process.on()：监听事件。</div><div class="line">process.setgid()：指定当前进程的组，可以使用数字ID，也可以使用字符串ID。</div><div class="line">process.setuid()：指定当前进程的用户，可以使用数字ID，也可以使用字符串ID。</div></pre></td></tr></table></figure>
+<h6 id="2-1-process-cwd-process-chdir"><a href="#2-1-process-cwd-process-chdir" class="headerlink" title="2.1 process.cwd(), process.chdir()"></a>2.1 process.cwd(), process.chdir()</h6><p><code>cwd</code>方法返回进程的当前目录（绝对路径），<code>chdir</code>方法用来切换目录。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">&gt; process.cwd()</div><div class="line">&apos;/home/aaa&apos;</div><div class="line"></div><div class="line">&gt; process.chdir(&apos;/home/bbb&apos;)</div><div class="line">&gt; process.cwd()</div><div class="line">&apos;/home/bbb&apos;</div></pre></td></tr></table></figure>
+<p>注意，<code>process.cwd()</code>与<code>__dirname</code>的区别。前者进程发起时的位置，后者是脚本的位置，两者可能是不一致的。比如，<code>node ./code/program.js</code>，对于<code>process.cwd()</code>来说，返回的是当前目录（<code>.</code>）；对于<code>__dirname</code>来说，返回是脚本所在目录，即<code>./code</code>。</p>
+<h6 id="2-2-process-on"><a href="#2-2-process-on" class="headerlink" title="2.2 process.on()"></a>2.2 process.on()</h6><p><code>process</code>对象部署了EventEmitter接口，可以使用<code>on</code>方法监听各种事件，并指定回调函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div></pre></td><td class="code"><pre><div class="line">process.on(&apos;uncaughtException&apos;, function(err)&#123;</div><div class="line">  console.error(&apos;got an error: %s&apos;, err.message);</div><div class="line">  process.exit(1);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">setTimeout(function()&#123;</div><div class="line">  throw new Error(&apos;fail&apos;);</div><div class="line">&#125;, 100);</div></pre></td></tr></table></figure>
+<p>上面代码是<code>process</code>监听Node的一个全局性事件<code>uncaughtException</code>，只要有错误没有捕获，就会触发这个事件。</p>
+<p><code>process</code>支持的事件还有下面这些。</p>
+<ul>
+<li><code>data</code>事件：数据输出输入时触发</li>
+<li><code>SIGINT</code>事件：接收到系统信号<code>SIGINT</code>时触发，主要是用户按<code>Ctrl + c</code>时触发。</li>
+<li><code>SIGTERM</code>事件：系统发出进程终止信号<code>SIGTERM</code>时触发</li>
+<li><code>exit</code>事件：进程退出前触发</li>
+</ul>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div></pre></td><td class="code"><pre><div class="line">process.on(&apos;SIGINT&apos;, function () &#123;</div><div class="line">  console.log(&apos;Got a SIGINT. Goodbye cruel world&apos;);</div><div class="line">  process.exit(0);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">// 也可以忽略这个信号</div><div class="line">process.on(&apos;SIGINT&apos;, function() &#123;</div><div class="line">  console.log(&quot;Ignored Ctrl-C&quot;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>使用时，向该进程发出系统信号，就会导致进程退出。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div></pre></td><td class="code"><pre><div class="line">$ kill -s SIGINT [process_id]</div></pre></td></tr></table></figure>
+<p><code>SIGTERM</code>信号表示内核要求当前进程停止，进程可以自行停止，也可以忽略这个信号。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div></pre></td><td class="code"><pre><div class="line">var http = require(&apos;http&apos;);</div><div class="line"></div><div class="line">var server = http.createServer(function (req, res) &#123;</div><div class="line">  // ...</div><div class="line">&#125;);</div><div class="line"></div><div class="line">process.on(&apos;SIGTERM&apos;, function () &#123;</div><div class="line">  server.close(function () &#123;</div><div class="line">    process.exit(0);</div><div class="line">  &#125;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码表示，进程接到<code>SIGTERM</code>信号之后，关闭服务器，然后退出进程。需要注意的是，这时进程不会马上退出，而是要回应完最后一个请求，处理完所有回调函数，然后再退出。</p>
+<p><code>exit</code>事件在Node进程退出前触发。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">process.on(&apos;exit&apos;, function() &#123;</div><div class="line">  console.log(&apos;Goodbye&apos;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<h4 id="3-事件"><a href="#3-事件" class="headerlink" title="3.事件"></a>3.事件</h4><h6 id="3-1-exit事件"><a href="#3-1-exit事件" class="headerlink" title="3.1 exit事件"></a>3.1 exit事件</h6><p>当前进程退出时，会触发<code>exit</code>事件，可以对该事件指定回调函数。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div></pre></td><td class="code"><pre><div class="line">process.on(&apos;exit&apos;, function () &#123;</div><div class="line">  fs.writeFileSync(&apos;/tmp/myfile&apos;, &apos;需要保存到硬盘的信息&apos;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>下面是一个例子，进程退出时，显示一段日志。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div></pre></td><td class="code"><pre><div class="line">process.on(&quot;exit&quot;, code =&gt;</div><div class="line">  console.log(&quot;exiting with code: &quot; + code))</div></pre></td></tr></table></figure>
+<p>注意，<strong>此时回调函数只能执行同步操作，不能包含异步操作，因为执行完回调函数，进程就会退出，无法监听到回调函数的操作结果。</strong></p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">process.on(&apos;exit&apos;, function(code) &#123;</div><div class="line">  // 不会执行</div><div class="line">  setTimeout(function() &#123;</div><div class="line">    console.log(&apos;This will not run&apos;);</div><div class="line">  &#125;, 0);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码在<code>exit</code>事件的回调函数里面，指定了一个下一轮事件循环，所要执行的操作。这是无效的，不会得到执行。</p>
+<h6 id="3-2-beforeExit事件"><a href="#3-2-beforeExit事件" class="headerlink" title="3.2 beforeExit事件"></a>3.2 beforeExit事件</h6><p>beforeExit事件在Node清空了Event Loop以后，再没有任何待处理的任务时触发。正常情况下，如果没有任何待处理的任务，Node进程会自动退出，设置beforeExit事件的监听函数以后，就可以提供一个机会，再部署一些任务，使得Node进程不退出。</p>
+<p>beforeExit事件与exit事件的主要区别是，beforeExit的监听函数可以部署异步任务，而exit不行。</p>
+<p>此外，如果是显式终止程序（比如调用process.exit()），或者因为发生未捕获的错误，而导致进程退出，这些场合不会触发beforeExit事件。因此，不能使用该事件替代exit事件。</p>
+<h6 id="3-3-uncaughtException事件"><a href="#3-3-uncaughtException事件" class="headerlink" title="3.3 uncaughtException事件"></a>3.3 uncaughtException事件</h6><p>当前进程抛出一个没有被捕捉的错误时，会触发<code>uncaughtException</code>事件。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div></pre></td><td class="code"><pre><div class="line">process.on(&apos;uncaughtException&apos;, function (err) &#123;</div><div class="line">  console.error(&apos;An uncaught error occurred!&apos;);</div><div class="line">  console.error(err.stack);</div><div class="line">  throw new Error(&apos;未捕获错误&apos;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>部署<code>uncaughtException</code>事件的监听函数，是免于Node进程终止的最后措施，否则Node就要执行<code>process.exit()</code>。出于除错的目的，并不建议发生错误后，还保持进程运行。</p>
+<p>抛出错误之前部署的异步操作，还是会继续执行。只有完成以后，Node进程才会退出。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div></pre></td><td class="code"><pre><div class="line">process.on(&apos;uncaughtException&apos;, function(err) &#123;</div><div class="line">  console.log(&apos;Caught exception: &apos; + err);</div><div class="line">&#125;);</div><div class="line"></div><div class="line">setTimeout(function() &#123;</div><div class="line">  console.log(&apos;本行依然执行&apos;);</div><div class="line">&#125;, 500);</div><div class="line"></div><div class="line">// 下面的表达式抛出错误</div><div class="line">nonexistentFunc();</div></pre></td></tr></table></figure>
+<p>上面代码中，抛出错误之后，此前setTimeout指定的回调函数亦然会执行。</p>
+<h6 id="3-4-信号事件"><a href="#3-4-信号事件" class="headerlink" title="3.4 信号事件"></a>3.4 信号事件</h6><p>操作系统内核向Node进程发出信号，会触发信号事件。实际开发中，主要对SIGTERM和SIGINT信号部署监听函数，这两个信号在非Windows平台会导致进程退出，但是只要部署了监听函数，Node进程收到信号后就不会退出。</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">// 读取标准输入，这主要是为了不让当前进程退出</div><div class="line">process.stdin.resume();</div><div class="line"></div><div class="line">process.on(&apos;SIGINT&apos;, function() &#123;</div><div class="line">  console.log(&apos;SIGINT信号，按Control-D退出&apos;);</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>上面代码部署了SIGINT信号的监听函数，当用户按下Ctrl-C后，会显示提示文字。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/07/19/Stream接口/" data-toggle="tooltip" data-placement="top"
+                           title="Stream接口">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/07/18/Express细节探究-设置静态文件目录/" data-toggle="tooltip" data-placement="top"
+                           title="Express细节探究--设置静态文件目录">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-4"><a class="toc-link" href="#1-属性"><span class="toc-text">1.属性</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#1-1-process-stdout"><span class="toc-text">1.1 process.stdout</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#1-2-process-stdin"><span class="toc-text">1.2 process.stdin</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#1-3-process-stderr"><span class="toc-text">1.3 process.stderr</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#1-4-process-argv，process-execPath，process-execArgv"><span class="toc-text">1.4 process.argv，process.execPath，process.execArgv</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#1-5-process-env"><span class="toc-text">1.5 process.env</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#2-方法"><span class="toc-text">2.方法</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#2-1-process-cwd-process-chdir"><span class="toc-text">2.1 process.cwd(), process.chdir()</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#2-2-process-on"><span class="toc-text">2.2 process.on()</span></a></li></ol></li></ol></li><li class="toc-item toc-level-4"><a class="toc-link" href="#3-事件"><span class="toc-text">3.事件</span></a><ol class="toc-child"><li class="toc-item toc-level-6"><a class="toc-link" href="#3-1-exit事件"><span class="toc-text">3.1 exit事件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-2-beforeExit事件"><span class="toc-text">3.2 beforeExit事件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-3-uncaughtException事件"><span class="toc-text">3.3 uncaughtException事件</span></a></li><li class="toc-item toc-level-6"><a class="toc-link" href="#3-4-信号事件"><span class="toc-text">3.4 信号事件</span></a></li></ol></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Big Chuang&#39;s WebSite 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','undefined','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="undefined">
+</body>
+
+</html>

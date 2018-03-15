@@ -1,0 +1,442 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="世界那么大，谁不想去看看！">
+    <meta name="keyword" content="undefined">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Big Chuang&#39;s WebSite" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        使用WebRTC搭建前端视频聊天室——信令篇｜undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2018/01/25/使用WebRTC搭建前端视频聊天室——信令篇/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('undefined')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Big Chuang&#39;s WebSite
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/categories/">categories</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tages/">tages</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>使用WebRTC搭建前端视频聊天室——信令篇</h1>
+                    
+                    <span class="meta">
+                         作者 大闯仔儿
+                        <span>
+                          日期 2018-01-25
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#WebRTC"
+                           title="WebRTC">WebRTC</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            使用WebRTC搭建前端视频聊天室——信令篇
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <h2 id="WebRTC的服务器"><a href="#WebRTC的服务器" class="headerlink" title="WebRTC的服务器"></a>WebRTC的服务器</h2><p>WebRTC提供了浏览器到浏览器（点对点）之间的通信，但并不意味着WebRTC不需要服务器。暂且不说基于服务器的一些扩展业务，WebRTC至少有两件事必须要用到服务器：</p>
+<ul>
+<li>浏览器之间交换建立通信的元数据（信令）必须通过服务器</li>
+<li>为了穿越NAT和防火墙</li>
+</ul>
+<h2 id="为什么需要信令？"><a href="#为什么需要信令？" class="headerlink" title="为什么需要信令？"></a>为什么需要信令？</h2><p>我们需要通过一系列的信令来建立浏览器之间的通信。而具体需要通过信令交换哪些内容呢？这里大概列了一下：</p>
+<ul>
+<li>用来控制通信开启或者关闭的连接控制消息</li>
+<li>发生错误时用来彼此告知的消息</li>
+<li>媒体流元数据，比如像解码器、解码器的配置、带宽、媒体类型等等</li>
+<li>用来建立安全连接的关键数据</li>
+<li>外界所看到的的网络上的数据，比如IP地址、端口等</li>
+</ul>
+<p>在建立连接之前，浏览器之间显然没有办法传递数据。所以我们需要通过服务器的中转，在浏览器之间传递这些数据，然后建立浏览器之间的点对点连接。但是WebRTC API中并没有实现这些。</p>
+<h2 id="为什么WebRTC不去实现信令交换？"><a href="#为什么WebRTC不去实现信令交换？" class="headerlink" title="为什么WebRTC不去实现信令交换？"></a>为什么WebRTC不去实现信令交换？</h2><p>不去由WebRTC实现信令交换的原因很简单：WebRTC标准的制定者们希望能够最大限度地兼容已有的成熟技术。具体的连接建立方式由一种叫JSEP（JavaScript Session Establishment Protocol）的协议来规定，使用JSEP有两个好处：</p>
+<ul>
+<li>在JSEP中，需要交换的关键信息是多媒体会话描述（multimedia session description）。由于开发者在其所开发的应用程序中信令所使用的协议不同（SIP或是XMPP或是开发者自己定义的协议），WebRTC建立呼叫的思想建立在媒体流控制层面上，从而与上层信令传输相分离，防止相互之间的信令污染。只要上层信令为其提供了多媒体会话描述符这样的关键信息就可以建立连接，不管开发者用何种方式来传递。</li>
+<li>JSEP的架构同时也避免了在浏览器上保存连接的状态，防止其像一个状态机一样工作。由于页面经常被频繁的刷新，如果连接的状态保存在浏览器中，每次刷新都会丢失。使用JSEP能使得状态被保存在服务器上</li>
+</ul>
+<h3 id="会话描述协议（Session-Description-Protocol）"><a href="#会话描述协议（Session-Description-Protocol）" class="headerlink" title="会话描述协议（Session Description Protocol）"></a>会话描述协议（Session Description Protocol）</h3><p>JSEP将客户端之间传递的信令分为两种:offer信令和answer信令。他们主要内容的格式都遵循会话描述协议（Session Description Protocal，简称SDP）。一个SDP的信令的内容大致上如下：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div></pre></td><td class="code"><pre><div class="line">v=0</div><div class="line">o=- 7806956 075423448571 2 IN IP4 127.0.0.1</div><div class="line">s=-</div><div class="line">t=0 0</div><div class="line">a=group:BUNDLE audio video data</div><div class="line">a=msid-semantic: WMS 5UhOcZZB1uXtVbYAU5thB0SpkXbzk9FHo30g</div><div class="line">m=audio 1 RTP/SAVPF 111 103 104 0 8 106 105 13 126</div><div class="line">c=IN IP4 0.0.0.0</div><div class="line">a=rtcp:1 IN IP4 0.0.0.0</div><div class="line">a=ice-ufrag:grnpQ0BSTSnBLroq</div><div class="line">a=ice-pwd:N5i4DZKMM2L7FEYnhO8V7Kg5</div><div class="line">a=ice-options:google-ice</div><div class="line">a=fingerprint:sha-256 01:A3:18:0E:36:5E:EF:24:18:8C:8B:0C:9E:B0:84:F6:34:E9:42:E3:0F:43:64:ED:EC:46:2C:3C:23:E3:78:7B</div><div class="line">a=setup:actpass</div><div class="line">a=mid:audio</div><div class="line">a=extmap:1 urn:ietf:params:rtp-hdrext:ssrc-audio-level</div><div class="line">a=recvonly</div><div class="line">a=rtcp-mux</div><div class="line">a=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:qzcKu22ar1+lYah6o8ggzGcQ5obCttoOO2IzXwFV</div><div class="line">a=rtpmap:111 opus/48000/2</div><div class="line">a=fmtp:111 minptime=10</div><div class="line">a=rtpmap:103 ISAC/16000</div><div class="line">a=rtpmap:104 ISAC/32000</div><div class="line">a=rtpmap:0 PCMU/8000</div><div class="line">a=rtpmap:8 PCMA/8000</div><div class="line">a=rtpmap:106 CN/32000</div><div class="line">a=rtpmap:105 CN/16000</div><div class="line">a=rtpmap:13 CN/8000</div><div class="line">a=rtpmap:126 telephone-event/8000</div><div class="line">a=maxptime:60</div><div class="line">m=video 1 RTP/SAVPF 100 116 117</div><div class="line">c=IN IP4 0.0.0.0</div><div class="line">a=rtcp:1 IN IP4 0.0.0.0</div><div class="line">a=ice-ufrag:grnpQ0BSTSnBLroq</div><div class="line">a=ice-pwd:N5i4DZKMM2L7FEYnhO8V7Kg5</div><div class="line">a=ice-options:google-ice</div><div class="line">a=fingerprint:sha-256 01:A3:18:0E:36:5E:EF:24:18:8C:8B:0C:9E:B0:84:F6:34:E9:42:E3:0F:43:64:ED:EC:46:2C:3C:23:E3:78:7B</div><div class="line">a=setup:actpass</div><div class="line">a=mid:video</div><div class="line">a=extmap:2 urn:ietf:params:rtp-hdrext:toffset</div><div class="line">a=extmap:3 http://www.webrtc.org/experiments/rtp-hdrext/abs-send-time</div><div class="line">a=sendrecv</div><div class="line">a=rtcp-mux</div><div class="line">a=crypto:1 AES_CM_128_HMAC_SHA1_80 inline:qzcKu22ar1+lYah6o8ggzGcQ5obCttoOO2IzXwFV</div><div class="line">a=rtpmap:100 VP8/90000</div><div class="line">a=rtcp-fb:100 ccm fir</div><div class="line">a=rtcp-fb:100 nack</div><div class="line">a=rtcp-fb:100 goog-remb</div><div class="line">a=rtpmap:116 red/90000</div><div class="line">a=rtpmap:117 ulpfec/90000</div><div class="line">a=ssrc:3162115896 cname:/nERF7Ern+udqf++</div><div class="line">a=ssrc:3162115896 msid:5UhOcZZB1uXtVbYAU5thB0SpkXbzk9FHo30g 221b204e-c9a0-4b01-b361-e17e9bf8f639</div><div class="line">a=ssrc:3162115896 mslabel:5UhOcZZB1uXtVbYAU5thB0SpkXbzk9FHo30g</div><div class="line">a=ssrc:3162115896 label:221b204e-c9a0-4b01-b361-e17e9bf8f639</div><div class="line">m=application 1 DTLS/SCTP 5000</div><div class="line">c=IN IP40.0.0.0</div><div class="line">a=ice-ufrag:grnpQ0BSTSnBLroq</div><div class="line">a=ice-pwd:N5i4DZKMM2L7FEYnhO8V7Kg5</div><div class="line">a=ice-options:google-ice</div><div class="line">a=fingerprint:sha-256 01:A3:18:0E:36:5E:EF:24:18:8C:8B:0C:9E:B0:84:F6:34:E9:42:E3:0F:43:64:ED:EC:46:2C:3C:23:E3:78:7B</div><div class="line">a=setup:actpass</div><div class="line">a=mid:data</div><div class="line">a=sctpmap:5000 webrtc-datachannel 1024</div></pre></td></tr></table></figure>
+<p>这些都什么玩意？说实话我不知道，我这里放这么一大段出来，只是为了让文章内容显得很多…如果想深入了解的话，可以参考<a href="http://datatracker.ietf.org/doc/draft-nandakumar-rtcweb-sdp/?include_text=1" target="_blank" rel="external">SDP for the WebRTC draft-nandakumar-rtcweb-sdp-04</a>自行进行解析</p>
+<p>其实可以将其简化一下，它就是一个在点对点连接中描述自己的字符串，我们可以将其封装在JSON中进行传输，在PeerConnection建立后将其通过服务器中转后，将自己的SDP描述符和对方的SDP描述符交给PeerConnection就行了</p>
+<h2 id="信令与RTCPeerConnection建立"><a href="#信令与RTCPeerConnection建立" class="headerlink" title="信令与RTCPeerConnection建立"></a>信令与RTCPeerConnection建立</h2><p>在前一篇文章中介绍过，WebRTC使用<code>RTCPeerConnection</code>来在浏览器之间传递流数据，在建立<code>RTCPeerConnection</code>实例之后，想要使用其建立一个点对点的信道，我们需要做两件事：</p>
+<ul>
+<li>确定本机上的媒体流的特性，比如分辨率、编解码能力啥的（SDP描述符）</li>
+<li>连接两端的主机的网络地址（ICE Candidate）</li>
+</ul>
+<p>需要注意的是，由于连接两端的主机都可能在内网或是在防火墙之后，我们需要一种对所有联网的计算机都通用的定位方式。这其中就涉及NAT/防火墙穿越技术，以及WebRTC用来达到这个目的所ICE框架。这一部分在上一篇文章中有介绍，这里不再赘述。</p>
+<h3 id="通过offer和answer交换SDP描述符"><a href="#通过offer和answer交换SDP描述符" class="headerlink" title="通过offer和answer交换SDP描述符"></a>通过offer和answer交换SDP描述符</h3><p>大致上在两个用户（甲和乙）之间建立点对点连接流程应该是这个样子（这里不考虑错误的情况，RTCPeerConnection简称PC）：</p>
+<ol>
+<li>甲和乙各自建立一个PC实例</li>
+<li>甲通过PC所提供的<code>createOffer()</code>方法建立一个包含甲的SDP描述符的offer信令</li>
+<li>甲通过PC所提供的<code>setLocalDescription()</code>方法，将甲的SDP描述符交给甲的PC实例</li>
+<li>甲将offer信令通过服务器发送给乙</li>
+<li>乙将甲的offer信令中所包含的的SDP描述符提取出来，通过PC所提供的<code>setRemoteDescription()</code>方法交给乙的PC实例</li>
+<li>乙通过PC所提供的<code>createAnswer()</code>方法建立一个包含乙的SDP描述符answer信令</li>
+<li>乙通过PC所提供的<code>setLocalDescription()</code>方法，将乙的SDP描述符交给乙的PC实例</li>
+<li>乙将answer信令通过服务器发送给甲</li>
+<li>甲接收到乙的answer信令后，将其中乙的SDP描述符提取出来，调用<code>setRemoteDescripttion()</code>方法交给甲自己的PC实例</li>
+</ol>
+<p>通过在这一系列的信令交换之后，甲和乙所创建的PC实例都包含甲和乙的SDP描述符了，完成了两件事的第一件。我们还需要完成第二件事——获取连接两端主机的网络地址</p>
+<h3 id="通过ICE框架建立NAT-防火墙穿越的连接"><a href="#通过ICE框架建立NAT-防火墙穿越的连接" class="headerlink" title="通过ICE框架建立NAT/防火墙穿越的连接"></a>通过ICE框架建立NAT/防火墙穿越的连接</h3><p>这个网络地址应该是能从外界直接访问，WebRTC使用ICE框架来获得这个地址。RTCPeerConnection在创立的时候可以将ICE服务器的地址传递进去，如：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div></pre></td><td class="code"><pre><div class="line">var iceServer = &#123;</div><div class="line">    &quot;iceServers&quot;: [&#123;</div><div class="line">        &quot;url&quot;: &quot;stun:stun.l.google.com:19302&quot;</div><div class="line">    &#125;]</div><div class="line">&#125;;</div><div class="line">var pc = new RTCPeerConnection(iceServer);</div></pre></td></tr></table></figure>
+<p>当然这个地址也需要交换，还是以甲乙两位为例，交换的流程如下（RTCPeerConnection简称PC）：</p>
+<ol>
+<li>甲、乙各创建配置了ICE服务器的PC实例，并为其添加<code>onicecandidate</code>事件回调</li>
+<li>当网络候选可用时，将会调用<code>onicecandidate</code>函数</li>
+<li>在回调函数内部，甲或乙将网络候选的消息封装在ICE Candidate信令中，通过服务器中转，传递给对方</li>
+<li>甲或乙接收到对方通过服务器中转所发送过来ICE Candidate信令时，将其解析并获得网络候选，将其通过PC实例的<code>addIceCandidate()</code>方法加入到PC实例中</li>
+</ol>
+<p>这样连接就创立完成了，可以向RTCPeerConnection中通过<code>addStream()</code>加入流来传输媒体流数据。将流加入到RTCPeerConnection实例中后，对方就可以通过<code>onaddstream</code>所绑定的回调函数监听到了。调用<code>addStream()</code>可以在连接完成之前，在连接建立之后，对方一样能监听到媒体流</p>
+<p><strong>此处可以参考另一篇博客：</strong></p>
+<p><a href="http://blog.csdn.net/aflyeaglenku/article/details/76603615" target="_blank" rel="external">WebRTC系列（3）：PeerConnection通信建立流程</a></p>
+<h2 id="聊天室中的信令"><a href="#聊天室中的信令" class="headerlink" title="聊天室中的信令"></a>聊天室中的信令</h2><p>上面是两个用户之间的信令交换流程，但我们需要建立一个多用户在线视频聊天的聊天室。所以需要进行一些扩展，来达到这个要求：</p>
+<h3 id="用户操作"><a href="#用户操作" class="headerlink" title="用户操作"></a>用户操作</h3><p>首先需要确定一个用户在聊天室中的操作大致流程：</p>
+<ol>
+<li>打开页面连接到服务器上</li>
+<li>进入聊天室</li>
+<li>与其他所有已在聊天室的用户建立点对点的连接，并输出在页面上</li>
+<li>若有聊天室内的其他用户离开，应得到通知，关闭与其的连接并移除其在页面中的输出</li>
+<li>若又有其他用户加入，应得到通知，建立于新加入用户的连接，并输出在页面上</li>
+<li>离开页面，关闭所有连接</li>
+</ol>
+<p>从上面可以看出来，除了点对点连接的建立，还需要服务器至少做如下几件事：</p>
+<ol>
+<li>新用户加入房间时，发送新用户的信息给房间内的其他用户</li>
+<li>新用户加入房间时，发送房间内的其他用户信息给新加入房间的用户</li>
+<li>用户离开房间时，发送离开用户的信息给房间内的其他用户</li>
+</ol>
+<h3 id="实现思路"><a href="#实现思路" class="headerlink" title="实现思路"></a>实现思路</h3><p>以使用WebSocket为例，上面用户操作的流程可以进行以下修改：</p>
+<ol>
+<li>浏览器与服务器建立WebSocket连接</li>
+<li>发送一个加入聊天室的信令（join），信令中需要包含用户所进入的聊天室名称</li>
+<li>服务器根据用户所加入的房间，发送一个其他用户信令（peers），信令中包含聊天室中其他用户的信息，浏览器根据信息来逐个构建与其他用户的点对点连接</li>
+<li>若有用户离开，服务器发送一个用户离开信令（remove_peer），信令中包含离开的用户的信息，浏览器根据信息关闭与离开用户的信息，并作相应的清除操作</li>
+<li>若有新用户加入，服务器发送一个用户加入信令（new_peer），信令中包含新加入的用户的信息，浏览器根据信息来建立与这个新用户的点对点连接</li>
+<li>用户离开页面，关闭WebSocket连接</li>
+</ol>
+<h3 id="服务器实现"><a href="#服务器实现" class="headerlink" title="服务器实现"></a>服务器实现</h3><p>由于用户可以只是建立连接，可能还没有进入具体房间，所以首先我们需要一个容器来保存所有用户的连接，同时监听用户是否与服务器建立了WebSocket的连接：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div></pre></td><td class="code"><pre><div class="line">var server = new WebSocketServer();</div><div class="line">var sockets = [];</div><div class="line"></div><div class="line">server.on(&apos;connection&apos;, function(socket)&#123;</div><div class="line">    socket.on(&apos;close&apos;, function()&#123;</div><div class="line">        var i = sockets.indexOf(socket);</div><div class="line">        sockets.splice(i, 1);</div><div class="line">        //关闭连接后的其他操作</div><div class="line">    &#125;);</div><div class="line">    sockets.push(socket);</div><div class="line">    //连接建立后的其他操作</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+<p>由于有房间的划分，所以我们需要在服务器上建立一个容器，用来保存房间内的用户信息。显然对象较为合适，键为房间名称，值为用户信息列表。</p>
+<p>同时我们需要监听上面所说的用户加入房间的信令（join），新用户加入之后需要向新用户发送房间内其他用户信息（peers）和向房间内其他用户发送新用户信息（new_peer），以及用户离开时向其他用户发送离开用户的信息（remove_peer）:</p>
+<p>于是乎代码大致就变成这样：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div><div class="line">65</div><div class="line">66</div><div class="line">67</div><div class="line">68</div><div class="line">69</div><div class="line">70</div><div class="line">71</div><div class="line">72</div><div class="line">73</div><div class="line">74</div><div class="line">75</div><div class="line">76</div><div class="line">77</div><div class="line">78</div><div class="line">79</div><div class="line">80</div><div class="line">81</div><div class="line">82</div><div class="line">83</div><div class="line">84</div><div class="line">85</div><div class="line">86</div><div class="line">87</div><div class="line">88</div></pre></td><td class="code"><pre><div class="line">var server = new WebSocketServer();</div><div class="line">var sockets = [];</div><div class="line">var rooms = &#123;&#125;;</div><div class="line"></div><div class="line">/*</div><div class="line">join信令所接收的格式</div><div class="line">&#123;</div><div class="line">    &quot;eventName&quot;: &quot;join&quot;,</div><div class="line">    &quot;data&quot;: &#123;</div><div class="line">        &quot;room&quot;: &quot;roomName&quot;</div><div class="line">    &#125;</div><div class="line">&#125;</div><div class="line">*/</div><div class="line">var joinRoom = function(data, socket) &#123;</div><div class="line">    var room = data.room || &quot;__default&quot;;</div><div class="line">    var curRoomSockets; //当前房间的socket列表</div><div class="line">    var socketIds = []; //房间其他用户的id</div><div class="line"></div><div class="line">    curRoomSockets = rooms[room] = rooms[room] || [];</div><div class="line"></div><div class="line">    //给所有房间内的其他人发送新用户的id</div><div class="line">    for (var i = curRoomSockets.length; i--;) &#123;</div><div class="line">        socketIds.push(curRoomSockets[i].id);</div><div class="line">        curRoomSockets[i].send(JSON.stringify(&#123;</div><div class="line">            &quot;eventName&quot;: &quot;new_peer&quot;,</div><div class="line">            &quot;data&quot;: &#123;</div><div class="line">                &quot;socketId&quot;: socket.id</div><div class="line">            &#125;</div><div class="line">        &#125;));</div><div class="line">    &#125;</div><div class="line"></div><div class="line">    //将新用户的连接加入到房间的连接列表中</div><div class="line">    curRoomSockets.push(socket);</div><div class="line">    socket.room = room;</div><div class="line"></div><div class="line">    //给新用户发送其他用户的信息，及服务器给新用户自己赋予的id</div><div class="line">    socket.send(JSON.stringify(&#123;</div><div class="line">        &quot;eventName&quot;: &quot;peers&quot;,</div><div class="line">        &quot;data&quot;: &#123;</div><div class="line">            &quot;socketIds&quot;: socketIds,</div><div class="line">            &quot;you&quot;: socket.id</div><div class="line">        &#125;</div><div class="line">    &#125;));</div><div class="line">&#125;;</div><div class="line"></div><div class="line">server.on(&apos;connection&apos;, function(socket) &#123;</div><div class="line">    //为socket构建一个特有的id，用来作为区分用户的标记</div><div class="line">    socket.id = getRandomString();</div><div class="line">    //用户关闭连接后，应做的处理</div><div class="line">    socket.on(&apos;close&apos;, function() &#123;</div><div class="line">        var i = sockets.indexOf(socket);</div><div class="line">        var room = socket.room;</div><div class="line">        var curRoomSockets = rooms[room];</div><div class="line">        sockets.splice(i, 1);</div><div class="line">        //通知房间内其他用户</div><div class="line">        if (curRoomSockets) &#123;</div><div class="line">            for (i = curRoomSockets.length; i--;) &#123;</div><div class="line">                curRoomSockets[i].send(JSON.stringify(&#123;</div><div class="line">                    &quot;eventName&quot;: &quot;remove_peer&quot;,</div><div class="line">                    &quot;data&quot;: &#123;</div><div class="line">                        &quot;socketId&quot;: socket.id</div><div class="line">                    &#125;</div><div class="line">                &#125;));</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        //从room中删除socket</div><div class="line">        if (room) &#123;</div><div class="line">            i = this.rooms[room].indexOf(socket);</div><div class="line">            this.rooms[room].splice(i, 1);</div><div class="line">            if (this.rooms[room].length === 0) &#123;</div><div class="line">                delete this.rooms[room];</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">        //关闭连接后的其他操作</div><div class="line">    &#125;);</div><div class="line">    //根据前台页面传递过来的信令进行解析，确定应该如何处理</div><div class="line">    socket.on(&apos;message&apos;, function(data) &#123;</div><div class="line">        var json = JSON.parse(data);</div><div class="line">        if (json.eventName) &#123;</div><div class="line">            if (json.eventName === &quot;join&quot;) &#123;</div><div class="line">                joinRoom(data, socket);</div><div class="line">            &#125;</div><div class="line">        &#125;</div><div class="line">    &#125;);</div><div class="line">    //将连接保存</div><div class="line">    sockets.push(socket);</div><div class="line">    //连接建立后的其他操作</div><div class="line">&#125;);</div></pre></td></tr></table></figure>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2018/01/25/使用WebRTC搭建前端视频聊天室——入门篇/" data-toggle="tooltip" data-placement="top"
+                           title="使用WebRTC搭建前端视频聊天室——入门篇">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2018/01/17/jQuery源码解读之一/" data-toggle="tooltip" data-placement="top"
+                           title="jQuery源码解读之一">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    <ol class="toc"><li class="toc-item toc-level-2"><a class="toc-link" href="#WebRTC的服务器"><span class="toc-text">WebRTC的服务器</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么需要信令？"><span class="toc-text">为什么需要信令？</span></a></li><li class="toc-item toc-level-2"><a class="toc-link" href="#为什么WebRTC不去实现信令交换？"><span class="toc-text">为什么WebRTC不去实现信令交换？</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#会话描述协议（Session-Description-Protocol）"><span class="toc-text">会话描述协议（Session Description Protocol）</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#信令与RTCPeerConnection建立"><span class="toc-text">信令与RTCPeerConnection建立</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#通过offer和answer交换SDP描述符"><span class="toc-text">通过offer和answer交换SDP描述符</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#通过ICE框架建立NAT-防火墙穿越的连接"><span class="toc-text">通过ICE框架建立NAT/防火墙穿越的连接</span></a></li></ol></li><li class="toc-item toc-level-2"><a class="toc-link" href="#聊天室中的信令"><span class="toc-text">聊天室中的信令</span></a><ol class="toc-child"><li class="toc-item toc-level-3"><a class="toc-link" href="#用户操作"><span class="toc-text">用户操作</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#实现思路"><span class="toc-text">实现思路</span></a></li><li class="toc-item toc-level-3"><a class="toc-link" href="#服务器实现"><span class="toc-text">服务器实现</span></a></li></ol></li></ol>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Big Chuang&#39;s WebSite 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','undefined','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="undefined">
+</body>
+
+</html>

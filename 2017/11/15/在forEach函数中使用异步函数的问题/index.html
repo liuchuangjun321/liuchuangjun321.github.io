@@ -1,0 +1,364 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<!-- Head tag -->
+<head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <meta name="description" content="世界那么大，谁不想去看看！">
+    <meta name="keyword" content="undefined">
+    <meta name="theme-color" content="#600090">
+    <meta name="msapplication-navbutton-color" content="#600090">
+    <meta name="apple-mobile-web-app-capable" content="yes">
+    <meta name="apple-mobile-web-app-status-bar-style" content="#600090">
+    <link rel="shortcut icon" href="https://cdn4.iconfinder.com/data/icons/ionicons/512/icon-person-128.png">
+    <link rel="alternate" type="application/atom+xml" title="Big Chuang&#39;s WebSite" href="/atom.xml">
+    <link rel="stylesheet" href="//cdnjs.cloudflare.com/ajax/libs/animate.css/3.5.2/animate.min.css">
+    <link rel="stylesheet" href="//cdn.bootcss.com/font-awesome/4.6.3/css/font-awesome.css">
+    <title>
+        
+        在forEach函数中使用异步函数的问题｜undefined
+        
+    </title>
+
+    <link rel="canonical" href="http://yoursite.com/2017/11/15/在forEach函数中使用异步函数的问题/">
+
+    <!-- Bootstrap Core CSS -->
+    <link rel="stylesheet" href="/css/bootstrap.min.css">
+
+    <!-- Custom CSS -->
+    <link rel="stylesheet" href="/css/blog-style.css">
+
+    <!-- Pygments Github CSS -->
+    <link rel="stylesheet" href="/css/syntax.css">
+</head>
+
+<style>
+
+    header.intro-header {
+        background-image: url('undefined')
+    }
+</style>
+<!-- hack iOS CSS :active style -->
+<body ontouchstart="" class="animated fadeIn">
+<!-- Navigation -->
+<nav class="navbar navbar-default navbar-custom navbar-fixed-top " id="nav-top" data-ispost = "true" data-istags="false
+" data-ishome = "false" >
+    <div class="container-fluid">
+        <!-- Brand and toggle get grouped for better mobile display -->
+        <div class="navbar-header page-scroll">
+            <button type="button" class="navbar-toggle">
+                <span class="sr-only">Toggle navigation</span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <a class="navbar-brand animated pulse" href="/">
+                <span class="brand-logo">
+                    Big Chuang&#39;s WebSite
+                </span>
+                's Blog
+            </a>
+        </div>
+
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <!-- Known Issue, found by Hux:
+            <nav>'s height woule be hold on by its content.
+            so, when navbar scale out, the <nav> will cover tags.
+            also mask any touch event of tags, unfortunately.
+        -->
+        <!-- /.navbar-collapse -->
+        <div id="huxblog_navbar">
+            <div class="navbar-collapse">
+                <ul class="nav navbar-nav navbar-right">
+                    <li>
+                        <a href="/">Home</a>
+                    </li>
+					
+                    
+                        
+							
+                        <li>
+                            <a href="/Tags/">Tags</a>
+                        </li>
+							
+						
+                    
+                        
+                    
+                        
+							
+                        <li>
+                            <a href="/categories/">categories</a>
+                        </li>
+							
+						
+                    
+                        
+							
+                        <li>
+                            <a href="/tages/">tages</a>
+                        </li>
+							
+						
+                    
+					
+					
+                </ul>
+            </div>
+        </div>
+    </div>
+    <!-- /.container -->
+</nav>
+<script>
+    // Drop Bootstarp low-performance Navbar
+    // Use customize navbar with high-quality material design animation
+    // in high-perf jank-free CSS3 implementation
+//    var $body   = document.body;
+    var $toggle = document.querySelector('.navbar-toggle');
+    var $navbar = document.querySelector('#huxblog_navbar');
+    var $collapse = document.querySelector('.navbar-collapse');
+
+    $toggle.addEventListener('click', handleMagic)
+    function handleMagic(e){
+        if ($navbar.className.indexOf('in') > 0) {
+        // CLOSE
+            $navbar.className = " ";
+            // wait until animation end.
+            setTimeout(function(){
+                // prevent frequently toggle
+                if($navbar.className.indexOf('in') < 0) {
+                    $collapse.style.height = "0px"
+                }
+            },400)
+        }else{
+        // OPEN
+            $collapse.style.height = "auto"
+            $navbar.className += " in";
+        }
+    }
+</script>
+
+<!-- Main Content -->
+
+<!--only post-->
+
+
+<img class="wechat-title-img"
+     src="">
+
+
+<style>
+    
+    header.intro-header {
+        background-image: url('')
+    }
+
+    
+</style>
+
+<header class="intro-header">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <div class="post-heading">
+                    <h1>在forEach函数中使用异步函数的问题</h1>
+                    
+                    <span class="meta">
+                         作者 大闯仔儿
+                        <span>
+                          日期 2017-11-15
+                         </span>
+                    </span>
+                    <div class="tags text-center">
+                        
+                        <a class="tag" href="/tags/#基础知识"
+                           title="基础知识">基础知识</a>
+                        
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="post-title-haojen">
+        <span>
+            在forEach函数中使用异步函数的问题
+        </span>
+    </div>
+</header>
+
+<!-- Post Content -->
+<article>
+    <div class="container">
+        <div class="row">
+            <!-- Post Container -->
+            <div class="col-lg-8 col-lg-offset-1 col-sm-9 post-container">
+                <p>异步函数果然是一个比较令人头疼的问题，今天遇到了一个小bug，在这里记录一下。</p>
+<p><code>orderList</code>是一个数组，我想要遍历这个数组，对其中的每一个<code>element</code>进行数据库操作，即是查找该<code>element.productId</code>对应的商品的<code>_id</code>属性，然后将该<code>_id</code>属性保存在<code>_orderList</code>数组里。然后再将<code>_orderList</code>保存在<code>order</code>集合中的<code>goodsList</code>字段中。</p>
+<p>看代码：</p>
+<figure class="highlight plain"><table><tr><td class="gutter"><pre><div class="line">1</div><div class="line">2</div><div class="line">3</div><div class="line">4</div><div class="line">5</div><div class="line">6</div><div class="line">7</div><div class="line">8</div><div class="line">9</div><div class="line">10</div><div class="line">11</div><div class="line">12</div><div class="line">13</div><div class="line">14</div><div class="line">15</div><div class="line">16</div><div class="line">17</div><div class="line">18</div><div class="line">19</div><div class="line">20</div><div class="line">21</div><div class="line">22</div><div class="line">23</div><div class="line">24</div><div class="line">25</div><div class="line">26</div><div class="line">27</div><div class="line">28</div><div class="line">29</div><div class="line">30</div><div class="line">31</div><div class="line">32</div><div class="line">33</div><div class="line">34</div><div class="line">35</div><div class="line">36</div><div class="line">37</div><div class="line">38</div><div class="line">39</div><div class="line">40</div><div class="line">41</div><div class="line">42</div><div class="line">43</div><div class="line">44</div><div class="line">45</div><div class="line">46</div><div class="line">47</div><div class="line">48</div><div class="line">49</div><div class="line">50</div><div class="line">51</div><div class="line">52</div><div class="line">53</div><div class="line">54</div><div class="line">55</div><div class="line">56</div><div class="line">57</div><div class="line">58</div><div class="line">59</div><div class="line">60</div><div class="line">61</div><div class="line">62</div><div class="line">63</div><div class="line">64</div></pre></td><td class="code"><pre><div class="line">router.post(&apos;/payMent&apos;,function (req,res,next) &#123;</div><div class="line">    // console.log(req.session);</div><div class="line">    var userId = req.session.user._id;</div><div class="line">    var userName = req.session.user.userName;</div><div class="line">    var addressId = req.body.addressId;</div><div class="line">    var orderList = req.body.orderList;</div><div class="line">    var subTotal = req.body.subTotal;</div><div class="line">    var shipping = req.body.shipping;</div><div class="line">    var discount = req.body.discount;</div><div class="line">    var tax = req.body.tax;</div><div class="line">    var orderTotal = req.body.orderTotal;</div><div class="line">    var _orderList = [];</div><div class="line">    //重点在这里 itemsProcessed</div><div class="line">    var itemsProcessed = 0;    </div><div class="line">    orderList.forEach(element =&gt; &#123;</div><div class="line">        //itemsProcessed ++;    //刚开始的时候将这条语句放在了这里，遇到了一个问题，下面详细解释。</div><div class="line">        Goods.findOne(&#123;&quot;productId&quot;:element.productId&#125;,&#123;_id:1&#125;,function (err,docs) &#123;</div><div class="line">            if (err) &#123;</div><div class="line">                res.json(&#123;</div><div class="line">                    &quot;status&quot;: &quot;1&quot;</div><div class="line">                &#125;)</div><div class="line">            &#125; else &#123;</div><div class="line">                // console.log(docs);</div><div class="line">                //主要是为了解决异步问题，等到foreach函数执行完每一个element，才能执行保存order操作</div><div class="line">                itemsProcessed ++;</div><div class="line">                _orderList.push(docs._id);</div><div class="line">                console.log(itemsProcessed === orderList.length);</div><div class="line">                if (itemsProcessed === orderList.length) &#123;</div><div class="line">                    // console.log(_orderList[0]+_orderList[1]);   //释放该注释，可以测试下面</div><div class="line">                                                                   //的论证是否正确</div><div class="line">                    var _order = &#123;</div><div class="line">                        userId: userId,</div><div class="line">                        userName: userName,</div><div class="line">                        orderList: &#123;</div><div class="line">                            orderId: new Date().getTime(),</div><div class="line">                            subTotal,</div><div class="line">                            shipping,</div><div class="line">                            discount,</div><div class="line">                            tax,</div><div class="line">                            orderTotal,</div><div class="line">                            addressInfo: [addressId],</div><div class="line">                            goodsList: _orderList,</div><div class="line">                            orderStatus: false,</div><div class="line">                            creatDate: new Date().getTime()</div><div class="line">                        &#125;</div><div class="line">                    &#125;;</div><div class="line">                    var order = new Order(_order);</div><div class="line">                    order.save(function (err,docs1) &#123;</div><div class="line">                        if (err) &#123;</div><div class="line">                            res.json(&#123;</div><div class="line">                                &quot;status&quot;: &quot;1&quot;</div><div class="line">                            &#125;)</div><div class="line">                        &#125; else &#123;</div><div class="line">                            console.log(docs1);</div><div class="line">                            res.json(&#123;</div><div class="line">                                &quot;status&quot;: &quot;0&quot;</div><div class="line">                            &#125;)</div><div class="line">                        &#125;</div><div class="line">                    &#125;)</div><div class="line">                &#125;</div><div class="line">            &#125;</div><div class="line">        &#125;);</div><div class="line">    &#125;);</div><div class="line">&#125;)</div></pre></td></tr></table></figure>
+<p>但是遇到了一个问题，上面代码中也说了，将<code>itemsProcessed ++;</code>放在了带回调函数的函数的外面，这样导致了一个什么问题呐。。。</p>
+<p>假设<code>orderList</code>是一个二维数组，将<code>itemsProcessed ++;</code>放在带回调函数的函数的外面之后，首先<code>itemsProcessed ++;</code>，<code>itemsProcessed</code>此时为1，然后执行<code>Goods.findOne()</code>函数,在查找到数据之前，也就是执行回调函数之前，会接着往下执行，也就是再次执行<code>orderList.forEach()</code>函数，此时<code>itemsProcessed ++;</code>，<code>itemsProcessed</code>的值为2，也就是说在查找到数据之前，很有可能<code>itemsProcessed === orderList.length</code>值为<code>true</code>。</p>
+<p>释放上面的注释，果然两次打印的结果均为<code>true</code>，最后前端点击一次操作，数据库中也相应的增加了两天数据，一条数据中<code>goodsList</code>字段中有一条数据，另一条数据中<code>goodsList</code>字段中有两条数据。</p>
+
+                <hr>
+                
+
+                <ul class="pager">
+                    
+                    <li class="previous">
+                        <a href="/2017/11/16/前端小技巧之footer固定/" data-toggle="tooltip" data-placement="top"
+                           title="前端小技巧之footer固定">&larr; Previous Post</a>
+                    </li>
+                    
+                    
+                    <li class="next">
+                        <a href="/2017/11/13/Vue进阶computed计算属性/" data-toggle="tooltip" data-placement="top"
+                           title="Vue进阶computed计算属性">Next Post &rarr;</a>
+                    </li>
+                    
+                </ul>
+
+                
+
+                
+
+
+                <!--加入新的评论系统-->
+                
+            </div>
+
+            <div class="hidden-xs col-sm-3 toc-col">
+                <div class="toc-wrap">
+                    
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Sidebar Container -->
+
+            <div class="
+                col-lg-8 col-lg-offset-2
+                col-md-10 col-md-offset-1
+                sidebar-container">
+
+                <!-- Featured Tags -->
+                
+
+                <!-- Friends Blog -->
+                
+            </div>
+        </div>
+
+    </div>
+</article>
+
+
+
+
+
+
+
+<!-- Footer -->
+<!-- Footer -->
+<footer>
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 col-lg-offset-2 col-md-10 col-md-offset-1 text-center">
+                <br>
+                <ul class="list-inline text-center">
+                
+                
+                
+
+                
+
+                
+
+                
+
+                
+
+                </ul>
+                <p class="copyright text-muted">
+                    Copyright &copy; Big Chuang&#39;s WebSite 2018
+                    <br>
+                    <span id="busuanzi_container_site_pv" style="font-size: 12px;">PV: <span id="busuanzi_value_site_pv"></span> Times</span>
+                    <br>
+                    Theme by <a href="https://haojen.github.io/">Haojen Ma</a>
+                </p>
+
+            </div>
+        </div>
+    </div>
+</footer>
+
+<!-- jQuery -->
+<script src="/js/jquery.min.js"></script>
+
+<!-- Bootstrap Core JavaScript -->
+<script src="/js/bootstrap.min.js"></script>
+
+<!-- Custom Theme JavaScript -->
+<script src="/js/blog.js"></script>
+
+<!-- async load function -->
+<script>
+    function async(u, c) {
+      var d = document, t = 'script',
+          o = d.createElement(t),
+          s = d.getElementsByTagName(t)[0];
+      o.src = u;
+      if (c) { o.addEventListener('load', function (e) { c(null, e); }, false); }
+      s.parentNode.insertBefore(o, s);
+    }
+</script>
+
+<!-- jquery.tagcloud.js -->
+<script>
+    // only load tagcloud.js in tag.html
+    if($('#tag_cloud').length !== 0){
+        async("http://yoursite.com/js/jquery.tagcloud.js",function(){
+            $.fn.tagcloud.defaults = {
+                //size: {start: 1, end: 1, unit: 'em'},
+                color: {start: '#bbbbee', end: '#0085a1'},
+            };
+            $('#tag_cloud a').tagcloud();
+        })
+    }
+</script>
+
+<!--fastClick.js -->
+<script>
+    async("//cdn.bootcss.com/fastclick/1.0.6/fastclick.min.js", function(){
+        var $nav = document.querySelector("nav");
+        if($nav) FastClick.attach($nav);
+    })
+</script>
+
+<!-- Google Analytics -->
+
+
+
+<!-- Baidu Tongji -->
+
+
+<!-- swiftype -->
+<script type="text/javascript">
+  (function(w,d,t,u,n,s,e){w['SwiftypeObject']=n;w[n]=w[n]||function(){
+  (w[n].q=w[n].q||[]).push(arguments);};s=d.createElement(t);
+  e=d.getElementsByTagName(t)[0];s.async=1;s.src=u;e.parentNode.insertBefore(s,e);
+  })(window,document,'script','//s.swiftypecdn.com/install/v2/st.js','_st');
+
+  _st('install','undefined','2.0.0');
+</script>
+
+<script async src="//dn-lbstatics.qbox.me/busuanzi/2.3/busuanzi.pure.mini.js"></script>
+
+<!--wechat title img-->
+<img class="wechat-title-img" src="undefined">
+</body>
+
+</html>
